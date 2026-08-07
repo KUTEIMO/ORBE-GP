@@ -1,0 +1,13 @@
+{
+  "name": "orbe-gp",
+  "version": "1.0.0",
+  "description": "Orbe360 (PEVCI) — Plataforma Web de Recorridos Virtuales 360° para Campus Inclusivos (Gestión de Proyectos - Universidad Simón Bolívar)",
+  "type": "module",
+  "scripts": {
+    "start": "node scripts/dev-server.mjs",
+    "dev": "node scripts/dev-server.mjs"
+  },
+  "dependencies": {
+    "convex": "^1.21.0"
+  }
+}
