@@ -1,0 +1,8 @@
+{
+  "__deprecated": true,
+  "message": "Root config.json removed. Unisimón lives under media/unisimoncucuta/experienciavirtual/config.json",
+  "basePath": "/media/unisimoncucuta/experienciavirtual/panoramas/",
+  "scenes": [],
+  "zones": {},
+  "accessibleScenes": {}
+}
