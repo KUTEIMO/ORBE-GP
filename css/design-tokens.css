@@ -1,0 +1,147 @@
+/**
+ * Orbe360 — capa de tokens compartida (motor + plataforma + Control Web).
+ * Doc: docs/producto/61-design-system-orbe-v2.md
+ *
+ * CONTRATO DE IDENTIDAD (docs 39 / 42):
+ * Este archivo NO define color de marca. Solo define *escalas* neutras:
+ * espaciado, radios, elevación, movimiento, z-index, tipografía y foco.
+ *   - Color de plataforma Orbe → plataforma/tokens.css (--orbe-accent)
+ *   - Color de cliente        → Convex tourBrandings → --brand* (data-driven)
+ * Por eso un tour nuevo hereda ritmo, movimiento y elevación sin heredar
+ * ninguna marca: el branding por empresa sigue siendo 100 % dato.
+ *
+ * Se importa desde: css/base.css · plataforma/tokens.css · control-web/admin.css
+ */
+
+:root {
+  /* —— Espaciado (base 4px) —— */
+  --orbe-space-1: 0.25rem;
+  --orbe-space-2: 0.5rem;
+  --orbe-space-3: 0.75rem;
+  --orbe-space-4: 1rem;
+  --orbe-space-5: 1.25rem;
+  --orbe-space-6: 1.5rem;
+  --orbe-space-8: 2rem;
+  --orbe-space-10: 2.5rem;
+  --orbe-space-12: 3rem;
+
+  /* —— Radios —— */
+  --orbe-rad-xs: 6px;
+  --orbe-rad-sm: 8px;
+  --orbe-rad-md: 12px;
+  --orbe-rad-lg: 16px;
+  --orbe-rad-xl: 22px;
+  --orbe-rad-pill: 999px;
+
+  /* —— Elevación (una sola escala; sombras difusas, no neomorphism) —— */
+  --orbe-elev-shadow-hue: 16, 24, 40; /* ink slate; el tour oscuro lo reescribe a 0,0,0 */
+  --orbe-elev-1: 0 1px 2px rgba(var(--orbe-elev-shadow-hue), 0.06);
+  --orbe-elev-2: 0 3px 10px rgba(var(--orbe-elev-shadow-hue), 0.08);
+  --orbe-elev-3: 0 8px 24px rgba(var(--orbe-elev-shadow-hue), 0.1);
+  --orbe-elev-4: 0 18px 44px rgba(var(--orbe-elev-shadow-hue), 0.16);
+  --orbe-elev-inset: inset 0 1px 0 rgba(255, 255, 255, 0.92);
+
+  /* —— Movimiento ——
+   * Único vocabulario de duración/curva del producto. Cualquier componente
+   * que use estos tokens obtiene reduced-motion gratis (ver @media abajo). */
+  --orbe-dur-instant: 80ms;
+  --orbe-dur-fast: 140ms;
+  --orbe-dur-base: 200ms;
+  --orbe-dur-slow: 320ms;
+  --orbe-dur-slower: 520ms;
+
+  --orbe-ease-out: cubic-bezier(0.22, 1, 0.36, 1);       /* expo-out: entradas */
+  --orbe-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);      /* transiciones de estado */
+  --orbe-ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);  /* overshoot contenido */
+  --orbe-ease-exit: cubic-bezier(0.4, 0, 1, 1);           /* salidas */
+
+  /* Desplazamientos de micro-interacción (se anulan en reduced-motion) */
+  --orbe-lift: -1px;        /* hover de botón/card */
+  --orbe-lift-strong: -3px; /* hover de card destacada */
+  --orbe-rise: 0.5rem;      /* distancia de entrada fade-up */
+  --orbe-scale-press: 0.985;
+
+  /* Retardo base para escalonado (stagger) manual */
+  --orbe-stagger: 40ms;
+
+  /* —— Tipografía (escala) —— */
+  --orbe-fs-2xs: 0.68rem;
+  --orbe-fs-xs: 0.75rem;
+  --orbe-fs-sm: 0.84rem;
+  --orbe-fs-md: 0.95rem;
+  --orbe-fs-lg: 1.08rem;
+  --orbe-fs-xl: 1.3rem;
+  --orbe-fs-2xl: clamp(1.5rem, 2.4vw, 1.9rem);
+  --orbe-lh-tight: 1.2;
+  --orbe-lh-base: 1.45;
+  --orbe-lh-loose: 1.6;
+  --orbe-track-caps: 0.04em;
+
+  /* —— Z-index (una sola escalera; evita guerras de 9999) —— */
+  --orbe-z-base: 0;
+  --orbe-z-hud: 10;
+  --orbe-z-header: 30;
+  --orbe-z-backdrop: 900;
+  --orbe-z-panel: 1000;
+  --orbe-z-toast: 1200;
+  --orbe-z-gate: 1500;
+
+  /* —— Foco (visible sobre claro y sobre oscuro) —— */
+  --orbe-focus-w: 2px;
+  --orbe-focus-offset: 2px;
+
+  /* —— Densidad de superficie de datos —— */
+  --orbe-row-h: 2.35rem;
+  --orbe-control-h: 2.3rem;
+}
+
+/**
+ * Kill-switch global de movimiento.
+ * Neutraliza duración, overshoot y desplazamiento en un solo lugar en vez de
+ * repetir `@media (prefers-reduced-motion)` por componente.
+ */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --orbe-dur-instant: 1ms;
+    --orbe-dur-fast: 1ms;
+    --orbe-dur-base: 1ms;
+    --orbe-dur-slow: 1ms;
+    --orbe-dur-slower: 1ms;
+    --orbe-ease-spring: linear;
+    --orbe-lift: 0px;
+    --orbe-lift-strong: 0px;
+    --orbe-rise: 0px;
+    --orbe-scale-press: 1;
+    --orbe-stagger: 0ms;
+  }
+}
+
+/* —— Keyframes reutilizables ——
+ * Con reduced-motion las duraciones caen a 1ms y --orbe-rise a 0,
+ * así que estas animaciones dejan de percibirse sin desactivarlas una por una. */
+
+@keyframes orbe-fade-up {
+  from { opacity: 0; transform: translateY(var(--orbe-rise)); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes orbe-pop-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes orbe-shimmer {
+  from { background-position: -140% 0; }
+  to { background-position: 240% 0; }
+}
+
+/* Utilidades de entrada (opt-in por clase) */
+.orbe-anim-fade-up {
+  animation: orbe-fade-up var(--orbe-dur-slow) var(--orbe-ease-out) both;
+  animation-delay: var(--orbe-anim-delay, 0ms);
+}
+
+.orbe-anim-pop-in {
+  animation: orbe-pop-in var(--orbe-dur-base) var(--orbe-ease-spring) both;
+  animation-delay: var(--orbe-anim-delay, 0ms);
+}

@@ -1,0 +1,96 @@
+/**
+ * Direction cue — indicador de navegación que sigue al puntero (desktop).
+ * Motor compartido. Glyph SVG dentro de #directionCue (disco + aro + chevron).
+ * Movimiento suave: JS lerp. Touch/coarse: oculto.
+ */
+
+.direction-cue {
+  --cue-rotate: 0deg;
+  --cue-size: 52px;
+  --cue-scale: 0.78;
+  --cue-disc: rgba(8, 12, 10, 0.82);
+  --cue-ring: #ffffff;
+  --cue-halo: rgba(8, 12, 10, 0.38);
+  --cue-arrow: #ffffff;
+  --cue-glow: transparent;
+
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--cue-size);
+  height: var(--cue-size);
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  pointer-events: none;
+  cursor: default;
+  opacity: 0;
+  transform: translate(-50%, -50%) rotate(var(--cue-rotate)) scale(var(--cue-scale));
+  transition:
+    opacity var(--orbe-dur-fast, 140ms) var(--orbe-ease-out, ease),
+    transform var(--orbe-dur-fast, 140ms) var(--orbe-ease-out, ease);
+  z-index: 920; /* bajo header/flechas/paneles; sobre el canvas */
+  filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.55));
+  will-change: left, top, transform, opacity;
+}
+
+.direction-cue__glyph {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.direction-cue__halo {
+  fill: var(--cue-halo);
+}
+
+.direction-cue__disc {
+  fill: var(--cue-disc);
+}
+
+.direction-cue__ring {
+  stroke: var(--cue-ring);
+  stroke-width: 2.25;
+  vector-effect: non-scaling-stroke;
+}
+
+.direction-cue__arrow {
+  fill: var(--cue-arrow);
+  stroke: rgba(0, 0, 0, 0.55);
+  stroke-width: 1.1;
+  stroke-linejoin: round;
+  paint-order: stroke fill;
+}
+
+.direction-cue.direction-cue--visible {
+  --cue-scale: 1;
+  opacity: 1;
+  pointer-events: none;
+}
+
+/* Hover sobre hotspot clickable: acento de marca + un poco más grande */
+.direction-cue.direction-cue--over-hotspot {
+  --cue-size: 58px;
+  --cue-disc: color-mix(in srgb, var(--brand, #0a7a45) 42%, rgba(6, 10, 8, 0.88));
+  --cue-ring: #eafff2;
+  --cue-halo: color-mix(in srgb, var(--brand, #0a7a45) 48%, transparent);
+  --cue-arrow: #f7fff9;
+  filter:
+    drop-shadow(0 0 10px color-mix(in srgb, var(--brand, #0a7a45) 55%, transparent))
+    drop-shadow(0 3px 8px rgba(0, 0, 0, 0.5));
+}
+
+/* Touch / coarse: no mostrar cursor de ratón */
+@media (hover: none) and (pointer: coarse) {
+  .direction-cue {
+    display: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .direction-cue {
+    transition: none;
+  }
+}

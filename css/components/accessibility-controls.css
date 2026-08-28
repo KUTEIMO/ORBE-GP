@@ -1,0 +1,143 @@
+/* Controles de accesibilidad (viven dentro del panel) */
+.a11y-toolbar-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.a11y-toolbar-block .toolbar-group {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.a11y-toolbar-block .toolbar-group > span,
+.a11y-toolbar-block .toolbar-group > label {
+  min-width: 7.5rem;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.88);
+  overflow-wrap: anywhere;
+}
+
+/* "Modo accesible" era un checkbox nativo de 13x13 px: imposible de acertar en
+   móvil y por debajo del mínimo de tamaño de objetivo. Se dibuja como
+   interruptor de 52x28 con área táctil de 44px. */
+.toolbar-group--switch input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  position: relative;
+  flex: 0 0 auto;
+  width: 52px;
+  height: 28px;
+  margin: calc((var(--touch-min, 44px) - 28px) / 2) 0;
+  border-radius: 999px;
+  background: #4b5563;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.toolbar-group--switch input[type="checkbox"]::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 0.2s ease;
+}
+
+.toolbar-group--switch input[type="checkbox"]:checked {
+  background: var(--brand, #2d6a4f);
+  border-color: rgba(255, 255, 255, 0.85);
+}
+
+.toolbar-group--switch input[type="checkbox"]:checked::after {
+  transform: translateX(24px);
+}
+
+.toolbar-group--switch input[type="checkbox"]:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+}
+
+.toolbar-button {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+  padding: 0.35rem 0.7rem;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  font-size: 0.8rem;
+}
+
+.toolbar-button:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+}
+
+.toolbar-button[aria-pressed="true"] {
+  background: var(--brand, #2d6a4f);
+  border-color: rgba(255, 255, 255, 0.7);
+  font-weight: 600;
+}
+
+.toolbar-button:hover {
+  background: var(--brand-soft, rgba(10, 122, 69, 0.85));
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.toolbar-button[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.accessible-mode .hotspot-inline-button:focus-visible,
+.accessible-mode .scene-button:focus-visible {
+  outline: 3px solid var(--emerald);
+  outline-offset: 3px;
+}
+
+.help-dialog,
+.share-dialog {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 16px;
+  padding: 1.35rem 1.5rem;
+  max-width: min(420px, calc(100% - 2rem));
+  background: rgba(6, 12, 10, 0.97);
+  color: #fff;
+  margin: auto;
+  z-index: 1700;
+}
+
+.help-dialog::backdrop,
+.share-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.62);
+}
+
+.help-dialog ul {
+  margin: 1rem 0;
+  padding-left: 1.25rem;
+}
+
+.share-dialog__content {
+  display: flex;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+#shareInput {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(8, 16, 12, 0.85);
+  color: #fff;
+}

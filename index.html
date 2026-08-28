@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="es" class="no-js">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Tour virtual 360°</title>
+    <meta name="description" content="Recorrido virtual 360° accesible. La identidad visual del cliente se carga desde TourBranding.">
+    <script>
+      /* Early paint: any public tour path → neutral gray/ink (not Orbe, not a client).
+         Client identity arrives from Convex tourBrandings after load. */
+      (function () {
+        var p = location.pathname || "";
+        if (p === "/" || p === "") return;
+        if (/\/plataforma\//i.test(p)) return;
+        if (/\/control-web/i.test(p)) return;
+        if (/login\.html|org-admin\.html|superadmin\.html/i.test(p)) return;
+        var isTour =
+          /^\/[^/]+\/[^/]+(\/|$)/i.test(p) || /\/index\.html$/i.test(p);
+        if (!isTour) return;
+        var root = document.documentElement;
+        var primary = "#4b5563";
+        var strong = "#1f2937";
+        root.style.setProperty("--brand", primary);
+        root.style.setProperty("--brand-strong", strong);
+        root.style.setProperty("--brand-soft", "rgba(75, 85, 99, 0.88)");
+        root.style.setProperty("--brand-ghost", "rgba(75, 85, 99, 0.22)");
+        root.style.setProperty("--emerald", primary);
+        root.style.setProperty("--emerald-80", "rgba(75, 85, 99, 0.88)");
+        root.style.setProperty("--emerald-30", "rgba(75, 85, 99, 0.22)");
+        root.style.setProperty("--hotspot-accent", primary);
+        root.dataset.tourBrandBoot = "neutral";
+        document.title = "Tour virtual 360°";
+      })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- ?v=… en TODAS las hojas, no sólo en responsive.css: antes un móvil que
+         ya había visitado el tour seguía pintando el CSS antiguo en caché y
+         mostraba el chrome desbordado. Subir el token al cambiar CSS. -->
+    <link rel="stylesheet" href="/css/base.css?v=r5">
+    <link rel="stylesheet" href="/css/utilities.css?v=r5">
+    <link rel="stylesheet" href="/css/header.css?v=r5">
+    <link rel="stylesheet" href="/css/navigation.css?v=r5">
+    <link rel="stylesheet" href="/css/menu/scene-menu.css?v=r5">
+    <link rel="stylesheet" href="/css/menu/menu-groups.css?v=r5">
+    <link rel="stylesheet" href="/css/menu/accessibility-menu.css?v=r5">
+    <link rel="stylesheet" href="/css/components/loading.css?v=r5">
+    <link rel="stylesheet" href="/css/components/error-notification.css?v=r5">
+    <link rel="stylesheet" href="/css/components/hotspots.css?v=r5">
+    <link rel="stylesheet" href="/css/components/nav-hotspot.css?v=r5">
+    <link rel="stylesheet" href="/css/components/speaking-indicator.css?v=r5">
+    <link rel="stylesheet" href="/css/components/accessibility-controls.css?v=r5">
+    <link rel="stylesheet" href="/css/components/hotspot-panel.css?v=r7">
+    <link rel="stylesheet" href="/css/components/direction-cue.css?v=r6">
+    <link rel="stylesheet" href="/css/components/skip-links.css?v=r5">
+    <link rel="stylesheet" href="/css/components/fallback.css?v=r5">
+    <link rel="stylesheet" href="/css/responsive.css?v=r7">
+    <script defer src="/vendors/marzipano.min.js"
+      onerror="(function(){var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/marzipano/dist/marzipano.js';document.head.appendChild(s);})();"></script>
+</head>
+<body class="no-js">
+    <a class="skip-link" href="#sceneMenu" id="skipMenu">Saltar al menú de escenas</a>
+    <a class="skip-link" href="#hotspotList" id="skipHotspots">Saltar al primer hotspot</a>
+
+    <noscript>
+        <div class="fallback" role="note">
+            <h1>Tour virtual 360°</h1>
+            <p>Activa JavaScript para explorar el recorrido interactivo. Mientras tanto, revisa la imagen de referencia y la descripción textual.</p>
+            <figure>
+                <img src="panoramas/R0010060_202503281449_YP00145909.JPG" alt="Entrada principal de la sede con árboles laterales y rampa de acceso.">
+                <figcaption>Entrada principal de la sede 2 con acceso accesible y zona de bienvenida.</figcaption>
+            </figure>
+            <p>
+                <a href="/assets/transcripts/entrada-principal.txt" download>Descargar transcripción descriptiva</a>
+            </p>
+        </div>
+    </noscript>
+
+    <div class="fallback no-js-message" id="noJsMessage">
+        <h2>Activando experiencia accesible…</h2>
+        <p>Si ves este mensaje por más de unos segundos, actualiza la página o habilita JavaScript.</p>
+    </div>
+
+    <div class="tour-container" id="tourApp">
+        <div class="ui-backdrop" id="uiBackdrop" hidden aria-hidden="true"></div>
+        <header class="tour-header" role="banner">
+            <div class="tour-brand-cluster">
+              <div class="tour-client-brand" id="tourClientBrand" hidden></div>
+              <a class="powered-by-orbe" id="poweredByOrbe" href="/" title="Plataforma Orbe360" hidden>
+                Powered by Orbe360
+              </a>
+            </div>
+            <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="sceneMenu">
+                <span class="sr-only">Abrir o cerrar menú de escenas</span>
+                <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+                    <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                </svg>
+            </button>
+            <div class="title-wrapper">
+                <h1 class="scene-title" id="sceneTitle" tabindex="-1">Tour virtual 360°</h1>
+                <p class="scene-zone" id="sceneZone"></p>
+            </div>
+            <div class="action-buttons" role="group" aria-label="Acciones rápidas">
+                <a class="action-button" id="adminLink" href="control-web/index.html" title="Panel de administración del tour" aria-label="Abrir panel de administración del tour" hidden>
+                    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+                        <path fill="currentColor" d="M19.14 12.94c.04-.31.06-.63.06-.94s-.02-.63-.06-.94l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.6-.22l-2.39.96a7.07 7.07 0 0 0-1.63-.94l-.36-2.54A.5.5 0 0 0 13.9 2h-3.8a.5.5 0 0 0-.49.42l-.36 2.54c-.58.23-1.12.54-1.63.94l-2.39-.96a.5.5 0 0 0-.6.22L2.71 8.48a.5.5 0 0 0 .12.64l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58a.5.5 0 0 0-.12.64l1.92 3.32c.13.23.4.32.63.22l2.39-.96c.5.4 1.05.72 1.63.94l.36 2.54c.05.24.25.42.49.42h3.8c.24 0 .44-.18.49-.42l.36-2.54c.58-.23 1.12-.54 1.63-.94l2.39.96c.23.1.5 0 .63-.22l1.92-3.32a.5.5 0 0 0-.12-.64l-2.03-1.58zM12 15.5A3.5 3.5 0 1 1 12 8a3.5 3.5 0 0 1 0 7.5z"/>
+                    </svg>
+                </a>
+                <a class="action-button action-button--subtle action-button--powered-subtle" id="platformLink" href="/" title="Powered by Orbe360" aria-label="Ir a Orbe360">
+                    <span class="sr-only">Orbe360</span>
+                    <span aria-hidden="true" style="font-size:0.5rem;font-weight:600;letter-spacing:0.04em;opacity:0.65;">ORB</span>
+                </a>
+                <button class="action-button" id="shareButton" type="button">
+                    <span class="sr-only">Compartir escena</span>
+                    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+                        <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7a3.046 3.046 0 0 0 0-1.39l7.02-4.11A3 3 0 1 0 15 6a2.98 2.98 0 0 0 .05.55L8.03 10.7a3 3 0 1 0 0 4.6l7.02 4.16A3 3 0 1 0 18 16.08z"/>
+                    </svg>
+                </button>
+                <button class="action-button" id="helpToggle" type="button" aria-haspopup="dialog" aria-controls="helpDialog">
+                    <span class="sr-only">Ver ayuda de navegación y accesos directos</span>
+                    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+                        <path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9a10 10 0 1 0 0 20 10 10 0 0 0 0-20z"/>
+                    </svg>
+                </button>
+                <button class="action-button" id="accessibilityToggle" type="button" aria-controls="accessibilityMenu" aria-expanded="false">
+                    <span class="sr-only">Abrir panel de accesibilidad</span>
+                    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm7 7h-4v8h-2v-5h-2v5H9v-8H5v-2h14v2z"/>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <main class="tour-layout" role="main">
+            <section id="viewerSection" class="viewer-section" aria-label="Visor panorámico">
+                <div id="loadingOverlay" class="loading-overlay" aria-hidden="true">
+                    <div class="loading-spinner" role="status" aria-live="assertive">
+                        <span class="sr-only">Cargando escena</span>
+                    </div>
+                </div>
+                <div id="panorama" class="panorama" role="region" aria-label="Visor 360 grados. Usa la lista de destinos o el menú de escenas para navegar sin arrastrar." tabindex="0" data-default-role="region"></div>
+                <button class="nav-arrow nav-prev" id="prevScene" type="button" aria-label="Ir a la escena anterior">‹</button>
+                <button class="nav-arrow nav-next" id="nextScene" type="button" aria-label="Ir a la escena siguiente">›</button>
+                <div class="direction-cue" id="directionCue" aria-hidden="true">
+                  <svg class="direction-cue__glyph" viewBox="0 0 48 48" width="48" height="48" aria-hidden="true" focusable="false">
+                    <circle class="direction-cue__halo" cx="24" cy="24" r="21" />
+                    <circle class="direction-cue__disc" cx="24" cy="24" r="15.5" />
+                    <circle class="direction-cue__ring" cx="24" cy="24" r="15.5" fill="none" />
+                    <path class="direction-cue__arrow" d="M19.5 15.2 L33.2 24 L19.5 32.8 Z" />
+                  </svg>
+                </div>
+                <div class="keyboard-instructions" id="keyboardInstructions" aria-live="polite" hidden>
+                    Usa las flechas para rotar, las teclas + y - para acercar o alejar y Q/E para inclinar verticalmente.
+                </div>
+                <ul class="hotspot-inline-list" id="hotspotList" aria-label="Destinos y puntos de interés de la escena"></ul>
+            </section>
+
+            <!-- `aria-expanded` vive en #menuToggle, no aquí: no es un atributo
+                 válido sobre `navigation` y algunos lectores lo ignoran o lo
+                 anuncian dos veces. -->
+            <nav class="scene-menu" id="sceneMenu" aria-labelledby="sceneMenuTitle">
+                <div class="scene-menu__inner">
+                    <h2 id="sceneMenuTitle">Escenas disponibles</h2>
+                    <p id="sceneMenuDescription">Selecciona una escena para recorrer la sede. Navega con Tab, las flechas arriba/abajo y Enter. Escape cierra el menú.</p>
+                    <!-- Sin `role="tree"`: era un patrón a medias (los treeitem no
+                         eran enfocables ni tenían navegación con flechas). Lista
+                         nativa + botones con `aria-expanded`/`aria-controls`. -->
+                    <ul class="scene-group-list" id="sceneGroupList"></ul>
+                </div>
+            </nav>
+        </main>
+
+        <aside class="accessibility-menu" id="accessibilityMenu" role="dialog" aria-modal="true" aria-labelledby="accessibilityMenuTitle" hidden>
+            <div class="accessibility-header">
+                <h2 id="accessibilityMenuTitle">Panel de accesibilidad</h2>
+                <button class="close-button" id="closeAccessibility" type="button">
+                    <span class="sr-only">Cerrar panel de accesibilidad</span>
+                    ×
+                </button>
+            </div>
+            <div class="accessibility-options">
+                <div class="a11y-toolbar-block" role="group" aria-label="Texto y contraste">
+                    <div class="toolbar-group">
+                        <span id="textSizeLabel">Tamaño de texto</span>
+                        <button type="button" class="toolbar-button" data-font-size="decrease" aria-describedby="textSizeLabel">A-</button>
+                        <button type="button" class="toolbar-button" data-font-size="reset" aria-describedby="textSizeLabel">A</button>
+                        <button type="button" class="toolbar-button" data-font-size="increase" aria-describedby="textSizeLabel">A+</button>
+                    </div>
+                    <div class="toolbar-group">
+                        <span id="contrastLabel">Contraste</span>
+                        <button type="button" class="toolbar-button" data-contrast="high" aria-describedby="contrastLabel">Alto</button>
+                        <button type="button" class="toolbar-button" data-contrast="off" aria-describedby="contrastLabel">Normal</button>
+                    </div>
+                    <div class="toolbar-group toolbar-group--switch">
+                        <label for="accessibleModeToggle">Modo accesible</label>
+                        <input type="checkbox" id="accessibleModeToggle" role="switch" aria-checked="false">
+                    </div>
+                </div>
+
+                <div class="option-item">
+                    <label class="switch" for="textToSpeechToggle">
+                        <input type="checkbox" id="textToSpeechToggle" aria-describedby="textToSpeechHelp">
+                        <span class="slider round" aria-hidden="true"></span>
+                    </label>
+                    <label class="option-label" for="textToSpeechToggle" id="textToSpeechLabel">Activar lector automático de hotspots</label>
+                </div>
+                <div class="option-info" id="textToSpeechHelp">
+                    Activa la narración automática al abrir un punto de interés. Los controles pueden manejarse con teclado.
+                </div>
+
+                <div class="option-item">
+                    <label class="switch" for="captionAutoToggle">
+                        <input type="checkbox" id="captionAutoToggle" aria-describedby="captionAutoHelp">
+                        <span class="slider round" aria-hidden="true"></span>
+                    </label>
+                    <label class="option-label" for="captionAutoToggle" id="captionAutoLabel">Mostrar subtítulos automáticamente</label>
+                </div>
+                <div class="option-info" id="captionAutoHelp">
+                    Los subtítulos provienen de archivos VTT y se presentan en un panel accesible.
+                </div>
+            </div>
+        </aside>
+
+        <section class="hotspot-panel" id="hotspotPanel" role="dialog" aria-modal="true" aria-labelledby="hotspotPanelTitle" hidden tabindex="-1">
+            <div class="hotspot-panel__header">
+                <h2 id="hotspotPanelTitle">Detalle del punto de interés</h2>
+                <button type="button" class="close-button" id="closeHotspotPanel">
+                    <span class="sr-only">Cerrar detalle del hotspot</span>
+                    ×
+                </button>
+            </div>
+            <div class="hotspot-panel__body">
+                <p id="hotspotSummary"></p>
+                <div class="hotspot-audio" role="group" aria-label="Controles de audiodescripción">
+                    <p id="audioStatus" aria-live="polite"></p>
+                    <div class="audio-controls">
+                        <button type="button" class="audio-control" data-audio-action="play">Reproducir</button>
+                        <button type="button" class="audio-control" data-audio-action="pause">Pausar</button>
+                        <button type="button" class="audio-control" data-audio-action="stop">Detener</button>
+                    </div>
+                    <label for="audioVolume" id="volumeLabel">Volumen</label>
+                    <input type="range" id="audioVolume" min="0" max="1" step="0.1" value="1" aria-labelledby="volumeLabel">
+                    <audio id="hotspotAudio" preload="metadata" aria-describedby="hotspotSummary"></audio>
+                </div>
+                <div class="caption-controls">
+                    <button type="button" id="toggleCaptions" class="toolbar-button">Mostrar subtítulos</button>
+                    <div id="captionContainer" class="caption-container" role="log" aria-live="polite"></div>
+                </div>
+                <div class="transcript-actions">
+                    <a id="transcriptDownload" href="#" download class="transcript-link">Descargar transcripción</a>
+                </div>
+            </div>
+        </section>
+
+        <dialog class="help-dialog" id="helpDialog" aria-labelledby="helpDialogTitle">
+            <h2 id="helpDialogTitle">Ayuda rápida</h2>
+            <p>Atajos de teclado disponibles:</p>
+            <ul id="helpShortcutsList"></ul>
+            <button type="button" id="closeHelpDialog" class="toolbar-button">Cerrar</button>
+        </dialog>
+
+        <dialog class="share-dialog" id="shareDialog" aria-labelledby="shareDialogTitle">
+            <h2 id="shareDialogTitle">Compartir escena</h2>
+            <p>Comparte el recorrido con este enlace. Incluye la escena actual.</p>
+            <div class="share-dialog__content">
+                <input type="text" readonly id="shareInput" aria-label="Enlace para compartir">
+                <button type="button" class="toolbar-button" id="copyShareLink">Copiar enlace</button>
+            </div>
+            <p id="shareStatus" role="status" aria-live="polite"></p>
+            <button type="button" id="closeShareDialog" class="toolbar-button">Cerrar</button>
+        </dialog>
+
+        <div class="sr-only" id="sceneAnnouncement" aria-live="polite"></div>
+        <div class="sr-only" id="hotspotAnnouncement" aria-live="assertive"></div>
+    </div>
+
+    <script>
+      window.addEventListener('DOMContentLoaded', function () {
+        if (!window.Marzipano) {
+          console.error('Marzipano no se pudo cargar desde vendors/marzipano.min.js ni desde la CDN.');
+          const fallback = document.getElementById('noJsMessage');
+          if (fallback) {
+            fallback.removeAttribute('hidden');
+            fallback.style.display = 'block';
+            fallback.innerHTML = '<h2>Error al cargar el visor 360°</h2><p>No fue posible inicializar Marzipano. Revisa que el archivo <code>vendors/marzipano.min.js</code> exista y que no haya bloqueadores de red activos.</p>';
+          }
+        }
+      });
+    </script>
+    <script src="/orbe-config.js"></script>
+    <script type="module" src="/src/main.js"></script>
+</body>
+</html>

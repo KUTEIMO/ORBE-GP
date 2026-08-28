@@ -1,0 +1,171 @@
+/* Accessibility Menu */
+.accessibility-menu {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(400px, calc(100% - 2rem));
+  background: rgba(6, 12, 10, 0.97);
+  backdrop-filter: blur(18px);
+  max-height: min(78vh, 640px);
+  z-index: 1500;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.55);
+  display: none;
+}
+
+.accessibility-menu--open {
+  display: block;
+}
+
+.accessibility-menu[hidden] {
+  display: none !important;
+}
+
+.accessibility-header {
+  padding: 1rem 1.1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  position: sticky;
+  top: 0;
+  background: rgba(6, 12, 10, 0.98);
+  z-index: 1;
+}
+
+.accessibility-header h2 {
+  font-family: var(--font-display, inherit);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: white;
+}
+
+.close-button {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: white;
+  width: var(--touch-min, 44px);
+  height: var(--touch-min, 44px);
+  min-width: var(--touch-min, 44px);
+  min-height: var(--touch-min, 44px);
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  font-size: 1.35rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.close-button:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.close-button:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+}
+
+.accessibility-options {
+  padding: 1rem 1.1rem 1.25rem;
+}
+
+.option-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.45rem;
+  gap: 0.35rem;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.option-label {
+  margin-left: 0.75rem;
+  color: white;
+  font-size: 0.9rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.option-info {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.68);
+  margin-bottom: 1.1rem;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+/* El interruptor dibuja 50x26 pero su área táctil llega a 44px de alto. */
+.switch {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 50px;
+  height: var(--touch-min, 44px);
+  flex: 0 0 auto;
+  cursor: pointer;
+}
+
+/* El input sigue siendo el control real (recibe foco y lo leen los AT), pero
+   ocupa toda la superficie del interruptor en vez de ser 0x0. */
+.switch input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 50%;
+  left: 0;
+  width: 50px;
+  height: 26px;
+  transform: translateY(-50%);
+  background-color: #4b5563;
+  transition: .25s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 4px;
+  top: 4px;
+  background-color: white;
+  transition: .25s;
+}
+
+input:checked + .slider {
+  background-color: var(--emerald);
+  /* Borde blanco: el estado no depende sólo del color (WCAG 1.4.1). */
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.85);
+}
+
+/* El input es transparente, así que el anillo de foco tiene que pintarlo el
+   slider; si no, los dos interruptores principales no tienen foco visible. */
+.switch input:focus-visible + .slider {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+}
+
+input:checked + .slider:before {
+  transform: translateX(24px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}

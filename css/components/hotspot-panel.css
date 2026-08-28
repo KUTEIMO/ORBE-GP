@@ -1,0 +1,275 @@
+.hotspot-panel {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(440px, calc(100% - 2rem));
+  max-height: min(72vh, 560px);
+  background: rgba(6, 12, 10, 0.97);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 16px;
+  padding: 1.25rem 1.35rem;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.55);
+  color: #fff;
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 1400;
+  display: none;
+}
+
+.hotspot-panel--open {
+  display: block;
+}
+
+.hotspot-panel[hidden] {
+  display: none !important;
+}
+
+.hotspot-panel__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  gap: 0.75rem;
+}
+
+.hotspot-panel__header h2 {
+  font-family: var(--font-display, inherit);
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.hotspot-panel__body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.hotspot-audio {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.9rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.audio-controls {
+  display: flex;
+  gap: 0.45rem;
+}
+
+.audio-control {
+  flex: 1;
+  background: var(--brand, #4b5563);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 0.5rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.audio-control:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+}
+
+#audioVolume {
+  width: 100%;
+}
+
+.caption-container {
+  background: rgba(0, 0, 0, 0.45);
+  padding: 0.75rem;
+  border-radius: 12px;
+  max-height: 8rem;
+  overflow-y: auto;
+  display: none;
+}
+
+.caption-container[data-visible="true"] {
+  display: block;
+}
+
+.caption-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.transcript-link {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.transcript-link[aria-disabled="true"] {
+  opacity: 0.6;
+  pointer-events: none;
+  text-decoration: none;
+}
+
+/* ─────────────────────────────────────────────────────────
+   Pase de producto (2026-09) — jerarquía y entrada del panel.
+   Aditivo: no cambia estructura, IDs ni el flujo de audio/a11y.
+   Movimiento vía tokens de css/design-tokens.css.
+   ───────────────────────────────────────────────────────── */
+
+.hotspot-panel {
+  z-index: var(--orbe-z-panel, 1400);
+  border-radius: var(--orbe-rad-lg, 16px);
+  padding: var(--orbe-space-5, 1.25rem) var(--orbe-space-5, 1.35rem);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+    0 28px 70px rgba(0, 0, 0, 0.6);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.28) transparent;
+}
+
+/* Centrado modal sólo en escritorio. En ≤720px responsive.css usa hoja
+   inferior con transform:none; una animación de centro aquí dejaba el panel
+   partido y los toques caían en el backdrop (cierre accidental). */
+@media (min-width: 721px) {
+  .hotspot-panel--open {
+    animation: hotspot-panel-in var(--orbe-dur-slow, 0.28s) var(--orbe-ease-out, ease) both;
+  }
+}
+
+@keyframes hotspot-panel-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, calc(-50% + var(--orbe-rise, 0.5rem))) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.hotspot-panel::-webkit-scrollbar { width: 8px; }
+.hotspot-panel::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.24);
+  border-radius: var(--orbe-rad-pill, 999px);
+}
+
+/* Cabecera: filete de marca para anclar la jerarquía sin añadir peso visual */
+.hotspot-panel__header {
+  position: relative;
+  padding-bottom: var(--orbe-space-3, 0.75rem);
+  margin-bottom: var(--orbe-space-4, 1rem);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.hotspot-panel__header::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 2.5rem;
+  height: 2px;
+  border-radius: var(--orbe-rad-pill, 999px);
+  background: var(--brand, #4b5563);
+}
+
+.hotspot-panel__header h2 {
+  font-size: var(--orbe-fs-lg, 1.08rem);
+  line-height: var(--orbe-lh-tight, 1.2);
+  letter-spacing: -0.01em;
+}
+
+#hotspotSummary {
+  font-size: var(--orbe-fs-md, 0.95rem);
+  line-height: var(--orbe-lh-loose, 1.6);
+  color: rgba(255, 255, 255, 0.88);
+}
+
+/* Bloque de audiodescripción: se lee como un módulo, no como un formulario */
+.hotspot-audio {
+  border-radius: var(--orbe-rad-md, 12px);
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+#audioStatus {
+  font-size: var(--orbe-fs-xs, 0.75rem);
+  font-weight: 600;
+  letter-spacing: var(--orbe-track-caps, 0.04em);
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+#audioStatus:empty { display: none; }
+
+.audio-control {
+  border-radius: var(--orbe-rad-sm, 8px);
+  font-size: var(--orbe-fs-sm, 0.84rem);
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  transition:
+    background-color var(--orbe-dur-fast, 0.14s) var(--orbe-ease-in-out, ease),
+    border-color var(--orbe-dur-fast, 0.14s) var(--orbe-ease-in-out, ease),
+    transform var(--orbe-dur-fast, 0.14s) var(--orbe-ease-out, ease);
+}
+
+.audio-control:hover {
+  background: var(--brand, #4b5563);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(var(--orbe-lift, -1px));
+}
+
+.audio-control[data-audio-action="play"] {
+  background: var(--brand, #4b5563);
+  border-color: var(--brand-strong, #1f2937);
+}
+
+.audio-control[data-audio-action="play"]:hover {
+  background: var(--brand-strong, #1f2937);
+}
+
+.audio-control:active {
+  transform: scale(var(--orbe-scale-press, 0.985));
+}
+
+#audioVolume {
+  accent-color: var(--brand, #4b5563);
+}
+
+.caption-container {
+  border-radius: var(--orbe-rad-md, 12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: var(--orbe-fs-sm, 0.84rem);
+  line-height: var(--orbe-lh-base, 1.45);
+}
+
+.transcript-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: var(--orbe-fs-sm, 0.84rem);
+  font-weight: 600;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.transcript-link::before {
+  content: "↓";
+  font-size: 0.9em;
+  opacity: 0.7;
+}
+
+.transcript-link:focus-visible {
+  outline: var(--orbe-focus-w, 2px) solid #fff;
+  outline-offset: var(--orbe-focus-offset, 2px);
+  border-radius: var(--orbe-rad-xs, 6px);
+}
+
+body.theme-high-contrast .hotspot-panel__header::after { background: #fff; }
+body.theme-high-contrast .audio-control {
+  background: #000;
+  border-color: #fff;
+}

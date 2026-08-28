@@ -1,0 +1,184 @@
+/* Header */
+.tour-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(180deg, rgba(5, 10, 8, 0.92), rgba(5, 10, 8, 0.72));
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  padding: 0.85rem 1.25rem;
+  display: flex;
+  align-items: center;
+  z-index: 1600;
+  gap: 0.85rem;
+  border-bottom: 1px solid var(--line);
+  box-shadow: var(--shadow-ui);
+  /* El header nunca debe generar scroll ni empujar botones fuera del viewport. */
+  max-width: 100%;
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+
+.tour-brand-cluster {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.12rem;
+  min-width: 0;
+  max-width: min(36vw, 260px);
+  /* Cede espacio antes que el título o los botones de acción. */
+  flex: 0 1 auto;
+}
+
+.tour-client-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-width: 0;
+}
+
+.tour-client-brand[hidden] {
+  display: none !important;
+}
+
+.tour-client-brand__logo {
+  max-height: 32px;
+  max-width: 128px;
+  object-fit: contain;
+}
+
+.tour-client-brand__name {
+  font-family: var(--font-display);
+  font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+/* 0.62rem / alfa 0.72: por debajo de esto el texto no alcanza 4.5:1 sobre el
+   degradado del header (medido, no estimado). */
+.powered-by-orbe {
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(244, 247, 245, 0.72);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.powered-by-orbe[hidden] {
+  display: none !important;
+}
+
+.action-button--subtle,
+.action-button--powered-subtle {
+  opacity: 0.8;
+}
+
+.action-button--subtle:hover,
+.action-button--powered-subtle:hover {
+  opacity: 1;
+}
+
+.powered-by-orbe:hover {
+  color: #fff;
+}
+
+.powered-by-orbe:focus-visible {
+  color: #fff;
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.title-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  /* 1 1 0: el título absorbe el espacio libre y es el primero en encogerse. */
+  flex: 1 1 0;
+  gap: 0.15rem;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.menu-toggle {
+  background: var(--brand);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--radius-md);
+  width: 42px;
+  height: 42px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+  color: #fff;
+}
+
+.menu-toggle:hover {
+  background: var(--brand-strong);
+  transform: translateY(-1px);
+}
+
+.scene-title {
+  font-family: var(--font-display);
+  font-size: clamp(0.95rem, 1.6vw, 1.2rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* 100% del title-wrapper (flex), no un tope en vw: evita empujar botones fuera. */
+  max-width: 100%;
+}
+
+.scene-zone {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.55rem;
+  /* Los controles de acción nunca se encogen ni se salen del viewport. */
+  flex: 0 0 auto;
+}
+
+.action-button {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--line);
+  width: 40px;
+  height: 40px;
+  flex: 0 0 auto;
+  border-radius: var(--radius-md);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+  color: #fff;
+  text-decoration: none;
+}
+
+.action-button[hidden] {
+  display: none !important;
+}
+
+.action-button:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.28);
+  transform: translateY(-1px);
+}
+
+.action-button:focus-visible,
+.menu-toggle:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+}

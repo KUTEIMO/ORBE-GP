@@ -1,0 +1,152 @@
+/* Estilos base — motor Orbe360 (chrome neutro).
+ * Colores institucionales del cliente llegan vía TourBranding → CSS variables.
+ * No hardcodear identidad Unisimón/PEVCI aquí. */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap');
+/* Escalas compartidas (espacio, radios, elevación, movimiento). Sin color de marca. */
+@import url('./design-tokens.css');
+
+:root {
+  --font-scale: 1;
+  --font-ui: 'Outfit', sans-serif;
+  --font-display: 'Sora', sans-serif;
+
+  /*
+   * Motor defaults (neutral gray/ink).
+   * Client identity is TourBranding DATA (Convex), not this file.
+   * Platform Orbe360 uses --orbe-accent (#0284c7) in plataforma/tokens.css — never here.
+   */
+  --brand: #4b5563;
+  --brand-strong: #1f2937;
+  --brand-soft: rgba(75, 85, 99, 0.88);
+  --brand-ghost: rgba(75, 85, 99, 0.22);
+  --accent: #64748b;
+  --accent-soft: rgba(100, 116, 139, 0.9);
+
+  --surface: rgba(8, 16, 12, 0.72);
+  --surface-strong: rgba(6, 12, 10, 0.9);
+  --line: rgba(255, 255, 255, 0.14);
+  --text: #f4f7f5;
+  --text-muted: rgba(244, 247, 245, 0.72);
+
+  /* Compat con clases existentes */
+  --emerald: var(--brand);
+  --emerald-80: var(--brand-soft);
+  --emerald-30: var(--brand-ghost);
+  --black-80: var(--surface-strong);
+  --black-70: var(--surface);
+  --contrast-bg: #06100a;
+  --contrast-text: #ffffff;
+
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-pill: 999px;
+  --shadow-ui: 0 10px 30px rgba(0, 0, 0, 0.28);
+
+  /* Shell geometry — declared here so the motor still lays out correctly if
+     responsive.css fails to load. responsive.css narrows these per breakpoint. */
+  --tour-header-height: 64px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --touch-min: 44px;
+  /* Focus ring: two rings so it reads on dark chrome and on light photos. */
+  --focus-ring: 0 0 0 2px #06100a, 0 0 0 5px #ffffff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font-ui);
+}
+
+html {
+  font-size: calc(16px * var(--font-scale));
+  /* Evita el "text inflation" de WebKit/Chrome móvil, que agranda el texto en
+     landscape y desborda el header. */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  background:
+    radial-gradient(1200px 600px at 10% -10%, rgba(45, 106, 79, 0.18), transparent 55%),
+    radial-gradient(900px 500px at 90% 0%, rgba(58, 134, 255, 0.1), transparent 50%),
+    #050807;
+  color: var(--text);
+  /* dvh: la barra de direcciones del navegador móvil no debe recortar el visor. */
+  height: 100%;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.js-enabled .no-js-message {
+  display: none !important;
+}
+
+/* width:100% (nunca 100vw) — 100vw incluye el ancho de la barra de scroll y no
+   se encoge cuando el viewport de diseño difiere del visual, y eso es lo que
+   producía el desborde horizontal del chrome en móvil. */
+.tour-container {
+  position: relative;
+  height: 100%;
+  height: 100dvh;
+  width: 100%;
+  max-width: 100%;
+  padding-top: var(--tour-header-height);
+  display: flex;
+  flex-direction: column;
+}
+
+body.theme-high-contrast {
+  background: var(--contrast-bg);
+  color: var(--contrast-text);
+}
+
+body.theme-high-contrast .tour-header,
+body.theme-high-contrast .scene-menu,
+body.theme-high-contrast .accessibility-menu,
+body.theme-high-contrast .hotspot-panel {
+  background-color: rgba(0, 0, 0, 0.94);
+}
+
+body.accessible-mode .hotspot-inline-button,
+body.accessible-mode .toolbar-button {
+  border-width: 2px;
+}
+
+.tour-layout {
+  display: flex;
+  flex: 1;
+  position: relative;
+}
+
+.viewer-section {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  background: #000;
+}
+
+.panorama {
+  width: 100%;
+  height: 100%;
+  outline: none;
+}
+
+.panorama:focus-visible {
+  box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.75);
+}

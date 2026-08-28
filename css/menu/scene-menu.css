@@ -1,0 +1,87 @@
+/* ============ Menú lateral de escenas ============ */
+.scene-menu {
+  position: fixed;
+  top: 64px;
+  bottom: 0;
+  left: 0;
+  width: min(360px, calc(100% - 1.5rem));
+  background: rgba(6, 12, 10, 0.96);
+  backdrop-filter: blur(18px) saturate(1.1);
+  -webkit-backdrop-filter: blur(18px) saturate(1.1);
+  max-width: 100%;
+  padding: 0;
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.28s linear;
+  /* -100% (no -105%) y visibility:hidden: el cajón cerrado no debe dejar un
+     panel del ancho del viewport aparcado fuera de pantalla. Con -105% el panel
+     quedaba en x=-409px y sólo lo tapaba `overflow-x:hidden` del root, que no es
+     fiable en WebKit y además recorta contenido en lugar de evitarlo. */
+  transform: translateX(-100%);
+  visibility: hidden;
+  z-index: 1250;
+  overflow: hidden;
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 16px 0 48px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+}
+
+.scene-menu.scene-menu--open {
+  transform: translateX(0);
+  visibility: visible;
+}
+
+.scene-menu__inner {
+  padding: 1.1rem 1rem 1.5rem;
+  /* Scroll SOLO vertical. Declarar únicamente overflow-y hace que el eje X
+     compute `auto`, y eso convertía el cajón en un scroller horizontal que
+     recortaba las tarjetas y el párrafo por la derecha. */
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  flex: 1 1 auto;
+  min-height: 0;
+  min-width: 0;
+  width: 100%;
+  scrollbar-width: thin;
+  scrollbar-color: var(--brand, #4b5563) transparent;
+}
+
+.scene-menu__inner h2 {
+  font-family: var(--font-display, inherit);
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+  overflow-wrap: anywhere;
+}
+
+.scene-menu__inner > p {
+  font-size: 0.8rem;
+  color: var(--text-muted, rgba(244, 247, 245, 0.72));
+  margin-bottom: 1rem;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.ui-backdrop {
+  position: fixed;
+  top: 64px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.42);
+  z-index: 1200;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  border: none;
+}
+
+.ui-backdrop.ui-backdrop--visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.ui-backdrop[hidden] {
+  display: none !important;
+}

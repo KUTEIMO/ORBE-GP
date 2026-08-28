@@ -1,0 +1,1005 @@
+/* ============================================================================
+ * Orbe360 — motor compartido · capa responsive + accesibilidad del shell
+ * ============================================================================
+ * Se carga en último lugar desde index.html, así que gana a los componentes.
+ * Cubre: header, menú de escenas, panel de accesibilidad, hotspots/chips/paneles,
+ * navegación, carga, safe areas, tamaños de objetivo táctil, foco visible y
+ * reduced-motion.
+ *
+ * REGLAS DEL MOTOR (aplican a cualquier tour nuevo, sin parches por tenant):
+ *  1. Nunca `100vw` / `100vh` para el chrome. `100vw` incluye la barra de scroll
+ *     y no se encoge cuando el viewport de diseño ≠ viewport visual; `100vh`
+ *     ignora la barra de direcciones móvil. Se usa `100%` + `100dvh`.
+ *  2. El overflow horizontal se ELIMINA en origen (nada puede fijar un ancho
+ *     mínimo mayor que el viewport). El `overflow-x` del root es sólo una red de
+ *     seguridad: recortar no es arreglar, y en WebKit no siempre recorta.
+ *  3. Cualquier hijo flex que contenga texto lleva `min-width: 0` y puede
+ *     envolver: un título o nombre de escena largo no debe ensanchar su fila.
+ *  4. Objetivos táctiles ≥ var(--touch-min) con puntero grueso.
+ *  5. Ningún estado de foco elimina el indicador sin poner otro equivalente.
+ *
+ * NO contiene posiciones de hotspot: yaw/pitch son dato de Convex aplicados por
+ * Marzipano en el wrapper del hotspot. Aquí sólo hay apariencia y tamaño.
+ * ========================================================================== */
+
+:root {
+  --tour-header-height: 64px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --touch-min: 44px;
+  /* Altura reservada para la tira de chips de destinos sobre el borde inferior. */
+  --poi-strip-space: 4.25rem;
+}
+
+/* ---------------------------------------------------------------------------
+ * 1. Disciplina de viewport
+ * ------------------------------------------------------------------------ */
+
+html {
+  height: 100%;
+  max-width: 100%;
+  /* Red de seguridad. `clip` es preferible a `hidden` porque no crea un
+     contenedor de scroll (no rompe `position: sticky` de las cabeceras de los
+     paneles) y no deja un área desplazable fantasma. */
+  overflow-x: hidden;
+}
+
+@supports (overflow: clip) {
+  html {
+    overflow-x: clip;
+  }
+}
+
+body {
+  min-height: 100%;
+  min-height: 100dvh;
+  height: 100%;
+  height: 100dvh;
+  max-width: 100%;
+  overflow-x: hidden;
+  /* Evita el rebote de la página al hacer pan sobre el panorama. */
+  overscroll-behavior: none;
+}
+
+.tour-container {
+  height: 100%;
+  height: 100dvh;
+  width: 100%;
+  max-width: 100%;
+  padding-top: calc(var(--tour-header-height) + var(--safe-top));
+  padding-left: var(--safe-left);
+  padding-right: var(--safe-right);
+  overflow: hidden;
+}
+
+.tour-layout,
+.viewer-section {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  width: 100%;
+  max-width: 100%;
+}
+
+.viewer-section,
+.panorama {
+  min-height: 0;
+  /* El visor 360 gestiona sus propios gestos; el navegador no debe hacer pan. */
+  touch-action: none;
+}
+
+.panorama canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.tour-header {
+  height: auto;
+  min-height: var(--tour-header-height);
+  padding-top: max(0.85rem, var(--safe-top));
+  padding-left: max(1.25rem, calc(1.25rem + var(--safe-left)));
+  padding-right: max(1.25rem, calc(1.25rem + var(--safe-right)));
+}
+
+.scene-menu {
+  top: calc(var(--tour-header-height) + var(--safe-top));
+  padding-bottom: var(--safe-bottom);
+}
+
+.ui-backdrop {
+  top: calc(var(--tour-header-height) + var(--safe-top));
+}
+
+/* ---------------------------------------------------------------------------
+ * 2. Invariantes anti-desborde (TODOS los anchos, no sólo móvil)
+ *
+ * Esta es la corrección de fondo del bug: antes el desborde se tapaba con
+ * `overflow-x: hidden` en el root, que recorta las tarjetas y el texto por la
+ * derecha en lugar de evitar que se generen demasiado anchos.
+ * ------------------------------------------------------------------------ */
+
+/* Nada del chrome puede ser más ancho que su contenedor. */
+.tour-header,
+.title-wrapper,
+.action-buttons,
+.tour-brand-cluster,
+.scene-menu,
+.scene-menu__inner,
+.scene-group-list,
+.scene-group,
+.scene-group__header,
+.scene-sublist,
+.scene-sublist__item,
+.scene-button,
+.accessibility-menu,
+.accessibility-options,
+.a11y-toolbar-block,
+.a11y-toolbar-block .toolbar-group,
+.option-item,
+.hotspot-panel,
+.hotspot-panel__header,
+.hotspot-panel__body,
+.hotspot-audio,
+.audio-controls,
+.caption-controls,
+.transcript-actions,
+.share-dialog__content {
+  max-width: 100%;
+  min-width: 0;
+}
+
+/* Texto que participa en una fila flex: debe poder envolver o truncarse.
+   Sin esto, el ancho mínimo intrínseco de una palabra larga (un nombre de
+   escena, una URL para compartir) empuja la fila fuera del viewport. */
+.scene-group__name,
+.scene-button,
+.option-label,
+.option-info,
+.hotspot-panel__header h2,
+#hotspotSummary,
+#audioStatus,
+.caption-list li,
+.accessibility-header h2,
+.scene-menu__inner h2,
+.scene-menu__inner > p,
+.keyboard-instructions,
+.hotspot-inline-empty {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* El título de escena trunca con elipsis; no debe empujar los botones.
+   El tope es 100% del title-wrapper (flex), nunca un valor en vw. */
+.scene-title {
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* fixed + % = viewport del ICB; evita 90/92vw (barra de scroll / visual≠layout). */
+.scene-menu {
+  width: min(360px, 100%);
+}
+
+.accessibility-menu,
+.hotspot-panel {
+  width: min(400px, calc(100% - 1.5rem));
+}
+
+/* El enlace para compartir es una URL larga: nunca debe ensanchar el diálogo. */
+#shareInput {
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* Los paneles sólo hacen scroll vertical. Declarar únicamente `overflow-y`
+   deja el eje X en `auto`, y eso convierte el panel en un scroller horizontal
+   que recorta contenido silenciosamente. */
+.scene-menu__inner,
+.accessibility-menu,
+.accessibility-options,
+.hotspot-panel,
+.hotspot-panel__body,
+.caption-container,
+.help-dialog,
+.share-dialog {
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+}
+
+/* Los diálogos nativos se dimensionan con el viewport visual. */
+.help-dialog,
+.share-dialog,
+.accessibility-menu,
+.hotspot-panel {
+  max-width: calc(100% - 1.5rem);
+}
+
+/* ---------------------------------------------------------------------------
+ * 3. Foco visible — un indicador para todo lo enfocable
+ *
+ * Doble anillo (oscuro + blanco) para que se lea tanto sobre el chrome oscuro
+ * como sobre una panorámica clara. WCAG 2.4.7 y 2.4.11.
+ * ------------------------------------------------------------------------ */
+
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+}
+
+/* Elementos pegados a un borde: el offset positivo se saldría del contenedor. */
+.scene-group__header:focus-visible,
+.scene-button:focus-visible,
+.hotspot-inline-button:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: -3px;
+}
+
+/* El chip del hotspot es la caja visible; el botón no tiene fondo propio. */
+.hotspot:focus-visible {
+  outline: none;
+}
+
+.hotspot:focus-visible .hotspot__chip {
+  border-color: #fff;
+  box-shadow:
+    0 0 0 2px #06100a,
+    0 0 0 5px #ffffff,
+    0 6px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Los interruptores usan un input transparente encima del dibujo: el anillo lo
+   tiene que pintar el elemento visible o no hay foco perceptible. */
+.switch input:focus-visible {
+  outline: none;
+}
+
+.switch input:focus-visible + .slider {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+}
+
+.panorama:focus-visible {
+  box-shadow: inset 0 0 0 4px #fff, inset 0 0 0 7px #06100a;
+}
+
+/* El skip-link debe quedar por encima del header fijo y respetar el notch. */
+.skip-link:focus {
+  top: calc(0.5rem + var(--safe-top));
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+}
+
+/* ---------------------------------------------------------------------------
+ * 4. Objetivos táctiles (puntero grueso) — WCAG 2.5.5 / 2.5.8
+ * ------------------------------------------------------------------------ */
+
+@media (hover: none) and (pointer: coarse) {
+  .menu-toggle,
+  .action-button,
+  .close-button,
+  .nav-arrow,
+  .toolbar-button,
+  .audio-control,
+  .hotspot-inline-button,
+  .scene-group__header,
+  .scene-button {
+    min-width: var(--touch-min);
+    min-height: var(--touch-min);
+  }
+
+  .hotspot {
+    min-width: 48px;
+    min-height: 48px;
+  }
+
+  .hotspot__icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  /* El pulgar necesita una pista más alta que la del ratón. */
+  #audioVolume {
+    min-height: var(--touch-min);
+  }
+
+  /* Sin hover no hay estado hover que “levante”: evita saltos al tocar. */
+  .menu-toggle:hover,
+  .action-button:hover,
+  .nav-arrow:hover,
+  .scene-button:hover,
+  .hotspot-inline-button:hover {
+    transform: none;
+  }
+
+  /* La vista previa es gesto de hover; en táctil se abre el panel. Ocultarla
+     evita que el thumb (width:170%) se reporte fuera del viewport en bordes. */
+  .hotspot-preview {
+    display: none !important;
+  }
+
+  .toolbar-button,
+  .audio-control,
+  .scene-button,
+  .hotspot-inline-button,
+  .menu-toggle,
+  .action-button {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* direction-cue: oculto en coarse via direction-cue.css; no ampliar aquí */
+}
+
+/* ---------------------------------------------------------------------------
+ * 5. Tablet / portátil pequeño
+ * ------------------------------------------------------------------------ */
+
+@media (max-width: 1024px) {
+  .scene-menu {
+    width: min(360px, calc(100% - 1.5rem));
+  }
+
+  .hotspot-inline-list {
+    max-width: min(calc(100% - 1.5rem), 620px);
+  }
+}
+
+@media (max-width: 900px) {
+  :root {
+    --tour-header-height: 60px;
+  }
+
+  .tour-header {
+    padding: 0.55rem 0.85rem;
+    padding-top: max(0.55rem, var(--safe-top));
+    padding-left: max(0.85rem, calc(0.75rem + var(--safe-left)));
+    padding-right: max(0.85rem, calc(0.75rem + var(--safe-right)));
+    gap: 0.5rem;
+  }
+
+  .tour-brand-cluster {
+    max-width: min(26vw, 140px);
+  }
+
+  .tour-client-brand__logo {
+    max-height: 28px;
+    max-width: 96px;
+  }
+
+  .menu-toggle,
+  .action-button {
+    width: var(--touch-min);
+    height: var(--touch-min);
+  }
+
+  .menu-toggle svg,
+  .action-button svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .nav-arrow {
+    width: var(--touch-min);
+    height: var(--touch-min);
+    font-size: 1.5rem;
+    opacity: 0.94;
+  }
+
+  .nav-prev {
+    left: max(0.55rem, calc(0.55rem + var(--safe-left)));
+  }
+
+  .nav-next {
+    right: max(0.55rem, calc(0.55rem + var(--safe-right)));
+  }
+
+  /* Pista de teclado: irrelevante sin teclado físico y roba espacio al visor. */
+  .keyboard-instructions {
+    display: none;
+  }
+
+  .scene-menu {
+    width: min(340px, calc(100% - 1.25rem));
+  }
+
+  .scene-group__header,
+  .scene-button {
+    min-height: var(--touch-min);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * 6. Teléfono en vertical
+ * ------------------------------------------------------------------------ */
+
+@media (max-width: 720px) {
+  :root {
+    --tour-header-height: 56px;
+    --poi-strip-space: 3.9rem;
+  }
+
+  .tour-header {
+    padding: 0.35rem 0.5rem;
+    padding-top: max(0.35rem, var(--safe-top));
+    padding-left: max(0.5rem, calc(0.45rem + var(--safe-left)));
+    padding-right: max(0.5rem, calc(0.45rem + var(--safe-right)));
+    gap: 0.35rem;
+    flex-wrap: nowrap;
+    align-items: center;
+  }
+
+  /* Sólo el logotipo: el nombre del cliente y el "powered by" aplastan la fila
+     del título en un teléfono. La identidad sigue presente vía logo + colores. */
+  .tour-brand-cluster {
+    max-width: 40px;
+    flex: 0 0 auto;
+  }
+
+  .tour-client-brand__name,
+  .powered-by-orbe {
+    display: none !important;
+  }
+
+  .tour-client-brand__logo {
+    max-height: 26px;
+    max-width: 38px;
+  }
+
+  .tour-brand-cluster:has(.tour-client-brand[hidden]) {
+    display: none;
+  }
+
+  .title-wrapper {
+    flex: 1 1 0;
+    min-width: 0;
+    gap: 0;
+  }
+
+  .scene-title {
+    font-size: 0.88rem;
+  }
+
+  .scene-zone {
+    display: none;
+  }
+
+  .action-buttons {
+    gap: 0.25rem;
+    flex: 0 0 auto;
+  }
+
+  /* Se oculta el chip sutil de plataforma (decorativo); compartir, ayuda y
+     accesibilidad se mantienen: son funcionalidad, no adorno. */
+  .action-button--powered-subtle {
+    display: none !important;
+  }
+
+  .menu-toggle,
+  .action-button {
+    width: var(--touch-min);
+    height: var(--touch-min);
+    min-width: var(--touch-min);
+    min-height: var(--touch-min);
+    border-radius: 12px;
+  }
+
+  .menu-toggle svg,
+  .action-button svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Menú de escenas: cajón a sangre completa. */
+  .scene-menu {
+    width: 100%;
+    max-width: 100%;
+    border-right: none;
+    box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.45);
+  }
+
+  .scene-menu__inner {
+    padding: 0.9rem 0.85rem calc(1.25rem + var(--safe-bottom));
+  }
+
+  .scene-menu__inner > p {
+    font-size: 0.78rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .scene-group__header,
+  .scene-button {
+    min-height: var(--touch-min);
+    padding: 0.7rem 0.85rem;
+  }
+
+  /* Paneles como hoja inferior: alcanzable con el pulgar y sin tapar el visor. */
+  .accessibility-menu,
+  .hotspot-panel {
+    top: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transform: none;
+    width: 100%;
+    max-width: 100%;
+    max-height: min(76dvh, 80vh);
+    border-radius: 18px 18px 0 0;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .accessibility-menu--open,
+  .hotspot-panel--open {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Entrada de hoja inferior: sin translate(-50%,-50%) del modal de escritorio. */
+  .hotspot-panel--open {
+    animation: hotspot-panel-sheet-in var(--orbe-dur-slow, 0.28s) var(--orbe-ease-out, ease) both;
+    pointer-events: auto;
+    touch-action: manipulation;
+  }
+
+  @keyframes hotspot-panel-sheet-in {
+    from {
+      opacity: 0;
+      transform: translateY(100%);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .accessibility-header,
+  .hotspot-panel__header {
+    flex: 0 0 auto;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: rgba(6, 12, 10, 0.98);
+    padding: 0.85rem 1rem;
+    margin: 0;
+  }
+
+  .accessibility-options,
+  .hotspot-panel__body {
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    flex: 1 1 auto;
+    min-height: 0;
+    overscroll-behavior: contain;
+    padding: 0.85rem 1rem calc(1.25rem + var(--safe-bottom));
+  }
+
+  /* Barra de accesibilidad: etiquetas en su propia línea, controles amplios. */
+  .a11y-toolbar-block {
+    gap: 0.7rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.85rem;
+  }
+
+  .a11y-toolbar-block .toolbar-group {
+    width: 100%;
+    gap: 0.4rem;
+    align-items: center;
+  }
+
+  .a11y-toolbar-block .toolbar-group > span,
+  .a11y-toolbar-block .toolbar-group > label {
+    min-width: 0;
+    flex: 1 1 100%;
+    font-size: 0.85rem;
+  }
+
+  .a11y-toolbar-block .toolbar-group--switch {
+    justify-content: space-between;
+    flex-wrap: nowrap;
+  }
+
+  .a11y-toolbar-block .toolbar-group--switch label {
+    flex: 1 1 auto;
+  }
+
+  .toolbar-button {
+    min-height: var(--touch-min);
+    min-width: var(--touch-min);
+    padding: 0.45rem 0.8rem;
+    font-size: 0.88rem;
+  }
+
+  .option-item {
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .option-label {
+    margin-left: 0;
+    flex: 1 1 auto;
+    font-size: 0.9rem;
+    line-height: 1.35;
+  }
+
+  .option-info {
+    font-size: 0.8rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .help-dialog,
+  .share-dialog {
+    width: calc(100% - 1.25rem);
+    max-width: calc(100% - 1.25rem);
+    margin: auto;
+    padding: 1.1rem 1.15rem;
+    max-height: min(80dvh, 85vh);
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .share-dialog__content {
+    flex-direction: column;
+  }
+
+  #shareInput {
+    width: 100%;
+    min-height: var(--touch-min);
+  }
+
+  /* Tira de chips de destinos: carrusel horizontal propio, con safe area.
+     El scroll es INTERNO a la tira, así que no genera scroll de página. */
+  .hotspot-inline-list {
+    left: max(0.45rem, calc(0.45rem + var(--safe-left)));
+    right: max(0.45rem, calc(0.45rem + var(--safe-right)));
+    bottom: max(0.55rem, calc(0.45rem + var(--safe-bottom)));
+    transform: none;
+    width: auto;
+    max-width: none;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    border-radius: 16px;
+    gap: 0.35rem;
+    padding: 0.3rem 0.4rem;
+  }
+
+  .hotspot-inline-list::-webkit-scrollbar {
+    display: none;
+  }
+
+  .hotspot-inline-item {
+    scroll-snap-align: start;
+    flex: 0 0 auto;
+  }
+
+  .hotspot-inline-button {
+    flex: 0 0 auto;
+    min-height: var(--touch-min);
+    padding: 0.45rem 0.85rem;
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
+
+  /* Los chips de hotspot se estrechan, pero su ancla (yaw/pitch) no se toca. */
+  .hotspot__chip {
+    max-width: min(148px, 42vw);
+    padding: 0.22rem 0.4rem 0.22rem 0.26rem;
+    gap: 0.3rem;
+  }
+
+  .hotspot__label {
+    font-size: 0.68rem;
+    max-width: 6.5rem;
+  }
+
+  .hotspot__icon {
+    width: 26px;
+    height: 26px;
+  }
+
+  /* La vista previa no debe salirse por los lados en pantallas estrechas. */
+  .hotspot-preview {
+    width: min(140px, 40vw);
+    bottom: calc(100% + 8px);
+  }
+
+  /* Flechas abajo: en móvil el centro vertical queda bajo el pulgar del pan. */
+  .nav-arrow {
+    top: auto;
+    bottom: calc(var(--poi-strip-space) + var(--safe-bottom));
+    transform: none;
+    width: var(--touch-min);
+    height: var(--touch-min);
+  }
+
+  .speaking-indicator {
+    bottom: calc(var(--poi-strip-space) + 1.5rem + var(--safe-bottom));
+    left: 50%;
+    max-width: calc(100% - 2rem);
+    font-size: 0.82rem;
+    padding: 0.4rem 0.85rem;
+  }
+
+  .error-notification {
+    top: calc(0.65rem + var(--safe-top) + var(--tour-header-height));
+    left: 0.75rem;
+    right: 0.75rem;
+    width: auto;
+    max-width: none;
+    padding: 0.75rem 1rem;
+  }
+
+  .audio-controls {
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .audio-control {
+    min-height: var(--touch-min);
+    flex: 1 1 calc(33% - 0.4rem);
+    min-width: 5.5rem;
+  }
+
+  .hotspot-audio {
+    padding: 0.75rem;
+  }
+
+  .caption-container {
+    max-height: 7rem;
+  }
+
+  .close-button {
+    width: var(--touch-min);
+    height: var(--touch-min);
+    min-width: var(--touch-min);
+    min-height: var(--touch-min);
+  }
+
+  /* El overlay de carga cubre sólo el visor, no el header fijo. */
+  .loading-overlay {
+    top: calc(var(--tour-header-height) + var(--safe-top));
+    height: auto;
+    bottom: 0;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * 7. Teléfonos muy estrechos (≤ 380 px)
+ *
+ * No se oculta ningún control funcional: con objetivos de 44 px todavía caben
+ * el menú, el título y las tres acciones en 320 px.
+ * ------------------------------------------------------------------------ */
+
+@media (max-width: 400px) {
+  .tour-brand-cluster {
+    display: none;
+  }
+
+  .scene-title {
+    font-size: 0.84rem;
+  }
+
+  .tour-header {
+    gap: 0.28rem;
+    padding-left: max(0.4rem, calc(0.4rem + var(--safe-left)));
+    padding-right: max(0.4rem, calc(0.4rem + var(--safe-right)));
+  }
+
+  .action-buttons {
+    gap: 0.2rem;
+  }
+
+  .hotspot__chip {
+    max-width: min(120px, 50vw);
+  }
+
+  .hotspot__label {
+    max-width: 5rem;
+    font-size: 0.64rem;
+  }
+
+  .audio-control {
+    flex: 1 1 100%;
+  }
+
+  .a11y-toolbar-block .toolbar-group {
+    flex-wrap: wrap;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * 8. Teléfono en horizontal / viewport bajo
+ * ------------------------------------------------------------------------ */
+
+@media (max-height: 500px) and (orientation: landscape) {
+  :root {
+    --tour-header-height: 52px;
+    --poi-strip-space: 3.4rem;
+  }
+
+  .tour-header {
+    padding: 0.2rem 0.65rem;
+    padding-top: max(0.2rem, var(--safe-top));
+    padding-left: max(0.65rem, calc(0.5rem + var(--safe-left)));
+    padding-right: max(0.65rem, calc(0.5rem + var(--safe-right)));
+    gap: 0.35rem;
+  }
+
+  .tour-client-brand__name,
+  .powered-by-orbe,
+  .scene-zone,
+  .action-button--powered-subtle,
+  .keyboard-instructions {
+    display: none !important;
+  }
+
+  .tour-brand-cluster {
+    max-width: 38px;
+  }
+
+  .scene-title {
+    font-size: 0.82rem;
+  }
+
+  /* Se mantienen 44 px de objetivo aunque haya poca altura: el header sólo
+     ocupa 52 px y el usuario sigue necesitando acertar los botones. */
+  .menu-toggle,
+  .action-button {
+    width: var(--touch-min);
+    height: var(--touch-min);
+    min-width: var(--touch-min);
+    min-height: var(--touch-min);
+  }
+
+  /* El cajón no va a sangre completa: en horizontal taparía todo el visor. */
+  .scene-menu {
+    width: min(320px, 46%);
+    max-width: 46%;
+    border-right: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .hotspot-inline-list {
+    bottom: max(0.35rem, calc(0.3rem + var(--safe-bottom)));
+    padding: 0.25rem 0.4rem;
+  }
+
+  .hotspot-inline-button {
+    min-height: 40px;
+    padding: 0.3rem 0.7rem;
+    font-size: 0.74rem;
+  }
+
+  .nav-arrow {
+    bottom: calc(var(--poi-strip-space) + var(--safe-bottom));
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+
+  /* Hoja inferior casi a pantalla completa: si no, no cabe nada útil. */
+  .accessibility-menu,
+  .hotspot-panel {
+    max-height: min(92dvh, 94vh);
+  }
+
+  .a11y-toolbar-block {
+    gap: 0.5rem;
+    margin-bottom: 0.7rem;
+    padding-bottom: 0.6rem;
+  }
+
+  .a11y-toolbar-block .toolbar-group > span,
+  .a11y-toolbar-block .toolbar-group > label {
+    flex: 0 0 auto;
+    min-width: 7rem;
+  }
+
+  .speaking-indicator {
+    bottom: calc(var(--poi-strip-space) + 0.9rem + var(--safe-bottom));
+  }
+
+  .hotspot-preview {
+    display: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * 9. Reduced motion — red de seguridad global
+ *
+ * design-tokens.css ya neutraliza el movimiento *tokenizado*. Esto cubre lo que
+ * no usa tokens (spinner de carga, barras del indicador de voz, transición del
+ * cajón, skip-link) para que ningún componente se escape.
+ * ------------------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* El spinner comunica "cargando": se conserva la señal, se quita el giro. */
+  .loading-spinner {
+    animation: none !important;
+    border-top-color: var(--emerald);
+    opacity: 0.9;
+  }
+
+  .speaking-indicator .bar {
+    animation: none !important;
+    height: 12px;
+  }
+
+  .scene-menu {
+    transition: none;
+  }
+
+  .scene-button:hover,
+  .hotspot-inline-button:hover,
+  .menu-toggle:hover,
+  .action-button:hover,
+  .hotspot:hover .hotspot__chip {
+    transform: none;
+  }
+
+  .hotspot-preview__thumb {
+    transform: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * 10. Alto contraste / colores forzados
+ * ------------------------------------------------------------------------ */
+
+@media (forced-colors: active) {
+  .menu-toggle,
+  .action-button,
+  .close-button,
+  .toolbar-button,
+  .audio-control,
+  .scene-button,
+  .scene-group__header,
+  .hotspot-inline-button,
+  .nav-arrow {
+    border: 1px solid ButtonBorder;
+    forced-color-adjust: none;
+    background: ButtonFace;
+    color: ButtonText;
+  }
+
+  :where(a, button, input, select, textarea, [tabindex]):focus-visible {
+    outline: 3px solid Highlight;
+    outline-offset: 2px;
+  }
+
+  /* El chip del hotspot se apoya en backdrop-filter, que desaparece aquí. */
+  .hotspot__chip {
+    background: Canvas;
+    border: 1px solid CanvasText;
+  }
+
+  .hotspot__label {
+    color: CanvasText;
+  }
+}
+
+/* En modo alto contraste propio del producto, el foco no debe depender del
+   branding del cliente. */
+body.theme-high-contrast :where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 3px solid #ffff00;
+  outline-offset: 2px;
+}
