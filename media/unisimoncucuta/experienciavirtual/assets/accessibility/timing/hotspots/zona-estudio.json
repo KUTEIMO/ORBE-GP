@@ -1,0 +1,17 @@
+{
+  "hotspotId": "zona-estudio",
+  "locale": "es-CO",
+  "durationSec": 4.089,
+  "source": "tts",
+  "audioFile": "assets/audio/hotspots/zona-estudio.mp3",
+  "transcriptFile": "assets/transcripts/hotspots/zona-estudio.txt",
+  "captionFile": "assets/captions/hotspots/zona-estudio.vtt",
+  "scriptFile": "assets/accessibility/scripts/hotspots/zona-estudio.md",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 4.089,
+      "text": "Zona de estudio colaborativo en el lobby de la biblioteca. 00:00:04.039 --> 00:00:08.553 Hay mesas para trabajo en grupo, con vista hacia la mezanine. 00:00:08.553 --> 00:00:14.526 Desde aquí puedes continuar a cubículos, salones de vidrio o la colección general."
+    }
+  ]
+}

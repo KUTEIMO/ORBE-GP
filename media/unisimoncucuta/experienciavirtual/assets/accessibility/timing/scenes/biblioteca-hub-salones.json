@@ -1,0 +1,17 @@
+{
+  "sceneKey": "biblioteca-hub-salones",
+  "locale": "es-CO",
+  "durationSec": 4.787,
+  "source": "tts",
+  "audioFile": "assets/audio/scenes/biblioteca-hub-salones.mp3",
+  "transcriptFile": "assets/transcripts/scenes/biblioteca-hub-salones.txt",
+  "captionFile": "assets/captions/scenes/biblioteca-hub-salones.vtt",
+  "scriptFile": "assets/accessibility/scripts/scenes/biblioteca-hub-salones.md",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 4.787,
+      "text": "Escena: Biblioteca — Hub mesas y salones de vidrio. 00:00:04.737 --> 00:00:09.697 Zona: Biblioteca Anita Bolívar de Consuegra — Planta baja. 00:00:09.697 --> 00:00:11.486 Orientación. 00:00:11.486 --> 00:00:13.908 Estás en Hub salones. 00:00:13.908 --> 00:00:19.605 Centro de la planta baja: mesas alrededor y salones acristalados al medio. 00:00:19.605 --> 00:00:22.421 Puntos de interés principales. 00:00:22.421 --> 00:00:28.500 Salones de estudio: Salas cerradas con vidrio para trabajo en grupo o tutorías. 00:00:28.500 --> 00:00:34.566 Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. 00:00:34.566 --> 00:00:38.987 Destinos disponibles desde aquí: Colección GENERAL. 00:00:38.987 --> 00:00:43.289 Esta narración es temporal generada por voz artificial. 00:00:43.289 --> 00:00:47.987 Puede reemplazarse luego por una grabación humana usando el mismo guion."
+    }
+  ]
+}

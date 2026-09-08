@@ -1,0 +1,17 @@
+{
+  "hotspotId": "82-rampa",
+  "locale": "es-CO",
+  "durationSec": 3.97,
+  "source": "tts",
+  "audioFile": "assets/audio/hotspots/82-rampa.mp3",
+  "transcriptFile": "assets/transcripts/hotspots/82-rampa.txt",
+  "captionFile": "assets/captions/hotspots/82-rampa.vtt",
+  "scriptFile": "assets/accessibility/scripts/hotspots/82-rampa.md",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 3.97,
+      "text": "Rampa corta frente a las puertas de la biblioteca. 00:00:03.920 --> 00:00:07.420 Facilita el ingreso con movilidad reducida. 00:00:07.420 --> 00:00:13.211 El letrero BIBLIOTECA identifica el acceso a la Biblioteca Anita Bolívar de Consuegra."
+    }
+  ]
+}

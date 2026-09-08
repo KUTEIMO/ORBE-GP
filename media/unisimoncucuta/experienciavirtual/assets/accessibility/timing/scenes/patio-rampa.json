@@ -1,0 +1,17 @@
+{
+  "sceneKey": "patio-rampa",
+  "locale": "es-CO",
+  "durationSec": 5.339,
+  "source": "tts",
+  "audioFile": "assets/audio/scenes/patio-rampa.mp3",
+  "transcriptFile": "assets/transcripts/scenes/patio-rampa.txt",
+  "captionFile": "assets/captions/scenes/patio-rampa.vtt",
+  "scriptFile": "assets/accessibility/scripts/scenes/patio-rampa.md",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 5.339,
+      "text": "Escena: Patio C–D - Rampa accesible y zona abierta. 00:00:05.289 --> 00:00:09.829 Zona: Patio central entre Bloque C y D. Orientación. 00:00:09.829 --> 00:00:12.197 Estás en Patio rampa. 00:00:12.197 --> 00:00:17.513 Estás en el patio C–D junto a la rampa accesible y la zona abierta. 00:00:17.513 --> 00:00:22.053 La rampa facilita el desplazamiento con movilidad reducida. 00:00:22.053 --> 00:00:24.882 Puntos de interés principales. 00:00:24.882 --> 00:00:26.999 Rampa accesible. 00:00:26.999 --> 00:00:29.262 Zona abierta del patio. 00:00:29.262 --> 00:00:33.724 Puedes circular por el patio o regresar a pasillos del Bloque B. 00:00:33.724 --> 00:00:38.026 Esta narración es temporal generada por voz artificial. 00:00:38.026 --> 00:00:42.724 Puede reemplazarse luego por una grabación humana usando el mismo guion."
+    }
+  ]
+}

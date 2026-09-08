@@ -1,0 +1,17 @@
+{
+  "sceneKey": "biblioteca-pasillo-estantes",
+  "locale": "es-CO",
+  "durationSec": 4.208,
+  "source": "tts",
+  "audioFile": "assets/audio/scenes/biblioteca-pasillo-estantes.mp3",
+  "transcriptFile": "assets/transcripts/scenes/biblioteca-pasillo-estantes.txt",
+  "captionFile": "assets/captions/scenes/biblioteca-pasillo-estantes.vtt",
+  "scriptFile": "assets/accessibility/scripts/scenes/biblioteca-pasillo-estantes.md",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 4.208,
+      "text": "Escena: Biblioteca — Pasillo de estantería. 00:00:04.158 --> 00:00:09.118 Zona: Biblioteca Anita Bolívar de Consuegra — Planta baja. 00:00:09.118 --> 00:00:10.907 Orientación. 00:00:10.907 --> 00:00:13.566 Estás en Pasillo estantes. 00:00:13.566 --> 00:00:19.658 Aisle de estantería de planta baja; conexión hacia mesas de estudio entre libros. 00:00:19.658 --> 00:00:22.487 Puntos de interés principales. 00:00:22.487 --> 00:00:28.079 Colección en estantería: Estantería de consulta abierta en planta baja. 00:00:28.079 --> 00:00:34.145 Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. 00:00:34.145 --> 00:00:38.697 Destinos disponibles desde aquí: Mesa entre estantes. 00:00:38.697 --> 00:00:43.000 Esta narración es temporal generada por voz artificial. 00:00:43.000 --> 00:00:47.697 Puede reemplazarse luego por una grabación humana usando el mismo guion."
+    }
+  ]
+}

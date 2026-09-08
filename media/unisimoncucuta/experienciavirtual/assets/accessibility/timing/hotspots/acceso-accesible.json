@@ -1,0 +1,17 @@
+{
+  "hotspotId": "acceso-accesible",
+  "locale": "es-CO",
+  "durationSec": 2.233,
+  "source": "tts",
+  "audioFile": "assets/audio/hotspots/acceso-accesible.mp3",
+  "transcriptFile": "assets/transcripts/hotspots/acceso-accesible.txt",
+  "captionFile": "assets/captions/hotspots/acceso-accesible.vtt",
+  "scriptFile": "assets/accessibility/scripts/hotspots/acceso-accesible.md",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 2.233,
+      "text": "Acceso accesible. 00:00:02.183 --> 00:00:06.459 Al frente de la entrada principal hay una rampa con barandas. 00:00:06.459 --> 00:00:13.921 La superficie es antideslizante y facilita el ingreso de personas con movilidad reducida hacia la puerta principal."
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "sceneKey": "biblioteca-salones-2",
+  "locale": "es-CO",
+  "durationSec": 4.563,
+  "source": "tts",
+  "audioFile": "assets/audio/scenes/biblioteca-salones-2.mp3",
+  "transcriptFile": "assets/transcripts/scenes/biblioteca-salones-2.txt",
+  "captionFile": "assets/captions/scenes/biblioteca-salones-2.vtt",
+  "scriptFile": "assets/accessibility/scripts/scenes/biblioteca-salones-2.md",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 4.563,
+      "text": "Escena: Biblioteca — Salones de proyecto 2. 00:00:04.513 --> 00:00:09.474 Zona: Biblioteca Anita Bolívar de Consuegra — Planta baja. 00:00:09.474 --> 00:00:11.262 Orientación. 00:00:11.262 --> 00:00:13.724 Estás en Salones 2. 00:00:13.724 --> 00:00:20.289 Frente a salones acristalados con tipografía literaria; mesas abiertas a ambos lados. 00:00:20.289 --> 00:00:23.118 Puntos de interés principales. 00:00:23.118 --> 00:00:30.053 Salón con citas literarias: Salas decoradas con citas literarias para ambientar el estudio. 00:00:30.053 --> 00:00:36.118 Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. 00:00:36.118 --> 00:00:40.513 Destinos disponibles desde aquí: Salones Allende. 00:00:40.513 --> 00:00:44.816 Esta narración es temporal generada por voz artificial. 00:00:44.816 --> 00:00:49.513 Puede reemplazarse luego por una grabación humana usando el mismo guion."
+    }
+  ]
+}

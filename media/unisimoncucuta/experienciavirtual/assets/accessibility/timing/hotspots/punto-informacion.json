@@ -1,0 +1,17 @@
+{
+  "hotspotId": "punto-informacion",
+  "locale": "es-CO",
+  "durationSec": 2.3,
+  "source": "tts",
+  "audioFile": "assets/audio/hotspots/punto-informacion.mp3",
+  "transcriptFile": "assets/transcripts/hotspots/punto-informacion.txt",
+  "captionFile": "assets/captions/hotspots/punto-informacion.vtt",
+  "scriptFile": "assets/accessibility/scripts/hotspots/punto-informacion.md",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 2.3,
+      "text": "Punto de información. 00:00:02.250 --> 00:00:06.539 Está a la izquierda según la orientación de la entrada principal. 00:00:06.539 --> 00:00:13.974 Aquí puedes pedir horarios, ubicación de servicios estudiantiles y orientación general del campus Sede 2."
+    }
+  ]
+}

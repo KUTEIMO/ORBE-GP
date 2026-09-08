@@ -1,0 +1,17 @@
+{
+  "sceneKey": "biblioteca-mezanine-estantes-estudio",
+  "locale": "es-CO",
+  "durationSec": 4.853,
+  "source": "tts",
+  "audioFile": "assets/audio/scenes/biblioteca-mezanine-estantes-estudio.mp3",
+  "transcriptFile": "assets/transcripts/scenes/biblioteca-mezanine-estantes-estudio.txt",
+  "captionFile": "assets/captions/scenes/biblioteca-mezanine-estantes-estudio.vtt",
+  "scriptFile": "assets/accessibility/scripts/scenes/biblioteca-mezanine-estantes-estudio.md",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 4.853,
+      "text": "Escena: Biblioteca mezanine — Estantes y estudio. 00:00:04.803 --> 00:00:09.894 Zona: Biblioteca — Mezanine / nivel superior. 00:00:09.894 --> 00:00:11.670 Orientación. 00:00:11.670 --> 00:00:15.263 Estás en Estantes / estudio. 00:00:15.263 --> 00:00:20.737 Transición entre colección y zona de mesas/pods en mezanine. 00:00:20.737 --> 00:00:23.566 Puntos de interés principales. 00:00:23.566 --> 00:00:28.474 Colección temática: Estantes temáticos del nivel superior. 00:00:28.474 --> 00:00:34.539 Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. 00:00:34.539 --> 00:00:38.803 Destinos disponibles desde aquí: Trabajo en grupo. 00:00:38.803 --> 00:00:43.105 Esta narración es temporal generada por voz artificial. 00:00:43.105 --> 00:00:47.803 Puede reemplazarse luego por una grabación humana usando el mismo guion."
+    }
+  ]
+}

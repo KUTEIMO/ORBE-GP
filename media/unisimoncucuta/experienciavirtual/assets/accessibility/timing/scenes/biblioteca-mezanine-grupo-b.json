@@ -1,0 +1,17 @@
+{
+  "sceneKey": "biblioteca-mezanine-grupo-b",
+  "locale": "es-CO",
+  "durationSec": 8.761,
+  "source": "tts",
+  "audioFile": "assets/audio/scenes/biblioteca-mezanine-grupo-b.mp3",
+  "transcriptFile": "assets/transcripts/scenes/biblioteca-mezanine-grupo-b.txt",
+  "captionFile": "assets/captions/scenes/biblioteca-mezanine-grupo-b.vtt",
+  "scriptFile": "assets/accessibility/scripts/scenes/biblioteca-mezanine-grupo-b.md",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 8.761,
+      "text": "Escena: Biblioteca mezanine — Trabajo en grupo B. Zona: Biblioteca — Mezanine / nivel superior. 00:00:08.711 --> 00:00:10.499 Orientación. 00:00:10.499 --> 00:00:17.605 Estás en Grupo B. Planta abierta de mezanine: booths, mesas circulares y barandal hacia abajo. 00:00:17.605 --> 00:00:20.434 Puntos de interés principales. 00:00:20.434 --> 00:00:26.763 Vista a planta baja: Barandal de mezanine con vista al lobby y mesas del nivel inferior. 00:00:26.763 --> 00:00:32.829 Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. 00:00:32.829 --> 00:00:37.421 Destinos disponibles desde aquí: Cubículos amoblados. 00:00:37.421 --> 00:00:41.724 Esta narración es temporal generada por voz artificial. 00:00:41.724 --> 00:00:46.421 Puede reemplazarse luego por una grabación humana usando el mismo guion."
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "sceneKey": "biblioteca-lobby-mural",
+  "locale": "es-CO",
+  "durationSec": 8.418,
+  "source": "tts",
+  "audioFile": "assets/audio/scenes/biblioteca-lobby-mural.mp3",
+  "transcriptFile": "assets/transcripts/scenes/biblioteca-lobby-mural.txt",
+  "captionFile": "assets/captions/scenes/biblioteca-lobby-mural.vtt",
+  "scriptFile": "assets/accessibility/scripts/scenes/biblioteca-lobby-mural.md",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 8.418,
+      "text": "Escena: Biblioteca — Lobby mural y PCs. Zona: Biblioteca Anita Bolívar de Consuegra — Planta baja. 00:00:08.368 --> 00:00:10.157 Orientación. 00:00:10.157 --> 00:00:12.434 Estás en Lobby mural. 00:00:12.434 --> 00:00:21.316 Vista del lobby: mural en el arco, fila de PCs a la derecha, mesas a la izquierda y escalera a mezanine al fondo. 00:00:21.316 --> 00:00:24.145 Puntos de interés principales. 00:00:24.145 --> 00:00:30.026 Mural del acceso: Mural ilustrado alrededor del acceso principal del lobby. 00:00:30.026 --> 00:00:40.355 Préstamo de libros y computadores: Mostrador de préstamo de libros y computadores (zona donde suelen reunirse los estudiantes para el servicio). 00:00:40.355 --> 00:00:48.961 Área de bibliotecaria y consulta: Área de la bibliotecaria y consulta, detrás de las puertas de vidrio del arco central. 00:00:48.961 --> 00:00:55.026 Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. 00:00:55.026 --> 00:00:59.461 Destinos disponibles desde aquí: Otro ángulo del lobby. 00:00:59.461 --> 00:01:03.763 Esta narración es temporal generada por voz artificial. 00:01:03.763 --> 00:01:08.461 Puede reemplazarse luego por una grabación humana usando el mismo guion."
+    }
+  ]
+}

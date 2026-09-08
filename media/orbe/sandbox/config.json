@@ -1,0 +1,59 @@
+{
+  "basePath": "/media/orbe/sandbox/panoramas/",
+  "scenes": [
+    {
+      "file": "R0010060_202503281449_YP00145909.JPG",
+      "zone": "acceso"
+    },
+    {
+      "file": "R0010061_202503281452_YP00145909.JPG",
+      "zone": "acceso"
+    },
+    {
+      "file": "R0010062_202503281454_YP00145909.JPG",
+      "zone": "circulacion"
+    },
+    {
+      "file": "R0010066_202503281503_YP00145909.JPG",
+      "zone": "servicios"
+    }
+  ],
+  "zones": {
+    "acceso": { "label": "Acceso", "color": "#0284c7" },
+    "circulacion": { "label": "Circulación", "color": "#0ea5e9" },
+    "servicios": { "label": "Servicios", "color": "#38bdf8" }
+  },
+  "accessibleScenes": {
+    "R0010060_202503281449_YP00145909.JPG": {
+      "id": "sandbox-entrada",
+      "title": "Entrada principal (sandbox)",
+      "shortTitle": "Entrada",
+      "zone": "acceso",
+      "imageUrl": "/media/orbe/sandbox/panoramas/R0010060_202503281449_YP00145909.JPG"
+    },
+    "R0010061_202503281452_YP00145909.JPG": {
+      "id": "sandbox-hall",
+      "title": "Hall de ingreso (sandbox)",
+      "shortTitle": "Hall",
+      "zone": "acceso",
+      "imageUrl": "/media/orbe/sandbox/panoramas/R0010061_202503281452_YP00145909.JPG"
+    },
+    "R0010062_202503281454_YP00145909.JPG": {
+      "id": "sandbox-pasillo",
+      "title": "Pasillo principal (sandbox)",
+      "shortTitle": "Pasillo",
+      "zone": "circulacion",
+      "imageUrl": "/media/orbe/sandbox/panoramas/R0010062_202503281454_YP00145909.JPG"
+    },
+    "R0010066_202503281503_YP00145909.JPG": {
+      "id": "sandbox-descanso",
+      "title": "Zona de descanso (sandbox)",
+      "shortTitle": "Descanso",
+      "zone": "servicios",
+      "imageUrl": "/media/orbe/sandbox/panoramas/R0010066_202503281503_YP00145909.JPG"
+    }
+  },
+  "tourSlug": "sandbox",
+  "organization": { "slug": "orbe", "name": "Orbe360" },
+  "__tenantIsolated": true
+}

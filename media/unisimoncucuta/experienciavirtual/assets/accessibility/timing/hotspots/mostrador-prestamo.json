@@ -1,0 +1,17 @@
+{
+  "hotspotId": "mostrador-prestamo",
+  "locale": "es-CO",
+  "durationSec": 4.918,
+  "source": "tts",
+  "audioFile": "assets/audio/hotspots/mostrador-prestamo.mp3",
+  "transcriptFile": "assets/transcripts/hotspots/mostrador-prestamo.txt",
+  "captionFile": "assets/captions/hotspots/mostrador-prestamo.vtt",
+  "scriptFile": "assets/accessibility/scripts/hotspots/mostrador-prestamo.md",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 4.918,
+      "text": "Mostrador de préstamo de la Biblioteca Anita Bolívar de Consuegra. 00:00:04.868 --> 00:00:12.224 Aquí se realizan préstamos de libros, renovaciones y asesorías rápidas sobre recursos digitales. 00:00:12.224 --> 00:00:15.750 Pide orientación al personal bibliotecario."
+    }
+  ]
+}

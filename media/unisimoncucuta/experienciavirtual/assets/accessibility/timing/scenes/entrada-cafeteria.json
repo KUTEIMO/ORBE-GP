@@ -1,0 +1,17 @@
+{
+  "sceneKey": "entrada-cafeteria",
+  "locale": "es-CO",
+  "durationSec": 4.918,
+  "source": "tts",
+  "audioFile": "assets/audio/scenes/entrada-cafeteria.mp3",
+  "transcriptFile": "assets/transcripts/scenes/entrada-cafeteria.txt",
+  "captionFile": "assets/captions/scenes/entrada-cafeteria.vtt",
+  "scriptFile": "assets/accessibility/scripts/scenes/entrada-cafeteria.md",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 4.918,
+      "text": "Escena: Entrada Cafetería - Muro de Medios Unisimón."
+    }
+  ]
+}

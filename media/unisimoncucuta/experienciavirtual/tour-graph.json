@@ -1,0 +1,2183 @@
+{
+  "version": 1,
+  "updatedAt": "2026-09-14T16:49:18.505Z",
+  "source": "convex graph:getTourGraph",
+  "orgSlug": "unisimoncucuta",
+  "tourSlug": "experienciavirtual",
+  "connections": [
+    {
+      "id": "conn-mtx62bsr-0ky9",
+      "from": "R0010123_202503281729_YP00145909.JPG",
+      "to": "R0010124_202503281730_YP00145909.JPG",
+      "label": "Ir a Salida Av. 3",
+      "yaw": 1.4492767979045258,
+      "pitch": -0.009585024031737888,
+      "direction": "forward",
+      "weight": 1.25
+    },
+    {
+      "id": "conn-mtx7d7ta-sons",
+      "from": "R0010081_202503281647_YP00145909.JPG",
+      "to": "R0010079_202503281645_YP00145909.JPG",
+      "label": "Ir a Acceso cultural",
+      "yaw": 0.9285807370520391,
+      "pitch": -0.22076308007430256,
+      "direction": "back",
+      "weight": 1.35
+    },
+    {
+      "id": "conn-mtx7d7ta-1zdi",
+      "from": "R0010079_202503281645_YP00145909.JPG",
+      "to": "R0010081_202503281647_YP00145909.JPG",
+      "label": "Ir a Interior cultural",
+      "yaw": -1.7014980094819876,
+      "pitch": -0.2939436736794363,
+      "direction": "down",
+      "weight": 1.45
+    },
+    {
+      "id": "conn-mtx7ed6e-k1th",
+      "from": "R0010079_202503281645_YP00145909.JPG",
+      "to": "R0010078_202503281644_YP00145909.JPG",
+      "label": "Ir a Control de ingreso",
+      "yaw": -0.15535916222657065,
+      "pitch": -0.15974246760552901,
+      "direction": "forward",
+      "weight": 1.25
+    },
+    {
+      "id": "conn-mtx7hnkb-i2m2",
+      "from": "R0010069_202503281509_YP00145909.JPG",
+      "to": "R0010068_202503281507_YP00145909.JPG",
+      "label": "Ir a Entrada cafetería",
+      "yaw": -1.6957031559248357,
+      "pitch": -0.14733571307499105,
+      "direction": "back",
+      "weight": 1.45
+    },
+    {
+      "id": "conn-mtx7kjba-q1m2",
+      "from": "R0010069_202503281509_YP00145909.JPG",
+      "to": "R0010072_202503281638_YP00145909.JPG",
+      "label": "Ir a Mesas cafetería",
+      "yaw": -0.053171051458155816,
+      "pitch": -0.1779497830422816,
+      "direction": "forward",
+      "weight": 1.45
+    },
+    {
+      "id": "conn-mtx7qvy6-yk8o",
+      "from": "R0010060_202503281449_YP00145909.JPG",
+      "to": "R0010061_202503281452_YP00145909.JPG",
+      "label": "Ir a Hall de ingreso",
+      "yaw": 2.2730190299837467,
+      "pitch": -0.08937107400466843,
+      "direction": "forward",
+      "weight": 1.5
+    },
+    {
+      "id": "conn-mtx7qwql-wxpm",
+      "from": "R0010062_202503281454_YP00145909.JPG",
+      "to": "R0010061_202503281452_YP00145909.JPG",
+      "label": "Ir a Hall de ingreso",
+      "yaw": -2.9130094767152066,
+      "pitch": 0.3918767669841152,
+      "direction": "back",
+      "weight": 1.45
+    },
+    {
+      "id": "conn-mtx7qxyl-p404",
+      "from": "R0010062_202503281454_YP00145909.JPG",
+      "to": "R0010063_202503281457_YP00145909.JPG",
+      "label": "Ir a Pasillo Primera Planta - Vistas al Computo rooms",
+      "yaw": 0.06969942519824812,
+      "pitch": -0.2012402597948379,
+      "direction": "forward",
+      "weight": 1.5
+    },
+    {
+      "id": "conn-mtx7qyst-tq38",
+      "from": "R0010064_202503281459_YP00145909.JPG",
+      "to": "R0010063_202503281457_YP00145909.JPG",
+      "label": "Ir a Pasillo Primera Planta - Vistas al Computo rooms",
+      "yaw": -3.061139152296949,
+      "pitch": 0.09665268903027169,
+      "direction": "back",
+      "weight": 1.35
+    },
+    {
+      "id": "conn-mtx7qzj9-cj54",
+      "from": "R0010064_202503281459_YP00145909.JPG",
+      "to": "R0010065_202503281501_YP00145909.JPG",
+      "label": "Ir a Pasillo Bloque B - Área Multimedia",
+      "yaw": -0.01290730096263637,
+      "pitch": -0.14346015351513003,
+      "direction": "forward",
+      "weight": 1.5
+    },
+    {
+      "id": "conn-mtx8okhm-kqtu",
+      "from": "R0010071_202503281637_YP00145909.JPG",
+      "to": "R0010067_202503281505_YP00145909.JPG",
+      "label": "Ir a Pasillo Central Bloque B - Conexión Planta 2,Oficina Mantenimiento,Cafeteria",
+      "yaw": -1.8401295485010838,
+      "pitch": 0.24098028044156727,
+      "direction": "back",
+      "weight": 1.45
+    },
+    {
+      "id": "conn-mtx7tx61-6jg9",
+      "from": "R0010067_202503281505_YP00145909.JPG",
+      "to": "R0010066_202503281503_YP00145909.JPG",
+      "label": "Ir a Zona de Descanso 1 - Planta 1 Bloque B",
+      "yaw": -2.3885048952070083,
+      "pitch": -0.19570047509614596,
+      "direction": "back",
+      "weight": 1.35
+    },
+    {
+      "id": "conn-mtx8okhm-26s4",
+      "from": "R0010067_202503281505_YP00145909.JPG",
+      "to": "R0010071_202503281637_YP00145909.JPG",
+      "label": "Ir a Zona de Descanso 1 - Planta 1 Conexion Cafeteria",
+      "yaw": 2.8770144446685553,
+      "pitch": 0.2115641687408072,
+      "direction": "up",
+      "weight": 1.45
+    },
+    {
+      "id": "conn-mtx7qvy6-hrfq",
+      "from": "R0010061_202503281452_YP00145909.JPG",
+      "to": "R0010060_202503281449_YP00145909.JPG",
+      "label": "Ir a Entrada Principal V3",
+      "yaw": -3.0434971662737382,
+      "pitch": -0.13383013580184183,
+      "direction": "back",
+      "weight": 1.35
+    },
+    {
+      "id": "conn-mtx7qwql-4pz5",
+      "from": "R0010061_202503281452_YP00145909.JPG",
+      "to": "R0010062_202503281454_YP00145909.JPG",
+      "label": "Ir a Pasillo Principal - Conexión Aulas",
+      "yaw": 0.09809548731605489,
+      "pitch": -0.13383013580184183,
+      "direction": "forward",
+      "weight": 1.5
+    },
+    {
+      "id": "conn-mtxdg8jq-odx0",
+      "from": "R0010067_202503281505_YP00145909.JPG",
+      "to": "R0010068_202503281507_YP00145909.JPG",
+      "label": "Ir a Entrada cafetería",
+      "yaw": -0.9755921787822182,
+      "pitch": 0.030696439770157014,
+      "direction": "forward",
+      "weight": 1.25
+    },
+    {
+      "id": "conn-mtxdh92l-wash",
+      "from": "R0010073_202503281639_YP00145909.JPG",
+      "to": "R0010072_202503281638_YP00145909.JPG",
+      "label": "Ir a Mesas cafetería",
+      "yaw": 1.8375374635709854,
+      "pitch": -0.048999864234887835,
+      "direction": "back",
+      "weight": 1.35
+    },
+    {
+      "id": "conn-mtxdlltu-bafk",
+      "from": "R0010073_202503281639_YP00145909.JPG",
+      "to": "R0010074_202503281639_YP00145909.JPG",
+      "label": "Ir a Cafetería - Área de Mesas, Zona Residuos Electronicos",
+      "yaw": -1.9552918488300666,
+      "pitch": -0.22590929967841333,
+      "direction": "forward",
+      "weight": 1.5
+    },
+    {
+      "id": "conn-mtxdlltu-mzbw",
+      "from": "R0010074_202503281639_YP00145909.JPG",
+      "to": "R0010073_202503281639_YP00145909.JPG",
+      "label": "Ir a Cafetería - Conexion Zona de Baños Femeninos",
+      "yaw": 3.0164256032903864,
+      "pitch": 0.16137645360545783,
+      "direction": "back",
+      "weight": 1.25
+    },
+    {
+      "id": "conn-mtxdmu2k-1616",
+      "from": "R0010074_202503281639_YP00145909.JPG",
+      "to": "R0010075_202503281641_YP00145909.JPG",
+      "label": "Ir a Pasillo Cafetería - Zona Central de Mesas",
+      "yaw": -1.1627974018240899,
+      "pitch": -0.11225412616379543,
+      "direction": "forward",
+      "weight": 1.5
+    },
+    {
+      "id": "conn-mtxdmu2k-62n6",
+      "from": "R0010075_202503281641_YP00145909.JPG",
+      "to": "R0010074_202503281639_YP00145909.JPG",
+      "label": "Ir a Cafetería - Área de Mesas, Zona Residuos Electronicos",
+      "yaw": -0.7494784956334399,
+      "pitch": -0.018295977732417867,
+      "direction": "back",
+      "weight": 1.25
+    },
+    {
+      "id": "conn-mtx7qxyl-15v7",
+      "from": "R0010063_202503281457_YP00145909.JPG",
+      "to": "R0010062_202503281454_YP00145909.JPG",
+      "label": "Ir a Pasillo Principal - Conexión Aulas",
+      "yaw": 2.9810693846709846,
+      "pitch": 0.20267024126801303,
+      "direction": "up",
+      "weight": 1.45
+    },
+    {
+      "id": "conn-mtx7qyst-sbtj",
+      "from": "R0010063_202503281457_YP00145909.JPG",
+      "to": "R0010064_202503281459_YP00145909.JPG",
+      "label": "Ir a Pasillo Bloque B - Zona Cómputo",
+      "yaw": -0.15230615135913084,
+      "pitch": -0.19161024208154792,
+      "direction": "forward",
+      "weight": 1.5
+    },
+    {
+      "id": "conn-mtxdwphe-i64i",
+      "from": "R0010063_202503281457_YP00145909.JPG",
+      "to": "R0010124_202503281730_YP00145909.JPG",
+      "label": "Ir a Salida Av. 3",
+      "yaw": -2.0837570798113223,
+      "pitch": -0.15436244213579897,
+      "direction": "left",
+      "weight": 1.25
+    },
+    {
+      "id": "conn-mtx62bsr-tn2g",
+      "from": "R0010124_202503281730_YP00145909.JPG",
+      "to": "R0010123_202503281729_YP00145909.JPG",
+      "label": "Ir a Pasillo Bloque B - Hall hacia patio",
+      "yaw": -1.2598478590736253,
+      "pitch": 0.054870967437430807,
+      "direction": "back",
+      "weight": 1.35
+    },
+    {
+      "id": "conn-mtx62stl-w8p6",
+      "from": "R0010124_202503281730_YP00145909.JPG",
+      "to": "R0010062_202503281454_YP00145909.JPG",
+      "label": "Ir a Pasillo Principal - Conexión Aulas",
+      "yaw": 1.6864564870396697,
+      "pitch": 0.21026884541257473,
+      "direction": "forward",
+      "weight": 1.5
+    },
+    {
+      "id": "conn-mtxdwphe-2a8d",
+      "from": "R0010124_202503281730_YP00145909.JPG",
+      "to": "R0010063_202503281457_YP00145909.JPG",
+      "label": "Ir a Pasillo Primera Planta - Vistas al Computo rooms",
+      "yaw": -3.0307418342790022,
+      "pitch": 0.07031163528222173,
+      "direction": "right",
+      "weight": 1.25
+    },
+    {
+      "id": "conn-mtxeo8la-oxcj",
+      "from": "R0010075_202503281641_YP00145909.JPG",
+      "to": "R0010076_202503281642_YP00145909.JPG",
+      "label": "Ir a Zona Cafetería - Estación de Juego Ajedrez a gran escala",
+      "yaw": -2.7181504879848326,
+      "pitch": 0.10771939831175104,
+      "direction": "forward",
+      "weight": 1.25
+    },
+    {
+      "id": "conn-mtxeo9d9-ij7u",
+      "from": "R0010077_202503281643_YP00145909.JPG",
+      "to": "R0010076_202503281642_YP00145909.JPG",
+      "label": "Ir a Zona Cafetería - Estación de Juego Ajedrez a gran escala",
+      "yaw": 2.906016340672843,
+      "pitch": 0.23555804854413154,
+      "direction": "up",
+      "weight": 1.45
+    },
+    {
+      "id": "conn-mtxeo8la-2ayq",
+      "from": "R0010076_202503281642_YP00145909.JPG",
+      "to": "R0010075_202503281641_YP00145909.JPG",
+      "label": "Ir a Pasillo Cafetería - Zona Central de Mesas",
+      "yaw": -0.3734782808049566,
+      "pitch": 0.06487716216631512,
+      "direction": "forward",
+      "weight": 1.5
+    },
+    {
+      "id": "conn-mtxeo9d9-5fzj",
+      "from": "R0010076_202503281642_YP00145909.JPG",
+      "to": "R0010077_202503281643_YP00145909.JPG",
+      "label": "Ir a Caseta cafetería",
+      "yaw": 2.6256340612705253,
+      "pitch": 0.12192391977186467,
+      "direction": "right",
+      "weight": 1.25
+    },
+    {
+      "id": "conn-mtxevaku-5wzw",
+      "from": "R0010071_202503281637_YP00145909.JPG",
+      "to": "R0010070_202503281633_YP00145909.JPG",
+      "label": "Ir a Cafetería - Área lateral",
+      "yaw": 2.883668049046663,
+      "pitch": 0.024732116663710002,
+      "direction": "forward",
+      "weight": 1.5
+    },
+    {
+      "id": "conn-mtxew1na-7x0w",
+      "from": "R0010071_202503281637_YP00145909.JPG",
+      "to": "R0010066_202503281503_YP00145909.JPG",
+      "label": "Ir a Zona de Descanso 1 - Planta 1 Bloque B",
+      "yaw": -0.07605903600531416,
+      "pitch": -0.048847821110166334,
+      "direction": "back",
+      "weight": 1.35
+    },
+    {
+      "id": "conn-mtx7tx61-fjp4",
+      "from": "R0010066_202503281503_YP00145909.JPG",
+      "to": "R0010067_202503281505_YP00145909.JPG",
+      "label": "Ir a Pasillo Central Bloque B - Conexión Planta 2,Oficina Mantenimiento,Cafeteria",
+      "yaw": 0.599773560883694,
+      "pitch": 0.1733790625086975,
+      "direction": "up",
+      "weight": 1.45
+    },
+    {
+      "id": "conn-mtx7unf7-cfmb",
+      "from": "R0010066_202503281503_YP00145909.JPG",
+      "to": "R0010065_202503281501_YP00145909.JPG",
+      "label": "Ir a Pasillo Bloque B - Área Multimedia",
+      "yaw": 2.562267275507975,
+      "pitch": -0.046638854298970855,
+      "direction": "back",
+      "weight": 1.35
+    },
+    {
+      "id": "conn-mtxew1na-0p6l",
+      "from": "R0010066_202503281503_YP00145909.JPG",
+      "to": "R0010071_202503281637_YP00145909.JPG",
+      "label": "Ir a Zona de Descanso 1 - Planta 1 Conexion Cafeteria",
+      "yaw": -0.4996019664055229,
+      "pitch": -0.09938741285820107,
+      "direction": "forward",
+      "weight": 1.5
+    },
+    {
+      "id": "conn-mtx7qzj9-970s",
+      "from": "R0010065_202503281501_YP00145909.JPG",
+      "to": "R0010064_202503281459_YP00145909.JPG",
+      "label": "Ir a Pasillo Bloque B - Zona Cómputo",
+      "yaw": -3.0682102376912486,
+      "pitch": 0.021280344643468396,
+      "direction": "back",
+      "weight": 1.35
+    },
+    {
+      "id": "conn-mtx7unf7-3b4s",
+      "from": "R0010065_202503281501_YP00145909.JPG",
+      "to": "R0010066_202503281503_YP00145909.JPG",
+      "label": "Ir a Zona de Descanso 1 - Planta 1 Bloque B",
+      "yaw": -0.17379082716262673,
+      "pitch": 0.07176170051921815,
+      "direction": "forward",
+      "weight": 1.5
+    },
+    {
+      "id": "conn-mtx7j0c4-zcor",
+      "from": "R0010072_202503281638_YP00145909.JPG",
+      "to": "R0010068_202503281507_YP00145909.JPG",
+      "label": "Ir a Entrada cafetería Zona Mesas",
+      "yaw": 2.2535746723059447,
+      "pitch": -0.059040668405035746,
+      "direction": "right",
+      "weight": 1.25
+    },
+    {
+      "id": "conn-mtx7kjba-m2j3",
+      "from": "R0010072_202503281638_YP00145909.JPG",
+      "to": "R0010069_202503281509_YP00145909.JPG",
+      "label": "Ir a Zona Cafetería - Pasillo hacia Bloque C",
+      "yaw": 1.2481008655633694,
+      "pitch": -0.23359265086719283,
+      "direction": "forward",
+      "weight": 1.5
+    },
+    {
+      "id": "conn-mtxdh92l-t0b3",
+      "from": "R0010072_202503281638_YP00145909.JPG",
+      "to": "R0010073_202503281639_YP00145909.JPG",
+      "label": "Ir a Cafetería - Conexion Zona de Baños Femeninos",
+      "yaw": -0.9061465143504748,
+      "pitch": 0.04115025086769286,
+      "direction": "left",
+      "weight": 1.25
+    },
+    {
+      "id": "conn-mtxexuuh-tx0f",
+      "from": "R0010072_202503281638_YP00145909.JPG",
+      "to": "R0010070_202503281633_YP00145909.JPG",
+      "label": "Ir a Cafetería - Área lateral",
+      "yaw": -2.9316566969861064,
+      "pitch": -0.13842290384518208,
+      "direction": "back",
+      "weight": 1.35
+    },
+    {
+      "id": "conn-mtx7hnkb-9tim",
+      "from": "R0010068_202503281507_YP00145909.JPG",
+      "to": "R0010069_202503281509_YP00145909.JPG",
+      "label": "Ir a Zona Cafetería - Pasillo hacia Bloque C",
+      "yaw": 0.36830897167770615,
+      "pitch": -0.01798155358323328,
+      "direction": "left",
+      "weight": 1.25
+    },
+    {
+      "id": "conn-mtx7j0c4-m7f8",
+      "from": "R0010068_202503281507_YP00145909.JPG",
+      "to": "R0010072_202503281638_YP00145909.JPG",
+      "label": "Ir a Mesas cafetería",
+      "yaw": -0.5173882299299795,
+      "pitch": -0.02481654885382234,
+      "direction": "left",
+      "weight": 1.25
+    },
+    {
+      "id": "conn-mtxdg8jq-0m7i",
+      "from": "R0010068_202503281507_YP00145909.JPG",
+      "to": "R0010067_202503281505_YP00145909.JPG",
+      "label": "Ir a Pasillo Central Bloque B - Conexión Planta 2,Oficina Mantenimiento,Cafeteria",
+      "yaw": -3.004668179565435,
+      "pitch": 0.02506758917152041,
+      "direction": "right",
+      "weight": 1.25
+    },
+    {
+      "id": "conn-mtxez5lm-zbsj",
+      "from": "R0010068_202503281507_YP00145909.JPG",
+      "to": "R0010070_202503281633_YP00145909.JPG",
+      "label": "Ir a Cafetería - Área lateral",
+      "yaw": -1.3668529823929134,
+      "pitch": -0.28658637033493406,
+      "direction": "down",
+      "weight": 1.45
+    },
+    {
+      "id": "conn-mtxf25hy-mx1e",
+      "from": "R0010069_202503281509_YP00145909.JPG",
+      "to": "R0010070_202503281633_YP00145909.JPG",
+      "label": "Ir a Cafetería - Área lateral",
+      "yaw": 2.4110216040908847,
+      "pitch": 0.16791041921438193,
+      "direction": "forward",
+      "weight": 1.5
+    },
+    {
+      "id": "conn-mtxevaku-0k4q",
+      "from": "R0010070_202503281633_YP00145909.JPG",
+      "to": "R0010071_202503281637_YP00145909.JPG",
+      "label": "Ir a Zona de Descanso 1 - Planta 1 Conexion Cafeteria",
+      "yaw": 2.365679461155354,
+      "pitch": -0.0695966610866261,
+      "direction": "back",
+      "weight": 1.35
+    },
+    {
+      "id": "conn-mtxexuuh-zi1j",
+      "from": "R0010070_202503281633_YP00145909.JPG",
+      "to": "R0010072_202503281638_YP00145909.JPG",
+      "label": "Ir a Mesas cafetería",
+      "yaw": -0.8237611405120937,
+      "pitch": -0.09104528260027628,
+      "direction": "forward",
+      "weight": 1.5
+    },
+    {
+      "id": "conn-mtxez5lm-cvf3",
+      "from": "R0010070_202503281633_YP00145909.JPG",
+      "to": "R0010068_202503281507_YP00145909.JPG",
+      "label": "Ir a Entrada cafetería",
+      "yaw": 1.765100334204563,
+      "pitch": -0.05718008640778649,
+      "direction": "back",
+      "weight": 1.35
+    },
+    {
+      "id": "conn-mtxf25hy-swgp",
+      "from": "R0010070_202503281633_YP00145909.JPG",
+      "to": "R0010069_202503281509_YP00145909.JPG",
+      "label": "Ir a Zona Cafetería - Pasillo hacia Bloque C",
+      "yaw": 0.7378058792462632,
+      "pitch": -0.24822327411173362,
+      "direction": "right",
+      "weight": 1.25
+    },
+    {
+      "id": "conn-mu175dcz-0rv4",
+      "from": "R0010077_202503281643_YP00145909.JPG",
+      "to": "R0010078_202503281644_YP00145909.JPG",
+      "label": "Ir a Control de ingreso",
+      "yaw": 1.1611940094017328,
+      "pitch": 0.08604810788431827,
+      "direction": "forward",
+      "weight": 1.5
+    },
+    {
+      "id": "conn-mtx7ed6e-ug3x",
+      "from": "R0010078_202503281644_YP00145909.JPG",
+      "to": "R0010079_202503281645_YP00145909.JPG",
+      "label": "Ir a Acceso cultural",
+      "yaw": -2.636283624024278,
+      "pitch": -0.05374010762802328,
+      "direction": "left",
+      "weight": 1.25
+    },
+    {
+      "id": "conn-mu175dcz-r4nw",
+      "from": "R0010078_202503281644_YP00145909.JPG",
+      "to": "R0010077_202503281643_YP00145909.JPG",
+      "label": "Ir a Caseta cafetería",
+      "yaw": 0.940421712307181,
+      "pitch": -0.23246653196295597,
+      "direction": "back",
+      "weight": 1.35
+    }
+  ],
+  "scenes": {
+    "R0010060_202503281449_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "punto-informacion",
+          "type": "info",
+          "title": "Punto de información",
+          "yaw": 0.5,
+          "pitch": 0.05,
+          "description": "El punto de información ofrece atención presencial, folletos y orientación de servicios estudiantiles.",
+          "altText": "Punto de información"
+        },
+        {
+          "id": "acceso-accesible",
+          "type": "info",
+          "title": "Acceso escaleras",
+          "yaw": -0.9,
+          "pitch": -0.05,
+          "description": "Rampa con superficie antideslizante y señalización podotáctil que facilita la entrada de personas con movilidad reducida.",
+          "altText": "Acceso escaleras"
+        },
+        {
+          "id": "conn-mtx7qvy6-yk8o",
+          "type": "nav",
+          "title": "Ir a Hall de ingreso",
+          "yaw": 2.2730190299837467,
+          "pitch": -0.08937107400466843,
+          "direction": "forward",
+          "targetFile": "R0010061_202503281452_YP00145909.JPG",
+          "description": "Continúa hacia Hall de ingreso (Adelante). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.5,
+          "altText": "Ir a Hall de ingreso"
+        }
+      ],
+      "initialView": {
+        "fov": 1.6467082290740243,
+        "pitch": -0.02937107400466843,
+        "yaw": 2.2730190299837467
+      }
+    },
+    "R0010061_202503281452_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "conn-mtx7qvy6-hrfq",
+          "type": "nav",
+          "title": "Ir a Entrada Principal V3",
+          "yaw": -3.0434971662737382,
+          "pitch": -0.13383013580184183,
+          "direction": "back",
+          "targetFile": "R0010060_202503281449_YP00145909.JPG",
+          "description": "Continúa hacia Entrada Principal (Atrás). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.35,
+          "altText": "Ir a Entrada Principal V3"
+        },
+        {
+          "id": "conn-mtx7qwql-4pz5",
+          "type": "nav",
+          "title": "Ir a Pasillo Principal - Conexión Aulas",
+          "yaw": 0.09809548731605489,
+          "pitch": -0.13383013580184183,
+          "direction": "forward",
+          "targetFile": "R0010062_202503281454_YP00145909.JPG",
+          "description": "Continúa hacia Pasillo Principal - Conexión Aulas (Adelante). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.5,
+          "altText": "Ir a Pasillo Principal - Conexión Aulas"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": -0.07383013580184183,
+        "yaw": 0.09809548731605489
+      }
+    },
+    "R0010062_202503281454_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "conn-mtx7qwql-wxpm",
+          "type": "nav",
+          "title": "Ir a Hall de ingreso",
+          "yaw": -2.9130094767152066,
+          "pitch": 0.3918767669841152,
+          "direction": "back",
+          "targetFile": "R0010061_202503281452_YP00145909.JPG",
+          "description": "Continúa hacia Hall de ingreso (Atrás). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.45,
+          "altText": "Ir a Hall de ingreso"
+        },
+        {
+          "id": "conn-mtx7qxyl-p404",
+          "type": "nav",
+          "title": "Ir a Pasillo Primera Planta - Vistas al Computo rooms",
+          "yaw": 0.06969942519824812,
+          "pitch": -0.2012402597948379,
+          "direction": "forward",
+          "targetFile": "R0010063_202503281457_YP00145909.JPG",
+          "description": "Continúa hacia Pasillo Primera Planta - Vistas al Computo rooms (Adelante). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.5,
+          "altText": "Ir a Pasillo Primera Planta - Vistas al Computo rooms"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": -0.1412402597948379,
+        "yaw": 0.06969942519824812
+      }
+    },
+    "R0010063_202503281457_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "conn-mtx7qxyl-15v7",
+          "type": "nav",
+          "title": "Ir a Pasillo Principal - Conexión Aulas",
+          "yaw": 2.9810693846709846,
+          "pitch": 0.20267024126801303,
+          "direction": "up",
+          "targetFile": "R0010062_202503281454_YP00145909.JPG",
+          "description": "Continúa hacia Pasillo Principal - Conexión Aulas (Atrás). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.45,
+          "altText": "Ir a Pasillo Principal - Conexión Aulas"
+        },
+        {
+          "id": "conn-mtx7qyst-sbtj",
+          "type": "nav",
+          "title": "Ir a Pasillo Bloque B - Zona Cómputo",
+          "yaw": -0.15230615135913084,
+          "pitch": -0.19161024208154792,
+          "direction": "forward",
+          "targetFile": "R0010064_202503281459_YP00145909.JPG",
+          "description": "Continúa hacia Pasillo Bloque B - Zona Cómputo (Adelante). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.5,
+          "altText": "Ir a Pasillo Bloque B - Zona Cómputo"
+        },
+        {
+          "id": "conn-mtxdwphe-i64i",
+          "type": "nav",
+          "title": "Ir a Salida Av. 3",
+          "yaw": -2.0837570798113223,
+          "pitch": -0.15436244213579897,
+          "direction": "left",
+          "targetFile": "R0010124_202503281730_YP00145909.JPG",
+          "description": "Continúa hacia Salida Av. 3 (Adelante). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.25,
+          "altText": "Ir a Salida Av. 3"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": -0.13161024208154792,
+        "yaw": -0.15230615135913084
+      }
+    },
+    "R0010064_202503281459_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "conn-mtx7qyst-tq38",
+          "type": "nav",
+          "title": "Ir a Pasillo Primera Planta - Vistas al Computo rooms",
+          "yaw": -3.061139152296949,
+          "pitch": 0.09665268903027169,
+          "direction": "back",
+          "targetFile": "R0010063_202503281457_YP00145909.JPG",
+          "description": "Continúa hacia Pasillo Primera Planta - Vistas al Computo rooms (Atrás). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.35,
+          "altText": "Ir a Pasillo Primera Planta - Vistas al Computo rooms"
+        },
+        {
+          "id": "conn-mtx7qzj9-cj54",
+          "type": "nav",
+          "title": "Ir a Pasillo Bloque B - Área Multimedia",
+          "yaw": -0.01290730096263637,
+          "pitch": -0.14346015351513003,
+          "direction": "forward",
+          "targetFile": "R0010065_202503281501_YP00145909.JPG",
+          "description": "Continúa hacia Pasillo Bloque B - Área Multimedia (Adelante). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.5,
+          "altText": "Ir a Pasillo Bloque B - Área Multimedia"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": -0.08346015351513003,
+        "yaw": -0.01290730096263637
+      }
+    },
+    "R0010065_202503281501_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "conn-mtx7qzj9-970s",
+          "type": "nav",
+          "title": "Ir a Pasillo Bloque B - Zona Cómputo",
+          "yaw": -3.0682102376912486,
+          "pitch": 0.021280344643468396,
+          "direction": "back",
+          "targetFile": "R0010064_202503281459_YP00145909.JPG",
+          "description": "Continúa hacia Pasillo Bloque B - Zona Cómputo (Atrás). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.35,
+          "altText": "Ir a Pasillo Bloque B - Zona Cómputo"
+        },
+        {
+          "id": "conn-mtx7unf7-3b4s",
+          "type": "nav",
+          "title": "Ir a Zona de Descanso 1 - Planta 1 Bloque B",
+          "yaw": -0.17379082716262673,
+          "pitch": 0.07176170051921815,
+          "direction": "forward",
+          "targetFile": "R0010066_202503281503_YP00145909.JPG",
+          "description": "Continúa hacia Zona de Descanso 1 - Planta 1 Bloque B (Adelante). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.5,
+          "altText": "Ir a Zona de Descanso 1 - Planta 1 Bloque B"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": -0.03210005904428215,
+        "yaw": -0.0335589825028606
+      }
+    },
+    "R0010066_202503281503_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "conn-mtx7tx61-fjp4",
+          "type": "nav",
+          "title": "Ir a Pasillo Central Bloque B - Conexión Planta 2,Oficina Mantenimiento,Cafeteria",
+          "yaw": 0.599773560883694,
+          "pitch": 0.1733790625086975,
+          "direction": "up",
+          "targetFile": "R0010067_202503281505_YP00145909.JPG",
+          "description": "Continúa hacia Pasillo Central Bloque B - Conexión Planta 2,Oficina Mantenimiento,Cafeteria (Adelante). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.45,
+          "altText": "Ir a Pasillo Central Bloque B - Conexión Planta 2,Oficina Mantenimiento,Cafeteria"
+        },
+        {
+          "id": "conn-mtx7unf7-cfmb",
+          "type": "nav",
+          "title": "Ir a Pasillo Bloque B - Área Multimedia",
+          "yaw": 2.562267275507975,
+          "pitch": -0.046638854298970855,
+          "direction": "back",
+          "targetFile": "R0010065_202503281501_YP00145909.JPG",
+          "description": "Continúa hacia Pasillo Bloque B - Área Multimedia (Atrás). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.35,
+          "altText": "Ir a Pasillo Bloque B - Área Multimedia"
+        },
+        {
+          "id": "conn-mtxew1na-0p6l",
+          "type": "nav",
+          "title": "Ir a Zona de Descanso 1 - Planta 1 Conexion Cafeteria",
+          "yaw": -0.4996019664055229,
+          "pitch": -0.09938741285820107,
+          "direction": "forward",
+          "targetFile": "R0010071_202503281637_YP00145909.JPG",
+          "description": "Continúa hacia Zona de Descanso 1 - Planta 1 Conexion Cafeteria (Adelante). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.5,
+          "altText": "Ir a Zona de Descanso 1 - Planta 1 Conexion Cafeteria"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": -0.13803025389041323,
+        "yaw": -0.046466283465495195
+      }
+    },
+    "R0010067_202503281505_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "conn-mtx7tx61-6jg9",
+          "type": "nav",
+          "title": "Ir a Zona de Descanso 1 - Planta 1 Bloque B",
+          "yaw": -2.3885048952070083,
+          "pitch": -0.19570047509614596,
+          "direction": "back",
+          "targetFile": "R0010066_202503281503_YP00145909.JPG",
+          "description": "Continúa hacia Zona de Descanso 1 - Planta 1 Bloque B (Atrás). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.35,
+          "altText": "Ir a Zona de Descanso 1 - Planta 1 Bloque B"
+        },
+        {
+          "id": "conn-mtx8okhm-26s4",
+          "type": "nav",
+          "title": "Ir a Zona de Descanso 1 - Planta 1 Conexion Cafeteria",
+          "yaw": 2.8770144446685553,
+          "pitch": 0.2115641687408072,
+          "direction": "up",
+          "targetFile": "R0010071_202503281637_YP00145909.JPG",
+          "description": "Continúa hacia Zona de Descanso 1 - Planta 1 Conexion Cafeteria (Adelante). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.45,
+          "altText": "Ir a Zona de Descanso 1 - Planta 1 Conexion Cafeteria"
+        },
+        {
+          "id": "conn-mtxdg8jq-odx0",
+          "type": "nav",
+          "title": "Ir a Entrada cafetería",
+          "yaw": -0.9755921787822182,
+          "pitch": 0.030696439770157014,
+          "direction": "forward",
+          "targetFile": "R0010068_202503281507_YP00145909.JPG",
+          "description": "Continúa hacia Entrada cafetería (Adelante). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.25,
+          "altText": "Ir a Entrada cafetería"
+        }
+      ],
+      "initialView": {
+        "fov": 1.6467082290740243,
+        "pitch": -0.05879029670977687,
+        "yaw": 0.5085340979941044
+      }
+    },
+    "R0010071_202503281637_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "conn-mtx8okhm-kqtu",
+          "type": "nav",
+          "title": "Ir a Pasillo Central Bloque B - Conexión Planta 2,Oficina Mantenimiento,Cafeteria",
+          "yaw": -1.8401295485010838,
+          "pitch": 0.24098028044156727,
+          "direction": "back",
+          "targetFile": "R0010067_202503281505_YP00145909.JPG",
+          "description": "Continúa hacia Pasillo Central Bloque B - Conexión Planta 2,Oficina Mantenimiento,Cafeteria (Atrás). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.45,
+          "altText": "Ir a Pasillo Central Bloque B - Conexión Planta 2,Oficina Mantenimiento,Cafeteria"
+        },
+        {
+          "id": "conn-mtxevaku-5wzw",
+          "type": "nav",
+          "title": "Ir a Cafetería - Área lateral",
+          "yaw": 2.883668049046663,
+          "pitch": 0.024732116663710002,
+          "direction": "forward",
+          "targetFile": "R0010070_202503281633_YP00145909.JPG",
+          "description": "Continúa hacia Cafetería - Área lateral (Adelante). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.5,
+          "altText": "Ir a Cafetería - Área lateral"
+        },
+        {
+          "id": "conn-mtxew1na-7x0w",
+          "type": "nav",
+          "title": "Ir a Zona de Descanso 1 - Planta 1 Bloque B",
+          "yaw": -0.07605903600531416,
+          "pitch": -0.048847821110166334,
+          "direction": "back",
+          "targetFile": "R0010066_202503281503_YP00145909.JPG",
+          "description": "Continúa hacia Zona de Descanso 1 - Planta 1 Bloque B (Atrás). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.35,
+          "altText": "Ir a Zona de Descanso 1 - Planta 1 Bloque B"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": 0.011152178889833664,
+        "yaw": 3.065533617584479
+      }
+    },
+    "R0010068_202503281507_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "conn-mtx7hnkb-9tim",
+          "type": "nav",
+          "title": "Ir a Zona Cafetería - Pasillo hacia Bloque C",
+          "yaw": 0.36830897167770615,
+          "pitch": -0.01798155358323328,
+          "direction": "left",
+          "targetFile": "R0010069_202503281509_YP00145909.JPG",
+          "description": "Continúa hacia Zona Cafetería - Pasillo hacia Bloque C (Adelante). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.25,
+          "altText": "Ir a Zona Cafetería - Pasillo hacia Bloque C"
+        },
+        {
+          "id": "conn-mtx7j0c4-m7f8",
+          "type": "nav",
+          "title": "Ir a Mesas cafetería",
+          "yaw": -0.5173882299299795,
+          "pitch": -0.02481654885382234,
+          "direction": "left",
+          "targetFile": "R0010072_202503281638_YP00145909.JPG",
+          "description": "Continúa hacia Mesas cafetería (Arriba / 2º piso). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.25,
+          "altText": "Ir a Mesas cafetería"
+        },
+        {
+          "id": "conn-mtxdg8jq-0m7i",
+          "type": "nav",
+          "title": "Ir a Pasillo Central Bloque B - Conexión Planta 2,Oficina Mantenimiento,Cafeteria",
+          "yaw": -3.004668179565435,
+          "pitch": 0.02506758917152041,
+          "direction": "right",
+          "targetFile": "R0010067_202503281505_YP00145909.JPG",
+          "description": "Continúa hacia Pasillo Central Bloque B - Conexión Planta 2,Oficina Mantenimiento,Cafeteria (Atrás). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.25,
+          "altText": "Ir a Pasillo Central Bloque B - Conexión Planta 2,Oficina Mantenimiento,Cafeteria"
+        },
+        {
+          "id": "conn-mtxez5lm-zbsj",
+          "type": "nav",
+          "title": "Ir a Cafetería - Área lateral",
+          "yaw": -1.3668529823929134,
+          "pitch": -0.28658637033493406,
+          "direction": "down",
+          "targetFile": "R0010070_202503281633_YP00145909.JPG",
+          "description": "Continúa hacia Cafetería - Área lateral (Atrás). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.45,
+          "altText": "Ir a Cafetería - Área lateral"
+        }
+      ],
+      "initialView": {
+        "fov": 1.6467082290740243,
+        "pitch": 0.08048646263124759,
+        "yaw": 1.4264342932930987
+      }
+    },
+    "R0010072_202503281638_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "conn-mtx7j0c4-zcor",
+          "type": "nav",
+          "title": "Ir a Entrada cafetería Zona Mesas",
+          "yaw": 2.2535746723059447,
+          "pitch": -0.059040668405035746,
+          "direction": "right",
+          "targetFile": "R0010068_202503281507_YP00145909.JPG",
+          "description": "Continúa hacia Entrada cafetería (Abajo / 1º piso). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.25,
+          "altText": "Ir a Entrada cafetería Zona Mesas"
+        },
+        {
+          "id": "conn-mtx7kjba-m2j3",
+          "type": "nav",
+          "title": "Ir a Zona Cafetería - Pasillo hacia Bloque C",
+          "yaw": 1.2481008655633694,
+          "pitch": -0.23359265086719283,
+          "direction": "forward",
+          "targetFile": "R0010069_202503281509_YP00145909.JPG",
+          "description": "Continúa hacia Zona Cafetería - Pasillo hacia Bloque C (Atrás). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.5,
+          "altText": "Ir a Zona Cafetería - Pasillo hacia Bloque C"
+        },
+        {
+          "id": "conn-mtxdh92l-t0b3",
+          "type": "nav",
+          "title": "Ir a Cafetería - Conexion Zona de Baños Femeninos",
+          "yaw": -0.9061465143504748,
+          "pitch": 0.04115025086769286,
+          "direction": "left",
+          "targetFile": "R0010073_202503281639_YP00145909.JPG",
+          "description": "Continúa hacia Cafetería - Conexion Zona de Baños Femeninos (Adelante). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.25,
+          "altText": "Ir a Cafetería - Conexion Zona de Baños Femeninos"
+        },
+        {
+          "id": "conn-mtxexuuh-tx0f",
+          "type": "nav",
+          "title": "Ir a Cafetería - Área lateral",
+          "yaw": -2.9316566969861064,
+          "pitch": -0.13842290384518208,
+          "direction": "back",
+          "targetFile": "R0010070_202503281633_YP00145909.JPG",
+          "description": "Continúa hacia Cafetería - Área lateral (Atrás). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.35,
+          "altText": "Ir a Cafetería - Área lateral"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": -0.006786037428810232,
+        "yaw": 0.5874546005253762
+      }
+    },
+    "R0010073_202503281639_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "conn-mtxdh92l-wash",
+          "type": "nav",
+          "title": "Ir a Mesas cafetería",
+          "yaw": 1.8375374635709854,
+          "pitch": -0.048999864234887835,
+          "direction": "back",
+          "targetFile": "R0010072_202503281638_YP00145909.JPG",
+          "description": "Continúa hacia Mesas cafetería (Atrás). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.35,
+          "altText": "Ir a Mesas cafetería"
+        },
+        {
+          "id": "conn-mtxdlltu-bafk",
+          "type": "nav",
+          "title": "Ir a Cafetería - Área de Mesas, Zona Residuos Electronicos",
+          "yaw": -1.9552918488300666,
+          "pitch": -0.22590929967841333,
+          "direction": "forward",
+          "targetFile": "R0010074_202503281639_YP00145909.JPG",
+          "description": "Continúa hacia Cafetería - Área de Mesas, Zona Residuos Electronicos (Adelante). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.5,
+          "altText": "Ir a Cafetería - Área de Mesas, Zona Residuos Electronicos"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": 0.011000135765112162,
+        "yaw": -1.3040551900188078
+      }
+    },
+    "R0010074_202503281639_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "conn-mtxdlltu-mzbw",
+          "type": "nav",
+          "title": "Ir a Cafetería - Conexion Zona de Baños Femeninos",
+          "yaw": 3.0164256032903864,
+          "pitch": 0.16137645360545783,
+          "direction": "back",
+          "targetFile": "R0010073_202503281639_YP00145909.JPG",
+          "description": "Continúa hacia Cafetería - Conexion Zona de Baños Femeninos (Atrás). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.25,
+          "altText": "Ir a Cafetería - Conexion Zona de Baños Femeninos"
+        },
+        {
+          "id": "conn-mtxdmu2k-1616",
+          "type": "nav",
+          "title": "Ir a Pasillo Cafetería - Zona Central de Mesas",
+          "yaw": -1.1627974018240899,
+          "pitch": -0.11225412616379543,
+          "direction": "forward",
+          "targetFile": "R0010075_202503281641_YP00145909.JPG",
+          "description": "Continúa hacia Pasillo Cafetería - Zona Central de Mesas (Adelante). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.5,
+          "altText": "Ir a Pasillo Cafetería - Zona Central de Mesas"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": -0.052254126163795434,
+        "yaw": -1.1627974018240899
+      }
+    },
+    "R0010075_202503281641_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "conn-mtxdmu2k-62n6",
+          "type": "nav",
+          "title": "Ir a Cafetería - Área de Mesas, Zona Residuos Electronicos",
+          "yaw": -0.7494784956334399,
+          "pitch": -0.018295977732417867,
+          "direction": "back",
+          "targetFile": "R0010074_202503281639_YP00145909.JPG",
+          "description": "Continúa hacia Cafetería - Área de Mesas, Zona Residuos Electronicos (Atrás). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.25,
+          "altText": "Ir a Cafetería - Área de Mesas, Zona Residuos Electronicos"
+        },
+        {
+          "id": "conn-mtxeo8la-oxcj",
+          "type": "nav",
+          "title": "Ir a Zona Cafetería - Estación de Juego Ajedrez a gran escala",
+          "yaw": -2.7181504879848326,
+          "pitch": 0.10771939831175104,
+          "direction": "forward",
+          "targetFile": "R0010076_202503281642_YP00145909.JPG",
+          "description": "Continúa hacia Zona Cafetería - Estación de Juego Ajedrez a gran escala (Adelante). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.25,
+          "altText": "Ir a Zona Cafetería - Estación de Juego Ajedrez a gran escala"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": -0.02600984294996067,
+        "yaw": -1.644052374848247
+      }
+    },
+    "R0010076_202503281642_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "conn-mtxeo8la-2ayq",
+          "type": "nav",
+          "title": "Ir a Pasillo Cafetería - Zona Central de Mesas",
+          "yaw": -0.3734782808049566,
+          "pitch": 0.06487716216631512,
+          "direction": "forward",
+          "targetFile": "R0010075_202503281641_YP00145909.JPG",
+          "description": "Continúa hacia Pasillo Cafetería - Zona Central de Mesas (Atrás). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.5,
+          "altText": "Ir a Pasillo Cafetería - Zona Central de Mesas"
+        },
+        {
+          "id": "conn-mtxeo9d9-5fzj",
+          "type": "nav",
+          "title": "Ir a Caseta cafetería",
+          "yaw": 2.6256340612705253,
+          "pitch": 0.12192391977186467,
+          "direction": "right",
+          "targetFile": "R0010077_202503281643_YP00145909.JPG",
+          "description": "Continúa hacia Caseta cafetería (Adelante). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.25,
+          "altText": "Ir a Caseta cafetería"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": -0.048296901935142245,
+        "yaw": 0.6525886410840513
+      }
+    },
+    "R0010077_202503281643_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "conn-mtxeo9d9-ij7u",
+          "type": "nav",
+          "title": "Ir a Zona Cafetería - Estación de Juego Ajedrez a gran escala",
+          "yaw": 2.906016340672843,
+          "pitch": 0.23555804854413154,
+          "direction": "up",
+          "targetFile": "R0010076_202503281642_YP00145909.JPG",
+          "description": "Continúa hacia Zona Cafetería - Estación de Juego Ajedrez a gran escala (Atrás). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.45,
+          "altText": "Ir a Zona Cafetería - Estación de Juego Ajedrez a gran escala"
+        },
+        {
+          "id": "conn-mu175dcz-0rv4",
+          "type": "nav",
+          "title": "Ir a Control de ingreso",
+          "yaw": 1.1611940094017328,
+          "pitch": 0.08604810788431827,
+          "direction": "forward",
+          "targetFile": "R0010078_202503281644_YP00145909.JPG",
+          "description": "Continúa hacia Control de ingreso (Adelante). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.5,
+          "altText": "Ir a Control de ingreso"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": -0.0474859494137867,
+        "yaw": -1.6110982077433889
+      }
+    },
+    "R0010078_202503281644_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "78-mostrador",
+          "type": "info",
+          "title": "Recepción de bolsos / Seguridad",
+          "yaw": -1.2129195765232943,
+          "pitch": -0.6159829266194006,
+          "direction": "down",
+          "description": "Aquí se reciben bolsos y se hace el control de seguridad / objetos perdidos antes de entrar a la biblioteca.",
+          "weight": 1.45,
+          "altText": "Recepción de bolsos / Seguridad"
+        },
+        {
+          "id": "conn-mtx7ed6e-ug3x",
+          "type": "nav",
+          "title": "Ir a Acceso cultural",
+          "yaw": -2.636283624024278,
+          "pitch": -0.05374010762802328,
+          "direction": "left",
+          "targetFile": "R0010079_202503281645_YP00145909.JPG",
+          "description": "Continúa hacia Acceso cultural (Atrás). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.25,
+          "altText": "Ir a Acceso cultural"
+        },
+        {
+          "id": "conn-mu175dcz-r4nw",
+          "type": "nav",
+          "title": "Ir a Caseta cafetería",
+          "yaw": 0.940421712307181,
+          "pitch": -0.23246653196295597,
+          "direction": "back",
+          "targetFile": "R0010077_202503281643_YP00145909.JPG",
+          "description": "Continúa hacia Caseta cafetería (Atrás). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.35,
+          "altText": "Ir a Caseta cafetería"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": -0.051360094470847883,
+        "yaw": -1.4519540191971672
+      }
+    },
+    "R0010079_202503281645_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "conn-mtx7d7ta-1zdi",
+          "type": "nav",
+          "title": "Ir a Interior cultural",
+          "yaw": -1.7014980094819876,
+          "pitch": -0.2939436736794363,
+          "direction": "down",
+          "targetFile": "R0010081_202503281647_YP00145909.JPG",
+          "description": "Continúa hacia Interior cultural (Adelante). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.45,
+          "altText": "Ir a Interior cultural"
+        },
+        {
+          "id": "conn-mtx7ed6e-k1th",
+          "type": "nav",
+          "title": "Ir a Control de ingreso",
+          "yaw": -0.15535916222657065,
+          "pitch": -0.15974246760552901,
+          "direction": "forward",
+          "targetFile": "R0010078_202503281644_YP00145909.JPG",
+          "description": "Continúa hacia Control de ingreso (Adelante). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.25,
+          "altText": "Ir a Control de ingreso"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": 0.002077062644044503,
+        "yaw": -1.7180376834269424
+      }
+    },
+    "R0010069_202503281509_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "conn-mtx7hnkb-i2m2",
+          "type": "nav",
+          "title": "Ir a Entrada cafetería",
+          "yaw": -1.6957031559248357,
+          "pitch": -0.14733571307499105,
+          "direction": "back",
+          "targetFile": "R0010068_202503281507_YP00145909.JPG",
+          "description": "Continúa hacia Entrada cafetería (Atrás). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.45,
+          "altText": "Ir a Entrada cafetería"
+        },
+        {
+          "id": "conn-mtx7kjba-q1m2",
+          "type": "nav",
+          "title": "Ir a Mesas cafetería",
+          "yaw": -0.053171051458155816,
+          "pitch": -0.1779497830422816,
+          "direction": "forward",
+          "targetFile": "R0010072_202503281638_YP00145909.JPG",
+          "description": "Continúa hacia Mesas cafetería (Adelante). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.45,
+          "altText": "Ir a Mesas cafetería"
+        },
+        {
+          "id": "conn-mtxf25hy-mx1e",
+          "type": "nav",
+          "title": "Ir a Cafetería - Área lateral",
+          "yaw": 2.4110216040908847,
+          "pitch": 0.16791041921438193,
+          "direction": "forward",
+          "targetFile": "R0010070_202503281633_YP00145909.JPG",
+          "description": "Continúa hacia Cafetería - Área lateral (Adelante). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.5,
+          "altText": "Ir a Cafetería - Área lateral"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": 0.22791041921438193,
+        "yaw": 2.4110216040908847
+      }
+    },
+    "R0010070_202503281633_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "conn-mtxevaku-0k4q",
+          "type": "nav",
+          "title": "Ir a Zona de Descanso 1 - Planta 1 Conexion Cafeteria",
+          "yaw": 2.365679461155354,
+          "pitch": -0.0695966610866261,
+          "direction": "back",
+          "targetFile": "R0010071_202503281637_YP00145909.JPG",
+          "description": "Continúa hacia Zona de Descanso 1 - Planta 1 Conexion Cafeteria (Atrás). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.35,
+          "altText": "Ir a Zona de Descanso 1 - Planta 1 Conexion Cafeteria"
+        },
+        {
+          "id": "conn-mtxexuuh-zi1j",
+          "type": "nav",
+          "title": "Ir a Mesas cafetería",
+          "yaw": -0.8237611405120937,
+          "pitch": -0.09104528260027628,
+          "direction": "forward",
+          "targetFile": "R0010072_202503281638_YP00145909.JPG",
+          "description": "Continúa hacia Mesas cafetería (Adelante). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.5,
+          "altText": "Ir a Mesas cafetería"
+        },
+        {
+          "id": "conn-mtxez5lm-cvf3",
+          "type": "nav",
+          "title": "Ir a Entrada cafetería",
+          "yaw": 1.765100334204563,
+          "pitch": -0.05718008640778649,
+          "direction": "back",
+          "targetFile": "R0010068_202503281507_YP00145909.JPG",
+          "description": "Continúa hacia Entrada cafetería (Adelante). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.35,
+          "altText": "Ir a Entrada cafetería"
+        },
+        {
+          "id": "conn-mtxf25hy-swgp",
+          "type": "nav",
+          "title": "Ir a Zona Cafetería - Pasillo hacia Bloque C",
+          "yaw": 0.7378058792462632,
+          "pitch": -0.24822327411173362,
+          "direction": "right",
+          "targetFile": "R0010069_202503281509_YP00145909.JPG",
+          "description": "Continúa hacia Zona Cafetería - Pasillo hacia Bloque C (Atrás). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.25,
+          "altText": "Ir a Zona Cafetería - Pasillo hacia Bloque C"
+        }
+      ],
+      "initialView": {
+        "fov": 1.6467082290740243,
+        "pitch": -0.03104528260027628,
+        "yaw": -0.8237611405120937
+      }
+    },
+    "R0010080_202503281646_YP00145909.JPG": {
+      "hotspots": [],
+      "initialView": {
+        "fov": 1.6467082290740243,
+        "pitch": -0.017015509582069654,
+        "yaw": -1.8715116566593064
+      }
+    },
+    "R0010082_202503281648_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "82-rampa",
+          "type": "info",
+          "title": "Rampa de acceso",
+          "yaw": -1.1,
+          "pitch": -0.25,
+          "description": "Rampa corta hacia el acceso de la biblioteca; facilita el ingreso con movilidad reducida.",
+          "altText": "Rampa de acceso"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": 0.11111274677515581,
+        "yaw": 3.038054359625276
+      }
+    },
+    "R0010083_202503281649_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "83-mostrador",
+          "type": "info",
+          "title": "Préstamo de libros y computadores",
+          "yaw": -0.85,
+          "pitch": -0.08,
+          "description": "Mostrador de préstamo de libros y computadores. El personal atiende solicitudes de material y equipos.",
+          "altText": "Préstamo de libros y computadores"
+        },
+        {
+          "id": "83-bibliotecaria",
+          "type": "info",
+          "title": "Área de bibliotecaria y consulta",
+          "yaw": 0.15,
+          "pitch": -0.02,
+          "description": "Espacio de la bibliotecaria y consulta, visible a través del acceso acristalado del lobby.",
+          "altText": "Área de bibliotecaria y consulta"
+        },
+        {
+          "id": "83-letrero",
+          "type": "info",
+          "title": "Identificación de la biblioteca",
+          "yaw": 1.55,
+          "pitch": 0.15,
+          "description": "Área del letrero y señalética de la Biblioteca Anita Bolívar de Consuegra.",
+          "altText": "Identificación de la biblioteca"
+        },
+        {
+          "id": "mostrador-prestamo",
+          "type": "info",
+          "title": "Mostrador de préstamo y renovación de material.",
+          "yaw": 0,
+          "pitch": 0,
+          "description": "Mostrador de préstamo y renovación de material.",
+          "altText": "Mostrador de préstamo y renovación de material."
+        },
+        {
+          "id": "zona-estudio",
+          "type": "info",
+          "title": "Mesas de estudio colaborativo en el lobby.",
+          "yaw": 0,
+          "pitch": 0,
+          "description": "Mesas de estudio colaborativo en el lobby.",
+          "altText": "Mesas de estudio colaborativo en el lobby."
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": 0.04186180471305789,
+        "yaw": -2.3646774306346234
+      }
+    },
+    "R0010084_202503281650_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "84-mural",
+          "type": "info",
+          "title": "Mural del acceso",
+          "yaw": 0.05,
+          "pitch": 0.18,
+          "description": "Mural ilustrado alrededor del acceso principal del lobby.",
+          "altText": "Mural del acceso"
+        },
+        {
+          "id": "84-prestamo",
+          "type": "info",
+          "title": "Préstamo de libros y computadores",
+          "yaw": -1.05,
+          "pitch": -0.08,
+          "description": "Mostrador de préstamo de libros y computadores (zona donde suelen reunirse los estudiantes para el servicio).",
+          "altText": "Préstamo de libros y computadores"
+        },
+        {
+          "id": "84-bibliotecaria",
+          "type": "info",
+          "title": "Área de bibliotecaria y consulta",
+          "yaw": 0.05,
+          "pitch": -0.05,
+          "description": "Área de la bibliotecaria y consulta, detrás de las puertas de vidrio del arco central.",
+          "altText": "Área de bibliotecaria y consulta"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": -0.05457010037526899,
+        "yaw": -0.11874716885626313
+      }
+    },
+    "R0010085_202503281651_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "85-pcs",
+          "type": "info",
+          "title": "Estaciones de cómputo",
+          "yaw": 0.95,
+          "pitch": -0.08,
+          "description": "Fila de computadores de uso académico en el lobby.",
+          "altText": "Estaciones de cómputo"
+        },
+        {
+          "id": "85-nombre",
+          "type": "info",
+          "title": "Letrero Anita Bolívar de Consuegra",
+          "yaw": 1.05,
+          "pitch": 0.25,
+          "description": "Nombre oficial de la biblioteca en el muro.",
+          "altText": "Letrero Anita Bolívar de Consuegra"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": -0.03417712168832132,
+        "yaw": 2.3511928999862013
+      }
+    },
+    "R0010086_202503281652_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "86-estantes",
+          "type": "info",
+          "title": "Estantería baja",
+          "yaw": 0.1,
+          "pitch": -0.2,
+          "description": "Estantería perimetral baja que organiza el pasillo de lectura.",
+          "altText": "Estantería baja"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": -0.03459676981628235,
+        "yaw": -2.874047421801908
+      }
+    },
+    "R0010087_202503281653_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "87-pods",
+          "type": "info",
+          "title": "Cubículos de estudio",
+          "yaw": 0.15,
+          "pitch": -0.05,
+          "description": "Cabinas arqueadas para estudio individual o en pareja, con iluminación propia.",
+          "altText": "Cubículos de estudio"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": 0.02006186540319632,
+        "yaw": 0.2536387241878568
+      }
+    },
+    "R0010088_202503281654_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "88-booth",
+          "type": "info",
+          "title": "Cubículo grupal",
+          "yaw": -0.2,
+          "pitch": -0.05,
+          "description": "Cubículo con banca tapizada y mesa de madera para trabajo concentrado.",
+          "altText": "Cubículo grupal"
+        }
+      ],
+      "initialView": {
+        "fov": 1.6467082290740243,
+        "pitch": -0.002271785001422444,
+        "yaw": -0.3916496715474569
+      }
+    },
+    "R0010089_202503281655_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "89-mesa",
+          "type": "info",
+          "title": "Puesto de estudio",
+          "yaw": 0.2,
+          "pitch": -0.25,
+          "description": "Mesa individual dentro del cubículo, con iluminación puntual.",
+          "altText": "Puesto de estudio"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": -0.010762960973679014,
+        "yaw": -2.42186521238963
+      }
+    },
+    "R0010090_202503281656_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "90-mesas",
+          "type": "info",
+          "title": "Mesas colaborativas",
+          "yaw": -0.3107393245074803,
+          "pitch": 0.48319071096266875,
+          "direction": "up",
+          "description": "Mesas curvas con sillas verdes para trabajo en grupo.",
+          "weight": 1.45,
+          "altText": "Mesas colaborativas"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": -0.10052855590197396,
+        "yaw": -0.8076135868990164
+      }
+    },
+    "R0010091_202503281658_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "91-catalogo",
+          "type": "info",
+          "title": "Punto de consulta",
+          "yaw": 1.7,
+          "pitch": -0.05,
+          "description": "Consola/kiosco de apoyo cerca de la circulación vertical.",
+          "altText": "Punto de consulta"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": 0.12869205489570135,
+        "yaw": 3.0365012210104965
+      }
+    },
+    "R0010092_202503281658_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "92-vidrio",
+          "type": "info",
+          "title": "Salones de estudio",
+          "yaw": 0.6,
+          "pitch": -0.05,
+          "description": "Salas cerradas con vidrio para trabajo en grupo o tutorías.",
+          "altText": "Salones de estudio"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": -0.06420011808856607,
+        "yaw": -1.12293518374954
+      }
+    },
+    "R0010093_202503281659_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "93-general",
+          "type": "info",
+          "title": "Sección GENERAL",
+          "yaw": 0.732415305913694,
+          "pitch": -0.30751305169995646,
+          "direction": "forward",
+          "description": "Estantería señalizada como colección GENERAL.",
+          "weight": 1.5,
+          "altText": "Sección GENERAL"
+        },
+        {
+          "id": "93-marquez",
+          "type": "info",
+          "title": "Salón con referencia literaria",
+          "yaw": 1.4,
+          "pitch": 0.05,
+          "description": "Salón de vidrio con gráficos y referencias literarias.",
+          "altText": "Salón con referencia literaria"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": 0.12444235951090477,
+        "yaw": 1.5127023732197573
+      }
+    },
+    "R0010094_202503281700_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "94-coleccion",
+          "type": "info",
+          "title": "Colección en estantería",
+          "yaw": -0.8,
+          "pitch": -0.1,
+          "description": "Estantería de consulta abierta en planta baja.",
+          "altText": "Colección en estantería"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": -0.07391646419209863,
+        "yaw": -2.8565468117855968
+      }
+    },
+    "R0010095_202503281701_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "95-tomas",
+          "type": "info",
+          "title": "Mesa con energía",
+          "yaw": 0.7104401247748129,
+          "pitch": 0.18789489762782274,
+          "direction": "forward",
+          "description": "Mesa de estudio con módulos de tomacorrientes para portátiles.",
+          "weight": 1.5,
+          "altText": "Mesa con energía"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": -0.09852362350108379,
+        "yaw": 0.9054192576443949
+      }
+    },
+    "R0010096_202503281702_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "96-mural",
+          "type": "info",
+          "title": "Mural artístico",
+          "yaw": 1.0946082341717212,
+          "pitch": -0.2343208282647229,
+          "direction": "right",
+          "description": "Mural colorido en el perímetro de la zona de salones.",
+          "weight": 1.25,
+          "altText": "Mural artístico"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": -0.040108440167845316,
+        "yaw": 1.0176686250086178
+      }
+    },
+    "R0010097_202503281703_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "97-escalera",
+          "type": "info",
+          "title": "Circulación vertical",
+          "yaw": 1.66757473263179,
+          "pitch": -0.49980346936554554,
+          "direction": "down",
+          "description": "Escalera con baranda de vidrio/metal hacia la mezanine.",
+          "weight": 1.45,
+          "altText": "Circulación vertical"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": 0.08331686859013665,
+        "yaw": -1.5082048934551757
+      }
+    },
+    "R0010098_202503281705_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "98-citas",
+          "type": "info",
+          "title": "Salón con citas literarias",
+          "yaw": -0.6990378622354072,
+          "pitch": -0.14126221653215154,
+          "direction": "back",
+          "description": "Salas decoradas con citas literarias para ambientar el estudio.",
+          "weight": 1.35,
+          "altText": "Salón con citas literarias"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": -0.021753798888715536,
+        "yaw": 3.065600081236279
+      }
+    },
+    "R0010099_202503281706_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "99-evaluna",
+          "type": "info",
+          "title": "Cubículos De estudio y Proyectos",
+          "yaw": -0.7944223720558927,
+          "pitch": -0.04519568296257326,
+          "direction": "left",
+          "description": "Salón temático Eva Luna, con decoración floral y cita.",
+          "weight": 1.25,
+          "altText": "Cubículos De estudio y Proyectos"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": 0.1361296543495918,
+        "yaw": 1.4004892055877018
+      }
+    },
+    "R0010100_202503281706_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "100-mural",
+          "type": "info",
+          "title": "Mural de paisaje",
+          "yaw": 1.3,
+          "pitch": 0.1,
+          "description": "Mural de montaña, río y vegetación junto a la escalera.",
+          "altText": "Mural de paisaje"
+        },
+        {
+          "id": "100-revistas",
+          "type": "info",
+          "title": "Expositor de publicaciones",
+          "yaw": -1.109009052179264,
+          "pitch": -0.17857654012825286,
+          "direction": "left",
+          "description": "Expositor/rack de revistas o novedades al pie de la escalera.",
+          "weight": 1.25,
+          "altText": "Expositor de publicaciones"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": -0.20395773257379624,
+        "yaw": -0.0794451169873085
+      }
+    },
+    "R0010101_202503281708_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "101-mural",
+          "type": "info",
+          "title": "Mural de montaña",
+          "yaw": -1.3340485020963477,
+          "pitch": -0.5710871189862914,
+          "direction": "down",
+          "description": "Mural de páramo/montaña nevada en el descanso de escaleras.",
+          "weight": 1.45,
+          "altText": "Mural de montaña"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": 0.026939864447673045,
+        "yaw": -0.10311477646146727
+      }
+    },
+    "R0010102_202503281709_YP00145909.JPG": {
+      "hotspots": [],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": -0.11235020665498396,
+        "yaw": -0.12907300962638324
+      }
+    },
+    "R0010103_202503281710_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "103-pods",
+          "type": "info",
+          "title": "Pods individuales",
+          "yaw": 0.35,
+          "pitch": -0.05,
+          "description": "Cabinas altas verdes para estudio individual en mezanine.",
+          "altText": "Pods individuales"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": 0.023998004706101028,
+        "yaw": 0.9438231570159381
+      }
+    },
+    "R0010104_202503281711_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "104-general",
+          "type": "info",
+          "title": "Sección GENERAL (mezanine)",
+          "yaw": 0.9529276543043981,
+          "pitch": -0.2366959312492103,
+          "direction": "right",
+          "description": "Letrero GENERAL sobre la colección del nivel superior.",
+          "weight": 1.25,
+          "altText": "Sección GENERAL (mezanine)"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": 0.053513581022849976,
+        "yaw": 1.6385231876571096
+      }
+    },
+    "R0010105_202503281712_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "105-seccion",
+          "type": "info",
+          "title": "Sección de estantería",
+          "yaw": 0.6950648468557059,
+          "pitch": -0.4097799408407319,
+          "direction": "down",
+          "description": "Etiquetas de sección en el borde de los estantes.",
+          "weight": 1.45,
+          "altText": "Sección de estantería"
+        }
+      ],
+      "initialView": {
+        "fov": 1.6467082290740243,
+        "pitch": -0.024509925159213353,
+        "yaw": 1.7134629404078323
+      }
+    },
+    "R0010106_202503281713_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "106-economia",
+          "type": "info",
+          "title": "Colección temática",
+          "yaw": 0.7163348729203864,
+          "pitch": -0.0734194269116788,
+          "direction": "forward",
+          "description": "Estantes temáticos del nivel superior.",
+          "weight": 1.5,
+          "altText": "Colección temática"
+        }
+      ],
+      "initialView": {
+        "fov": 1.4587454780515319,
+        "pitch": -0.007559250726046685,
+        "yaw": -3.1166911197937797
+      }
+    },
+    "R0010107_202503281714_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "107-mesas",
+          "type": "info",
+          "title": "Mesas colaborativas",
+          "yaw": 0.3203127941215609,
+          "pitch": 0.1255916782504336,
+          "direction": "forward",
+          "description": "Mesas redondas con taburetes naranja/verde para trabajo ágil.",
+          "weight": 1.5,
+          "altText": "Mesas colaborativas"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": -0.06909620944105299,
+        "yaw": 0.008753848310849577
+      }
+    },
+    "R0010108_202503281714_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "108-vista",
+          "type": "info",
+          "title": "Vista a planta baja",
+          "yaw": -1.7655300624783443,
+          "pitch": -0.1376349233195313,
+          "direction": "left",
+          "description": "Barandal de mezanine con vista al lobby y mesas del nivel inferior.",
+          "weight": 1.25,
+          "altText": "Vista a planta baja"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": -0.0402194857437248,
+        "yaw": -1.4503250764018585
+      }
+    },
+    "R0010109_202503281715_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "109-pod",
+          "type": "info",
+          "title": "Pod de estudio",
+          "yaw": -0.6416678078971891,
+          "pitch": -0.055511696700319746,
+          "direction": "forward",
+          "description": "Cubículo acolchado verde para concentración en mezanine.",
+          "weight": 1.5,
+          "altText": "Pod de estudio"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": 0.04235365620929521,
+        "yaw": -1.125837854318842
+      }
+    },
+    "R0010110_202503281716_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "110-senal",
+          "type": "info",
+          "title": "Hemeroteca",
+          "yaw": 1.4474257586220416,
+          "pitch": -0.25351390072259505,
+          "direction": "right",
+          "description": "Señalización HEMEROTECA: periódicos, revistas y publicaciones periódicas.",
+          "weight": 1.25,
+          "altText": "Hemeroteca"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": -0.10034124901507369,
+        "yaw": -1.477289308772228
+      }
+    },
+    "R0010111_202503281716_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "111-abajo",
+          "type": "info",
+          "title": "Lobby en planta baja",
+          "yaw": 0.6499000108431421,
+          "pitch": 0.06859985197622187,
+          "direction": "forward",
+          "description": "Vista al lobby: mesas, globos de luz y letrero de la biblioteca.",
+          "weight": 1.5,
+          "altText": "Lobby en planta baja"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": -0.0642001180885643,
+        "yaw": -1.2907300962638306
+      }
+    },
+    "R0010112_202503281717_YP00145909.JPG": {
+      "hotspots": [],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": 0.03210005904427504,
+        "yaw": -0.2478201784826517
+      }
+    },
+    "R0010113_202503281717_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "113-psico",
+          "type": "info",
+          "title": "Colección Psicología",
+          "yaw": 3.070928924384245,
+          "pitch": -0.3572951904205368,
+          "direction": "down",
+          "description": "Estantería señalizada PSICOLOGÍA en el nivel superior.",
+          "weight": 1.45,
+          "altText": "Colección Psicología"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": -0.020487557066594775,
+        "yaw": 0.7802394288922727
+      }
+    },
+    "R0010115_202503281721_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "115-nombre",
+          "type": "info",
+          "title": "BIBLIOTECA ANITA BOLÍVAR DE CONSUEGRA",
+          "yaw": 1.214298762399256,
+          "pitch": -0.3178521071279121,
+          "direction": "down",
+          "description": "Letrero principal de la biblioteca sobre la zona de computadores.",
+          "weight": 1.45,
+          "altText": "BIBLIOTECA ANITA BOLÍVAR DE CONSUEGRA"
+        }
+      ],
+      "initialView": {
+        "fov": 1.6467082290740243,
+        "pitch": 0.14373482064289256,
+        "yaw": -2.7739244224269495
+      }
+    },
+    "R0010117_202503281724_YP00145909.JPG": {
+      "hotspots": [],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": -0.021714745824070292,
+        "yaw": -0.2585730990640407
+      }
+    },
+    "R0010118_202503281724_YP00145909.JPG": {
+      "hotspots": [],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": 0.030976390423431255,
+        "yaw": 0.9445616049550551
+      }
+    },
+    "R0010119_202503281725_YP00145909.JPG": {
+      "hotspots": [],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": 0.009149375117964098,
+        "yaw": -2.8388823987495098
+      }
+    },
+    "R0010120_202503281726_YP00145909.JPG": {
+      "hotspots": []
+    },
+    "R0010121_202503281727_YP00145909.JPG": {
+      "hotspots": []
+    },
+    "R0010123_202503281729_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "conn-mtx62bsr-0ky9",
+          "type": "nav",
+          "title": "Ir a Salida Av. 3",
+          "yaw": 1.4492767979045258,
+          "pitch": -0.009585024031737888,
+          "direction": "forward",
+          "targetFile": "R0010124_202503281730_YP00145909.JPG",
+          "description": "Continúa hacia Salida Av. 3 (Adelante). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.25,
+          "altText": "Ir a Salida Av. 3"
+        }
+      ]
+    },
+    "R0010124_202503281730_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "conn-mtx62bsr-tn2g",
+          "type": "nav",
+          "title": "Ir a Pasillo Bloque B - Hall hacia patio",
+          "yaw": -1.2598478590736253,
+          "pitch": 0.054870967437430807,
+          "direction": "back",
+          "targetFile": "R0010123_202503281729_YP00145909.JPG",
+          "description": "Continúa hacia Pasillo Bloque B - Hall hacia patio (Atrás). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.35,
+          "altText": "Ir a Pasillo Bloque B - Hall hacia patio"
+        },
+        {
+          "id": "conn-mtx62stl-w8p6",
+          "type": "nav",
+          "title": "Ir a Pasillo Principal - Conexión Aulas",
+          "yaw": 1.6864564870396697,
+          "pitch": 0.21026884541257473,
+          "direction": "forward",
+          "targetFile": "R0010062_202503281454_YP00145909.JPG",
+          "description": "Continúa hacia Pasillo Principal - Conexión Aulas (Atrás). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.5,
+          "altText": "Ir a Pasillo Principal - Conexión Aulas"
+        },
+        {
+          "id": "conn-mtxdwphe-2a8d",
+          "type": "nav",
+          "title": "Ir a Pasillo Primera Planta - Vistas al Computo rooms",
+          "yaw": -3.0307418342790022,
+          "pitch": 0.07031163528222173,
+          "direction": "right",
+          "targetFile": "R0010063_202503281457_YP00145909.JPG",
+          "description": "Continúa hacia Pasillo Primera Planta - Vistas al Computo rooms (Atrás). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.25,
+          "altText": "Ir a Pasillo Primera Planta - Vistas al Computo rooms"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": 0.04104221834947097,
+        "yaw": 2.195900673772286
+      }
+    },
+    "R0010081_202503281647_YP00145909.JPG": {
+      "hotspots": [
+        {
+          "id": "conn-mtx7d7ta-sons",
+          "type": "nav",
+          "title": "Ir a Acceso cultural",
+          "yaw": 0.9285807370520391,
+          "pitch": -0.22076308007430256,
+          "direction": "back",
+          "targetFile": "R0010079_202503281645_YP00145909.JPG",
+          "description": "Continúa hacia Acceso cultural (Atrás). Arrástralo en el 360° para acomodarlo.",
+          "weight": 1.35,
+          "altText": "Ir a Acceso cultural"
+        }
+      ],
+      "initialView": {
+        "fov": 1.5707963267948966,
+        "pitch": -0.09044663695417832,
+        "yaw": -1.9633615017759567
+      }
+    }
+  }
+}

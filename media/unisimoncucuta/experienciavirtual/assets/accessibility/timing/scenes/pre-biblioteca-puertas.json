@@ -1,0 +1,17 @@
+{
+  "sceneKey": "pre-biblioteca-puertas",
+  "locale": "es-CO",
+  "durationSec": 8,
+  "source": "tts",
+  "audioFile": "assets/audio/scenes/pre-biblioteca-puertas.mp3",
+  "transcriptFile": "assets/transcripts/scenes/pre-biblioteca-puertas.txt",
+  "captionFile": "assets/captions/scenes/pre-biblioteca-puertas.vtt",
+  "scriptFile": "assets/accessibility/scripts/scenes/pre-biblioteca-puertas.md",
+  "cues": [
+    {
+      "startSec": 0,
+      "endSec": 8,
+      "text": "Frente a las puertas de la biblioteca, con rampa corta y letrero."
+    }
+  ]
+}

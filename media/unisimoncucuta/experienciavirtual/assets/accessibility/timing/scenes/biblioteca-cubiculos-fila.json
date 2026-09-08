@@ -1,0 +1,17 @@
+{
+  "sceneKey": "biblioteca-cubiculos-fila",
+  "locale": "es-CO",
+  "durationSec": 4.155,
+  "source": "tts",
+  "audioFile": "assets/audio/scenes/biblioteca-cubiculos-fila.mp3",
+  "transcriptFile": "assets/transcripts/scenes/biblioteca-cubiculos-fila.txt",
+  "captionFile": "assets/captions/scenes/biblioteca-cubiculos-fila.vtt",
+  "scriptFile": "assets/accessibility/scripts/scenes/biblioteca-cubiculos-fila.md",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 4.155,
+      "text": "Escena: Biblioteca — Fila de cubículos. 00:00:04.105 --> 00:00:09.066 Zona: Biblioteca Anita Bolívar de Consuegra — Planta baja. 00:00:09.066 --> 00:00:10.854 Orientación. 00:00:10.854 --> 00:00:13.434 Estás en Fila cubículos. 00:00:13.434 --> 00:00:18.618 Pasillo frente a los cubículos; al fondo se abre hacia la estantería. 00:00:18.618 --> 00:00:21.447 Puntos de interés principales. 00:00:21.447 --> 00:00:27.947 Cubículo grupal: Cubículo con banca tapizada y mesa de madera para trabajo concentrado. 00:00:27.947 --> 00:00:34.013 Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. 00:00:34.013 --> 00:00:38.711 Destinos disponibles desde aquí: Interior de un cubículo. 00:00:38.711 --> 00:00:43.013 Esta narración es temporal generada por voz artificial. 00:00:43.013 --> 00:00:47.711 Puede reemplazarse luego por una grabación humana usando el mismo guion."
+    }
+  ]
+}

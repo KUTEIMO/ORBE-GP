@@ -1,0 +1,17 @@
+{
+  "sceneKey": "biblioteca-principal",
+  "locale": "es-CO",
+  "durationSec": 3.879,
+  "source": "tts",
+  "audioFile": "assets/audio/scenes/biblioteca-principal.mp3",
+  "transcriptFile": "assets/transcripts/scenes/biblioteca-principal.txt",
+  "captionFile": "assets/captions/scenes/biblioteca-principal.vtt",
+  "scriptFile": "assets/accessibility/scripts/scenes/biblioteca-principal.md",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 3.879,
+      "text": "Escena: Biblioteca — Lobby de ingreso. 00:00:03.829 --> 00:00:08.789 Zona: Biblioteca Anita Bolívar de Consuegra — Planta baja. 00:00:08.789 --> 00:00:10.578 Orientación. 00:00:10.578 --> 00:00:12.474 Estás en Lobby. 00:00:12.474 --> 00:00:21.566 Umbral del lobby: arco con franja tricolor al frente, mostrador y mesas a la izquierda, sala de computadores a la derecha. 00:00:21.566 --> 00:00:24.395 Puntos de interés principales. 00:00:24.395 --> 00:00:30.974 Préstamo de libros y computadores: Mostrador de préstamo de libros y computadores. 00:00:30.974 --> 00:00:35.145 El personal atiende solicitudes de material y equipos. 00:00:35.145 --> 00:00:43.855 Área de bibliotecaria y consulta: Espacio de la bibliotecaria y consulta, visible a través del acceso acristalado del lobby. 00:00:43.855 --> 00:00:51.276 Identificación de la biblioteca: Área del letrero y señalética de la Biblioteca Anita Bolívar de Consuegra. 00:00:51.276 --> 00:00:57.329 Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. 00:00:57.329 --> 00:01:01.671 Destinos disponibles desde aquí: Profundizar lobby. 00:01:01.671 --> 00:01:05.974 Esta narración es temporal generada por voz artificial. 00:01:05.974 --> 00:01:10.671 Puede reemplazarse luego por una grabación humana usando el mismo guion."
+    }
+  ]
+}

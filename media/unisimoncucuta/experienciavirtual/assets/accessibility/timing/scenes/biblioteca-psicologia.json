@@ -1,0 +1,17 @@
+{
+  "sceneKey": "biblioteca-psicologia",
+  "locale": "es-CO",
+  "durationSec": 5.037,
+  "source": "tts",
+  "audioFile": "assets/audio/scenes/biblioteca-psicologia.mp3",
+  "transcriptFile": "assets/transcripts/scenes/biblioteca-psicologia.txt",
+  "captionFile": "assets/captions/scenes/biblioteca-psicologia.vtt",
+  "scriptFile": "assets/accessibility/scripts/scenes/biblioteca-psicologia.md",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 5.037,
+      "text": "Escena: Biblioteca mezanine — Estantería Psicología. 00:00:04.987 --> 00:00:10.078 Zona: Biblioteca — Mezanine / nivel superior. 00:00:10.078 --> 00:00:11.854 Orientación. 00:00:11.854 --> 00:00:14.118 Estás en Psicología. 00:00:14.118 --> 00:00:19.618 Colección de Psicología en mezanine; cierre del recorrido del nivel superior. 00:00:19.618 --> 00:00:22.447 Puntos de interés principales. 00:00:22.447 --> 00:00:28.461 Colección Psicología: Estantería señalizada PSICOLOGÍA en el nivel superior. 00:00:28.461 --> 00:00:34.526 Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. 00:00:34.526 --> 00:00:38.895 Destinos disponibles desde aquí: Volver al lounge. 00:00:38.895 --> 00:00:43.197 Esta narración es temporal generada por voz artificial. 00:00:43.197 --> 00:00:47.895 Puede reemplazarse luego por una grabación humana usando el mismo guion."
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "sceneKey": "biblioteca-lectura-escalera",
+  "locale": "es-CO",
+  "durationSec": 4.682,
+  "source": "tts",
+  "audioFile": "assets/audio/scenes/biblioteca-lectura-escalera.mp3",
+  "transcriptFile": "assets/transcripts/scenes/biblioteca-lectura-escalera.txt",
+  "captionFile": "assets/captions/scenes/biblioteca-lectura-escalera.vtt",
+  "scriptFile": "assets/accessibility/scripts/scenes/biblioteca-lectura-escalera.md",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 4.682,
+      "text": "Escena: Biblioteca — Lectura y acceso a escalera. 00:00:04.632 --> 00:00:09.592 Zona: Biblioteca Anita Bolívar de Consuegra — Planta baja. 00:00:09.592 --> 00:00:11.380 Orientación. 00:00:11.380 --> 00:00:14.895 Estás en Lectura / escalera. 00:00:14.895 --> 00:00:20.250 Nodo entre zona de lectura, PCs y la escalera hacia el nivel superior. 00:00:20.250 --> 00:00:23.079 Puntos de interés principales. 00:00:23.079 --> 00:00:29.763 Punto de consulta: Consola/kiosco de apoyo cerca de la circulación vertical. 00:00:29.763 --> 00:00:35.829 Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. 00:00:35.829 --> 00:00:40.066 Destinos disponibles desde aquí: Hacia escaleras. 00:00:40.066 --> 00:00:44.368 Esta narración es temporal generada por voz artificial. 00:00:44.368 --> 00:00:49.066 Puede reemplazarse luego por una grabación humana usando el mismo guion."
+    }
+  ]
+}

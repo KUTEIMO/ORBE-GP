@@ -1,0 +1,17 @@
+{
+  "sceneKey": "biblioteca-mezanine-grupo-a",
+  "locale": "es-CO",
+  "durationSec": 8.721,
+  "source": "tts",
+  "audioFile": "assets/audio/scenes/biblioteca-mezanine-grupo-a.mp3",
+  "transcriptFile": "assets/transcripts/scenes/biblioteca-mezanine-grupo-a.txt",
+  "captionFile": "assets/captions/scenes/biblioteca-mezanine-grupo-a.vtt",
+  "scriptFile": "assets/accessibility/scripts/scenes/biblioteca-mezanine-grupo-a.md",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 8.721,
+      "text": "Escena: Biblioteca mezanine — Trabajo en grupo A. Zona: Biblioteca — Mezanine / nivel superior. 00:00:08.671 --> 00:00:10.459 Orientación. 00:00:10.459 --> 00:00:18.947 Estás en Grupo A. Zona colaborativa: pods a un lado, mesas circulares al centro, estantería y escalera al fondo. 00:00:18.947 --> 00:00:21.776 Puntos de interés principales. 00:00:21.776 --> 00:00:29.132 Mesas colaborativas: Mesas redondas con taburetes naranja/verde para trabajo ágil. 00:00:29.132 --> 00:00:35.197 Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. 00:00:35.197 --> 00:00:39.132 Destinos disponibles desde aquí: Grupo B. 00:00:39.132 --> 00:00:43.434 Esta narración es temporal generada por voz artificial. 00:00:43.434 --> 00:00:48.132 Puede reemplazarse luego por una grabación humana usando el mismo guion."
+    }
+  ]
+}

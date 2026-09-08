@@ -1,0 +1,17 @@
+{
+  "sceneKey": "biblioteca-mezanine-cubiculos",
+  "locale": "es-CO",
+  "durationSec": 4.839,
+  "source": "tts",
+  "audioFile": "assets/audio/scenes/biblioteca-mezanine-cubiculos.mp3",
+  "transcriptFile": "assets/transcripts/scenes/biblioteca-mezanine-cubiculos.txt",
+  "captionFile": "assets/captions/scenes/biblioteca-mezanine-cubiculos.vtt",
+  "scriptFile": "assets/accessibility/scripts/scenes/biblioteca-mezanine-cubiculos.md",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 4.839,
+      "text": "Escena: Biblioteca mezanine — Cubículos amoblados. 00:00:04.789 --> 00:00:09.881 Zona: Biblioteca — Mezanine / nivel superior. 00:00:09.881 --> 00:00:11.657 Orientación. 00:00:11.657 --> 00:00:14.342 Estás en Cubículos P2. 00:00:14.342 --> 00:00:19.355 Detalle de cubículos/pods amoblados del nivel superior. 00:00:19.355 --> 00:00:22.184 Puntos de interés principales. 00:00:22.184 --> 00:00:27.579 Pod de estudio: Cubículo acolchado verde para concentración en mezanine. 00:00:27.579 --> 00:00:33.645 Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. 00:00:33.645 --> 00:00:37.671 Destinos disponibles desde aquí: Hemeroteca. 00:00:37.671 --> 00:00:41.974 Esta narración es temporal generada por voz artificial. 00:00:41.974 --> 00:00:46.671 Puede reemplazarse luego por una grabación humana usando el mismo guion."
+    }
+  ]
+}

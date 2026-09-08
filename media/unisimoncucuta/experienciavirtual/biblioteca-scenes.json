@@ -1,0 +1,2596 @@
+{
+  "R0010082_202503281648_YP00145909.JPG": {
+    "id": "pre-biblioteca-puertas",
+    "title": "Pre-biblioteca — Puertas y rampa",
+    "shortTitle": "Puertas biblioteca",
+    "altText": "Zona frente a las puertas de la biblioteca con rampa y mostrador.",
+    "longDescription": "Estás frente a las puertas de la Biblioteca Anita Bolívar de Consuegra. Hay rampa corta, plantas y el letrero BIBLIOTECA.",
+    "initialView": {
+      "yaw": 0,
+      "pitch": 0,
+      "fov": 1.35
+    },
+    "keyboardShortcuts": [
+      "Flechas: girar la vista",
+      "Clic en flechas azules: avanzar a la siguiente zona",
+      "Doble clic hacia un destino: salto rápido"
+    ],
+    "links": [
+      {
+        "label": "Entrar al lobby",
+        "targetFile": "R0010083_202503281649_YP00145909.JPG",
+        "yaw": -0.4,
+        "pitch": -0.08
+      }
+    ],
+    "hotspots": [
+      {
+        "id": "82-entrar",
+        "type": "nav",
+        "title": "Entrar al lobby",
+        "shortLabel": "Entrar",
+        "targetFile": "R0010083_202503281649_YP00145909.JPG",
+        "yaw": -0.55,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Entrar al lobby",
+        "description": "Continúa el recorrido hacia: Entrar al lobby."
+      },
+      {
+        "id": "82-control",
+        "type": "nav",
+        "title": "Control de ingreso",
+        "shortLabel": "Registro",
+        "targetFile": "R0010078_202503281644_YP00145909.JPG",
+        "yaw": 1.4,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Control de ingreso",
+        "description": "Continúa el recorrido hacia: Control de ingreso."
+      },
+      {
+        "id": "82-rampa",
+        "type": "info",
+        "title": "Rampa de acceso",
+        "yaw": -1.1,
+        "pitch": -0.25,
+        "icon": "♿",
+        "altText": "Rampa de acceso",
+        "description": "Rampa corta hacia el acceso de la biblioteca; facilita el ingreso con movilidad reducida."
+      }
+    ],
+    "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/pre-biblioteca-puertas.mp3",
+    "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/pre-biblioteca-puertas.txt",
+    "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/pre-biblioteca-puertas.vtt",
+    "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/pre-biblioteca-puertas.md"
+  },
+  "R0010078_202503281644_YP00145909.JPG": {
+    "id": "control-ingreso-biblioteca",
+    "title": "Control de ingreso — Biblioteca Anita Consuegra",
+    "shortTitle": "Control de ingreso",
+    "altText": "Mostrador de control de ingreso a la biblioteca Anita Consuegra.",
+    "longDescription": "Mostrador acristalado de control de ingreso a la biblioteca. Desde aquí se orienta el acceso al lobby.",
+    "initialView": {
+      "yaw": 0,
+      "pitch": 0,
+      "fov": 1.35
+    },
+    "keyboardShortcuts": [
+      "Flechas: girar la vista",
+      "Clic en flechas azules: avanzar a la siguiente zona",
+      "Doble clic hacia un destino: salto rápido"
+    ],
+    "links": [
+      {
+        "label": "Hacia puertas biblioteca",
+        "targetFile": "R0010082_202503281648_YP00145909.JPG",
+        "yaw": 0.2,
+        "pitch": -0.08
+      }
+    ],
+    "hotspots": [
+      {
+        "id": "78-puertas",
+        "type": "nav",
+        "title": "Hacia puertas de la biblioteca",
+        "shortLabel": "Puertas",
+        "targetFile": "R0010082_202503281648_YP00145909.JPG",
+        "yaw": 0.35,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Hacia puertas de la biblioteca",
+        "description": "Continúa el recorrido hacia: Hacia puertas de la biblioteca."
+      },
+      {
+        "id": "78-mostrador",
+        "type": "info",
+        "title": "Recepción de bolsos / Seguridad",
+        "yaw": -0.9,
+        "pitch": -0.05,
+        "icon": "🛡",
+        "altText": "Recepción de bolsos, seguridad y objetos perdidos",
+        "description": "Aquí se reciben bolsos y se hace el control de seguridad / objetos perdidos antes de entrar a la biblioteca."
+      }
+    ],
+    "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/control-ingreso-biblioteca.mp3",
+    "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/control-ingreso-biblioteca.txt",
+    "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/control-ingreso-biblioteca.vtt",
+    "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/control-ingreso-biblioteca.md"
+  },
+  "R0010083_202503281649_YP00145909.JPG": {
+    "id": "biblioteca-lobby",
+    "title": "Biblioteca — Lobby de ingreso",
+    "shortTitle": "Lobby",
+    "altText": "Lobby con arco de ingreso, mostrador, mesas y acceso a computadores.",
+    "longDescription": "Umbral del lobby: arco con franja tricolor al frente, mostrador y mesas a la izquierda, sala de computadores a la derecha.",
+    "initialView": {
+      "yaw": 0.15,
+      "pitch": 0,
+      "fov": 1.3
+    },
+    "keyboardShortcuts": [
+      "Flechas: girar la vista",
+      "Clic en flechas azules: avanzar a la siguiente zona",
+      "Doble clic hacia un destino: salto rápido"
+    ],
+    "links": [
+      {
+        "label": "Profundizar lobby",
+        "targetFile": "R0010084_202503281650_YP00145909.JPG",
+        "yaw": 0.2,
+        "pitch": -0.08
+      }
+    ],
+    "hotspots": [
+      {
+        "id": "83-adelante",
+        "type": "nav",
+        "title": "Profundizar al lobby / mural",
+        "shortLabel": "Adelante",
+        "targetFile": "R0010084_202503281650_YP00145909.JPG",
+        "yaw": 0.2,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Profundizar al lobby / mural",
+        "description": "Continúa el recorrido hacia: Profundizar al lobby / mural."
+      },
+      {
+        "id": "83-estudio",
+        "type": "nav",
+        "title": "Zona de mesas de estudio",
+        "shortLabel": "Mesas",
+        "targetFile": "R0010086_202503281652_YP00145909.JPG",
+        "yaw": -1.35,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Zona de mesas de estudio",
+        "description": "Continúa el recorrido hacia: Zona de mesas de estudio."
+      },
+      {
+        "id": "83-pcs",
+        "type": "nav",
+        "title": "Sala de computadores",
+        "shortLabel": "PCs",
+        "targetFile": "R0010085_202503281651_YP00145909.JPG",
+        "yaw": 1.25,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Sala de computadores",
+        "description": "Continúa el recorrido hacia: Sala de computadores."
+      },
+      {
+        "id": "83-salida",
+        "type": "nav",
+        "title": "Salir a pre-biblioteca",
+        "shortLabel": "Salir",
+        "targetFile": "R0010082_202503281648_YP00145909.JPG",
+        "yaw": 3.05,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Salir a pre-biblioteca",
+        "description": "Continúa el recorrido hacia: Salir a pre-biblioteca."
+      },
+      {
+        "id": "83-mostrador",
+        "type": "info",
+        "title": "Préstamo de libros y computadores",
+        "yaw": -0.85,
+        "pitch": -0.08,
+        "icon": "📚",
+        "altText": "Mostrador de préstamo de libros y computadores",
+        "description": "Mostrador de préstamo de libros y computadores. El personal atiende solicitudes de material y equipos."
+      },
+      {
+        "id": "83-bibliotecaria",
+        "type": "info",
+        "title": "Área de bibliotecaria y consulta",
+        "yaw": 0.15,
+        "pitch": -0.02,
+        "icon": "👩‍💼",
+        "altText": "Área de la bibliotecaria detrás del acceso acristalado",
+        "description": "Espacio de la bibliotecaria y consulta, visible a través del acceso acristalado del lobby."
+      },
+      {
+        "id": "83-letrero",
+        "type": "info",
+        "title": "Identificación de la biblioteca",
+        "yaw": 1.55,
+        "pitch": 0.15,
+        "icon": "🏷",
+        "altText": "Identificación de la biblioteca",
+        "description": "Área del letrero y señalética de la Biblioteca Anita Bolívar de Consuegra."
+      }
+    ],
+    "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-lobby.mp3",
+    "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-lobby.txt",
+    "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-lobby.vtt",
+    "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/biblioteca-lobby.md"
+  },
+  "R0010084_202503281650_YP00145909.JPG": {
+    "id": "biblioteca-lobby-mural",
+    "title": "Biblioteca — Lobby mural y PCs",
+    "shortTitle": "Lobby mural",
+    "altText": "Lobby con mural colorido, computadores y mesas bajo la mezanine.",
+    "longDescription": "Vista del lobby: mural en el arco, fila de PCs a la derecha, mesas a la izquierda y escalera a mezanine al fondo.",
+    "initialView": {
+      "yaw": 0,
+      "pitch": 0,
+      "fov": 1.35
+    },
+    "keyboardShortcuts": [
+      "Flechas: girar la vista",
+      "Clic en flechas azules: avanzar a la siguiente zona",
+      "Doble clic hacia un destino: salto rápido"
+    ],
+    "links": [
+      {
+        "label": "Otro ángulo del lobby",
+        "targetFile": "R0010085_202503281651_YP00145909.JPG",
+        "yaw": 0.1,
+        "pitch": -0.08
+      }
+    ],
+    "hotspots": [
+      {
+        "id": "84-atras",
+        "type": "nav",
+        "title": "Volver al umbral",
+        "shortLabel": "Atrás",
+        "targetFile": "R0010083_202503281649_YP00145909.JPG",
+        "yaw": 3.1,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Volver al umbral",
+        "description": "Continúa el recorrido hacia: Volver al umbral."
+      },
+      {
+        "id": "84-pcs",
+        "type": "nav",
+        "title": "Acercar a computadores",
+        "shortLabel": "PCs",
+        "targetFile": "R0010085_202503281651_YP00145909.JPG",
+        "yaw": 1.1,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Acercar a computadores",
+        "description": "Continúa el recorrido hacia: Acercar a computadores."
+      },
+      {
+        "id": "84-mesas",
+        "type": "nav",
+        "title": "Pasillo de lectura",
+        "shortLabel": "Mesas",
+        "targetFile": "R0010086_202503281652_YP00145909.JPG",
+        "yaw": -1,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Pasillo de lectura",
+        "description": "Continúa el recorrido hacia: Pasillo de lectura."
+      },
+      {
+        "id": "84-escaleras",
+        "type": "nav",
+        "title": "Hacia escaleras mezanine",
+        "shortLabel": "Escaleras",
+        "targetFile": "R0010100_202503281706_YP00145909.JPG",
+        "yaw": -2.1,
+        "pitch": 0.05,
+        "icon": "➜",
+        "altText": "Navegar a Hacia escaleras mezanine",
+        "description": "Continúa el recorrido hacia: Hacia escaleras mezanine."
+      },
+      {
+        "id": "84-mural",
+        "type": "info",
+        "title": "Mural del acceso",
+        "yaw": 0.05,
+        "pitch": 0.18,
+        "icon": "🎨",
+        "altText": "Mural del acceso",
+        "description": "Mural ilustrado alrededor del acceso principal del lobby."
+      },
+      {
+        "id": "84-prestamo",
+        "type": "info",
+        "title": "Préstamo de libros y computadores",
+        "yaw": -1.05,
+        "pitch": -0.08,
+        "icon": "📚",
+        "altText": "Mostrador de préstamo donde se atienden estudiantes",
+        "description": "Mostrador de préstamo de libros y computadores (zona donde suelen reunirse los estudiantes para el servicio)."
+      },
+      {
+        "id": "84-bibliotecaria",
+        "type": "info",
+        "title": "Área de bibliotecaria y consulta",
+        "yaw": 0.05,
+        "pitch": -0.05,
+        "icon": "👩‍💼",
+        "altText": "Oficina de la bibliotecaria detrás de las puertas de vidrio",
+        "description": "Área de la bibliotecaria y consulta, detrás de las puertas de vidrio del arco central."
+      },
+      {
+        "id": "84-puertas-consulta",
+        "type": "nav",
+        "title": "Acercar a zona de consulta / PCs",
+        "shortLabel": "Consulta",
+        "targetFile": "R0010085_202503281651_YP00145909.JPG",
+        "yaw": 0.35,
+        "pitch": -0.06,
+        "icon": "➜",
+        "altText": "Avanzar hacia la zona de consulta",
+        "description": "Continúa hacia el ángulo del lobby con computadores y consulta."
+      }
+    ],
+    "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-lobby-mural.mp3",
+    "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-lobby-mural.txt",
+    "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-lobby-mural.vtt",
+    "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/biblioteca-lobby-mural.md"
+  },
+  "R0010085_202503281651_YP00145909.JPG": {
+    "id": "biblioteca-lobby-pcs",
+    "title": "Biblioteca — Lobby ángulo PCs",
+    "shortTitle": "Lobby PCs",
+    "altText": "Ángulo del lobby enfocado en computadores y letrero de la biblioteca.",
+    "longDescription": "Computadores bajo el letrero de la biblioteca; mural y mesas visibles hacia el centro-izquierda.",
+    "initialView": {
+      "yaw": 0,
+      "pitch": 0,
+      "fov": 1.35
+    },
+    "keyboardShortcuts": [
+      "Flechas: girar la vista",
+      "Clic en flechas azules: avanzar a la siguiente zona",
+      "Doble clic hacia un destino: salto rápido"
+    ],
+    "links": [
+      {
+        "label": "Al pasillo central",
+        "targetFile": "R0010086_202503281652_YP00145909.JPG",
+        "yaw": -0.4,
+        "pitch": -0.08
+      }
+    ],
+    "hotspots": [
+      {
+        "id": "85-atras",
+        "type": "nav",
+        "title": "Volver lobby mural",
+        "shortLabel": "Atrás",
+        "targetFile": "R0010084_202503281650_YP00145909.JPG",
+        "yaw": 3,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Volver lobby mural",
+        "description": "Continúa el recorrido hacia: Volver lobby mural."
+      },
+      {
+        "id": "85-pasillo",
+        "type": "nav",
+        "title": "Pasillo central",
+        "shortLabel": "Pasillo",
+        "targetFile": "R0010086_202503281652_YP00145909.JPG",
+        "yaw": -0.55,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Pasillo central",
+        "description": "Continúa el recorrido hacia: Pasillo central."
+      },
+      {
+        "id": "85-cubiculos",
+        "type": "nav",
+        "title": "Hacia cubículos",
+        "shortLabel": "Cubículos",
+        "targetFile": "R0010087_202503281653_YP00145909.JPG",
+        "yaw": 0.35,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Hacia cubículos",
+        "description": "Continúa el recorrido hacia: Hacia cubículos."
+      },
+      {
+        "id": "85-pcs",
+        "type": "info",
+        "title": "Estaciones de cómputo",
+        "yaw": 0.95,
+        "pitch": -0.08,
+        "icon": "💻",
+        "altText": "Estaciones de cómputo",
+        "description": "Fila de computadores de uso académico en el lobby."
+      },
+      {
+        "id": "85-nombre",
+        "type": "info",
+        "title": "Letrero Anita Bolívar de Consuegra",
+        "yaw": 1.05,
+        "pitch": 0.25,
+        "icon": "🏷",
+        "altText": "Letrero Anita Bolívar de Consuegra",
+        "description": "Nombre oficial de la biblioteca en el muro."
+      }
+    ],
+    "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-lobby-pcs.mp3",
+    "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-lobby-pcs.txt",
+    "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-lobby-pcs.vtt",
+    "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/biblioteca-lobby-pcs.md"
+  },
+  "R0010086_202503281652_YP00145909.JPG": {
+    "id": "biblioteca-pasillo-central",
+    "title": "Biblioteca — Pasillo central de lectura",
+    "shortTitle": "Pasillo central",
+    "altText": "Pasillo con mesas curvas, estantería baja y vista al mural del fondo.",
+    "longDescription": "Eje central: mesas de estudio, estantería baja y fondo hacia el mural/acceso.",
+    "initialView": {
+      "yaw": 0,
+      "pitch": 0,
+      "fov": 1.35
+    },
+    "keyboardShortcuts": [
+      "Flechas: girar la vista",
+      "Clic en flechas azules: avanzar a la siguiente zona",
+      "Doble clic hacia un destino: salto rápido"
+    ],
+    "links": [
+      {
+        "label": "Hacia cubículos",
+        "targetFile": "R0010087_202503281653_YP00145909.JPG",
+        "yaw": 0.4,
+        "pitch": -0.08
+      }
+    ],
+    "hotspots": [
+      {
+        "id": "86-lobby",
+        "type": "nav",
+        "title": "Volver al lobby",
+        "shortLabel": "Lobby",
+        "targetFile": "R0010085_202503281651_YP00145909.JPG",
+        "yaw": 2.9,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Volver al lobby",
+        "description": "Continúa el recorrido hacia: Volver al lobby."
+      },
+      {
+        "id": "86-cubiculos",
+        "type": "nav",
+        "title": "Cubículos arqueados",
+        "shortLabel": "Cubículos",
+        "targetFile": "R0010087_202503281653_YP00145909.JPG",
+        "yaw": 0.55,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Cubículos arqueados",
+        "description": "Continúa el recorrido hacia: Cubículos arqueados."
+      },
+      {
+        "id": "86-mesas",
+        "type": "nav",
+        "title": "Mesas curvas",
+        "shortLabel": "Mesas",
+        "targetFile": "R0010090_202503281656_YP00145909.JPG",
+        "yaw": -0.7,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Mesas curvas",
+        "description": "Continúa el recorrido hacia: Mesas curvas."
+      },
+      {
+        "id": "86-general",
+        "type": "nav",
+        "title": "Colección GENERAL",
+        "shortLabel": "GENERAL",
+        "targetFile": "R0010093_202503281659_YP00145909.JPG",
+        "yaw": 1.2,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Colección GENERAL",
+        "description": "Continúa el recorrido hacia: Colección GENERAL."
+      },
+      {
+        "id": "86-estantes",
+        "type": "info",
+        "title": "Estantería baja",
+        "yaw": 0.1,
+        "pitch": -0.2,
+        "icon": "📖",
+        "altText": "Estantería baja",
+        "description": "Estantería perimetral baja que organiza el pasillo de lectura."
+      }
+    ],
+    "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-pasillo-central.mp3",
+    "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-pasillo-central.txt",
+    "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-pasillo-central.vtt",
+    "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/biblioteca-pasillo-central.md"
+  },
+  "R0010087_202503281653_YP00145909.JPG": {
+    "id": "biblioteca-cubiculos-arco",
+    "title": "Biblioteca — Cubículos arqueados",
+    "shortTitle": "Cubículos",
+    "altText": "Cuatro cubículos arqueados bajo la mezanine, con PCs a un lado y mesas al otro.",
+    "longDescription": "Frente a los cubículos de estudio semi-privados; a la izquierda PCs, a la derecha mesas comunales.",
+    "initialView": {
+      "yaw": 0.1,
+      "pitch": 0,
+      "fov": 1.3
+    },
+    "keyboardShortcuts": [
+      "Flechas: girar la vista",
+      "Clic en flechas azules: avanzar a la siguiente zona",
+      "Doble clic hacia un destino: salto rápido"
+    ],
+    "links": [
+      {
+        "label": "Entrar a fila de cubículos",
+        "targetFile": "R0010088_202503281654_YP00145909.JPG",
+        "yaw": 0.05,
+        "pitch": -0.08
+      }
+    ],
+    "hotspots": [
+      {
+        "id": "87-dentro",
+        "type": "nav",
+        "title": "Entrar a la fila de cubículos",
+        "shortLabel": "Entrar",
+        "targetFile": "R0010088_202503281654_YP00145909.JPG",
+        "yaw": 0.08,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Entrar a la fila de cubículos",
+        "description": "Continúa el recorrido hacia: Entrar a la fila de cubículos."
+      },
+      {
+        "id": "87-pcs",
+        "type": "nav",
+        "title": "Zona de computadores",
+        "shortLabel": "PCs",
+        "targetFile": "R0010085_202503281651_YP00145909.JPG",
+        "yaw": -1.4,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Zona de computadores",
+        "description": "Continúa el recorrido hacia: Zona de computadores."
+      },
+      {
+        "id": "87-mesas",
+        "type": "nav",
+        "title": "Mesas de estudio",
+        "shortLabel": "Mesas",
+        "targetFile": "R0010091_202503281658_YP00145909.JPG",
+        "yaw": 1.3,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Mesas de estudio",
+        "description": "Continúa el recorrido hacia: Mesas de estudio."
+      },
+      {
+        "id": "87-atras",
+        "type": "nav",
+        "title": "Volver pasillo",
+        "shortLabel": "Atrás",
+        "targetFile": "R0010086_202503281652_YP00145909.JPG",
+        "yaw": 3.05,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Volver pasillo",
+        "description": "Continúa el recorrido hacia: Volver pasillo."
+      },
+      {
+        "id": "87-pods",
+        "type": "info",
+        "title": "Cubículos de estudio",
+        "yaw": 0.15,
+        "pitch": -0.05,
+        "icon": "🪑",
+        "altText": "Cubículos de estudio",
+        "description": "Cabinas arqueadas para estudio individual o en pareja, con iluminación propia."
+      }
+    ],
+    "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-cubiculos-arco.mp3",
+    "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-cubiculos-arco.txt",
+    "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-cubiculos-arco.vtt",
+    "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/biblioteca-cubiculos-arco.md"
+  },
+  "R0010088_202503281654_YP00145909.JPG": {
+    "id": "biblioteca-cubiculos-fila",
+    "title": "Biblioteca — Fila de cubículos",
+    "shortTitle": "Fila cubículos",
+    "altText": "Vista cercana de cubículos con asientos verdes y azules.",
+    "longDescription": "Pasillo frente a los cubículos; al fondo se abre hacia la estantería.",
+    "initialView": {
+      "yaw": 0,
+      "pitch": 0,
+      "fov": 1.35
+    },
+    "keyboardShortcuts": [
+      "Flechas: girar la vista",
+      "Clic en flechas azules: avanzar a la siguiente zona",
+      "Doble clic hacia un destino: salto rápido"
+    ],
+    "links": [
+      {
+        "label": "Interior de un cubículo",
+        "targetFile": "R0010089_202503281655_YP00145909.JPG",
+        "yaw": 0.2,
+        "pitch": -0.08
+      }
+    ],
+    "hotspots": [
+      {
+        "id": "88-interior",
+        "type": "nav",
+        "title": "Entrar a un cubículo",
+        "shortLabel": "Interior",
+        "targetFile": "R0010089_202503281655_YP00145909.JPG",
+        "yaw": 0.35,
+        "pitch": -0.1,
+        "icon": "➜",
+        "altText": "Navegar a Entrar a un cubículo",
+        "description": "Continúa el recorrido hacia: Entrar a un cubículo."
+      },
+      {
+        "id": "88-estantes",
+        "type": "nav",
+        "title": "Hacia estantería",
+        "shortLabel": "Estantes",
+        "targetFile": "R0010093_202503281659_YP00145909.JPG",
+        "yaw": 1,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Hacia estantería",
+        "description": "Continúa el recorrido hacia: Hacia estantería."
+      },
+      {
+        "id": "88-atras",
+        "type": "nav",
+        "title": "Volver vista general",
+        "shortLabel": "Atrás",
+        "targetFile": "R0010087_202503281653_YP00145909.JPG",
+        "yaw": 3,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Volver vista general",
+        "description": "Continúa el recorrido hacia: Volver vista general."
+      },
+      {
+        "id": "88-booth",
+        "type": "info",
+        "title": "Cubículo grupal",
+        "yaw": -0.2,
+        "pitch": -0.05,
+        "icon": "👥",
+        "altText": "Cubículo grupal",
+        "description": "Cubículo con banca tapizada y mesa de madera para trabajo concentrado."
+      }
+    ],
+    "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-cubiculos-fila.mp3",
+    "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-cubiculos-fila.txt",
+    "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-cubiculos-fila.vtt",
+    "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/biblioteca-cubiculos-fila.md"
+  },
+  "R0010089_202503281655_YP00145909.JPG": {
+    "id": "biblioteca-cubiculo-interior",
+    "title": "Biblioteca — Interior de cubículo",
+    "shortTitle": "Dentro del cubículo",
+    "altText": "Interior de un cubículo de madera con vista a la sala de estantería.",
+    "longDescription": "Estás dentro de un cubículo: mesa triangular, silla azul y vista hacia la sala con estantes.",
+    "initialView": {
+      "yaw": 0.4,
+      "pitch": -0.05,
+      "fov": 1.4
+    },
+    "keyboardShortcuts": [
+      "Flechas: girar la vista",
+      "Clic en flechas azules: avanzar a la siguiente zona",
+      "Doble clic hacia un destino: salto rápido"
+    ],
+    "links": [
+      {
+        "label": "Salir del cubículo",
+        "targetFile": "R0010088_202503281654_YP00145909.JPG",
+        "yaw": -1.2,
+        "pitch": -0.08
+      }
+    ],
+    "hotspots": [
+      {
+        "id": "89-salir",
+        "type": "nav",
+        "title": "Salir a la fila de cubículos",
+        "shortLabel": "Salir",
+        "targetFile": "R0010088_202503281654_YP00145909.JPG",
+        "yaw": -1.4,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Salir a la fila de cubículos",
+        "description": "Continúa el recorrido hacia: Salir a la fila de cubículos."
+      },
+      {
+        "id": "89-sala",
+        "type": "nav",
+        "title": "Mirar sala de lectura",
+        "shortLabel": "Sala",
+        "targetFile": "R0010090_202503281656_YP00145909.JPG",
+        "yaw": 0.5,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Mirar sala de lectura",
+        "description": "Continúa el recorrido hacia: Mirar sala de lectura."
+      },
+      {
+        "id": "89-mesa",
+        "type": "info",
+        "title": "Puesto de estudio",
+        "yaw": 0.2,
+        "pitch": -0.25,
+        "icon": "💡",
+        "altText": "Puesto de estudio",
+        "description": "Mesa individual dentro del cubículo, con iluminación puntual."
+      }
+    ],
+    "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-cubiculo-interior.mp3",
+    "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-cubiculo-interior.txt",
+    "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-cubiculo-interior.vtt",
+    "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/biblioteca-cubiculo-interior.md"
+  },
+  "R0010090_202503281656_YP00145909.JPG": {
+    "id": "biblioteca-mesas-curvas",
+    "title": "Biblioteca — Mesas curvas y PCs",
+    "shortTitle": "Mesas curvas",
+    "altText": "Mesas curvas de estudio con vista a PCs y mezanine.",
+    "longDescription": "Área abierta de mesas curvas; al fondo computadores y letrero; mezanine arriba.",
+    "initialView": {
+      "yaw": 0,
+      "pitch": 0,
+      "fov": 1.35
+    },
+    "keyboardShortcuts": [
+      "Flechas: girar la vista",
+      "Clic en flechas azules: avanzar a la siguiente zona",
+      "Doble clic hacia un destino: salto rápido"
+    ],
+    "links": [
+      {
+        "label": "Hacia hub de mesas",
+        "targetFile": "R0010092_202503281658_YP00145909.JPG",
+        "yaw": 0.3,
+        "pitch": -0.08
+      }
+    ],
+    "hotspots": [
+      {
+        "id": "90-hub",
+        "type": "nav",
+        "title": "Hub de mesas y salones",
+        "shortLabel": "Hub",
+        "targetFile": "R0010092_202503281658_YP00145909.JPG",
+        "yaw": 0.45,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Hub de mesas y salones",
+        "description": "Continúa el recorrido hacia: Hub de mesas y salones."
+      },
+      {
+        "id": "90-cubiculos",
+        "type": "nav",
+        "title": "Volver a cubículos",
+        "shortLabel": "Cubículos",
+        "targetFile": "R0010087_202503281653_YP00145909.JPG",
+        "yaw": -1.6,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Volver a cubículos",
+        "description": "Continúa el recorrido hacia: Volver a cubículos."
+      },
+      {
+        "id": "90-pcs",
+        "type": "nav",
+        "title": "Zona de PCs",
+        "shortLabel": "PCs",
+        "targetFile": "R0010085_202503281651_YP00145909.JPG",
+        "yaw": 1.5,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Zona de PCs",
+        "description": "Continúa el recorrido hacia: Zona de PCs."
+      },
+      {
+        "id": "90-mesas",
+        "type": "info",
+        "title": "Mesas colaborativas",
+        "yaw": -0.2,
+        "pitch": -0.15,
+        "icon": "🪑",
+        "altText": "Mesas colaborativas",
+        "description": "Mesas curvas con sillas verdes para trabajo en grupo."
+      }
+    ],
+    "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-mesas-curvas.mp3",
+    "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-mesas-curvas.txt",
+    "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-mesas-curvas.vtt",
+    "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/biblioteca-mesas-curvas.md"
+  },
+  "R0010091_202503281658_YP00145909.JPG": {
+    "id": "biblioteca-lectura-escalera",
+    "title": "Biblioteca — Lectura y acceso a escalera",
+    "shortTitle": "Lectura / escalera",
+    "altText": "Mesas, estantería, computadores y escalera a la mezanine.",
+    "longDescription": "Nodo entre zona de lectura, PCs y la escalera hacia el nivel superior.",
+    "initialView": {
+      "yaw": 0,
+      "pitch": 0,
+      "fov": 1.35
+    },
+    "keyboardShortcuts": [
+      "Flechas: girar la vista",
+      "Clic en flechas azules: avanzar a la siguiente zona",
+      "Doble clic hacia un destino: salto rápido"
+    ],
+    "links": [
+      {
+        "label": "Hacia escaleras",
+        "targetFile": "R0010100_202503281706_YP00145909.JPG",
+        "yaw": 1.2,
+        "pitch": -0.08
+      }
+    ],
+    "hotspots": [
+      {
+        "id": "91-escaleras",
+        "type": "nav",
+        "title": "Escaleras a mezanine",
+        "shortLabel": "Subir",
+        "targetFile": "R0010100_202503281706_YP00145909.JPG",
+        "yaw": 1.35,
+        "pitch": 0.05,
+        "icon": "➜",
+        "altText": "Navegar a Escaleras a mezanine",
+        "description": "Continúa el recorrido hacia: Escaleras a mezanine."
+      },
+      {
+        "id": "91-general",
+        "type": "nav",
+        "title": "Colección GENERAL",
+        "shortLabel": "GENERAL",
+        "targetFile": "R0010093_202503281659_YP00145909.JPG",
+        "yaw": -0.4,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Colección GENERAL",
+        "description": "Continúa el recorrido hacia: Colección GENERAL."
+      },
+      {
+        "id": "91-atras",
+        "type": "nav",
+        "title": "Volver mesas",
+        "shortLabel": "Atrás",
+        "targetFile": "R0010090_202503281656_YP00145909.JPG",
+        "yaw": 3,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Volver mesas",
+        "description": "Continúa el recorrido hacia: Volver mesas."
+      },
+      {
+        "id": "91-catalogo",
+        "type": "info",
+        "title": "Punto de consulta",
+        "yaw": 1.7,
+        "pitch": -0.05,
+        "icon": "🖥",
+        "altText": "Punto de consulta",
+        "description": "Consola/kiosco de apoyo cerca de la circulación vertical."
+      }
+    ],
+    "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-lectura-escalera.mp3",
+    "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-lectura-escalera.txt",
+    "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-lectura-escalera.vtt",
+    "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/biblioteca-lectura-escalera.md"
+  },
+  "R0010092_202503281658_YP00145909.JPG": {
+    "id": "biblioteca-hub-salones",
+    "title": "Biblioteca — Hub mesas y salones de vidrio",
+    "shortTitle": "Hub salones",
+    "altText": "Mesas curvas frente a salones de estudio con paredes de vidrio.",
+    "longDescription": "Centro de la planta baja: mesas alrededor y salones acristalados al medio.",
+    "initialView": {
+      "yaw": 0,
+      "pitch": 0,
+      "fov": 1.35
+    },
+    "keyboardShortcuts": [
+      "Flechas: girar la vista",
+      "Clic en flechas azules: avanzar a la siguiente zona",
+      "Doble clic hacia un destino: salto rápido"
+    ],
+    "links": [
+      {
+        "label": "Colección GENERAL",
+        "targetFile": "R0010093_202503281659_YP00145909.JPG",
+        "yaw": 0.2,
+        "pitch": -0.08
+      }
+    ],
+    "hotspots": [
+      {
+        "id": "92-general",
+        "type": "nav",
+        "title": "Colección GENERAL",
+        "shortLabel": "GENERAL",
+        "targetFile": "R0010093_202503281659_YP00145909.JPG",
+        "yaw": 0.25,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Colección GENERAL",
+        "description": "Continúa el recorrido hacia: Colección GENERAL."
+      },
+      {
+        "id": "92-salones",
+        "type": "nav",
+        "title": "Salones de proyecto",
+        "shortLabel": "Salones",
+        "targetFile": "R0010097_202503281703_YP00145909.JPG",
+        "yaw": 1,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Salones de proyecto",
+        "description": "Continúa el recorrido hacia: Salones de proyecto."
+      },
+      {
+        "id": "92-atras",
+        "type": "nav",
+        "title": "Volver mesas curvas",
+        "shortLabel": "Atrás",
+        "targetFile": "R0010090_202503281656_YP00145909.JPG",
+        "yaw": 3.05,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Volver mesas curvas",
+        "description": "Continúa el recorrido hacia: Volver mesas curvas."
+      },
+      {
+        "id": "92-vidrio",
+        "type": "info",
+        "title": "Salones de estudio",
+        "yaw": 0.6,
+        "pitch": -0.05,
+        "icon": "🚪",
+        "altText": "Salones de estudio",
+        "description": "Salas cerradas con vidrio para trabajo en grupo o tutorías."
+      }
+    ],
+    "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-hub-salones.mp3",
+    "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-hub-salones.txt",
+    "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-hub-salones.vtt",
+    "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/biblioteca-hub-salones.md"
+  },
+  "R0010093_202503281659_YP00145909.JPG": {
+    "id": "biblioteca-general",
+    "title": "Biblioteca — Colección GENERAL",
+    "shortTitle": "GENERAL",
+    "altText": "Estantería GENERAL, salones de vidrio y mesas de estudio.",
+    "longDescription": "Frente a la colección GENERAL; salones literarios a un lado y mesas abiertas al otro.",
+    "initialView": {
+      "yaw": 0,
+      "pitch": 0,
+      "fov": 1.35
+    },
+    "keyboardShortcuts": [
+      "Flechas: girar la vista",
+      "Clic en flechas azules: avanzar a la siguiente zona",
+      "Doble clic hacia un destino: salto rápido"
+    ],
+    "links": [
+      {
+        "label": "Pasillo de estantería",
+        "targetFile": "R0010094_202503281700_YP00145909.JPG",
+        "yaw": 0.1,
+        "pitch": -0.08
+      }
+    ],
+    "hotspots": [
+      {
+        "id": "93-estantes",
+        "type": "nav",
+        "title": "Pasillo entre estantes",
+        "shortLabel": "Estantes",
+        "targetFile": "R0010094_202503281700_YP00145909.JPG",
+        "yaw": 0.15,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Pasillo entre estantes",
+        "description": "Continúa el recorrido hacia: Pasillo entre estantes."
+      },
+      {
+        "id": "93-salones",
+        "type": "nav",
+        "title": "Salones de proyecto",
+        "shortLabel": "Salones",
+        "targetFile": "R0010098_202503281705_YP00145909.JPG",
+        "yaw": 1.2,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Salones de proyecto",
+        "description": "Continúa el recorrido hacia: Salones de proyecto."
+      },
+      {
+        "id": "93-hub",
+        "type": "nav",
+        "title": "Volver al hub",
+        "shortLabel": "Hub",
+        "targetFile": "R0010092_202503281658_YP00145909.JPG",
+        "yaw": 3,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Volver al hub",
+        "description": "Continúa el recorrido hacia: Volver al hub."
+      },
+      {
+        "id": "93-general",
+        "type": "info",
+        "title": "Sección GENERAL",
+        "yaw": 0.05,
+        "pitch": 0.2,
+        "icon": "📖",
+        "altText": "Sección GENERAL",
+        "description": "Estantería señalizada como colección GENERAL."
+      },
+      {
+        "id": "93-marquez",
+        "type": "info",
+        "title": "Salón con referencia literaria",
+        "yaw": 1.4,
+        "pitch": 0.05,
+        "icon": "🖼",
+        "altText": "Salón con referencia literaria",
+        "description": "Salón de vidrio con gráficos y referencias literarias."
+      }
+    ],
+    "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-general.mp3",
+    "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-general.txt",
+    "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-general.vtt",
+    "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/biblioteca-general.md"
+  },
+  "R0010094_202503281700_YP00145909.JPG": {
+    "id": "biblioteca-pasillo-estantes",
+    "title": "Biblioteca — Pasillo de estantería",
+    "shortTitle": "Pasillo estantes",
+    "altText": "Pasillo entre estantería blanca alta y mesas verdes.",
+    "longDescription": "Aisle de estantería de planta baja; conexión hacia mesas de estudio entre libros.",
+    "initialView": {
+      "yaw": 0,
+      "pitch": 0,
+      "fov": 1.35
+    },
+    "keyboardShortcuts": [
+      "Flechas: girar la vista",
+      "Clic en flechas azules: avanzar a la siguiente zona",
+      "Doble clic hacia un destino: salto rápido"
+    ],
+    "links": [
+      {
+        "label": "Mesa entre estantes",
+        "targetFile": "R0010095_202503281701_YP00145909.JPG",
+        "yaw": 0.3,
+        "pitch": -0.08
+      }
+    ],
+    "hotspots": [
+      {
+        "id": "94-mesa",
+        "type": "nav",
+        "title": "Mesa de estudio entre estantes",
+        "shortLabel": "Mesa",
+        "targetFile": "R0010095_202503281701_YP00145909.JPG",
+        "yaw": 0.4,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Mesa de estudio entre estantes",
+        "description": "Continúa el recorrido hacia: Mesa de estudio entre estantes."
+      },
+      {
+        "id": "94-atras",
+        "type": "nav",
+        "title": "Volver a GENERAL",
+        "shortLabel": "GENERAL",
+        "targetFile": "R0010093_202503281659_YP00145909.JPG",
+        "yaw": 3.05,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Volver a GENERAL",
+        "description": "Continúa el recorrido hacia: Volver a GENERAL."
+      },
+      {
+        "id": "94-salones",
+        "type": "nav",
+        "title": "Hacia salones",
+        "shortLabel": "Salones",
+        "targetFile": "R0010096_202503281702_YP00145909.JPG",
+        "yaw": 1.5,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Hacia salones",
+        "description": "Continúa el recorrido hacia: Hacia salones."
+      },
+      {
+        "id": "94-coleccion",
+        "type": "info",
+        "title": "Colección en estantería",
+        "yaw": -0.8,
+        "pitch": -0.1,
+        "icon": "📚",
+        "altText": "Colección en estantería",
+        "description": "Estantería de consulta abierta en planta baja."
+      }
+    ],
+    "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-pasillo-estantes.mp3",
+    "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-pasillo-estantes.txt",
+    "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-pasillo-estantes.vtt",
+    "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/biblioteca-pasillo-estantes.md"
+  },
+  "R0010095_202503281701_YP00145909.JPG": {
+    "id": "biblioteca-mesa-estantes",
+    "title": "Biblioteca — Mesa entre estantes",
+    "shortTitle": "Mesa / estantes",
+    "altText": "Mesa curva con tomacorrientes rodeada de estantería.",
+    "longDescription": "Puesto de estudio embebido entre estantes, con tomas eléctricas en la mesa.",
+    "initialView": {
+      "yaw": 0,
+      "pitch": 0,
+      "fov": 1.35
+    },
+    "keyboardShortcuts": [
+      "Flechas: girar la vista",
+      "Clic en flechas azules: avanzar a la siguiente zona",
+      "Doble clic hacia un destino: salto rápido"
+    ],
+    "links": [
+      {
+        "label": "Mesas en U",
+        "targetFile": "R0010096_202503281702_YP00145909.JPG",
+        "yaw": 0.5,
+        "pitch": -0.08
+      }
+    ],
+    "hotspots": [
+      {
+        "id": "95-u",
+        "type": "nav",
+        "title": "Mesas en U y salones",
+        "shortLabel": "Mesas U",
+        "targetFile": "R0010096_202503281702_YP00145909.JPG",
+        "yaw": 0.6,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Mesas en U y salones",
+        "description": "Continúa el recorrido hacia: Mesas en U y salones."
+      },
+      {
+        "id": "95-atras",
+        "type": "nav",
+        "title": "Volver pasillo",
+        "shortLabel": "Atrás",
+        "targetFile": "R0010094_202503281700_YP00145909.JPG",
+        "yaw": 3,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Volver pasillo",
+        "description": "Continúa el recorrido hacia: Volver pasillo."
+      },
+      {
+        "id": "95-tomas",
+        "type": "info",
+        "title": "Mesa con energía",
+        "yaw": 0.1,
+        "pitch": -0.3,
+        "icon": "🔌",
+        "altText": "Mesa con energía",
+        "description": "Mesa de estudio con módulos de tomacorrientes para portátiles."
+      }
+    ],
+    "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-mesa-estantes.mp3",
+    "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-mesa-estantes.txt",
+    "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-mesa-estantes.vtt",
+    "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/biblioteca-mesa-estantes.md"
+  },
+  "R0010096_202503281702_YP00145909.JPG": {
+    "id": "biblioteca-mesas-u",
+    "title": "Biblioteca — Mesas en U y salones",
+    "shortTitle": "Mesas en U",
+    "altText": "Mesa en U frente a salones de vidrio y murales.",
+    "longDescription": "Área de mesas en U mirando a salones acristalados y murales laterales.",
+    "initialView": {
+      "yaw": 0,
+      "pitch": 0,
+      "fov": 1.35
+    },
+    "keyboardShortcuts": [
+      "Flechas: girar la vista",
+      "Clic en flechas azules: avanzar a la siguiente zona",
+      "Doble clic hacia un destino: salto rápido"
+    ],
+    "links": [
+      {
+        "label": "Salones y escalera",
+        "targetFile": "R0010097_202503281703_YP00145909.JPG",
+        "yaw": 0.8,
+        "pitch": -0.08
+      }
+    ],
+    "hotspots": [
+      {
+        "id": "96-salones",
+        "type": "nav",
+        "title": "Salones y escalera",
+        "shortLabel": "Salones",
+        "targetFile": "R0010097_202503281703_YP00145909.JPG",
+        "yaw": 0.9,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Salones y escalera",
+        "description": "Continúa el recorrido hacia: Salones y escalera."
+      },
+      {
+        "id": "96-atras",
+        "type": "nav",
+        "title": "Volver mesa estantes",
+        "shortLabel": "Atrás",
+        "targetFile": "R0010095_202503281701_YP00145909.JPG",
+        "yaw": 3.05,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Volver mesa estantes",
+        "description": "Continúa el recorrido hacia: Volver mesa estantes."
+      },
+      {
+        "id": "96-mural",
+        "type": "info",
+        "title": "Mural artístico",
+        "yaw": 1.6,
+        "pitch": 0.1,
+        "icon": "🎨",
+        "altText": "Mural artístico",
+        "description": "Mural colorido en el perímetro de la zona de salones."
+      }
+    ],
+    "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-mesas-u.mp3",
+    "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-mesas-u.txt",
+    "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-mesas-u.vtt",
+    "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/biblioteca-mesas-u.md"
+  },
+  "R0010097_202503281703_YP00145909.JPG": {
+    "id": "biblioteca-salones-escalera",
+    "title": "Biblioteca — Salones de proyecto y escalera",
+    "shortTitle": "Salones / escalera",
+    "altText": "Salones de vidrio junto a la escalera hacia la mezanine.",
+    "longDescription": "Nudo clave: salones de proyecto, mural y escalera al nivel superior.",
+    "initialView": {
+      "yaw": 0,
+      "pitch": 0,
+      "fov": 1.35
+    },
+    "keyboardShortcuts": [
+      "Flechas: girar la vista",
+      "Clic en flechas azules: avanzar a la siguiente zona",
+      "Doble clic hacia un destino: salto rápido"
+    ],
+    "links": [
+      {
+        "label": "Subir escaleras",
+        "targetFile": "R0010100_202503281706_YP00145909.JPG",
+        "yaw": 1.1,
+        "pitch": -0.08
+      }
+    ],
+    "hotspots": [
+      {
+        "id": "97-subir",
+        "type": "nav",
+        "title": "Subir a mezanine",
+        "shortLabel": "Subir",
+        "targetFile": "R0010100_202503281706_YP00145909.JPG",
+        "yaw": 1.15,
+        "pitch": 0.05,
+        "icon": "➜",
+        "altText": "Navegar a Subir a mezanine",
+        "description": "Continúa el recorrido hacia: Subir a mezanine."
+      },
+      {
+        "id": "97-salon2",
+        "type": "nav",
+        "title": "Salones de proyecto 2",
+        "shortLabel": "Salones",
+        "targetFile": "R0010098_202503281705_YP00145909.JPG",
+        "yaw": -0.3,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Salones de proyecto 2",
+        "description": "Continúa el recorrido hacia: Salones de proyecto 2."
+      },
+      {
+        "id": "97-atras",
+        "type": "nav",
+        "title": "Volver mesas U",
+        "shortLabel": "Atrás",
+        "targetFile": "R0010096_202503281702_YP00145909.JPG",
+        "yaw": 3,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Volver mesas U",
+        "description": "Continúa el recorrido hacia: Volver mesas U."
+      },
+      {
+        "id": "97-escalera",
+        "type": "info",
+        "title": "Circulación vertical",
+        "yaw": 1.2,
+        "pitch": 0.15,
+        "icon": "🔼",
+        "altText": "Circulación vertical",
+        "description": "Escalera con baranda de vidrio/metal hacia la mezanine."
+      }
+    ],
+    "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-salones-escalera.mp3",
+    "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-salones-escalera.txt",
+    "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-salones-escalera.vtt",
+    "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/biblioteca-salones-escalera.md"
+  },
+  "R0010098_202503281705_YP00145909.JPG": {
+    "id": "biblioteca-salones-2",
+    "title": "Biblioteca — Salones de proyecto 2",
+    "shortTitle": "Salones 2",
+    "altText": "Dos salones de vidrio con citas literarias y mesas laterales.",
+    "longDescription": "Frente a salones acristalados con tipografía literaria; mesas abiertas a ambos lados.",
+    "initialView": {
+      "yaw": 0,
+      "pitch": 0,
+      "fov": 1.35
+    },
+    "keyboardShortcuts": [
+      "Flechas: girar la vista",
+      "Clic en flechas azules: avanzar a la siguiente zona",
+      "Doble clic hacia un destino: salto rápido"
+    ],
+    "links": [
+      {
+        "label": "Salones Allende",
+        "targetFile": "R0010099_202503281706_YP00145909.JPG",
+        "yaw": 0.2,
+        "pitch": -0.08
+      }
+    ],
+    "hotspots": [
+      {
+        "id": "98-allende",
+        "type": "nav",
+        "title": "Salones Allende / Eva Luna",
+        "shortLabel": "Allende",
+        "targetFile": "R0010099_202503281706_YP00145909.JPG",
+        "yaw": 0.25,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Salones Allende / Eva Luna",
+        "description": "Continúa el recorrido hacia: Salones Allende / Eva Luna."
+      },
+      {
+        "id": "98-escalera",
+        "type": "nav",
+        "title": "Hacia escaleras",
+        "shortLabel": "Escaleras",
+        "targetFile": "R0010100_202503281706_YP00145909.JPG",
+        "yaw": 1.4,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Hacia escaleras",
+        "description": "Continúa el recorrido hacia: Hacia escaleras."
+      },
+      {
+        "id": "98-atras",
+        "type": "nav",
+        "title": "Volver",
+        "shortLabel": "Atrás",
+        "targetFile": "R0010097_202503281703_YP00145909.JPG",
+        "yaw": 3,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Volver",
+        "description": "Continúa el recorrido hacia: Volver."
+      },
+      {
+        "id": "98-citas",
+        "type": "info",
+        "title": "Salón con citas literarias",
+        "yaw": 0.05,
+        "pitch": 0.05,
+        "icon": "✍️",
+        "altText": "Salón con citas literarias",
+        "description": "Salas decoradas con citas literarias para ambientar el estudio."
+      }
+    ],
+    "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-salones-2.mp3",
+    "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-salones-2.txt",
+    "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-salones-2.vtt",
+    "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/biblioteca-salones-2.md"
+  },
+  "R0010099_202503281706_YP00145909.JPG": {
+    "id": "biblioteca-salones-allende",
+    "title": "Biblioteca — Salones Allende / Eva Luna",
+    "shortTitle": "Allende / Eva Luna",
+    "altText": "Salones temáticos Isabel Allende y Eva Luna con mesas electrificadas.",
+    "longDescription": "Cubículos/salones temáticos literarios; mesas con tomas a izquierda y derecha.",
+    "initialView": {
+      "yaw": 0,
+      "pitch": 0,
+      "fov": 1.35
+    },
+    "keyboardShortcuts": [
+      "Flechas: girar la vista",
+      "Clic en flechas azules: avanzar a la siguiente zona",
+      "Doble clic hacia un destino: salto rápido"
+    ],
+    "links": [
+      {
+        "label": "Hacia escaleras",
+        "targetFile": "R0010100_202503281706_YP00145909.JPG",
+        "yaw": 1.5,
+        "pitch": -0.08
+      }
+    ],
+    "hotspots": [
+      {
+        "id": "99-escaleras",
+        "type": "nav",
+        "title": "Escaleras a mezanine",
+        "shortLabel": "Subir",
+        "targetFile": "R0010100_202503281706_YP00145909.JPG",
+        "yaw": 1.55,
+        "pitch": 0.05,
+        "icon": "➜",
+        "altText": "Navegar a Escaleras a mezanine",
+        "description": "Continúa el recorrido hacia: Escaleras a mezanine."
+      },
+      {
+        "id": "99-atras",
+        "type": "nav",
+        "title": "Volver salones 2",
+        "shortLabel": "Atrás",
+        "targetFile": "R0010098_202503281705_YP00145909.JPG",
+        "yaw": 3.05,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Volver salones 2",
+        "description": "Continúa el recorrido hacia: Volver salones 2."
+      },
+      {
+        "id": "99-allende",
+        "type": "info",
+        "title": "Salón Isabel Allende",
+        "yaw": 0.1,
+        "pitch": 0.05,
+        "icon": "📘",
+        "altText": "Salón Isabel Allende",
+        "description": "Salón con retrato y referencia a Isabel Allende."
+      },
+      {
+        "id": "99-evaluna",
+        "type": "info",
+        "title": "Salón Eva Luna",
+        "yaw": -0.55,
+        "pitch": 0.05,
+        "icon": "📕",
+        "altText": "Salón Eva Luna",
+        "description": "Salón temático Eva Luna, con decoración floral y cita."
+      }
+    ],
+    "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-salones-allende.mp3",
+    "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-salones-allende.txt",
+    "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-salones-allende.vtt",
+    "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/biblioteca-salones-allende.md"
+  },
+  "R0010100_202503281706_YP00145909.JPG": {
+    "id": "biblioteca-escaleras-p1",
+    "title": "Biblioteca — Escaleras a mezanine",
+    "shortTitle": "Escaleras",
+    "altText": "Escalera central con mural de paisaje y acceso a mezanine.",
+    "longDescription": "Pie de escalera: mural de río/montaña a la derecha, zona de estudio a la izquierda, subida al centro.",
+    "initialView": {
+      "yaw": 0.35,
+      "pitch": 0.05,
+      "fov": 1.3
+    },
+    "keyboardShortcuts": [
+      "Flechas: girar la vista",
+      "Clic en flechas azules: avanzar a la siguiente zona",
+      "Doble clic hacia un destino: salto rápido"
+    ],
+    "links": [
+      {
+        "label": "Subir al descanso",
+        "targetFile": "R0010101_202503281708_YP00145909.JPG",
+        "yaw": 0.4,
+        "pitch": -0.08
+      }
+    ],
+    "hotspots": [
+      {
+        "id": "100-subir",
+        "type": "nav",
+        "title": "Subir al descanso de escaleras",
+        "shortLabel": "Subir",
+        "targetFile": "R0010101_202503281708_YP00145909.JPG",
+        "yaw": 0.45,
+        "pitch": 0.12,
+        "icon": "➜",
+        "altText": "Navegar a Subir al descanso de escaleras",
+        "description": "Continúa el recorrido hacia: Subir al descanso de escaleras."
+      },
+      {
+        "id": "100-estudio",
+        "type": "nav",
+        "title": "Zona de estudio planta baja",
+        "shortLabel": "Estudio",
+        "targetFile": "R0010091_202503281658_YP00145909.JPG",
+        "yaw": -1.5,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Zona de estudio planta baja",
+        "description": "Continúa el recorrido hacia: Zona de estudio planta baja."
+      },
+      {
+        "id": "100-salones",
+        "type": "nav",
+        "title": "Volver a salones",
+        "shortLabel": "Salones",
+        "targetFile": "R0010097_202503281703_YP00145909.JPG",
+        "yaw": 3,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Volver a salones",
+        "description": "Continúa el recorrido hacia: Volver a salones."
+      },
+      {
+        "id": "100-mural",
+        "type": "info",
+        "title": "Mural de paisaje",
+        "yaw": 1.3,
+        "pitch": 0.1,
+        "icon": "🏔",
+        "altText": "Mural de paisaje",
+        "description": "Mural de montaña, río y vegetación junto a la escalera."
+      },
+      {
+        "id": "100-revistas",
+        "type": "info",
+        "title": "Expositor de publicaciones",
+        "yaw": -0.35,
+        "pitch": -0.15,
+        "icon": "📰",
+        "altText": "Expositor de publicaciones",
+        "description": "Expositor/rack de revistas o novedades al pie de la escalera."
+      }
+    ],
+    "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-escaleras-p1.mp3",
+    "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-escaleras-p1.txt",
+    "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-escaleras-p1.vtt",
+    "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/biblioteca-escaleras-p1.md"
+  },
+  "R0010115_202503281721_YP00145909.JPG": {
+    "id": "biblioteca-lobby-letrero",
+    "title": "Biblioteca — Computadores y letrero principal",
+    "shortTitle": "Letrero / PCs",
+    "altText": "Vista al letrero principal y estaciones de cómputo del lobby.",
+    "longDescription": "Otra toma del lobby centrada en el letrero y las estaciones de cómputo.",
+    "initialView": {
+      "yaw": 0,
+      "pitch": 0,
+      "fov": 1.35
+    },
+    "keyboardShortcuts": [
+      "Flechas: girar la vista",
+      "Clic en flechas azules: avanzar a la siguiente zona",
+      "Doble clic hacia un destino: salto rápido"
+    ],
+    "links": [
+      {
+        "label": "Volver lobby ingreso",
+        "targetFile": "R0010083_202503281649_YP00145909.JPG",
+        "yaw": -0.5,
+        "pitch": -0.08
+      }
+    ],
+    "hotspots": [
+      {
+        "id": "115-lobby",
+        "type": "nav",
+        "title": "Volver al lobby de ingreso",
+        "shortLabel": "Lobby",
+        "targetFile": "R0010083_202503281649_YP00145909.JPG",
+        "yaw": -0.6,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Volver al lobby de ingreso",
+        "description": "Continúa el recorrido hacia: Volver al lobby de ingreso."
+      },
+      {
+        "id": "115-mesas",
+        "type": "nav",
+        "title": "Hacia mesas de estudio",
+        "shortLabel": "Mesas",
+        "targetFile": "R0010086_202503281652_YP00145909.JPG",
+        "yaw": -1.4,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Hacia mesas de estudio",
+        "description": "Continúa el recorrido hacia: Hacia mesas de estudio."
+      },
+      {
+        "id": "115-mezanine",
+        "type": "nav",
+        "title": "Mirar mezanine / escalera",
+        "shortLabel": "Mezanine",
+        "targetFile": "R0010100_202503281706_YP00145909.JPG",
+        "yaw": 1.8,
+        "pitch": 0.1,
+        "icon": "➜",
+        "altText": "Navegar a Mirar mezanine / escalera",
+        "description": "Continúa el recorrido hacia: Mirar mezanine / escalera."
+      },
+      {
+        "id": "115-nombre",
+        "type": "info",
+        "title": "BIBLIOTECA ANITA BOLÍVAR DE CONSUEGRA",
+        "yaw": 0.2,
+        "pitch": 0.2,
+        "icon": "🏷",
+        "altText": "BIBLIOTECA ANITA BOLÍVAR DE CONSUEGRA",
+        "description": "Letrero principal de la biblioteca sobre la zona de computadores."
+      }
+    ],
+    "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-lobby-letrero.mp3",
+    "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-lobby-letrero.txt",
+    "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-lobby-letrero.vtt",
+    "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/biblioteca-lobby-letrero.md"
+  },
+  "R0010101_202503281708_YP00145909.JPG": {
+    "id": "biblioteca-descanso-escaleras",
+    "title": "Biblioteca mezanine — Descanso de escaleras",
+    "shortTitle": "Descanso",
+    "altText": "Descanso intermedio: se puede bajar a planta baja o subir a mezanine.",
+    "longDescription": "Punto de transición vertical con mural de montaña; abajo el lobby, arriba pods y estantería.",
+    "initialView": {
+      "yaw": 0,
+      "pitch": 0,
+      "fov": 1.35
+    },
+    "keyboardShortcuts": [
+      "Flechas: girar la vista",
+      "Clic en flechas azules: avanzar a la siguiente zona",
+      "Doble clic hacia un destino: salto rápido"
+    ],
+    "links": [
+      {
+        "label": "Subir a mezanine",
+        "targetFile": "R0010103_202503281710_YP00145909.JPG",
+        "yaw": 0.6,
+        "pitch": -0.08
+      }
+    ],
+    "hotspots": [
+      {
+        "id": "101-subir",
+        "type": "nav",
+        "title": "Subir a lounge / pods",
+        "shortLabel": "Subir",
+        "targetFile": "R0010103_202503281710_YP00145909.JPG",
+        "yaw": 0.7,
+        "pitch": 0.1,
+        "icon": "➜",
+        "altText": "Navegar a Subir a lounge / pods",
+        "description": "Continúa el recorrido hacia: Subir a lounge / pods."
+      },
+      {
+        "id": "101-bajar",
+        "type": "nav",
+        "title": "Bajar a planta baja",
+        "shortLabel": "Bajar",
+        "targetFile": "R0010100_202503281706_YP00145909.JPG",
+        "yaw": -0.9,
+        "pitch": -0.2,
+        "icon": "➜",
+        "altText": "Navegar a Bajar a planta baja",
+        "description": "Continúa el recorrido hacia: Bajar a planta baja."
+      },
+      {
+        "id": "101-alt",
+        "type": "nav",
+        "title": "Otro ángulo del descanso",
+        "shortLabel": "Ángulo",
+        "targetFile": "R0010102_202503281709_YP00145909.JPG",
+        "yaw": 0.2,
+        "pitch": 0.05,
+        "icon": "➜",
+        "altText": "Navegar a Otro ángulo del descanso",
+        "description": "Continúa el recorrido hacia: Otro ángulo del descanso."
+      },
+      {
+        "id": "101-mural",
+        "type": "info",
+        "title": "Mural de montaña",
+        "yaw": -1.2,
+        "pitch": 0.05,
+        "icon": "🏔",
+        "altText": "Mural de montaña",
+        "description": "Mural de páramo/montaña nevada en el descanso de escaleras."
+      }
+    ],
+    "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-descanso-escaleras.mp3",
+    "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-descanso-escaleras.txt",
+    "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-descanso-escaleras.vtt",
+    "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/biblioteca-descanso-escaleras.md"
+  },
+  "R0010102_202503281709_YP00145909.JPG": {
+    "id": "biblioteca-descanso-b",
+    "title": "Biblioteca mezanine — Descanso (ángulo cercano)",
+    "shortTitle": "Descanso B",
+    "altText": "Segundo ángulo del descanso de escaleras.",
+    "longDescription": "Misma circulación vertical desde un punto muy cercano; refuerza la sensación de avance continuo.",
+    "initialView": {
+      "yaw": 0,
+      "pitch": 0,
+      "fov": 1.35
+    },
+    "keyboardShortcuts": [
+      "Flechas: girar la vista",
+      "Clic en flechas azules: avanzar a la siguiente zona",
+      "Doble clic hacia un destino: salto rápido"
+    ],
+    "links": [
+      {
+        "label": "A lounge",
+        "targetFile": "R0010103_202503281710_YP00145909.JPG",
+        "yaw": 0.5,
+        "pitch": -0.08
+      }
+    ],
+    "hotspots": [
+      {
+        "id": "102-subir",
+        "type": "nav",
+        "title": "Entrar a mezanine",
+        "shortLabel": "Mezanine",
+        "targetFile": "R0010103_202503281710_YP00145909.JPG",
+        "yaw": 0.55,
+        "pitch": 0.08,
+        "icon": "➜",
+        "altText": "Navegar a Entrar a mezanine",
+        "description": "Continúa el recorrido hacia: Entrar a mezanine."
+      },
+      {
+        "id": "102-bajar",
+        "type": "nav",
+        "title": "Bajar",
+        "shortLabel": "Bajar",
+        "targetFile": "R0010100_202503281706_YP00145909.JPG",
+        "yaw": -1,
+        "pitch": -0.2,
+        "icon": "➜",
+        "altText": "Navegar a Bajar",
+        "description": "Continúa el recorrido hacia: Bajar."
+      },
+      {
+        "id": "102-atras",
+        "type": "nav",
+        "title": "Ángulo anterior",
+        "shortLabel": "Atrás",
+        "targetFile": "R0010101_202503281708_YP00145909.JPG",
+        "yaw": 3,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Ángulo anterior",
+        "description": "Continúa el recorrido hacia: Ángulo anterior."
+      }
+    ],
+    "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-descanso-b.mp3",
+    "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-descanso-b.txt",
+    "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-descanso-b.vtt",
+    "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/biblioteca-descanso-b.md"
+  },
+  "R0010103_202503281710_YP00145909.JPG": {
+    "id": "biblioteca-mezanine-lounge",
+    "title": "Biblioteca mezanine — Lounge y pods",
+    "shortTitle": "Lounge",
+    "altText": "Lounge con sofás verdes, pods individuales y pasillo de estantería.",
+    "longDescription": "Llegada a mezanine: lounge, pods acústicos y aisle de estantería verde a la derecha.",
+    "initialView": {
+      "yaw": 0,
+      "pitch": 0,
+      "fov": 1.35
+    },
+    "keyboardShortcuts": [
+      "Flechas: girar la vista",
+      "Clic en flechas azules: avanzar a la siguiente zona",
+      "Doble clic hacia un destino: salto rápido"
+    ],
+    "links": [
+      {
+        "label": "Pasillo GENERAL",
+        "targetFile": "R0010104_202503281711_YP00145909.JPG",
+        "yaw": 1,
+        "pitch": -0.08
+      }
+    ],
+    "hotspots": [
+      {
+        "id": "103-estantes",
+        "type": "nav",
+        "title": "Pasillo estantería GENERAL",
+        "shortLabel": "GENERAL",
+        "targetFile": "R0010104_202503281711_YP00145909.JPG",
+        "yaw": 1.1,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Pasillo estantería GENERAL",
+        "description": "Continúa el recorrido hacia: Pasillo estantería GENERAL."
+      },
+      {
+        "id": "103-grupo",
+        "type": "nav",
+        "title": "Zona trabajo en grupo",
+        "shortLabel": "Grupo",
+        "targetFile": "R0010107_202503281714_YP00145909.JPG",
+        "yaw": 0.2,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Zona trabajo en grupo",
+        "description": "Continúa el recorrido hacia: Zona trabajo en grupo."
+      },
+      {
+        "id": "103-bajar",
+        "type": "nav",
+        "title": "Bajar por escaleras",
+        "shortLabel": "Bajar",
+        "targetFile": "R0010101_202503281708_YP00145909.JPG",
+        "yaw": -1.5,
+        "pitch": -0.15,
+        "icon": "➜",
+        "altText": "Navegar a Bajar por escaleras",
+        "description": "Continúa el recorrido hacia: Bajar por escaleras."
+      },
+      {
+        "id": "103-pods",
+        "type": "info",
+        "title": "Pods individuales",
+        "yaw": 0.35,
+        "pitch": -0.05,
+        "icon": "🎧",
+        "altText": "Pods individuales",
+        "description": "Cabinas altas verdes para estudio individual en mezanine."
+      }
+    ],
+    "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-mezanine-lounge.mp3",
+    "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-mezanine-lounge.txt",
+    "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-mezanine-lounge.vtt",
+    "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/biblioteca-mezanine-lounge.md"
+  },
+  "R0010104_202503281711_YP00145909.JPG": {
+    "id": "biblioteca-mezanine-general",
+    "title": "Biblioteca mezanine — Estantería GENERAL",
+    "shortTitle": "Estantes GENERAL",
+    "altText": "Pasillo denso de estantería verde con letrero GENERAL.",
+    "longDescription": "Entre estantes de la mezanine; se observan textos académicos.",
+    "initialView": {
+      "yaw": 0,
+      "pitch": 0,
+      "fov": 1.35
+    },
+    "keyboardShortcuts": [
+      "Flechas: girar la vista",
+      "Clic en flechas azules: avanzar a la siguiente zona",
+      "Doble clic hacia un destino: salto rápido"
+    ],
+    "links": [
+      {
+        "label": "Siguiente aisle",
+        "targetFile": "R0010105_202503281712_YP00145909.JPG",
+        "yaw": 0.1,
+        "pitch": -0.08
+      }
+    ],
+    "hotspots": [
+      {
+        "id": "104-adelante",
+        "type": "nav",
+        "title": "Continuar por el aisle",
+        "shortLabel": "Adelante",
+        "targetFile": "R0010105_202503281712_YP00145909.JPG",
+        "yaw": 0.05,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Continuar por el aisle",
+        "description": "Continúa el recorrido hacia: Continuar por el aisle."
+      },
+      {
+        "id": "104-lounge",
+        "type": "nav",
+        "title": "Volver al lounge",
+        "shortLabel": "Lounge",
+        "targetFile": "R0010103_202503281710_YP00145909.JPG",
+        "yaw": 3.05,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Volver al lounge",
+        "description": "Continúa el recorrido hacia: Volver al lounge."
+      },
+      {
+        "id": "104-general",
+        "type": "info",
+        "title": "Sección GENERAL (mezanine)",
+        "yaw": 0.3,
+        "pitch": 0.25,
+        "icon": "📖",
+        "altText": "Sección GENERAL (mezanine)",
+        "description": "Letrero GENERAL sobre la colección del nivel superior."
+      }
+    ],
+    "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-mezanine-general.mp3",
+    "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-mezanine-general.txt",
+    "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-mezanine-general.vtt",
+    "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/biblioteca-mezanine-general.md"
+  },
+  "R0010105_202503281712_YP00145909.JPG": {
+    "id": "biblioteca-mezanine-aisle-2",
+    "title": "Biblioteca mezanine — Pasillo de estantes 2",
+    "shortTitle": "Aisle 2",
+    "altText": "Aisle estrecho entre estantería verde; mesas al fondo.",
+    "longDescription": "Segundo tramo del aisle; al fondo se abre a zona de mesas.",
+    "initialView": {
+      "yaw": 0,
+      "pitch": 0,
+      "fov": 1.35
+    },
+    "keyboardShortcuts": [
+      "Flechas: girar la vista",
+      "Clic en flechas azules: avanzar a la siguiente zona",
+      "Doble clic hacia un destino: salto rápido"
+    ],
+    "links": [
+      {
+        "label": "Hacia estudio",
+        "targetFile": "R0010106_202503281713_YP00145909.JPG",
+        "yaw": 0.4,
+        "pitch": -0.08
+      }
+    ],
+    "hotspots": [
+      {
+        "id": "105-estudio",
+        "type": "nav",
+        "title": "Salir a zona de estudio",
+        "shortLabel": "Estudio",
+        "targetFile": "R0010106_202503281713_YP00145909.JPG",
+        "yaw": 0.5,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Salir a zona de estudio",
+        "description": "Continúa el recorrido hacia: Salir a zona de estudio."
+      },
+      {
+        "id": "105-atras",
+        "type": "nav",
+        "title": "Aisle anterior",
+        "shortLabel": "Atrás",
+        "targetFile": "R0010104_202503281711_YP00145909.JPG",
+        "yaw": 3.05,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Aisle anterior",
+        "description": "Continúa el recorrido hacia: Aisle anterior."
+      },
+      {
+        "id": "105-seccion",
+        "type": "info",
+        "title": "Sección de estantería",
+        "yaw": -0.3,
+        "pitch": -0.05,
+        "icon": "🏷",
+        "altText": "Sección de estantería",
+        "description": "Etiquetas de sección en el borde de los estantes."
+      }
+    ],
+    "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-mezanine-aisle-2.mp3",
+    "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-mezanine-aisle-2.txt",
+    "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-mezanine-aisle-2.vtt",
+    "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/biblioteca-mezanine-aisle-2.md"
+  },
+  "R0010106_202503281713_YP00145909.JPG": {
+    "id": "biblioteca-mezanine-estantes-estudio",
+    "title": "Biblioteca mezanine — Estantes y estudio",
+    "shortTitle": "Estantes / estudio",
+    "altText": "Boca del aisle con mesas de estudio y pods al fondo.",
+    "longDescription": "Transición entre colección y zona de mesas/pods en mezanine.",
+    "initialView": {
+      "yaw": 0,
+      "pitch": 0,
+      "fov": 1.35
+    },
+    "keyboardShortcuts": [
+      "Flechas: girar la vista",
+      "Clic en flechas azules: avanzar a la siguiente zona",
+      "Doble clic hacia un destino: salto rápido"
+    ],
+    "links": [
+      {
+        "label": "Trabajo en grupo",
+        "targetFile": "R0010107_202503281714_YP00145909.JPG",
+        "yaw": -0.5,
+        "pitch": -0.08
+      }
+    ],
+    "hotspots": [
+      {
+        "id": "106-grupo",
+        "type": "nav",
+        "title": "Zona de trabajo en grupo",
+        "shortLabel": "Grupo",
+        "targetFile": "R0010107_202503281714_YP00145909.JPG",
+        "yaw": -0.55,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Zona de trabajo en grupo",
+        "description": "Continúa el recorrido hacia: Zona de trabajo en grupo."
+      },
+      {
+        "id": "106-aisle",
+        "type": "nav",
+        "title": "Volver al aisle",
+        "shortLabel": "Aisle",
+        "targetFile": "R0010105_202503281712_YP00145909.JPG",
+        "yaw": 1.4,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Volver al aisle",
+        "description": "Continúa el recorrido hacia: Volver al aisle."
+      },
+      {
+        "id": "106-economia",
+        "type": "info",
+        "title": "Colección temática",
+        "yaw": 0.8,
+        "pitch": -0.05,
+        "icon": "📗",
+        "altText": "Colección temática",
+        "description": "Estantes temáticos del nivel superior."
+      }
+    ],
+    "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-mezanine-estantes-estudio.mp3",
+    "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-mezanine-estantes-estudio.txt",
+    "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-mezanine-estantes-estudio.vtt",
+    "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/biblioteca-mezanine-estantes-estudio.md"
+  },
+  "R0010107_202503281714_YP00145909.JPG": {
+    "id": "biblioteca-mezanine-grupo-a",
+    "title": "Biblioteca mezanine — Trabajo en grupo A",
+    "shortTitle": "Grupo A",
+    "altText": "Pasillo con pods, mesas redondas y taburetes de colores.",
+    "longDescription": "Zona colaborativa: pods a un lado, mesas circulares al centro, estantería y escalera al fondo.",
+    "initialView": {
+      "yaw": 0,
+      "pitch": 0,
+      "fov": 1.35
+    },
+    "keyboardShortcuts": [
+      "Flechas: girar la vista",
+      "Clic en flechas azules: avanzar a la siguiente zona",
+      "Doble clic hacia un destino: salto rápido"
+    ],
+    "links": [
+      {
+        "label": "Grupo B",
+        "targetFile": "R0010108_202503281714_YP00145909.JPG",
+        "yaw": 0.2,
+        "pitch": -0.08
+      }
+    ],
+    "hotspots": [
+      {
+        "id": "107-b",
+        "type": "nav",
+        "title": "Continuar zona grupo B",
+        "shortLabel": "Grupo B",
+        "targetFile": "R0010108_202503281714_YP00145909.JPG",
+        "yaw": 0.25,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Continuar zona grupo B",
+        "description": "Continúa el recorrido hacia: Continuar zona grupo B."
+      },
+      {
+        "id": "107-escalera",
+        "type": "nav",
+        "title": "Hacia escalera",
+        "shortLabel": "Escalera",
+        "targetFile": "R0010101_202503281708_YP00145909.JPG",
+        "yaw": 1.6,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Hacia escalera",
+        "description": "Continúa el recorrido hacia: Hacia escalera."
+      },
+      {
+        "id": "107-atras",
+        "type": "nav",
+        "title": "Volver estantes",
+        "shortLabel": "Atrás",
+        "targetFile": "R0010106_202503281713_YP00145909.JPG",
+        "yaw": 3,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Volver estantes",
+        "description": "Continúa el recorrido hacia: Volver estantes."
+      },
+      {
+        "id": "107-mesas",
+        "type": "info",
+        "title": "Mesas colaborativas",
+        "yaw": 0.1,
+        "pitch": -0.2,
+        "icon": "🟠",
+        "altText": "Mesas colaborativas",
+        "description": "Mesas redondas con taburetes naranja/verde para trabajo ágil."
+      }
+    ],
+    "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-mezanine-grupo-a.mp3",
+    "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-mezanine-grupo-a.txt",
+    "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-mezanine-grupo-a.vtt",
+    "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/biblioteca-mezanine-grupo-a.md"
+  },
+  "R0010108_202503281714_YP00145909.JPG": {
+    "id": "biblioteca-mezanine-grupo-b",
+    "title": "Biblioteca mezanine — Trabajo en grupo B",
+    "shortTitle": "Grupo B",
+    "altText": "Mezanine abierta con booths verdes y vista al piso inferior.",
+    "longDescription": "Planta abierta de mezanine: booths, mesas circulares y barandal hacia abajo.",
+    "initialView": {
+      "yaw": 0,
+      "pitch": 0,
+      "fov": 1.35
+    },
+    "keyboardShortcuts": [
+      "Flechas: girar la vista",
+      "Clic en flechas azules: avanzar a la siguiente zona",
+      "Doble clic hacia un destino: salto rápido"
+    ],
+    "links": [
+      {
+        "label": "Cubículos amoblados",
+        "targetFile": "R0010109_202503281715_YP00145909.JPG",
+        "yaw": -0.3,
+        "pitch": -0.08
+      }
+    ],
+    "hotspots": [
+      {
+        "id": "108-cubiculos",
+        "type": "nav",
+        "title": "Cubículos amoblados",
+        "shortLabel": "Cubículos",
+        "targetFile": "R0010109_202503281715_YP00145909.JPG",
+        "yaw": -0.35,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Cubículos amoblados",
+        "description": "Continúa el recorrido hacia: Cubículos amoblados."
+      },
+      {
+        "id": "108-hemeroteca",
+        "type": "nav",
+        "title": "Hacia HEMEROTECA",
+        "shortLabel": "Hemeroteca",
+        "targetFile": "R0010110_202503281716_YP00145909.JPG",
+        "yaw": 0.9,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Hacia HEMEROTECA",
+        "description": "Continúa el recorrido hacia: Hacia HEMEROTECA."
+      },
+      {
+        "id": "108-atras",
+        "type": "nav",
+        "title": "Grupo A",
+        "shortLabel": "Atrás",
+        "targetFile": "R0010107_202503281714_YP00145909.JPG",
+        "yaw": 3.05,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Grupo A",
+        "description": "Continúa el recorrido hacia: Grupo A."
+      },
+      {
+        "id": "108-vista",
+        "type": "info",
+        "title": "Vista a planta baja",
+        "yaw": -1.2,
+        "pitch": -0.2,
+        "icon": "👁",
+        "altText": "Vista a planta baja",
+        "description": "Barandal de mezanine con vista al lobby y mesas del nivel inferior."
+      }
+    ],
+    "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-mezanine-grupo-b.mp3",
+    "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-mezanine-grupo-b.txt",
+    "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-mezanine-grupo-b.vtt",
+    "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/biblioteca-mezanine-grupo-b.md"
+  },
+  "R0010109_202503281715_YP00145909.JPG": {
+    "id": "biblioteca-mezanine-cubiculos",
+    "title": "Biblioteca mezanine — Cubículos amoblados",
+    "shortTitle": "Cubículos P2",
+    "altText": "Pods verdes y mesas redondas junto a estantería.",
+    "longDescription": "Detalle de cubículos/pods amoblados del nivel superior.",
+    "initialView": {
+      "yaw": 0,
+      "pitch": 0,
+      "fov": 1.35
+    },
+    "keyboardShortcuts": [
+      "Flechas: girar la vista",
+      "Clic en flechas azules: avanzar a la siguiente zona",
+      "Doble clic hacia un destino: salto rápido"
+    ],
+    "links": [
+      {
+        "label": "Hemeroteca",
+        "targetFile": "R0010110_202503281716_YP00145909.JPG",
+        "yaw": 0.6,
+        "pitch": -0.08
+      }
+    ],
+    "hotspots": [
+      {
+        "id": "109-hemeroteca",
+        "type": "nav",
+        "title": "Señal HEMEROTECA",
+        "shortLabel": "Hemeroteca",
+        "targetFile": "R0010110_202503281716_YP00145909.JPG",
+        "yaw": 0.7,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Señal HEMEROTECA",
+        "description": "Continúa el recorrido hacia: Señal HEMEROTECA."
+      },
+      {
+        "id": "109-atras",
+        "type": "nav",
+        "title": "Volver grupo B",
+        "shortLabel": "Atrás",
+        "targetFile": "R0010108_202503281714_YP00145909.JPG",
+        "yaw": 3,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Volver grupo B",
+        "description": "Continúa el recorrido hacia: Volver grupo B."
+      },
+      {
+        "id": "109-pod",
+        "type": "info",
+        "title": "Pod de estudio",
+        "yaw": -0.8,
+        "pitch": -0.05,
+        "icon": "🪑",
+        "altText": "Pod de estudio",
+        "description": "Cubículo acolchado verde para concentración en mezanine."
+      }
+    ],
+    "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-mezanine-cubiculos.mp3",
+    "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-mezanine-cubiculos.txt",
+    "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-mezanine-cubiculos.vtt",
+    "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/biblioteca-mezanine-cubiculos.md"
+  },
+  "R0010110_202503281716_YP00145909.JPG": {
+    "id": "biblioteca-hemeroteca",
+    "title": "Biblioteca mezanine — HEMEROTECA",
+    "shortTitle": "Hemeroteca",
+    "altText": "Pasillo con señal colgante HEMEROTECA y mesas de trabajo.",
+    "longDescription": "Acceso señalado a hemeroteca; mesas y barandal hacia el vacío central.",
+    "initialView": {
+      "yaw": 0,
+      "pitch": 0,
+      "fov": 1.35
+    },
+    "keyboardShortcuts": [
+      "Flechas: girar la vista",
+      "Clic en flechas azules: avanzar a la siguiente zona",
+      "Doble clic hacia un destino: salto rápido"
+    ],
+    "links": [
+      {
+        "label": "Balcón vista piso 1",
+        "targetFile": "R0010111_202503281716_YP00145909.JPG",
+        "yaw": 0.3,
+        "pitch": -0.08
+      }
+    ],
+    "hotspots": [
+      {
+        "id": "110-balcon",
+        "type": "nav",
+        "title": "Balcón con vista a piso 1",
+        "shortLabel": "Balcón",
+        "targetFile": "R0010111_202503281716_YP00145909.JPG",
+        "yaw": 0.35,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Balcón con vista a piso 1",
+        "description": "Continúa el recorrido hacia: Balcón con vista a piso 1."
+      },
+      {
+        "id": "110-atras",
+        "type": "nav",
+        "title": "Volver cubículos",
+        "shortLabel": "Atrás",
+        "targetFile": "R0010109_202503281715_YP00145909.JPG",
+        "yaw": 3.05,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Volver cubículos",
+        "description": "Continúa el recorrido hacia: Volver cubículos."
+      },
+      {
+        "id": "110-senal",
+        "type": "info",
+        "title": "Hemeroteca",
+        "yaw": 0.15,
+        "pitch": 0.35,
+        "icon": "📰",
+        "altText": "Hemeroteca",
+        "description": "Señalización HEMEROTECA: periódicos, revistas y publicaciones periódicas."
+      }
+    ],
+    "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-hemeroteca.mp3",
+    "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-hemeroteca.txt",
+    "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-hemeroteca.vtt",
+    "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/biblioteca-hemeroteca.md"
+  },
+  "R0010111_202503281716_YP00145909.JPG": {
+    "id": "biblioteca-balcon-1",
+    "title": "Biblioteca mezanine — Balcón vista a piso 1",
+    "shortTitle": "Balcón",
+    "altText": "Mesas en balcón con vista al lobby y mural del piso inferior.",
+    "longDescription": "Balcón de mezanine: mesas, estantería y vista clara al lobby.",
+    "initialView": {
+      "yaw": 0,
+      "pitch": 0,
+      "fov": 1.35
+    },
+    "keyboardShortcuts": [
+      "Flechas: girar la vista",
+      "Clic en flechas azules: avanzar a la siguiente zona",
+      "Doble clic hacia un destino: salto rápido"
+    ],
+    "links": [
+      {
+        "label": "Otro ángulo del balcón",
+        "targetFile": "R0010112_202503281717_YP00145909.JPG",
+        "yaw": 0.2,
+        "pitch": -0.08
+      }
+    ],
+    "hotspots": [
+      {
+        "id": "111-angulo",
+        "type": "nav",
+        "title": "Continuar por el balcón",
+        "shortLabel": "Seguir",
+        "targetFile": "R0010112_202503281717_YP00145909.JPG",
+        "yaw": 0.25,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Continuar por el balcón",
+        "description": "Continúa el recorrido hacia: Continuar por el balcón."
+      },
+      {
+        "id": "111-psicologia",
+        "type": "nav",
+        "title": "Estantería Psicología",
+        "shortLabel": "Psicología",
+        "targetFile": "R0010113_202503281717_YP00145909.JPG",
+        "yaw": 1.2,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Estantería Psicología",
+        "description": "Continúa el recorrido hacia: Estantería Psicología."
+      },
+      {
+        "id": "111-atras",
+        "type": "nav",
+        "title": "Volver hemeroteca",
+        "shortLabel": "Atrás",
+        "targetFile": "R0010110_202503281716_YP00145909.JPG",
+        "yaw": 3,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Volver hemeroteca",
+        "description": "Continúa el recorrido hacia: Volver hemeroteca."
+      },
+      {
+        "id": "111-abajo",
+        "type": "info",
+        "title": "Lobby en planta baja",
+        "yaw": 0.1,
+        "pitch": -0.45,
+        "icon": "⬇",
+        "altText": "Lobby en planta baja",
+        "description": "Vista al lobby: mesas, globos de luz y letrero de la biblioteca."
+      }
+    ],
+    "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-balcon-1.mp3",
+    "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-balcon-1.txt",
+    "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-balcon-1.vtt",
+    "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/biblioteca-balcon-1.md"
+  },
+  "R0010112_202503281717_YP00145909.JPG": {
+    "id": "biblioteca-balcon-2",
+    "title": "Biblioteca mezanine — Balcón con librería",
+    "shortTitle": "Balcón 2",
+    "altText": "Segundo ángulo del balcón con mesas y estantería.",
+    "longDescription": "Avance continuo sobre el balcón; mantiene la vista al nivel inferior.",
+    "initialView": {
+      "yaw": 0,
+      "pitch": 0,
+      "fov": 1.35
+    },
+    "keyboardShortcuts": [
+      "Flechas: girar la vista",
+      "Clic en flechas azules: avanzar a la siguiente zona",
+      "Doble clic hacia un destino: salto rápido"
+    ],
+    "links": [
+      {
+        "label": "Psicología",
+        "targetFile": "R0010113_202503281717_YP00145909.JPG",
+        "yaw": 0.4,
+        "pitch": -0.08
+      }
+    ],
+    "hotspots": [
+      {
+        "id": "112-psico",
+        "type": "nav",
+        "title": "Estantería Psicología",
+        "shortLabel": "Psicología",
+        "targetFile": "R0010113_202503281717_YP00145909.JPG",
+        "yaw": 0.5,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Estantería Psicología",
+        "description": "Continúa el recorrido hacia: Estantería Psicología."
+      },
+      {
+        "id": "112-atras",
+        "type": "nav",
+        "title": "Ángulo anterior",
+        "shortLabel": "Atrás",
+        "targetFile": "R0010111_202503281716_YP00145909.JPG",
+        "yaw": 3.05,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Ángulo anterior",
+        "description": "Continúa el recorrido hacia: Ángulo anterior."
+      },
+      {
+        "id": "112-bajar-vista",
+        "type": "nav",
+        "title": "Enfocar lobby abajo",
+        "shortLabel": "Lobby",
+        "targetFile": "R0010115_202503281721_YP00145909.JPG",
+        "yaw": 0.1,
+        "pitch": -0.5,
+        "icon": "➜",
+        "altText": "Navegar a Enfocar lobby abajo",
+        "description": "Continúa el recorrido hacia: Enfocar lobby abajo."
+      }
+    ],
+    "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-balcon-2.mp3",
+    "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-balcon-2.txt",
+    "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-balcon-2.vtt",
+    "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/biblioteca-balcon-2.md"
+  },
+  "R0010113_202503281717_YP00145909.JPG": {
+    "id": "biblioteca-psicologia",
+    "title": "Biblioteca mezanine — Estantería Psicología",
+    "shortTitle": "Psicología",
+    "altText": "Estantes etiquetados PSICOLOGÍA en mezanine con vista abajo.",
+    "longDescription": "Colección de Psicología en mezanine; cierre del recorrido del nivel superior.",
+    "initialView": {
+      "yaw": 0,
+      "pitch": 0,
+      "fov": 1.35
+    },
+    "keyboardShortcuts": [
+      "Flechas: girar la vista",
+      "Clic en flechas azules: avanzar a la siguiente zona",
+      "Doble clic hacia un destino: salto rápido"
+    ],
+    "links": [
+      {
+        "label": "Volver al lounge",
+        "targetFile": "R0010103_202503281710_YP00145909.JPG",
+        "yaw": -1.5,
+        "pitch": -0.08
+      }
+    ],
+    "hotspots": [
+      {
+        "id": "113-lounge",
+        "type": "nav",
+        "title": "Volver al lounge mezanine",
+        "shortLabel": "Lounge",
+        "targetFile": "R0010103_202503281710_YP00145909.JPG",
+        "yaw": -1.6,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Volver al lounge mezanine",
+        "description": "Continúa el recorrido hacia: Volver al lounge mezanine."
+      },
+      {
+        "id": "113-balcon",
+        "type": "nav",
+        "title": "Volver al balcón",
+        "shortLabel": "Balcón",
+        "targetFile": "R0010112_202503281717_YP00145909.JPG",
+        "yaw": 3,
+        "pitch": -0.05,
+        "icon": "➜",
+        "altText": "Navegar a Volver al balcón",
+        "description": "Continúa el recorrido hacia: Volver al balcón."
+      },
+      {
+        "id": "113-bajar",
+        "type": "nav",
+        "title": "Bajar a escaleras",
+        "shortLabel": "Bajar",
+        "targetFile": "R0010101_202503281708_YP00145909.JPG",
+        "yaw": 1.8,
+        "pitch": -0.1,
+        "icon": "➜",
+        "altText": "Navegar a Bajar a escaleras",
+        "description": "Continúa el recorrido hacia: Bajar a escaleras."
+      },
+      {
+        "id": "113-psico",
+        "type": "info",
+        "title": "Colección Psicología",
+        "yaw": -0.4,
+        "pitch": -0.05,
+        "icon": "🧠",
+        "altText": "Colección Psicología",
+        "description": "Estantería señalizada PSICOLOGÍA en el nivel superior."
+      }
+    ],
+    "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-psicologia.mp3",
+    "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-psicologia.txt",
+    "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-psicologia.vtt",
+    "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/biblioteca-psicologia.md"
+  }
+}

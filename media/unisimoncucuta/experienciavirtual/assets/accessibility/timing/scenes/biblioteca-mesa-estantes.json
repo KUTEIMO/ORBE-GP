@@ -1,0 +1,17 @@
+{
+  "sceneKey": "biblioteca-mesa-estantes",
+  "locale": "es-CO",
+  "durationSec": 4.182,
+  "source": "tts",
+  "audioFile": "assets/audio/scenes/biblioteca-mesa-estantes.mp3",
+  "transcriptFile": "assets/transcripts/scenes/biblioteca-mesa-estantes.txt",
+  "captionFile": "assets/captions/scenes/biblioteca-mesa-estantes.vtt",
+  "scriptFile": "assets/accessibility/scripts/scenes/biblioteca-mesa-estantes.md",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 4.182,
+      "text": "Escena: Biblioteca — Mesa entre estantes. 00:00:04.132 --> 00:00:09.092 Zona: Biblioteca Anita Bolívar de Consuegra — Planta baja. 00:00:09.092 --> 00:00:10.880 Orientación. 00:00:10.880 --> 00:00:14.329 Estás en Mesa / estantes. 00:00:14.329 --> 00:00:19.882 Puesto de estudio embebido entre estantes, con tomas eléctricas en la mesa. 00:00:19.882 --> 00:00:22.711 Puntos de interés principales. 00:00:22.711 --> 00:00:28.947 Mesa con energía: Mesa de estudio con módulos de tomacorrientes para portátiles. 00:00:28.947 --> 00:00:35.013 Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. 00:00:35.013 --> 00:00:39.171 Destinos disponibles desde aquí: Mesas en U. 00:00:39.171 --> 00:00:43.474 Esta narración es temporal generada por voz artificial. 00:00:43.474 --> 00:00:48.171 Puede reemplazarse luego por una grabación humana usando el mismo guion."
+    }
+  ]
+}

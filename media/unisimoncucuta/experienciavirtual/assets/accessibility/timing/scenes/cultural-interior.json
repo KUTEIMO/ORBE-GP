@@ -1,0 +1,17 @@
+{
+  "sceneKey": "cultural-interior",
+  "locale": "es-CO",
+  "durationSec": 4.958,
+  "source": "tts",
+  "audioFile": "assets/audio/scenes/cultural-interior.mp3",
+  "transcriptFile": "assets/transcripts/scenes/cultural-interior.txt",
+  "captionFile": "assets/captions/scenes/cultural-interior.vtt",
+  "scriptFile": "assets/accessibility/scripts/scenes/cultural-interior.md",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 4.958,
+      "text": "Escena: Edificio Cultural - Interior mural musical. 00:00:04.908 --> 00:00:07.828 Zona: Edificio Cultural. 00:00:07.828 --> 00:00:09.591 Orientación. 00:00:09.591 --> 00:00:12.132 Estás en Interior cultural. 00:00:12.132 --> 00:00:17.658 Estás en el interior del Edificio Cultural, frente a un mural musical. 00:00:17.658 --> 00:00:22.237 El espacio se usa para actividades culturales y encuentros. 00:00:22.237 --> 00:00:25.066 Puntos de interés principales. 00:00:25.066 --> 00:00:26.986 Mural musical. 00:00:26.986 --> 00:00:30.013 Sala interior del edificio cultural. 00:00:30.013 --> 00:00:34.592 Regresa al acceso del edificio o continúa hacia la biblioteca. 00:00:34.592 --> 00:00:38.895 Esta narración es temporal generada por voz artificial. 00:00:38.895 --> 00:00:43.592 Puede reemplazarse luego por una grabación humana usando el mismo guion."
+    }
+  ]
+}

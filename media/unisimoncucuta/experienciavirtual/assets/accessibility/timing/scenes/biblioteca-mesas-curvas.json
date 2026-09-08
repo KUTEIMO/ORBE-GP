@@ -1,0 +1,17 @@
+{
+  "sceneKey": "biblioteca-mesas-curvas",
+  "locale": "es-CO",
+  "durationSec": 8.629,
+  "source": "tts",
+  "audioFile": "assets/audio/scenes/biblioteca-mesas-curvas.mp3",
+  "transcriptFile": "assets/transcripts/scenes/biblioteca-mesas-curvas.txt",
+  "captionFile": "assets/captions/scenes/biblioteca-mesas-curvas.vtt",
+  "scriptFile": "assets/accessibility/scripts/scenes/biblioteca-mesas-curvas.md",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 8.629,
+      "text": "Escena: Biblioteca — Mesas curvas y PCs. Zona: Biblioteca Anita Bolívar de Consuegra — Planta baja. 00:00:08.579 --> 00:00:10.367 Orientación. 00:00:10.367 --> 00:00:12.908 Estás en Mesas curvas. 00:00:12.908 --> 00:00:19.355 Área abierta de mesas curvas; al fondo computadores y letrero; mezanine arriba. 00:00:19.355 --> 00:00:22.184 Puntos de interés principales. 00:00:22.184 --> 00:00:28.105 Mesas colaborativas: Mesas curvas con sillas verdes para trabajo en grupo. 00:00:28.105 --> 00:00:34.171 Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. 00:00:34.171 --> 00:00:38.671 Destinos disponibles desde aquí: Hacia hub de mesas. 00:00:38.671 --> 00:00:42.974 Esta narración es temporal generada por voz artificial. 00:00:42.974 --> 00:00:47.671 Puede reemplazarse luego por una grabación humana usando el mismo guion."
+    }
+  ]
+}

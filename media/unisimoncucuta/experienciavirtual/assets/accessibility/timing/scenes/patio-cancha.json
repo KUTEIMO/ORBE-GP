@@ -1,0 +1,17 @@
+{
+  "sceneKey": "patio-cancha",
+  "locale": "es-CO",
+  "durationSec": 9.576,
+  "source": "tts",
+  "audioFile": "assets/audio/scenes/patio-cancha.mp3",
+  "transcriptFile": "assets/transcripts/scenes/patio-cancha.txt",
+  "captionFile": "assets/captions/scenes/patio-cancha.vtt",
+  "scriptFile": "assets/accessibility/scripts/scenes/patio-cancha.md",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 9.576,
+      "text": "Escena: Patio C–D - Cubierta, cancha y escalera Bloque C. Zona: Patio central entre Bloque C y D. Orientación. 00:00:09.526 --> 00:00:11.974 Estás en Patio cancha. 00:00:11.974 --> 00:00:20.842 Estás en el patio central entre los bloques C y D. Hay cubierta, cancha y escalera hacia el Bloque C. Puntos de interés principales. 00:00:20.842 --> 00:00:23.237 Cancha y zona cubierta. 00:00:23.237 --> 00:00:30.224 Escalera del Bloque C. Usa la lista de destinos para ir a la rampa accesible del patio o volver a los pasillos. 00:00:30.224 --> 00:00:34.526 Esta narración es temporal generada por voz artificial. 00:00:34.526 --> 00:00:39.224 Puede reemplazarse luego por una grabación humana usando el mismo guion."
+    }
+  ]
+}

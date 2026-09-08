@@ -1,0 +1,17 @@
+{
+  "sceneKey": "control-ingreso-biblioteca",
+  "locale": "es-CO",
+  "durationSec": 8,
+  "source": "tts",
+  "audioFile": "assets/audio/scenes/control-ingreso-biblioteca.mp3",
+  "transcriptFile": "assets/transcripts/scenes/control-ingreso-biblioteca.txt",
+  "captionFile": "assets/captions/scenes/control-ingreso-biblioteca.vtt",
+  "scriptFile": "assets/accessibility/scripts/scenes/control-ingreso-biblioteca.md",
+  "cues": [
+    {
+      "startSec": 0,
+      "endSec": 8,
+      "text": "Control de ingreso a la biblioteca Anita Consuegra."
+    }
+  ]
+}

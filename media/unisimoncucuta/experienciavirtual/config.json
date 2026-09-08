@@ -1,0 +1,641 @@
+{
+  "basePath": "/media/unisimoncucuta/experienciavirtual/panoramas/",
+  "scenes": [
+    {
+      "file": "R0010060_202503281449_YP00145909.JPG",
+      "zone": "entrada"
+    },
+    {
+      "file": "R0010061_202503281452_YP00145909.JPG",
+      "zone": "entrada"
+    },
+    {
+      "file": "R0010062_202503281454_YP00145909.JPG",
+      "zone": "entrada"
+    },
+    {
+      "file": "R0010063_202503281457_YP00145909.JPG",
+      "zone": "entrada"
+    },
+    {
+      "file": "R0010064_202503281459_YP00145909.JPG",
+      "zone": "entrada"
+    },
+    {
+      "file": "R0010065_202503281501_YP00145909.JPG",
+      "zone": "entrada"
+    },
+    {
+      "file": "R0010066_202503281503_YP00145909.JPG",
+      "zone": "entrada"
+    },
+    {
+      "file": "R0010067_202503281505_YP00145909.JPG",
+      "zone": "entrada"
+    },
+    {
+      "file": "R0010071_202503281637_YP00145909.JPG",
+      "zone": "entrada"
+    },
+    {
+      "file": "R0010068_202503281507_YP00145909.JPG",
+      "zone": "cafeteria"
+    },
+    {
+      "file": "R0010072_202503281638_YP00145909.JPG",
+      "zone": "cafeteria"
+    },
+    {
+      "file": "R0010073_202503281639_YP00145909.JPG",
+      "zone": "cafeteria"
+    },
+    {
+      "file": "R0010074_202503281639_YP00145909.JPG",
+      "zone": "cafeteria"
+    },
+    {
+      "file": "R0010075_202503281641_YP00145909.JPG",
+      "zone": "cafeteria"
+    },
+    {
+      "file": "R0010076_202503281642_YP00145909.JPG",
+      "zone": "cafeteria"
+    },
+    {
+      "file": "R0010077_202503281643_YP00145909.JPG",
+      "zone": "cafeteria"
+    },
+    {
+      "file": "R0010078_202503281644_YP00145909.JPG",
+      "zone": "cafeteria"
+    },
+    {
+      "file": "R0010079_202503281645_YP00145909.JPG",
+      "zone": "cultural"
+    },
+    {
+      "file": "R0010069_202503281509_YP00145909.JPG",
+      "zone": "cafeteria"
+    },
+    {
+      "file": "R0010070_202503281633_YP00145909.JPG",
+      "zone": "cafeteria"
+    },
+    {
+      "file": "R0010080_202503281646_YP00145909.JPG",
+      "zone": "entrada"
+    },
+    {
+      "file": "R0010082_202503281648_YP00145909.JPG",
+      "zone": "cafeteria"
+    },
+    {
+      "file": "R0010083_202503281649_YP00145909.JPG",
+      "zone": "biblioteca_p1"
+    },
+    {
+      "file": "R0010084_202503281650_YP00145909.JPG",
+      "zone": "biblioteca_p1"
+    },
+    {
+      "file": "R0010085_202503281651_YP00145909.JPG",
+      "zone": "biblioteca_p1"
+    },
+    {
+      "file": "R0010086_202503281652_YP00145909.JPG",
+      "zone": "biblioteca_p1"
+    },
+    {
+      "file": "R0010087_202503281653_YP00145909.JPG",
+      "zone": "biblioteca_p1"
+    },
+    {
+      "file": "R0010088_202503281654_YP00145909.JPG",
+      "zone": "biblioteca_p1"
+    },
+    {
+      "file": "R0010089_202503281655_YP00145909.JPG",
+      "zone": "biblioteca_p1"
+    },
+    {
+      "file": "R0010090_202503281656_YP00145909.JPG",
+      "zone": "biblioteca_p1"
+    },
+    {
+      "file": "R0010091_202503281658_YP00145909.JPG",
+      "zone": "biblioteca_p1"
+    },
+    {
+      "file": "R0010092_202503281658_YP00145909.JPG",
+      "zone": "biblioteca_p1"
+    },
+    {
+      "file": "R0010093_202503281659_YP00145909.JPG",
+      "zone": "biblioteca_p1"
+    },
+    {
+      "file": "R0010094_202503281700_YP00145909.JPG",
+      "zone": "biblioteca_p1"
+    },
+    {
+      "file": "R0010095_202503281701_YP00145909.JPG",
+      "zone": "biblioteca_p1"
+    },
+    {
+      "file": "R0010096_202503281702_YP00145909.JPG",
+      "zone": "biblioteca_p1"
+    },
+    {
+      "file": "R0010097_202503281703_YP00145909.JPG",
+      "zone": "biblioteca_p1"
+    },
+    {
+      "file": "R0010098_202503281705_YP00145909.JPG",
+      "zone": "biblioteca_p1"
+    },
+    {
+      "file": "R0010099_202503281706_YP00145909.JPG",
+      "zone": "biblioteca_p1"
+    },
+    {
+      "file": "R0010100_202503281706_YP00145909.JPG",
+      "zone": "biblioteca_p1"
+    },
+    {
+      "file": "R0010101_202503281708_YP00145909.JPG",
+      "zone": "biblioteca_p2"
+    },
+    {
+      "file": "R0010102_202503281709_YP00145909.JPG",
+      "zone": "biblioteca_p2"
+    },
+    {
+      "file": "R0010103_202503281710_YP00145909.JPG",
+      "zone": "biblioteca_p2"
+    },
+    {
+      "file": "R0010104_202503281711_YP00145909.JPG",
+      "zone": "biblioteca_p2"
+    },
+    {
+      "file": "R0010105_202503281712_YP00145909.JPG",
+      "zone": "biblioteca_p2"
+    },
+    {
+      "file": "R0010106_202503281713_YP00145909.JPG",
+      "zone": "biblioteca_p2"
+    },
+    {
+      "file": "R0010107_202503281714_YP00145909.JPG",
+      "zone": "biblioteca_p2"
+    },
+    {
+      "file": "R0010108_202503281714_YP00145909.JPG",
+      "zone": "biblioteca_p2"
+    },
+    {
+      "file": "R0010109_202503281715_YP00145909.JPG",
+      "zone": "biblioteca_p2"
+    },
+    {
+      "file": "R0010110_202503281716_YP00145909.JPG",
+      "zone": "biblioteca_p2"
+    },
+    {
+      "file": "R0010111_202503281716_YP00145909.JPG",
+      "zone": "biblioteca_p2"
+    },
+    {
+      "file": "R0010112_202503281717_YP00145909.JPG",
+      "zone": "biblioteca_p2"
+    },
+    {
+      "file": "R0010113_202503281717_YP00145909.JPG",
+      "zone": "biblioteca_p2"
+    },
+    {
+      "file": "R0010115_202503281721_YP00145909.JPG",
+      "zone": "biblioteca_p1"
+    },
+    {
+      "file": "R0010117_202503281724_YP00145909.JPG",
+      "zone": "patio"
+    },
+    {
+      "file": "R0010118_202503281724_YP00145909.JPG",
+      "zone": "patio"
+    },
+    {
+      "file": "R0010119_202503281725_YP00145909.JPG",
+      "zone": "patio"
+    },
+    {
+      "file": "R0010120_202503281726_YP00145909.JPG",
+      "zone": "patio"
+    },
+    {
+      "file": "R0010121_202503281727_YP00145909.JPG",
+      "zone": "patio"
+    },
+    {
+      "file": "R0010123_202503281729_YP00145909.JPG",
+      "zone": "entrada"
+    },
+    {
+      "file": "R0010124_202503281730_YP00145909.JPG",
+      "zone": "entrada"
+    },
+    {
+      "file": "R0010081_202503281647_YP00145909.JPG",
+      "zone": "cultural"
+    }
+  ],
+  "sceneNames": {
+    "R0010060_202503281449_YP00145909.JPG": "1. Entrada Principal - Acceso Sede 2",
+    "R0010061_202503281452_YP00145909.JPG": "2. Hall de Ingreso - Recepción Central",
+    "R0010062_202503281454_YP00145909.JPG": "3. Pasillo Principal - Conexión Aulas",
+    "R0010063_202503281457_YP00145909.JPG": "4. Pasillo Primera Planta - Vistas al Computo rooms",
+    "R0010064_202503281459_YP00145909.JPG": "5. Pasillo Bloque B - Zona Cómputo",
+    "R0010065_202503281501_YP00145909.JPG": "6. Pasillo Bloque B - Área Multimedia",
+    "R0010066_202503281503_YP00145909.JPG": "7. Zona de Descanso 1 - Planta 1 Bloque B",
+    "R0010067_202503281505_YP00145909.JPG": "8. Pasillo Central Bloque B - Conexión Planta 2,Oficina Mantenimiento,Cafeteria",
+    "R0010071_202503281637_YP00145909.JPG": "9. Zona de Descanso 1 - Planta 1 Conexion Cafeteria",
+    "R0010068_202503281507_YP00145909.JPG": "10. Entrada Cafetería - Zona de Muro de Medios Unisimon",
+    "R0010072_202503281638_YP00145909.JPG": "11. Pasillo Cafetería - Mesas de Comidas",
+    "R0010073_202503281639_YP00145909.JPG": "12. Cafetería - Conexion Zona de Baños Femeninos",
+    "R0010074_202503281639_YP00145909.JPG": "13. Cafetería - Área de Mesas, Zona Residuos Electronicos",
+    "R0010075_202503281641_YP00145909.JPG": "14. Pasillo Cafetería - Zona Central de Mesas",
+    "R0010076_202503281642_YP00145909.JPG": "15. Zona Cafetería - Estación de Juego Ajedrez a gran escala",
+    "R0010077_202503281643_YP00145909.JPG": "16. Cafetería - Caseta de Cafeteria de comidas frias y calientes",
+    "R0010078_202503281644_YP00145909.JPG": "17. Pasillo Cafetería - Zona de registro conexion a biblioteca",
+    "R0010079_202503281645_YP00145909.JPG": "18. Edificio Cultural — Acceso (junto a biblioteca)",
+    "R0010069_202503281509_YP00145909.JPG": "19. Zona Cafetería - Pasillo hacia Bloque C",
+    "R0010070_202503281633_YP00145909.JPG": "20. Cafetería - Área lateral",
+    "R0010080_202503281646_YP00145909.JPG": "21. Entrada secundaria Sede 2 - Calle / rejas",
+    "R0010082_202503281648_YP00145909.JPG": "22. Pre-biblioteca - Puertas BIBLIOTECA y rampa",
+    "R0010083_202503281649_YP00145909.JPG": "23. Biblioteca P1 - Lobby de ingreso / préstamos",
+    "R0010084_202503281650_YP00145909.JPG": "24. Biblioteca P1 - Lobby mural, PCs y mesas",
+    "R0010085_202503281651_YP00145909.JPG": "25. Biblioteca P1 - Lobby (ángulo mural y PCs)",
+    "R0010086_202503281652_YP00145909.JPG": "26. Biblioteca P1 - Pasillo central de lectura",
+    "R0010087_202503281653_YP00145909.JPG": "27. Biblioteca P1 - Cubículos arqueados y PCs",
+    "R0010088_202503281654_YP00145909.JPG": "28. Biblioteca P1 - Cubículos grupales",
+    "R0010089_202503281655_YP00145909.JPG": "29. Biblioteca P1 - Interior de cubículo",
+    "R0010090_202503281656_YP00145909.JPG": "30. Biblioteca P1 - Mesas curvas y zona de PCs",
+    "R0010091_202503281658_YP00145909.JPG": "31. Biblioteca P1 - Lectura, estantería y escalera",
+    "R0010092_202503281658_YP00145909.JPG": "32. Biblioteca P1 - Hub mesas y salones de vidrio",
+    "R0010093_202503281659_YP00145909.JPG": "33. Biblioteca P1 - Colección GENERAL y salones",
+    "R0010094_202503281700_YP00145909.JPG": "34. Biblioteca P1 - Pasillo de estantería",
+    "R0010095_202503281701_YP00145909.JPG": "35. Biblioteca P1 - Mesa de estudio entre estantes",
+    "R0010096_202503281702_YP00145909.JPG": "36. Biblioteca P1 - Mesas en U y salones",
+    "R0010097_202503281703_YP00145909.JPG": "37. Biblioteca P1 - Salones de proyecto y escalera",
+    "R0010098_202503281705_YP00145909.JPG": "38. Biblioteca P1 - Salones de proyecto 2",
+    "R0010099_202503281706_YP00145909.JPG": "39. Biblioteca P1 - Salones Allende / Eva Luna",
+    "R0010100_202503281706_YP00145909.JPG": "40. Biblioteca P1 - Escaleras a mezanine",
+    "R0010101_202503281708_YP00145909.JPG": "41. Biblioteca mezanine - Descanso de escaleras",
+    "R0010102_202503281709_YP00145909.JPG": "42. Biblioteca mezanine - Descanso (ángulo cercano)",
+    "R0010103_202503281710_YP00145909.JPG": "43. Biblioteca mezanine - Lounge y pods",
+    "R0010104_202503281711_YP00145909.JPG": "44. Biblioteca mezanine - Estantería GENERAL",
+    "R0010105_202503281712_YP00145909.JPG": "45. Biblioteca mezanine - Pasillo de estantes 2",
+    "R0010106_202503281713_YP00145909.JPG": "46. Biblioteca mezanine - Estantes y zona de estudio",
+    "R0010107_202503281714_YP00145909.JPG": "47. Biblioteca mezanine - Trabajo en grupo A",
+    "R0010108_202503281714_YP00145909.JPG": "48. Biblioteca mezanine - Trabajo en grupo B",
+    "R0010109_202503281715_YP00145909.JPG": "49. Biblioteca mezanine - Cubículos amoblados",
+    "R0010110_202503281716_YP00145909.JPG": "50. Biblioteca mezanine - Señal HEMEROTECA",
+    "R0010111_202503281716_YP00145909.JPG": "51. Biblioteca mezanine - Balcón vista a piso 1",
+    "R0010112_202503281717_YP00145909.JPG": "52. Biblioteca mezanine - Balcón con librería",
+    "R0010113_202503281717_YP00145909.JPG": "53. Biblioteca mezanine - Estantería Psicología",
+    "R0010115_202503281721_YP00145909.JPG": "54. Biblioteca P1 - Computadores / letrero principal",
+    "R0010117_202503281724_YP00145909.JPG": "55. Patio C–D - Cubierta, cancha y escalera Bloque C",
+    "R0010118_202503281724_YP00145909.JPG": "56. Patio C–D - Pasarela, toldo y banner Unisimón",
+    "R0010119_202503281725_YP00145909.JPG": "57. Patio C–D - Rampa accesible y zona abierta",
+    "R0010120_202503281726_YP00145909.JPG": "58. Patio C–D - Vista frontal",
+    "R0010121_202503281727_YP00145909.JPG": "59. Patio C–D - Edificio curvo y bicicletas",
+    "R0010123_202503281729_YP00145909.JPG": "60. Pasillo Bloque B - Hall hacia patio",
+    "R0010124_202503281730_YP00145909.JPG": "61. Pasillo Bloque B - Salida Av. 3",
+    "R0010081_202503281647_YP00145909.JPG": "62. Edificio Cultural - Interior mural musical"
+  },
+  "zones": {
+    "entrada": "Entrada y pasillos Bloque B",
+    "cafeteria": "Cafetería y lobby común",
+    "biblioteca_p1": "Biblioteca Anita Bolívar de Consuegra — Planta baja",
+    "biblioteca_p2": "Biblioteca — Mezanine / nivel superior",
+    "laboratorios": "Laboratorios Técnicos",
+    "oficinas": "Oficinas Administrativas",
+    "cultural": "Edificio Cultural (junto a biblioteca / Calle 14)",
+    "patio": "Patio central entre Bloque C y D",
+    "descanso": "Zonas de Descanso"
+  },
+  "hotspots": {
+    "R0010060_202503281449_YP00145909.JPG": [
+      {
+        "position": {
+          "x": 0.2,
+          "y": -0.1,
+          "z": -0.9
+        },
+        "title": "Entrada Principal",
+        "icon": "🚪",
+        "description": "Entrada principal de la Sede 2."
+      },
+      {
+        "position": {
+          "x": -0.8,
+          "y": 0.1,
+          "z": -0.5
+        },
+        "title": "Punto de Información",
+        "icon": "ℹ️",
+        "description": "Punto de información para horarios y servicios."
+      },
+      {
+        "position": {
+          "x": 0.8,
+          "y": 0,
+          "z": -0.5
+        },
+        "title": "Área de Espera",
+        "icon": "🪑",
+        "description": "Zona de espera con asientos cómodos."
+      },
+      {
+        "position": {
+          "x": 0,
+          "y": 0.3,
+          "z": -0.9
+        },
+        "title": "Señalización",
+        "icon": "🔍",
+        "description": "Indicadores visuales del campus."
+      }
+    ],
+    "R0010098_202503281705_YP00145909.JPG": [
+      {
+        "position": {
+          "x": -0.3,
+          "y": 0.1,
+          "z": -0.8
+        },
+        "title": "Acceso Piso 2",
+        "icon": "🔼",
+        "description": "Escaleras hacia el nivel superior de la biblioteca"
+      }
+    ],
+    "R0010100_202503281706_YP00145909.JPG": [
+      {
+        "position": {
+          "x": 0.4,
+          "y": 0.2,
+          "z": -0.7
+        },
+        "title": "Mapa Interactivo",
+        "icon": "📍",
+        "description": "Consulta la distribución del piso 2"
+      }
+    ]
+  },
+  "defaultScene": "entrada-principal",
+  "shortcuts": [
+    "Flechas ← →: rotan la vista horizontalmente",
+    "Flechas ↑ ↓: inclinan la cámara hacia arriba o abajo",
+    "+ / - : ajustan el zoom",
+    "Q / E: controlan el balance vertical",
+    "Tab: avanza entre menús, hotspots y controles"
+  ],
+  "accessibleScenes": {
+    "R0010060_202503281449_YP00145909.JPG": {
+      "id": "entrada-principal",
+      "title": "Entrada Principal - Acceso Sede 2",
+      "shortTitle": "Entrada Principal",
+      "altText": "Vista 360° de la entrada principal con árboles, rampa accesible y zona de espera.",
+      "longDescription": "Te encuentras en la entrada principal de la Sede 2. A la izquierda está el punto de información y al frente se observa el acceso accesible con rampa y señalización.",
+      "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/entrada-principal.mp3",
+      "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/entrada-principal.txt",
+      "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/entrada-principal.vtt",
+      "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/scenes/entrada-principal.json",
+      "srSummary": "Entrada Sede 2 con punto de información a la izquierda y rampa accesible al frente.",
+      "initialView": {
+        "yaw": 0,
+        "pitch": 0,
+        "fov": 1.4
+      },
+      "keyboardShortcuts": [
+        "Pulsa las flechas para girar o inclinar la cámara.",
+        "Utiliza + y - para ajustar el zoom.",
+        "Presiona Tab para recorrer hotspots y menús."
+      ],
+      "links": [
+        {
+          "label": "Ir a Biblioteca - Planta Principal",
+          "targetFile": "R0010083_202503281649_YP00145909.JPG"
+        }
+      ],
+      "hotspots": [
+        {
+          "id": "punto-informacion",
+          "title": "Punto de información",
+          "type": "info",
+          "yaw": 0.5,
+          "pitch": 0.05,
+          "icon": "ℹ️",
+          "altText": "Mostrador de información con personal dispuesto a orientar a estudiantes visitantes.",
+          "description": "El punto de información ofrece atención presencial, folletos y orientación de servicios estudiantiles.",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/punto-informacion.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/punto-informacion.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/punto-informacion.vtt",
+          "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/hotspots/punto-informacion.md"
+        },
+        {
+          "id": "acceso-accesible",
+          "title": "Acceso accesible",
+          "type": "info",
+          "yaw": -0.9,
+          "pitch": -0.05,
+          "icon": "♿",
+          "altText": "Rampa con barandas metálicas que conecta la entrada a nivel con la puerta principal del edificio.",
+          "description": "Rampa con superficie antideslizante y señalización podotáctil que facilita la entrada de personas con movilidad reducida.",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/acceso-accesible.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/acceso-accesible.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/acceso-accesible.vtt",
+          "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/hotspots/acceso-accesible.md"
+        }
+      ],
+      "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/entrada-principal.md"
+    },
+    "R0010083_202503281649_YP00145909.JPG": {
+      "id": "biblioteca-principal",
+      "title": "Biblioteca Anita Bolívar de Consuegra — Lobby",
+      "shortTitle": "Lobby biblioteca",
+      "altText": "Interior 360° del lobby de la biblioteca con mural, mostrador, computadores y mesas de estudio.",
+      "longDescription": "Estás en el lobby de la Biblioteca Anita Bolívar de Consuegra. Frente a ti está el acceso de vidrio; a un lado el mostrador y las mesas; al otro, la fila de computadores bajo el letrero de la biblioteca. Arriba se ve la mezanine.",
+      "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-principal.mp3",
+      "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-principal.txt",
+      "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-principal.vtt",
+      "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/scenes/biblioteca-principal.json",
+      "srSummary": "Lobby de la biblioteca: mostrador, mesas, computadores y mezanine.",
+      "initialView": {
+        "yaw": 0.2,
+        "pitch": 0,
+        "fov": 1.3
+      },
+      "keyboardShortcuts": [
+        "Usa las flechas para recorrer la sala.",
+        "Presiona Shift + Tab para volver al menú de escenas.",
+        "Pulsa Enter sobre un hotspot para conocer sus servicios."
+      ],
+      "links": [
+        {
+          "label": "Volver a entrada",
+          "targetFile": "R0010060_202503281449_YP00145909.JPG"
+        }
+      ],
+      "hotspots": [
+        {
+          "id": "mostrador-prestamo",
+          "title": "Mostrador de préstamo",
+          "type": "info",
+          "yaw": 0.1,
+          "pitch": -0.02,
+          "icon": "📚",
+          "altText": "Mostrador con personal bibliotecario y computadoras para registro de préstamos.",
+          "description": "Aquí se realizan préstamos de libros, renovación de material y asesorías rápidas sobre recursos digitales.",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/mostrador-prestamo.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/mostrador-prestamo.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/mostrador-prestamo.vtt",
+          "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/hotspots/mostrador-prestamo.md"
+        },
+        {
+          "id": "zona-estudio",
+          "title": "Zona de estudio colaborativo",
+          "type": "info",
+          "yaw": -0.6,
+          "pitch": 0.05,
+          "icon": "👥",
+          "altText": "Mesas con sillas verdes donde estudiantes trabajan en grupo.",
+          "description": "Área de mesas de estudio en el lobby, con vista a la mezanine y conexión hacia cubículos y salones de vidrio.",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/zona-estudio.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/zona-estudio.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/zona-estudio.vtt",
+          "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/hotspots/zona-estudio.md"
+        }
+      ],
+      "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/biblioteca-principal.md"
+    },
+    "R0010061_202503281452_YP00145909.JPG": {
+      "id": "hall-ingreso",
+      "title": "Hall de Ingreso - Recepción Central",
+      "shortTitle": "Hall de ingreso",
+      "altText": "Vista 360° de Hall de ingreso.",
+      "longDescription": "Estás en el hall de ingreso y recepción central de la Sede 2. Es el punto de orientación hacia pasillos del Bloque B, aulas y servicios.",
+      "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/hall-ingreso.mp3",
+      "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/hall-ingreso.txt",
+      "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/hall-ingreso.vtt",
+      "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/hall-ingreso.md",
+      "hotspots": [],
+      "links": []
+    },
+    "R0010068_202503281507_YP00145909.JPG": {
+      "id": "entrada-cafeteria",
+      "title": "Entrada Cafetería - Muro de Medios Unisimón",
+      "shortTitle": "Entrada cafetería",
+      "altText": "Vista 360° de Entrada cafetería.",
+      "longDescription": "Estás en la entrada de la cafetería, junto al muro de medios Unisimón. Desde aquí se accede al área de mesas y a la caseta de alimentos.",
+      "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/entrada-cafeteria.mp3",
+      "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/entrada-cafeteria.txt",
+      "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/entrada-cafeteria.vtt",
+      "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/entrada-cafeteria.md",
+      "hotspots": [],
+      "links": []
+    },
+    "R0010072_202503281638_YP00145909.JPG": {
+      "id": "cafeteria-mesas",
+      "title": "Pasillo Cafetería - Mesas de comidas",
+      "shortTitle": "Mesas cafetería",
+      "altText": "Vista 360° de Mesas cafetería.",
+      "longDescription": "Estás en el pasillo de la cafetería con mesas para comidas. Es un espacio común de encuentro entre clases.",
+      "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/cafeteria-mesas.mp3",
+      "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/cafeteria-mesas.txt",
+      "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/cafeteria-mesas.vtt",
+      "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/cafeteria-mesas.md",
+      "hotspots": [],
+      "links": []
+    },
+    "R0010077_202503281643_YP00145909.JPG": {
+      "id": "cafeteria-caseta",
+      "title": "Cafetería - Caseta de comidas",
+      "shortTitle": "Caseta cafetería",
+      "altText": "Vista 360° de Caseta cafetería.",
+      "longDescription": "Estás frente a la caseta de cafetería de comidas frías y calientes. Aquí se atienden pedidos de alimentos y bebidas.",
+      "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/cafeteria-caseta.mp3",
+      "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/cafeteria-caseta.txt",
+      "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/cafeteria-caseta.vtt",
+      "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/cafeteria-caseta.md",
+      "hotspots": [],
+      "links": []
+    },
+    "R0010079_202503281645_YP00145909.JPG": {
+      "id": "cultural-acceso",
+      "title": "Edificio Cultural — Acceso",
+      "shortTitle": "Acceso cultural",
+      "altText": "Vista 360° de Acceso cultural.",
+      "longDescription": "Estás en el acceso al Edificio Cultural, junto a la biblioteca. Es un espacio de actividades artísticas y culturales del campus.",
+      "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/cultural-acceso.mp3",
+      "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/cultural-acceso.txt",
+      "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/cultural-acceso.vtt",
+      "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/cultural-acceso.md",
+      "hotspots": [],
+      "links": []
+    },
+    "R0010081_202503281647_YP00145909.JPG": {
+      "id": "cultural-interior",
+      "title": "Edificio Cultural - Interior mural musical",
+      "shortTitle": "Interior cultural",
+      "altText": "Vista 360° de Interior cultural.",
+      "longDescription": "Estás en el interior del Edificio Cultural, frente a un mural musical. El espacio se usa para actividades culturales y encuentros.",
+      "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/cultural-interior.mp3",
+      "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/cultural-interior.txt",
+      "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/cultural-interior.vtt",
+      "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/cultural-interior.md",
+      "hotspots": [],
+      "links": []
+    },
+    "R0010117_202503281724_YP00145909.JPG": {
+      "id": "patio-cancha",
+      "title": "Patio C–D - Cubierta, cancha y escalera Bloque C",
+      "shortTitle": "Patio cancha",
+      "altText": "Vista 360° de Patio cancha.",
+      "longDescription": "Estás en el patio central entre los bloques C y D. Hay cubierta, cancha y escalera hacia el Bloque C.",
+      "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/patio-cancha.mp3",
+      "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/patio-cancha.txt",
+      "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/patio-cancha.vtt",
+      "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/patio-cancha.md",
+      "hotspots": [],
+      "links": []
+    },
+    "R0010119_202503281725_YP00145909.JPG": {
+      "id": "patio-rampa",
+      "title": "Patio C–D - Rampa accesible y zona abierta",
+      "shortTitle": "Patio rampa",
+      "altText": "Vista 360° de Patio rampa.",
+      "longDescription": "Estás en el patio C–D junto a la rampa accesible y la zona abierta. La rampa facilita el desplazamiento con movilidad reducida.",
+      "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/patio-rampa.mp3",
+      "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/patio-rampa.txt",
+      "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/patio-rampa.vtt",
+      "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/patio-rampa.md",
+      "hotspots": [],
+      "links": []
+    },
+    "R0010124_202503281730_YP00145909.JPG": {
+      "id": "salida-av3",
+      "title": "Pasillo Bloque B - Salida Av. 3",
+      "shortTitle": "Salida Av. 3",
+      "altText": "Vista 360° de Salida Av. 3.",
+      "longDescription": "Estás en el pasillo del Bloque B orientado hacia la salida a la Avenida 3. Es una salida secundaria del edificio.",
+      "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/salida-av3.mp3",
+      "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/salida-av3.txt",
+      "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/salida-av3.vtt",
+      "scriptFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/scripts/scenes/salida-av3.md",
+      "hotspots": [],
+      "links": []
+    }
+  }
+}

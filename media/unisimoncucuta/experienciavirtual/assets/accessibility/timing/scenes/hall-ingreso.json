@@ -1,0 +1,17 @@
+{
+  "sceneKey": "hall-ingreso",
+  "locale": "es-CO",
+  "durationSec": 4.313,
+  "source": "tts",
+  "audioFile": "assets/audio/scenes/hall-ingreso.mp3",
+  "transcriptFile": "assets/transcripts/scenes/hall-ingreso.txt",
+  "captionFile": "assets/captions/scenes/hall-ingreso.vtt",
+  "scriptFile": "assets/accessibility/scripts/scenes/hall-ingreso.md",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 4.313,
+      "text": "Escena: Hall de Ingreso - Recepción Central. 00:00:04.263 --> 00:00:08.578 Zona: Entrada y pasillos Bloque B. Orientación. 00:00:08.578 --> 00:00:11.026 Estás en Hall de ingreso. 00:00:11.026 --> 00:00:15.816 Estás en el hall de ingreso y recepción central de la Sede 2. 00:00:15.816 --> 00:00:21.421 Es el punto de orientación hacia pasillos del Bloque B, aulas y servicios. 00:00:21.421 --> 00:00:24.250 Puntos de interés principales. 00:00:24.250 --> 00:00:26.262 Recepción central. 00:00:26.262 --> 00:00:34.000 Conexión hacia pasillos del Bloque B. Usa la lista de destinos para continuar hacia la cafetería, pasillos o salida. 00:00:34.000 --> 00:00:38.303 Esta narración es temporal generada por voz artificial. 00:00:38.303 --> 00:00:43.000 Puede reemplazarse luego por una grabación humana usando el mismo guion."
+    }
+  ]
+}

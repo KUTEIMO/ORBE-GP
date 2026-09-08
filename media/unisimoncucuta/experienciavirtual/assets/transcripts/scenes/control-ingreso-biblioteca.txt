@@ -1,0 +1,1 @@
+Mostrador acristalado de control de ingreso a la biblioteca. Desde aquí se orienta el acceso al lobby.

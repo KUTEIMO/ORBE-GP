@@ -1,0 +1,17 @@
+{
+  "sceneKey": "biblioteca-cubiculos-arco",
+  "locale": "es-CO",
+  "durationSec": 4.182,
+  "source": "tts",
+  "audioFile": "assets/audio/scenes/biblioteca-cubiculos-arco.mp3",
+  "transcriptFile": "assets/transcripts/scenes/biblioteca-cubiculos-arco.txt",
+  "captionFile": "assets/captions/scenes/biblioteca-cubiculos-arco.vtt",
+  "scriptFile": "assets/accessibility/scripts/scenes/biblioteca-cubiculos-arco.md",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 4.182,
+      "text": "Escena: Biblioteca — Cubículos arqueados. 00:00:04.132 --> 00:00:09.092 Zona: Biblioteca Anita Bolívar de Consuegra — Planta baja. 00:00:09.092 --> 00:00:10.880 Orientación. 00:00:10.880 --> 00:00:13.066 Estás en Cubículos. 00:00:13.066 --> 00:00:20.526 Frente a los cubículos de estudio semi-privados; a la izquierda PCs, a la derecha mesas comunales. 00:00:20.526 --> 00:00:23.355 Puntos de interés principales. 00:00:23.355 --> 00:00:30.829 Cubículos de estudio: Cabinas arqueadas para estudio individual o en pareja, con iluminación propia. 00:00:30.829 --> 00:00:36.895 Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. 00:00:36.895 --> 00:00:41.829 Destinos disponibles desde aquí: Entrar a fila de cubículos. 00:00:41.829 --> 00:00:46.132 Esta narración es temporal generada por voz artificial. 00:00:46.132 --> 00:00:50.829 Puede reemplazarse luego por una grabación humana usando el mismo guion."
+    }
+  ]
+}

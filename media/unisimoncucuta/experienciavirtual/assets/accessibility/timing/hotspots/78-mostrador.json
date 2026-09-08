@@ -1,0 +1,17 @@
+{
+  "hotspotId": "78-mostrador",
+  "locale": "es-CO",
+  "durationSec": 2.971,
+  "source": "tts",
+  "audioFile": "assets/audio/hotspots/78-mostrador.mp3",
+  "transcriptFile": "assets/transcripts/hotspots/78-mostrador.txt",
+  "captionFile": "assets/captions/hotspots/78-mostrador.vtt",
+  "scriptFile": "assets/accessibility/scripts/hotspots/78-mostrador.md",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 2.971,
+      "text": "Mostrador de control de ingreso. 00:00:02.921 --> 00:00:10.276 Aquí se reciben bolsos y se hace el control de seguridad u objetos perdidos antes de entrar al lobby de la biblioteca."
+    }
+  ]
+}

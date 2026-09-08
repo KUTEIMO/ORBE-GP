@@ -1,0 +1,17 @@
+{
+  "sceneKey": "biblioteca-hemeroteca",
+  "locale": "es-CO",
+  "durationSec": 4.339,
+  "source": "tts",
+  "audioFile": "assets/audio/scenes/biblioteca-hemeroteca.mp3",
+  "transcriptFile": "assets/transcripts/scenes/biblioteca-hemeroteca.txt",
+  "captionFile": "assets/captions/scenes/biblioteca-hemeroteca.vtt",
+  "scriptFile": "assets/accessibility/scripts/scenes/biblioteca-hemeroteca.md",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 4.339,
+      "text": "Escena: Biblioteca mezanine — HEMEROTECA. 00:00:04.289 --> 00:00:09.381 Zona: Biblioteca — Mezanine / nivel superior. 00:00:09.381 --> 00:00:11.157 Orientación. 00:00:11.157 --> 00:00:13.355 Estás en Hemeroteca. 00:00:13.355 --> 00:00:18.803 Acceso señalado a hemeroteca; mesas y barandal hacia el vacío central. 00:00:18.803 --> 00:00:21.632 Puntos de interés principales. 00:00:21.632 --> 00:00:29.329 Hemeroteca: Señalización HEMEROTECA: periódicos, revistas y publicaciones periódicas. 00:00:29.329 --> 00:00:35.395 Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. 00:00:35.395 --> 00:00:40.171 Destinos disponibles desde aquí: Balcón vista piso 1. 00:00:40.171 --> 00:00:44.474 Esta narración es temporal generada por voz artificial. 00:00:44.474 --> 00:00:49.171 Puede reemplazarse luego por una grabación humana usando el mismo guion."
+    }
+  ]
+}
