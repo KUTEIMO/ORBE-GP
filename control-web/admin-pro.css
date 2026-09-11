@@ -1,0 +1,1120 @@
+/**
+ * Orbe360 Control Web — capa de producto (jerarquía, estados, movimiento).
+ * Carga DESPUÉS de admin.css: es una capa aditiva de presentación.
+ *
+ * Doc: docs/producto/61-design-system-orbe-v2.md
+ *
+ * REGLAS QUE ESTA CAPA NO ROMPE
+ *  - Cero cambios de markup semántico, IDs o interacción (admin.js intacto).
+ *  - Cero cambios de yaw/pitch de hotspots: solo tamaño, color y animación.
+ *  - Chrome Orbe (sky #0284c7). El verde institucional de cliente nunca entra
+ *    aquí; solo el punto `--cw-client` del chip de contexto (doc 39).
+ *  - Todo el movimiento usa tokens de css/design-tokens.css → reduced-motion
+ *    queda cubierto por el kill-switch global.
+ */
+
+:root {
+  --cw-ink-soft: #344054;
+  --cw-line-soft: #e7eef7;
+  --cw-canvas: #f7fafd;
+  --cw-grid: rgba(16, 24, 40, 0.05);
+  --cw-focus: rgba(2, 132, 199, 0.35);
+  --cw-warn: #b25e00;
+  --cw-warn-bg: #fff8ec;
+  --cw-warn-line: #f2d9ae;
+
+  /* Anula los residuales del verde Orbe retirado (#009b3a) en el chrome. */
+  --cw-clay-shadow: var(--orbe-elev-2);
+  --cw-clay-radius: var(--orbe-rad-md);
+  --shadow: var(--orbe-elev-2);
+}
+
+/* ══════════════════════════════════════════════════
+   1. App bar — tres zonas y una sola acción primaria
+   ══════════════════════════════════════════════════ */
+
+.admin-header {
+  gap: var(--orbe-space-4);
+  padding: var(--orbe-space-3) var(--orbe-space-5);
+  background: rgba(255, 255, 255, 0.86);
+  backdrop-filter: blur(14px) saturate(1.1);
+  -webkit-backdrop-filter: blur(14px) saturate(1.1);
+  border-bottom: 1px solid var(--cw-line-soft);
+  box-shadow: var(--orbe-elev-1);
+  z-index: var(--orbe-z-header);
+}
+
+.brand__mark {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--orbe-rad-md);
+  font-size: 0.66rem;
+  letter-spacing: 0.04em;
+  background:
+    radial-gradient(120% 120% at 25% 15%, rgba(255, 255, 255, 0.45), transparent 55%),
+    linear-gradient(145deg, var(--cw-accent), var(--cw-accent-deep));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 3px 10px rgba(2, 132, 199, 0.28);
+}
+
+.brand__eyebrow {
+  font-size: var(--orbe-fs-2xs);
+  font-weight: 600;
+  letter-spacing: var(--orbe-track-caps);
+  text-transform: uppercase;
+  color: var(--cw-muted);
+}
+
+.brand h1 {
+  font-size: var(--orbe-fs-lg);
+  letter-spacing: -0.015em;
+  line-height: var(--orbe-lh-tight);
+}
+
+/* Segmented control: la pastilla activa se eleva con curva spring */
+.mode-switch {
+  padding: 0.22rem;
+  gap: 0.15rem;
+  background: var(--cw-canvas);
+  border-color: var(--cw-line-soft);
+  box-shadow: inset 0 1px 3px rgba(16, 24, 40, 0.05);
+}
+
+.mode-btn {
+  padding: 0.42rem 0.9rem;
+  color: var(--cw-muted);
+  transition:
+    color var(--orbe-dur-fast) var(--orbe-ease-in-out),
+    background-color var(--orbe-dur-fast) var(--orbe-ease-in-out),
+    box-shadow var(--orbe-dur-base) var(--orbe-ease-spring),
+    transform var(--orbe-dur-base) var(--orbe-ease-spring);
+}
+
+.mode-btn:hover {
+  color: var(--cw-ink);
+}
+
+.mode-btn--active {
+  color: var(--cw-accent-deep);
+  background: #fff;
+  box-shadow:
+    0 1px 2px rgba(16, 24, 40, 0.08),
+    0 3px 10px rgba(2, 132, 199, 0.14);
+}
+
+.mode-btn:focus-visible {
+  outline: var(--orbe-focus-w) solid var(--cw-accent);
+  outline-offset: var(--orbe-focus-offset);
+}
+
+/* Acciones: primaria destacada · utilidades agrupadas · navegación discreta */
+.header-actions {
+  gap: var(--orbe-space-2);
+}
+
+.header-actions .btn--primary {
+  order: -1;
+}
+
+/* Cuenta / Orbe360 / Tour son navegación, no acciones del editor */
+.header-actions > a.btn {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  color: var(--cw-muted);
+  font-weight: 500;
+  padding: 0.42rem 0.55rem;
+}
+
+.header-actions > a.btn:hover,
+.header-actions > a.btn:focus-visible {
+  color: var(--cw-accent-deep);
+  background: var(--cw-accent-soft);
+  border-color: transparent;
+  outline-color: var(--cw-focus);
+}
+
+/* Divisor entre acciones del editor y navegación de producto */
+.header-actions > a.btn:first-of-type {
+  margin-left: var(--orbe-space-2);
+  border-left: 1px solid var(--cw-line);
+  border-radius: 0 var(--orbe-rad-sm) var(--orbe-rad-sm) 0;
+  padding-left: var(--orbe-space-3);
+}
+
+.header-actions > a.btn#headerTourLink {
+  color: var(--cw-accent-deep);
+  font-weight: 600;
+}
+
+.header-actions > a.btn#headerTourLink::after {
+  content: " ↗";
+  font-size: 0.85em;
+  opacity: 0.7;
+}
+
+/* ══════════════════════════════════════════════════
+   2. Botones — una escala de énfasis
+   ══════════════════════════════════════════════════ */
+
+.btn {
+  border-radius: var(--orbe-rad-sm);
+  padding: 0.46rem 0.8rem;
+  font-size: var(--orbe-fs-sm);
+  border-color: var(--cw-line);
+  box-shadow: var(--orbe-elev-1);
+  transition:
+    background-color var(--orbe-dur-fast) var(--orbe-ease-in-out),
+    border-color var(--orbe-dur-fast) var(--orbe-ease-in-out),
+    box-shadow var(--orbe-dur-fast) var(--orbe-ease-in-out),
+    transform var(--orbe-dur-fast) var(--orbe-ease-out);
+}
+
+.btn:hover,
+.btn:focus-visible {
+  border-color: var(--cw-accent);
+  outline: var(--orbe-focus-w) solid var(--cw-focus);
+  outline-offset: var(--orbe-focus-offset);
+  transform: translateY(var(--orbe-lift));
+  box-shadow: var(--orbe-elev-2);
+}
+
+.btn:active:not(:disabled) {
+  transform: scale(var(--orbe-scale-press));
+  box-shadow: var(--orbe-elev-1);
+}
+
+.btn--primary,
+.btn--primary:hover,
+.btn--primary:focus-visible {
+  background: var(--cw-accent);
+  border-color: var(--cw-accent);
+  color: #fff;
+}
+
+.btn--primary {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.24),
+    0 3px 12px rgba(2, 132, 199, 0.28);
+}
+
+.btn--primary:hover:not(:disabled),
+.btn--primary:focus-visible:not(:disabled) {
+  background: var(--cw-accent-deep);
+  border-color: var(--cw-accent-deep);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.24),
+    0 6px 18px rgba(2, 132, 199, 0.34);
+}
+
+/* Guardar habilitado: latido muy corto para que el usuario lo note */
+.btn--primary:not(:disabled) {
+  position: relative;
+}
+
+.btn--primary:not(:disabled)::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: inherit;
+  border: 1px solid rgba(2, 132, 199, 0.45);
+  opacity: 0;
+  animation: cw-save-ready var(--orbe-dur-slower) var(--orbe-ease-out) 1 both;
+  pointer-events: none;
+}
+
+@keyframes cw-save-ready {
+  0% { opacity: 0.9; transform: scale(0.97); }
+  100% { opacity: 0; transform: scale(1.06); }
+}
+
+.btn--accent {
+  background: var(--cw-accent);
+  border-color: var(--cw-accent);
+  color: #fff;
+  box-shadow: var(--orbe-elev-1);
+}
+
+.btn--accent:hover:not(:disabled),
+.btn--accent:focus-visible:not(:disabled) {
+  background: var(--cw-accent-deep);
+  border-color: var(--cw-accent-deep);
+  filter: none;
+}
+
+.btn--danger,
+.connection-item button {
+  border-color: #f1c9c9;
+  background: #fffafa;
+  color: var(--cw-danger);
+  box-shadow: none;
+}
+
+.btn--danger:hover,
+.btn--danger:focus-visible {
+  border-color: var(--cw-danger);
+  background: #ffefef;
+  outline-color: rgba(198, 40, 40, 0.28);
+}
+
+/* ══════════════════════════════════════════════════
+   3. Nota de protección del grafo — informativa, no alarma
+   ══════════════════════════════════════════════════ */
+
+.graph-safety-banner {
+  margin: var(--orbe-space-3) var(--orbe-space-3) 0;
+  padding: 0;
+  border: 1px solid var(--cw-warn-line);
+  border-radius: var(--orbe-rad-md);
+  background: var(--cw-warn-bg);
+  color: var(--cw-warn);
+  box-shadow: var(--orbe-elev-1);
+  overflow: hidden;
+}
+
+.graph-safety-banner summary {
+  display: flex;
+  align-items: center;
+  gap: var(--orbe-space-2);
+  padding: 0.5rem 0.85rem;
+  font-size: var(--orbe-fs-sm);
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+  color: #6b4400;
+}
+
+.graph-safety-banner summary::-webkit-details-marker { display: none; }
+
+.graph-safety-banner summary::before {
+  content: "";
+  flex: 0 0 auto;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: #d4a017;
+  box-shadow: 0 0 0 3px rgba(212, 160, 23, 0.18);
+}
+
+.graph-safety-banner summary::after {
+  content: "Ver detalle";
+  margin-left: auto;
+  font-size: var(--orbe-fs-2xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--orbe-track-caps);
+  opacity: 0.7;
+}
+
+.graph-safety-banner[open] summary::after { content: "Ocultar"; }
+
+.graph-safety-banner summary:focus-visible {
+  outline: var(--orbe-focus-w) solid #d4a017;
+  outline-offset: -2px;
+}
+
+.graph-safety-banner .safety-detail {
+  padding: 0 0.85rem 0.7rem;
+  margin: 0;
+  font-size: var(--orbe-fs-xs);
+  line-height: var(--orbe-lh-base);
+  color: #6b4400;
+  animation: orbe-fade-up var(--orbe-dur-base) var(--orbe-ease-out) both;
+}
+
+.graph-safety-banner .safety-tech {
+  margin: 0 0.85rem 0.7rem;
+  border-top: 1px dashed var(--cw-warn-line);
+  padding-top: 0.35rem;
+}
+
+.graph-safety-banner .safety-tech summary {
+  padding: 0.25rem 0;
+  font-size: var(--orbe-fs-2xs);
+  font-weight: 600;
+  color: #8a6500;
+  cursor: pointer;
+  list-style: none;
+}
+
+.graph-safety-banner .safety-tech summary::-webkit-details-marker { display: none; }
+
+.graph-safety-banner .safety-tech summary::before,
+.graph-safety-banner .safety-tech summary::after { content: none; }
+
+.graph-safety-banner .safety-tech p {
+  margin: 0.25rem 0 0;
+  font-size: var(--orbe-fs-2xs);
+  color: #6b4400;
+  line-height: var(--orbe-lh-base);
+}
+
+.graph-safety-banner .safety-tech code {
+  font-size: 0.92em;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 0.05em 0.3em;
+  border-radius: var(--orbe-rad-xs);
+}
+
+/* ══════════════════════════════════════════════════
+   4. Layout y paneles
+   ══════════════════════════════════════════════════ */
+
+.admin-layout {
+  gap: var(--orbe-space-3);
+  padding: var(--orbe-space-3);
+  align-items: stretch;
+}
+
+.panel {
+  background: #fff;
+  border-color: var(--cw-line-soft);
+  border-radius: var(--orbe-rad-lg);
+  padding: var(--orbe-space-4);
+  box-shadow: var(--orbe-elev-2);
+}
+
+.panel__head {
+  margin-bottom: var(--orbe-space-3);
+  padding-bottom: var(--orbe-space-2);
+  border-bottom: 1px solid var(--cw-line-soft);
+  align-items: baseline;
+}
+
+.panel__head h2 {
+  font-size: var(--orbe-fs-md);
+  letter-spacing: -0.01em;
+  color: var(--cw-ink);
+}
+
+.panel__head .hint {
+  flex-basis: 100%;
+  margin-top: 0.1rem;
+}
+
+.hint {
+  font-size: var(--orbe-fs-xs);
+  color: var(--cw-muted);
+}
+
+/* ══════════════════════════════════════════════════
+   5. Métricas del grafo como chips legibles
+   ══════════════════════════════════════════════════ */
+
+.graph-stats {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.18rem 0.6rem;
+  border-radius: var(--orbe-rad-pill);
+  background: var(--cw-accent-soft);
+  border: 1px solid rgba(2, 132, 199, 0.22);
+  font-size: var(--orbe-fs-xs);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--cw-accent-deep);
+  letter-spacing: 0.01em;
+}
+
+/* ══════════════════════════════════════════════════
+   6. Campos y filtros
+   ══════════════════════════════════════════════════ */
+
+.field-label {
+  margin-top: var(--orbe-space-3);
+  font-size: var(--orbe-fs-2xs);
+  letter-spacing: var(--orbe-track-caps);
+  color: var(--cw-muted);
+}
+
+#zoneFilter,
+#sceneSearch,
+#targetSelect,
+#directionSelect,
+.modal input,
+.modal select,
+.hotspot-admin-item input,
+.hotspot-admin-item select,
+.connect-form__field select {
+  min-height: var(--orbe-control-h);
+  border-radius: var(--orbe-rad-sm);
+  border-color: var(--cw-line);
+  font-size: var(--orbe-fs-sm);
+  transition:
+    border-color var(--orbe-dur-fast) var(--orbe-ease-in-out),
+    box-shadow var(--orbe-dur-fast) var(--orbe-ease-in-out);
+}
+
+#zoneFilter:focus,
+#sceneSearch:focus,
+#targetSelect:focus,
+#directionSelect:focus,
+.modal input:focus,
+.modal select:focus,
+.connect-form__field select:focus {
+  outline: none;
+  border-color: var(--cw-accent);
+  box-shadow: 0 0 0 3px var(--cw-focus);
+}
+
+#sceneSearch {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235a6a7e' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-4-4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 0.55rem center;
+  background-size: 0.95rem;
+  padding-left: 1.9rem;
+}
+
+.connect-form {
+  border-color: var(--cw-line-soft);
+  border-radius: var(--orbe-rad-md);
+  background: var(--cw-canvas);
+  padding: var(--orbe-space-3);
+  gap: var(--orbe-space-2);
+}
+
+.connect-form__field {
+  font-size: var(--orbe-fs-2xs);
+  letter-spacing: var(--orbe-track-caps);
+}
+
+.graph-toggle {
+  font-size: var(--orbe-fs-xs);
+  padding: 0.22rem 0.5rem 0.22rem 0.3rem;
+  border-radius: var(--orbe-rad-pill);
+  transition: background-color var(--orbe-dur-fast) var(--orbe-ease-in-out);
+}
+
+.graph-toggle:hover {
+  background: var(--cw-canvas);
+  color: var(--cw-ink);
+}
+
+/* ══════════════════════════════════════════════════
+   7. Listas de datos — filas escaneables + estado vacío real
+   ══════════════════════════════════════════════════ */
+
+.scene-list,
+.connection-list,
+.hotspot-admin-list {
+  scrollbar-width: thin;
+  scrollbar-color: var(--cw-line) transparent;
+}
+
+.scene-list::-webkit-scrollbar,
+.connection-list::-webkit-scrollbar,
+.hotspot-admin-list::-webkit-scrollbar { width: 8px; }
+
+.scene-list::-webkit-scrollbar-thumb,
+.connection-list::-webkit-scrollbar-thumb,
+.hotspot-admin-list::-webkit-scrollbar-thumb {
+  background: var(--cw-line);
+  border-radius: var(--orbe-rad-pill);
+}
+
+.scene-item,
+.connection-item,
+.hotspot-admin-item {
+  border-color: var(--cw-line-soft);
+  border-radius: var(--orbe-rad-sm);
+  padding: 0.5rem 0.6rem;
+  margin-bottom: 0.3rem;
+  transition:
+    border-color var(--orbe-dur-fast) var(--orbe-ease-in-out),
+    background-color var(--orbe-dur-fast) var(--orbe-ease-in-out),
+    box-shadow var(--orbe-dur-fast) var(--orbe-ease-in-out);
+}
+
+.scene-item {
+  position: relative;
+  padding-left: 0.75rem;
+}
+
+/* Barra de selección en vez de solo cambio de fondo */
+.scene-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.35rem;
+  bottom: 0.35rem;
+  width: 3px;
+  border-radius: var(--orbe-rad-pill);
+  background: var(--cw-accent);
+  transform: scaleY(0);
+  transform-origin: center;
+  transition: transform var(--orbe-dur-base) var(--orbe-ease-spring);
+}
+
+.scene-item:hover {
+  border-color: var(--cw-line);
+  background: var(--cw-canvas);
+  box-shadow: var(--orbe-elev-1);
+}
+
+.scene-item[aria-selected="true"] {
+  border-color: rgba(2, 132, 199, 0.4);
+  background: var(--cw-accent-soft);
+  box-shadow: var(--orbe-elev-1);
+}
+
+.scene-item[aria-selected="true"]::before { transform: scaleY(1); }
+
+.scene-item:focus-visible {
+  outline: var(--orbe-focus-w) solid var(--cw-accent);
+  outline-offset: var(--orbe-focus-offset);
+}
+
+.scene-item__title {
+  font-size: var(--orbe-fs-sm);
+  color: var(--cw-ink);
+}
+
+.scene-item__meta {
+  font-size: var(--orbe-fs-2xs);
+  font-variant-numeric: tabular-nums;
+}
+
+.orphan-tag {
+  font-size: var(--orbe-fs-2xs);
+  font-weight: 700;
+  color: var(--cw-warn);
+  background: var(--cw-warn-bg);
+  border: 1px solid var(--cw-warn-line);
+  padding: 0.05rem 0.4rem;
+}
+
+.scene-item--orphan {
+  border-color: var(--cw-warn-line);
+  background: #fffdf7;
+}
+
+.connection-item {
+  font-size: var(--orbe-fs-xs);
+  font-variant-numeric: tabular-nums;
+}
+
+.connection-item--focus {
+  border-color: rgba(2, 132, 199, 0.4);
+  background: var(--cw-accent-soft);
+}
+
+/* Estados vacíos dentro del contenedor de datos (sin layout shift).
+ * Cubre cold-start y filtrado con copy honesto y accionable. */
+#sceneList:empty,
+#connectionList:empty,
+#hotspotList:empty {
+  display: grid;
+  place-content: center;
+  gap: 0.2rem;
+  min-height: 7rem;
+  padding: var(--orbe-space-4) var(--orbe-space-3);
+  border: 1px dashed var(--cw-line);
+  border-radius: var(--orbe-rad-md);
+  background: var(--cw-canvas);
+  text-align: center;
+  overflow: visible;
+}
+
+#sceneList:empty::before,
+#connectionList:empty::before,
+#hotspotList:empty::before {
+  font-family: var(--display);
+  font-size: var(--orbe-fs-sm);
+  font-weight: 600;
+  color: var(--cw-ink-soft);
+}
+
+#sceneList:empty::after,
+#connectionList:empty::after,
+#hotspotList:empty::after {
+  font-size: var(--orbe-fs-xs);
+  line-height: var(--orbe-lh-base);
+  color: var(--cw-muted);
+  max-width: 24ch;
+}
+
+#sceneList:empty::before { content: "Ninguna escena visible"; }
+#sceneList:empty::after {
+  content: "Limpia el buscador o el filtro de zona, o añade una escena al tour.";
+}
+
+#connectionList:empty::before { content: "Sin enlaces todavía"; }
+#connectionList:empty::after {
+  content: "Usa «Conectar» o arrastra un nodo sobre otro en el grafo.";
+}
+
+#hotspotList:empty::before { content: "Escena sin hotspots"; }
+#hotspotList:empty::after {
+  content: "Encuadra la vista y pulsa «Colocar hotspot aquí».";
+}
+
+/* Placeholder JS cuando la lista no está :empty (tiene un <li class="meta">) */
+.list-empty,
+li.meta.list-empty {
+  display: grid;
+  place-content: center;
+  min-height: 5.5rem;
+  padding: var(--orbe-space-4) var(--orbe-space-3);
+  border: 1px dashed var(--cw-line);
+  border-radius: var(--orbe-rad-md);
+  background: var(--cw-canvas);
+  text-align: center;
+  color: var(--cw-muted);
+  font-size: var(--orbe-fs-xs);
+  line-height: var(--orbe-lh-base);
+  list-style: none;
+}
+
+/* ══════════════════════════════════════════════════
+   8. Grafo — lienzo neutro, nodos y aristas legibles
+   ══════════════════════════════════════════════════ */
+
+.graph-wrap {
+  border-color: var(--cw-line-soft);
+  border-radius: var(--orbe-rad-md);
+  background:
+    radial-gradient(120% 90% at 50% 0%, rgba(2, 132, 199, 0.05), transparent 62%),
+    linear-gradient(var(--cw-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--cw-grid) 1px, transparent 1px),
+    var(--cw-canvas);
+  background-size: auto, 22px 22px, 22px 22px, auto;
+  box-shadow: inset 0 1px 4px rgba(16, 24, 40, 0.05);
+}
+
+.graph-node circle {
+  fill: #fff;
+  stroke: var(--cw-accent);
+  stroke-width: 2.25;
+  filter: drop-shadow(0 2px 5px rgba(16, 24, 40, 0.14));
+  transition:
+    fill var(--orbe-dur-fast) var(--orbe-ease-in-out),
+    stroke var(--orbe-dur-fast) var(--orbe-ease-in-out),
+    stroke-width var(--orbe-dur-fast) var(--orbe-ease-in-out),
+    filter var(--orbe-dur-base) var(--orbe-ease-out);
+}
+
+.graph-node:hover circle {
+  fill: var(--cw-clay-node);
+  stroke-width: 3;
+  filter: drop-shadow(0 5px 12px rgba(2, 132, 199, 0.3));
+}
+
+.graph-node.selected circle {
+  fill: var(--cw-accent);
+  stroke: #fff;
+  stroke-width: 3;
+  filter: drop-shadow(0 4px 12px rgba(2, 132, 199, 0.45));
+}
+
+.graph-node.selected text {
+  fill: var(--cw-accent-deep);
+  font-weight: 700;
+}
+
+.graph-node--orphan circle {
+  stroke: #d4a017;
+  stroke-dasharray: 3 2.5;
+  fill: #fffdf3;
+}
+
+.graph-node text {
+  fill: var(--cw-ink-soft);
+  font-size: 10px;
+  paint-order: stroke fill;
+  stroke: rgba(255, 255, 255, 0.92);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+.graph-link {
+  stroke: rgba(3, 105, 161, 0.42);
+  stroke-width: 1.75;
+  opacity: 0.85;
+  transition:
+    stroke var(--orbe-dur-fast) var(--orbe-ease-in-out),
+    stroke-width var(--orbe-dur-fast) var(--orbe-ease-in-out),
+    opacity var(--orbe-dur-fast) var(--orbe-ease-in-out);
+}
+
+.graph-link--pair {
+  stroke: rgba(2, 132, 199, 0.62);
+  stroke-width: 2.25;
+}
+
+.graph-link:hover {
+  stroke: var(--cw-accent-deep);
+  stroke-width: 3.5;
+  opacity: 1;
+}
+
+.graph-link-label {
+  fill: var(--cw-accent-deep);
+  font-size: 10px;
+  paint-order: stroke fill;
+  stroke: rgba(255, 255, 255, 0.95);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+.graph-link-draft {
+  stroke: var(--cw-accent);
+  stroke-dasharray: 5 4;
+  stroke-width: 2.5;
+}
+
+.graph-node:focus-visible circle,
+.graph-link:focus-visible {
+  outline: none;
+  stroke: var(--cw-accent-deep);
+  stroke-width: 4;
+}
+
+/* Grupo destructivo separado del resto de herramientas */
+.graph-tools {
+  padding-top: var(--orbe-space-2);
+  border-top: 1px solid var(--cw-line-soft);
+  align-items: center;
+}
+
+.graph-tools #btnClearAllConnections {
+  margin-left: auto;
+}
+
+/* ══════════════════════════════════════════════════
+   9. Editor 360 — el visor es el protagonista
+   ══════════════════════════════════════════════════ */
+
+.chip {
+  border-color: var(--cw-line);
+  border-radius: var(--orbe-rad-pill);
+  font-size: var(--orbe-fs-xs);
+  transition:
+    background-color var(--orbe-dur-fast) var(--orbe-ease-in-out),
+    border-color var(--orbe-dur-fast) var(--orbe-ease-in-out),
+    color var(--orbe-dur-fast) var(--orbe-ease-in-out);
+}
+
+.chip:hover { border-color: var(--cw-accent); }
+
+.chip--active {
+  background: var(--cw-accent);
+  border-color: var(--cw-accent);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.28);
+}
+
+.chip:focus-visible {
+  outline: var(--orbe-focus-w) solid var(--cw-focus);
+  outline-offset: var(--orbe-focus-offset);
+}
+
+.target-picker {
+  font-size: var(--orbe-fs-xs);
+}
+
+.pano-360 {
+  border: 1px solid var(--cw-line);
+  border-radius: var(--orbe-rad-md);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+    var(--orbe-elev-3);
+  background: #0a1017;
+}
+
+.pano-360:focus-visible {
+  outline: var(--orbe-focus-w) solid var(--cw-accent);
+  outline-offset: 3px;
+}
+
+.compass {
+  gap: 0.3rem;
+}
+
+.compass-btn {
+  border-color: var(--cw-line);
+  border-radius: var(--orbe-rad-sm);
+  padding: 0.5rem 0.3rem;
+  font-size: var(--orbe-fs-2xs);
+  color: var(--cw-muted);
+  transition:
+    background-color var(--orbe-dur-fast) var(--orbe-ease-in-out),
+    border-color var(--orbe-dur-fast) var(--orbe-ease-in-out),
+    color var(--orbe-dur-fast) var(--orbe-ease-in-out),
+    transform var(--orbe-dur-fast) var(--orbe-ease-out);
+}
+
+.compass-btn:hover {
+  border-color: var(--cw-accent);
+  color: var(--cw-accent-deep);
+  transform: translateY(var(--orbe-lift));
+}
+
+.compass-btn:focus-visible {
+  outline: var(--orbe-focus-w) solid var(--cw-focus);
+  outline-offset: var(--orbe-focus-offset);
+}
+
+.compass-btn--active {
+  background: var(--cw-accent);
+  border-color: var(--cw-accent);
+  color: #fff;
+  box-shadow: 0 0 0 3px var(--cw-focus);
+}
+
+.compass-btn--vista {
+  border-style: dashed;
+}
+
+.compass-btn--vista.compass-btn--active {
+  background: var(--cw-accent-deep);
+  border-color: var(--cw-accent-deep);
+  border-style: solid;
+}
+
+.front-view-hint {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--orbe-rad-pill);
+  background: var(--cw-canvas);
+  border: 1px solid var(--cw-line-soft);
+  font-size: var(--orbe-fs-2xs);
+  font-variant-numeric: tabular-nums;
+}
+
+.hotspot-admin-item--selected {
+  border-color: rgba(2, 132, 199, 0.45) !important;
+  background: var(--cw-accent-soft) !important;
+  box-shadow: inset 3px 0 0 var(--cw-accent) !important;
+}
+
+/* Hotspots del editor: solo apariencia/animación. La posición (yaw/pitch)
+ * la controla admin.js y no se toca aquí. */
+.pano-360 .hotspot {
+  --hotspot-accent: var(--cw-accent);
+}
+
+.pano-360 .hotspot__chip {
+  padding: 0.22rem 0.5rem 0.22rem 0.26rem;
+  background: rgba(10, 16, 23, 0.86);
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.42);
+  transition:
+    transform var(--orbe-dur-fast) var(--orbe-ease-out),
+    border-color var(--orbe-dur-fast) var(--orbe-ease-in-out);
+}
+
+.pano-360 .hotspot:hover .hotspot__chip {
+  transform: scale(1.04);
+  border-color: rgba(56, 189, 248, 0.7);
+}
+
+.pano-360 .hotspot__icon {
+  box-shadow: 0 0 0 2px var(--cw-accent);
+}
+
+.pano-360 .hotspot--selected .hotspot__icon {
+  background: var(--cw-accent);
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--cw-accent);
+}
+
+.pano-360 .hotspot--selected .hotspot__chip {
+  border-color: rgba(56, 189, 248, 0.8);
+}
+
+.pano-360 .hotspot--anim-pulse .hotspot__icon {
+  animation-duration: 1.8s;
+}
+
+/* Estado "sin selección" del editor: no es un error, es una invitación */
+.empty-state {
+  display: grid;
+  place-items: center;
+  gap: var(--orbe-space-2);
+  padding: var(--orbe-space-10) var(--orbe-space-4);
+  margin: auto 0;
+  border: 1px dashed var(--cw-line);
+  border-radius: var(--orbe-rad-lg);
+  background: var(--cw-canvas);
+  color: var(--cw-muted);
+  font-size: var(--orbe-fs-sm);
+  animation: orbe-fade-up var(--orbe-dur-slow) var(--orbe-ease-out) both;
+}
+
+.empty-state::before {
+  content: "";
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  border: 2px dashed rgba(2, 132, 199, 0.4);
+  background:
+    radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.9), transparent 60%),
+    var(--cw-accent-soft);
+}
+
+/* ══════════════════════════════════════════════════
+   10. Feedback — badge sucio, progreso y barra de estado
+   ══════════════════════════════════════════════════ */
+
+.dirty-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: var(--orbe-fs-2xs);
+  color: var(--cw-warn);
+  background: var(--cw-warn-bg);
+  border-color: var(--cw-warn-line);
+  animation: orbe-pop-in var(--orbe-dur-base) var(--orbe-ease-spring) both;
+}
+
+.dirty-badge::before {
+  content: "";
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: currentColor;
+  animation: cw-dirty-blink 2s var(--orbe-ease-in-out) infinite;
+}
+
+@keyframes cw-dirty-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+.save-progress {
+  font-size: var(--orbe-fs-2xs);
+  font-variant-numeric: tabular-nums;
+}
+
+.admin-footer {
+  position: sticky;
+  bottom: 0;
+  z-index: var(--orbe-z-hud);
+  display: flex;
+  align-items: center;
+  gap: var(--orbe-space-2);
+  margin: 0 var(--orbe-space-3) var(--orbe-space-3);
+  padding: 0.55rem 0.85rem;
+  border: 1px solid var(--cw-line-soft);
+  border-radius: var(--orbe-rad-md);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: var(--orbe-elev-2);
+  font-size: var(--orbe-fs-xs);
+  color: var(--cw-ink-soft);
+}
+
+.admin-footer::before {
+  content: "";
+  flex: 0 0 auto;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--cw-accent);
+  box-shadow: 0 0 0 3px var(--cw-accent-soft);
+}
+
+.admin-footer code {
+  background: var(--cw-canvas);
+  border: 1px solid var(--cw-line-soft);
+  padding: 0.05em 0.35em;
+  border-radius: var(--orbe-rad-xs);
+}
+
+/* Esqueleto reutilizable para cargas futuras (opt-in por clase) */
+.cw-skeleton {
+  border-radius: var(--orbe-rad-sm);
+  background:
+    linear-gradient(90deg, var(--cw-canvas) 0%, #fff 45%, var(--cw-canvas) 90%)
+    0 0 / 220% 100% no-repeat;
+  animation: orbe-shimmer 1.4s linear infinite;
+  color: transparent;
+  pointer-events: none;
+}
+
+/* ══════════════════════════════════════════════════
+   11. Modales y puerta de acceso
+   ══════════════════════════════════════════════════ */
+
+.modal {
+  border: 1px solid var(--cw-line-soft);
+  border-radius: var(--orbe-rad-lg);
+  padding: var(--orbe-space-5);
+  box-shadow: var(--orbe-elev-4);
+  animation: orbe-pop-in var(--orbe-dur-base) var(--orbe-ease-spring) both;
+}
+
+.modal::backdrop {
+  background: rgba(16, 24, 40, 0.45);
+  backdrop-filter: blur(2px);
+}
+
+.modal h3 {
+  font-size: var(--orbe-fs-lg);
+  margin-bottom: var(--orbe-space-2);
+}
+
+.modal label {
+  font-size: var(--orbe-fs-sm);
+  font-weight: 600;
+  color: var(--cw-ink-soft);
+}
+
+.modal-actions {
+  padding-top: var(--orbe-space-3);
+  border-top: 1px solid var(--cw-line-soft);
+}
+
+.cw-auth-gate {
+  z-index: var(--orbe-z-gate);
+}
+
+.cw-auth-gate > * {
+  animation: orbe-fade-up var(--orbe-dur-slow) var(--orbe-ease-out) both;
+}
+
+.cw-auth-gate h2 {
+  font-size: var(--orbe-fs-xl);
+  letter-spacing: -0.02em;
+}
+
+/* ══════════════════════════════════════════════════
+   12. Responsive (aditivo; no sustituye css/responsive.css)
+   ══════════════════════════════════════════════════ */
+
+@media (max-width: 1100px) {
+  .admin-header {
+    padding: var(--orbe-space-3);
+  }
+  .mode-switch {
+    order: 3;
+    flex-basis: 100%;
+    justify-content: space-between;
+  }
+  .mode-btn { flex: 1; }
+}
+
+@media (max-width: 720px) {
+  .header-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .admin-footer {
+    margin: 0 var(--orbe-space-2) var(--orbe-space-2);
+  }
+  .graph-tools #btnClearAllConnections { margin-left: 0; }
+}
+
+/* Animaciones en bucle: reduced-motion debe apagarlas (doc 61 §4) */
+@media (prefers-reduced-motion: reduce) {
+  .dirty-badge::before,
+  .cw-skeleton,
+  .pano-360 .hotspot--anim-pulse .hotspot__icon {
+    animation: none !important;
+  }
+
+  .btn--primary:not(:disabled)::after {
+    animation: none !important;
+  }
+}

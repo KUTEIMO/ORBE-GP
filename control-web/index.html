@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orbe360 Control Web — Editor de tour</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="admin-pro.css">
+  <script src="../orbe-config.js"></script>
+  <script defer src="../vendors/marzipano.min.js"
+    onerror="(function(){var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/marzipano/dist/marzipano.js';document.head.appendChild(s);})();"></script>
+</head>
+<body class="cw-locked">
+  <a class="skip-link" href="#sceneList">Saltar al listado de escenas</a>
+
+  <div id="cwAuthGate" class="cw-auth-gate" role="status" aria-live="polite">
+    <p>Verificando acceso al editor…</p>
+  </div>
+
+  <header class="admin-header">
+    <div class="brand">
+      <div class="brand__mark" aria-hidden="true">360</div>
+      <div>
+        <p class="brand__eyebrow" id="tourContextLabel">Orbe360 · Editor de tour</p>
+        <h1>Orbe360 Control Web</h1>
+        <p class="brand__client" id="clientBrandChip" hidden>
+          <span class="brand__client-dot" aria-hidden="true"></span>
+          <span id="clientBrandChipLabel">Cliente</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="mode-switch" role="group" aria-label="Modo de trabajo">
+      <button type="button" class="mode-btn mode-btn--active" data-mode="view">Ver</button>
+      <button type="button" class="mode-btn" data-mode="scenes">Editar escenas</button>
+      <button type="button" class="mode-btn" data-mode="hotspots">Editar hotspots</button>
+    </div>
+
+    <div class="header-actions">
+      <span id="dirtyBadge" class="dirty-badge" hidden aria-live="polite">Cambios sin guardar</span>
+      <button type="button" id="btnSaveAll" class="btn btn--primary" disabled aria-describedby="saveProgress">Guardar cambios</button>
+      <span id="saveProgress" class="save-progress" role="status" aria-live="polite" hidden></span>
+      <button type="button" id="btnImport" class="btn">Importar</button>
+      <button type="button" id="btnExport" class="btn">Exportar JSON</button>
+      <a class="btn" href="/plataforma/login.html">Cuenta</a>
+      <a class="btn" href="/">Orbe360</a>
+      <a class="btn" id="headerTourLink" href="../index.html" target="_blank" rel="noopener">Tour</a>
+    </div>
+  </header>
+
+  <details class="graph-safety-banner" aria-label="Protección del grafo">
+    <summary>Protección del grafo · editar → Guardar → verificar público → Exportar respaldo</summary>
+    <p class="safety-detail">
+      Regenerar el grafo espacial del campus <strong>sobrescribe el grafo curado</strong>
+      (~144 enlaces automáticos). Úsalo solo si quieres descartar el trabajo manual.
+      Exporta el JSON a diario como respaldo.
+    </p>
+    <details class="safety-tech">
+      <summary>Detalle técnico (operadores)</summary>
+      <p>Mutación Convex <code>tourAdmin:syncCampusSpatialGraph</code>. Evitar “Reset grafo campus” salvo reset consciente.</p>
+    </details>
+  </details>
+
+  <main class="admin-layout">
+    <aside class="panel panel--list" aria-labelledby="listTitle">
+      <div class="panel__head">
+        <h2 id="listTitle">Escenas</h2>
+        <div class="scene-tools" id="sceneTools" hidden>
+          <button type="button" id="btnAddScene" class="btn btn--small">Añadir</button>
+          <button type="button" id="btnUploadPanorama" class="btn btn--small btn--accent">Subir panorama</button>
+          <button type="button" id="btnEditSceneMeta" class="btn btn--small">Editar datos</button>
+        </div>
+      </div>
+      <label class="field-label" for="zoneFilter">Zona</label>
+      <select id="zoneFilter"></select>
+      <label class="field-label" for="sceneSearch">Buscar</label>
+      <input id="sceneSearch" type="search" placeholder="Nombre o archivo…" aria-label="Buscar escena">
+      <ul id="sceneList" class="scene-list" role="listbox" aria-label="Escenas del tour"></ul>
+    </aside>
+
+    <section class="panel panel--graph" aria-labelledby="graphTitle">
+      <div class="panel__head">
+        <h2 id="graphTitle">Grafo de conexiones</h2>
+        <p id="graphStats" class="graph-stats" aria-live="polite">0 conexiones · 0 escenas</p>
+        <p class="hint">Modo hotspots: arrastra nodo→nodo, o usa el formulario (teclado). Lista abajo para quitar enlaces.</p>
+      </div>
+      <div class="graph-view-tools" role="group" aria-label="Vista del grafo">
+        <label class="graph-toggle">
+          <input type="checkbox" id="graphFocusNeighborhood" checked>
+          Vecindario de la escena
+        </label>
+        <label class="graph-toggle">
+          <input type="checkbox" id="graphHighlightOrphans" checked>
+          Resaltar huérfanas
+        </label>
+        <button type="button" id="btnFitGraph" class="btn btn--sm">Reordenar</button>
+      </div>
+      <div class="graph-wrap">
+        <svg id="graphSvg" class="graph-svg" role="img" aria-label="Mapa de enlaces entre escenas"></svg>
+      </div>
+      <form id="connectForm" class="connect-form" aria-label="Crear conexión entre escenas">
+        <label class="connect-form__field">
+          Desde
+          <select id="connectFrom" required></select>
+        </label>
+        <label class="connect-form__field">
+          Hacia
+          <select id="connectTo" required></select>
+        </label>
+        <label class="graph-toggle connect-form__bi">
+          <input type="checkbox" id="connectBidirectional" checked>
+          Ida y vuelta
+        </label>
+        <button type="submit" id="btnConnectScenes" class="btn btn--sm btn--accent">Conectar</button>
+      </form>
+      <div class="graph-tools" role="group" aria-label="Editar conexiones">
+        <button type="button" id="btnPruneConnections" class="btn btn--sm">Quitar huérfanas</button>
+        <button type="button" id="btnClearSceneConnections" class="btn btn--sm">Limpiar escena</button>
+        <button type="button" id="btnClearAllConnections" class="btn btn--sm btn--danger">Limpiar todas</button>
+      </div>
+      <ul id="connectionList" class="connection-list" aria-label="Enlaces creados"></ul>
+    </section>
+
+    <section class="panel panel--editor" aria-labelledby="editorTitle">
+      <div class="panel__head">
+        <h2 id="editorTitle">Vista 360° y hotspots</h2>
+        <p id="editorSubtitle" class="hint">Selecciona una escena. Gira la vista y coloca el triángulo donde debe verse el destino.</p>
+      </div>
+
+      <div id="editorEmpty" class="empty-state">Ninguna escena seleccionada · Elige una en el listado para verla en 360° y colocar hotspots.</div>
+
+      <div id="editorBody" class="editor-body" hidden>
+        <div class="preview-toolbar" role="group" aria-label="Colocación de hotspot">
+          <button type="button" class="chip chip--active" data-place="nav" id="chipNav">Nav</button>
+          <button type="button" class="chip" data-place="info" id="chipInfo">Info</button>
+          <label class="target-picker">
+            Destino
+            <select id="targetSelect" aria-label="Escena destino"></select>
+          </label>
+          <label class="target-picker">
+            Dirección
+            <select id="directionSelect" aria-label="Sector de visión">
+              <option value="forward">Adelante</option>
+              <option value="back">Atrás</option>
+              <option value="left">Izquierda</option>
+              <option value="right">Derecha</option>
+              <option value="up">Arriba / 2º piso</option>
+              <option value="down">Abajo / 1º piso</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="viewer-actions">
+          <button type="button" id="btnPlaceHere" class="btn btn--accent" disabled>
+            Colocar hotspot aquí (centro)
+          </button>
+          <button type="button" id="btnSetFrontView" class="btn" disabled>
+            Usar vista actual como Adelante
+          </button>
+          <button type="button" id="btnDeleteSelected" class="btn" disabled>Quitar seleccionado</button>
+          <p class="hint">1) Encuadra el frente del recorrido · 2) “Usar vista actual como Adelante” · 3) Toca Atrás/Izq/Der/Adelante · 4) Coloca o arrastra el punto · 5) Aplica y guarda</p>
+          <p id="frontViewHint" class="hint front-view-hint" hidden>Vista principal (Adelante): yaw 0.00 · pitch 0.00</p>
+        </div>
+
+        <div id="pano360" class="pano-360" role="application" aria-label="Visor 360 de la escena seleccionada" tabindex="0"></div>
+        <div class="compass" role="group" aria-label="Orientar vista">
+          <button type="button" class="compass-btn" data-dir="back">Atrás</button>
+          <button type="button" class="compass-btn" data-dir="left">Izq</button>
+          <button type="button" class="compass-btn compass-btn--vista" data-dir="forward" id="compassVista">Vista</button>
+          <button type="button" class="compass-btn" data-dir="right">Der</button>
+          <button type="button" class="compass-btn" data-dir="forward">Adelante</button>
+        </div>
+        <p class="hint compass-hint">La etiqueta activa se sombrea según a dónde mira la cámara. Tócalas para saltar a esa dirección.</p>
+
+        <ul id="hotspotList" class="hotspot-admin-list" aria-label="Hotspots de la escena"></ul>
+        <div class="editor-actions">
+          <button type="button" id="btnSaveScene" class="btn btn--primary" disabled>Aplicar a borrador</button>
+          <button type="button" id="btnDiscardScene" class="btn" disabled>Descartar edición local</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="admin-footer" role="status" aria-live="polite" id="statusBar">
+    Listo. Tus ediciones quedan en un borrador local hasta que pulses “Guardar cambios”, que las publica en el tour.
+  </footer>
+
+  <dialog id="sceneDialog" class="modal">
+    <form method="dialog" id="sceneForm">
+      <h3 id="sceneDialogTitle">Escena</h3>
+      <p id="sceneDialogHint" class="hint">Registra una escena ya presente en panoramas/ o edita sus datos.</p>
+      <label>Título corto <input name="shortTitle" required></label>
+      <label>Título completo <input name="title" required></label>
+      <label id="sceneFileLabel">Archivo panorama
+        <select name="file" id="sceneFileSelect" required></select>
+      </label>
+      <label id="sceneUploadLabel" hidden>Subir imagen equirectangular (JPG/PNG/WebP)
+        <input type="file" id="panoramaUploadInput" name="panoramaFile" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp">
+      </label>
+      <label>Zona
+        <select name="zone" id="sceneZoneSelect" required></select>
+      </label>
+      <div class="modal-actions">
+        <button type="submit" class="btn btn--primary" value="save" id="sceneFormSave">Guardar</button>
+        <button type="submit" class="btn" value="cancel">Cancelar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="confirmDialog" class="modal">
+    <form method="dialog" id="confirmForm">
+      <h3 id="confirmTitle">Confirmar</h3>
+      <p id="confirmMessage"></p>
+      <div class="modal-actions">
+        <button type="submit" class="btn btn--danger" id="confirmOk" value="ok">Sí, continuar</button>
+        <button type="submit" class="btn" value="cancel">Cancelar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <input type="file" id="importFile" accept="application/json,.json" hidden>
+  <script type="module" src="admin.js"></script>
+</body>
+</html>
