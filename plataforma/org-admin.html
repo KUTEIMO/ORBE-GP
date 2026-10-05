@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin de organización — Orbe360</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/plataforma/admin-shell.css">
+</head>
+<body class="admin">
+  <header class="admin-top">
+    <a class="brand" href="/">ORBE<span>360</span><span class="brand-context" id="brandOrgContext"></span></a>
+    <nav>
+      <button type="button" class="btn btn--ghost" id="logoutBtn">Salir</button>
+    </nav>
+  </header>
+  <main class="admin-shell admin-shell--wide">
+    <div class="page-head">
+      <div>
+        <h1>Panel de organización</h1>
+        <p id="whoami" class="hint hint--tight">Cargando…</p>
+        <p id="quotaHint" class="quota-pill" hidden></p>
+      </div>
+      <div class="field" id="orgSelectField" hidden style="margin:0;min-width:14rem">
+        <label for="activeOrgSelect">Organización</label>
+        <select id="activeOrgSelect" aria-label="Organización activa"></select>
+      </div>
+    </div>
+    <div id="orgs" class="hint hint--tight" hidden></div>
+
+    <div class="admin-tabs" role="tablist" aria-label="Secciones del panel">
+      <button type="button" role="tab" id="tab-tours" aria-controls="panel-tours" aria-selected="true" data-tab="tours">Tours</button>
+      <button type="button" role="tab" id="tab-branding" aria-controls="panel-branding" aria-selected="false" data-tab="branding">Branding</button>
+      <button type="button" role="tab" id="tab-publish" aria-controls="panel-publish" aria-selected="false" data-tab="publish">Publicación</button>
+      <button type="button" role="tab" id="tab-access" aria-controls="panel-access" aria-selected="false" data-tab="access">Accesos</button>
+    </div>
+
+    <section class="card tab-panel" id="panel-tours" role="tabpanel" aria-labelledby="tab-tours">
+      <h2>Tours</h2>
+      <p class="hint">Selecciona un tour para branding, publicación y enlaces. URL pública: <code>/{org}/{tour}/</code></p>
+      <label class="hint" for="activeTourSelect" style="display:block;margin-bottom:0.35rem">Tour activo</label>
+      <select id="activeTourSelect" aria-label="Tour activo"></select>
+      <div id="toursList">Cargando tours…</div>
+      <p class="status" id="toursStatus" role="status"></p>
+    </section>
+
+    <section class="card tab-panel" id="panel-branding" role="tabpanel" aria-labelledby="tab-branding" hidden>
+      <h2>Branding del tour</h2>
+      <p class="hint">Identidad del <strong>cliente</strong> en el visor (no uses la paleta Orbe <code>#0284c7</code>).</p>
+      <div class="branding-layout">
+        <form id="brandingForm">
+          <div class="field">
+            <label for="brandSlug">Slug del tour</label>
+            <input id="brandSlug" name="slug" value="" required readonly>
+          </div>
+          <div class="field">
+            <label for="clientName">Nombre del cliente</label>
+            <input id="clientName" name="clientName" required>
+          </div>
+          <div class="field">
+            <label for="clientShortName">Nombre corto (header)</label>
+            <input id="clientShortName" name="clientShortName">
+          </div>
+          <div class="field">
+            <label for="primaryColor">Color primario</label>
+            <div class="color-field">
+              <input id="primaryColor" name="primaryColor" placeholder="#0a7a45" required>
+              <input type="color" id="primaryColorPick" value="#0a7a45" aria-label="Elegir primario">
+            </div>
+          </div>
+          <div class="field">
+            <label for="primaryStrong">Primario fuerte</label>
+            <div class="color-field">
+              <input id="primaryStrong" name="primaryStrong" placeholder="#086638">
+              <input type="color" id="primaryStrongPick" value="#086638" aria-label="Elegir fuerte">
+            </div>
+          </div>
+          <div class="field">
+            <label for="accentColor">Acento / secundario</label>
+            <div class="color-field">
+              <input id="accentColor" name="accentColor" placeholder="#1d9bf0">
+              <input type="color" id="accentColorPick" value="#1d9bf0" aria-label="Elegir acento">
+            </div>
+          </div>
+          <div class="field">
+            <label for="metaTitle">Meta title</label>
+            <input id="metaTitle" name="metaTitle" required>
+          </div>
+          <div class="field">
+            <label for="metaDescription">Meta description</label>
+            <textarea id="metaDescription" name="metaDescription" rows="3" required></textarea>
+          </div>
+          <div class="field">
+            <label for="logoUrl">Logo URL (opcional)</label>
+            <input id="logoUrl" name="logoUrl" placeholder="https://… o ruta relativa">
+          </div>
+          <div class="field">
+            <label for="fallbackImageUrl">Imagen fallback</label>
+            <input id="fallbackImageUrl" name="fallbackImageUrl">
+          </div>
+          <div class="field">
+            <label>
+              <input type="checkbox" id="showPoweredByOrbe360" name="showPoweredByOrbe360" checked>
+              Mostrar “Powered by Orbe360”
+            </label>
+          </div>
+          <div class="cta-row">
+            <button type="submit" class="btn btn--primary">Guardar branding</button>
+            <button type="button" class="btn btn--ghost" id="loadBrandingBtn">Recargar</button>
+          </div>
+          <p class="status" id="brandingStatus" role="status"></p>
+        </form>
+        <aside class="brand-preview" id="brandPreview" aria-live="polite">
+          <div class="brand-preview__bar">
+            <div class="brand-preview__mark" id="previewMark"></div>
+            <div class="brand-preview__name" id="previewName">Cliente</div>
+          </div>
+          <div class="brand-preview__body">
+            <div class="brand-preview__swatches" aria-hidden="true">
+              <span class="brand-preview__swatch" id="swatchPrimary"></span>
+              <span class="brand-preview__swatch" id="swatchStrong"></span>
+              <span class="brand-preview__swatch" id="swatchAccent"></span>
+            </div>
+            <p class="brand-preview__meta" id="previewMeta">Meta del tour</p>
+            <p class="brand-preview__powered" id="previewPowered">Powered by Orbe360</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="card tab-panel" id="panel-publish" role="tabpanel" aria-labelledby="tab-publish" hidden>
+      <div id="publishSection">
+        <h2>Publicación</h2>
+        <p class="hint" id="publishTourLabel">Sin tour seleccionado.</p>
+        <div id="checklistSummary" class="checklist-box" aria-live="polite">
+          <p class="hint">Evalúa el checklist a11y antes de publicar con claim accesible.</p>
+        </div>
+        <div class="field">
+          <label>
+            <input type="checkbox" id="requireAccessible" checked>
+            Exigir checklist a11y al publicar
+          </label>
+        </div>
+        <div class="cta-row">
+          <button type="button" class="btn btn--ghost" id="evalChecklistBtn">Evaluar checklist</button>
+          <button type="button" class="btn btn--ghost" id="syncA11yBtn">Sincronizar paquete → Convex</button>
+          <button type="button" class="btn btn--primary" id="publishBtn">Publicar</button>
+          <button type="button" class="btn btn--ghost" id="unpublishBtn">Despublicar</button>
+          <a class="btn btn--ghost" id="publicViewerLink" href="#" target="_blank" rel="noopener">Abrir visor</a>
+        </div>
+        <p class="status" id="publishStatus" role="status"></p>
+      </div>
+    </section>
+
+    <section class="card tab-panel" id="panel-access" role="tabpanel" aria-labelledby="tab-access" hidden>
+      <h2>Accesos del tour activo</h2>
+      <p class="hint">Enlaces dinámicos según org + tour seleccionados.</p>
+      <div class="cta-row">
+        <a class="btn btn--primary" id="ctaControlWeb" href="#">Control Web</a>
+        <a class="btn btn--ghost" id="ctaPublicTour" href="#">Tour público</a>
+        <a class="btn btn--ghost" id="navPublicTour" href="#" hidden>Ver tour público</a>
+        <a class="btn btn--ghost" id="navControlWeb" href="#" hidden>Control Web</a>
+      </div>
+
+      <details class="card card--danger-zone ops-panel" id="spatialDangerSection" style="margin-top:1rem">
+        <summary>Avanzado — reset grafo espacial</summary>
+        <p class="warn-box" role="alert">
+          <strong>Sync espacial campus sobrescribe tu grafo.</strong>
+          Solo para reset consciente del piloto — no es un refresh diario.
+        </p>
+        <div class="cta-row">
+          <button type="button" class="btn btn--danger" id="syncSpatialBtn" disabled>
+            Reset grafo campus (sobrescribe)
+          </button>
+        </div>
+        <p class="status" id="spatialSyncStatus" role="status"></p>
+      </details>
+    </section>
+  </main>
+
+  <script src="/plataforma/config.js"></script>
+  <script type="module">
+    import { apiMutation, apiQuery, getToken, clearToken, fetchMe } from "/plataforma/convex-client.js";
+    import {
+      publicTourHref,
+      controlWebHref,
+      orgAdminHref,
+      parseOrgAdminPath,
+      DEFAULT_TOUR_SLUG,
+    } from "/src/tourSlug.js";
+
+    const token = getToken();
+    if (!token) location.href = "/plataforma/login.html";
+
+    const me = await fetchMe(token);
+    if (!me) {
+      clearToken();
+      location.href = "/plataforma/login.html";
+    }
+
+    if (me.isSuperadmin) {
+      location.href = "/plataforma/superadmin.html";
+    }
+
+    document.getElementById("whoami").textContent =
+      `Sesión: ${me.name} (${me.email})`;
+
+    /** @type {Array<{ id: string, name: string, slug: string, maxTours?: number|null, tourCount?: number }>} */
+    let orgs = [];
+    /** @type {string | null} */
+    let activeOrgId = null;
+    /** @type {string | null} */
+    let activeOrgSlug = null;
+    /** @type {Array<{ id: string, organizationId: string, orgSlug?: string, slug: string, title: string, published: boolean }>} */
+    let tours = [];
+    /** @type {string | null} */
+    let activeTourId = null;
+    /** @type {object | null} */
+    let lastChecklist = null;
+    /** @type {string} */
+    let lastChecklistSource = "";
+
+    const statusEl = document.getElementById("brandingStatus");
+    const form = document.getElementById("brandingForm");
+    const toursStatus = document.getElementById("toursStatus");
+    const publishStatus = document.getElementById("publishStatus");
+    const activeSelect = document.getElementById("activeTourSelect");
+    const activeOrgSelect = document.getElementById("activeOrgSelect");
+    const brandOrgContext = document.getElementById("brandOrgContext");
+
+    function escapeHtml(s) {
+      return String(s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function getActiveTour() {
+      return tours.find((t) => t.id === activeTourId) || null;
+    }
+
+    function getActiveOrg() {
+      return orgs.find((o) => o.id === activeOrgId) || null;
+    }
+
+    /* —— Tabs —— */
+    const tabButtons = [...document.querySelectorAll('.admin-tabs [role="tab"]')];
+    function activateTab(name) {
+      for (const btn of tabButtons) {
+        const on = btn.dataset.tab === name;
+        btn.setAttribute("aria-selected", on ? "true" : "false");
+        const panel = document.getElementById(`panel-${btn.dataset.tab}`);
+        if (panel) panel.hidden = !on;
+      }
+    }
+    tabButtons.forEach((btn) => {
+      btn.addEventListener("click", () => activateTab(btn.dataset.tab));
+    });
+
+    function syncDeepLinks(tourSlug) {
+      const org = activeOrgSlug;
+      if (!org || !tourSlug) {
+        for (const id of [
+          "navPublicTour",
+          "navControlWeb",
+          "ctaPublicTour",
+          "ctaControlWeb",
+          "publicViewerLink",
+        ]) {
+          const el = document.getElementById(id);
+          if (el) el.setAttribute("href", "#");
+        }
+        return;
+      }
+      const pub = publicTourHref({ tourSlug, orgSlug: org });
+      const cw = controlWebHref({ tourSlug, orgSlug: org });
+      document.getElementById("navPublicTour").href = pub;
+      document.getElementById("navControlWeb").href = cw;
+      document.getElementById("ctaPublicTour").href = pub;
+      document.getElementById("ctaControlWeb").href = cw;
+      document.getElementById("publicViewerLink").href = pub;
+      document.getElementById("brandSlug").value = tourSlug;
+    }
+
+    function renderQuota() {
+      const el = document.getElementById("quotaHint");
+      const org = getActiveOrg();
+      if (!org) {
+        el.hidden = true;
+        return;
+      }
+      const used = typeof org.tourCount === "number" ? org.tourCount : tours.length;
+      if (org.maxTours != null) {
+        el.textContent = `${used} de ${org.maxTours} tours usados`;
+        el.hidden = false;
+      } else {
+        el.textContent = `${used} tour${used === 1 ? "" : "s"} · sin límite de cuota`;
+        el.hidden = false;
+      }
+    }
+
+    function renderOrgs() {
+      const el = document.getElementById("orgs");
+      const org = getActiveOrg();
+      if (!orgs.length) {
+        el.hidden = false;
+        el.innerHTML =
+          "<p>No tienes organizaciones asignadas. Pide al superadmin que te asigne.</p>";
+        brandOrgContext.textContent = "";
+        return;
+      }
+      el.hidden = true;
+      brandOrgContext.textContent = org ? ` · ${org.name}` : "";
+      document.title = org
+        ? `ORBE360 · ${org.name}`
+        : "Admin de organización — Orbe360";
+
+      activeOrgSelect.innerHTML = orgs
+        .map(
+          (o) =>
+            `<option value="${escapeHtml(o.id)}" ${o.id === activeOrgId ? "selected" : ""}>${escapeHtml(o.name)} (${escapeHtml(o.slug)})</option>`
+        )
+        .join("");
+      document.getElementById("orgSelectField").hidden = orgs.length < 2;
+      renderQuota();
+    }
+
+    function renderChecklist(result, sourceLabel) {
+      const box = document.getElementById("checklistSummary");
+      if (!result) {
+        box.innerHTML = `<p class="hint">Sin evaluación aún.</p>`;
+        return;
+      }
+      const ready = result.ready === true;
+      const issues = Array.isArray(result.blockingIssues) ? result.blockingIssues : [];
+      const warnings = Array.isArray(result.warnings) ? result.warnings : [];
+      box.innerHTML = `
+        <p>
+          <span class="badge ${ready ? "badge--ok" : "badge--no"}">ready ${ready ? "YES" : "NO"}</span>
+          <span class="hint"> · ${escapeHtml(sourceLabel)}</span>
+        </p>
+        <p class="hint">
+          Escenas: ${result.sceneCount ?? 0} ·
+          srSummary: ${result.scenesWithSrSummary ?? 0} ·
+          narración: ${result.scenesWithNarrationOrOptional ?? 0}
+        </p>
+        ${
+          issues.length
+            ? `<details open><summary>Bloqueos (${issues.length})</summary>
+               <ul class="issue-list">${issues.slice(0, 12).map((i) => `<li>${escapeHtml(i)}</li>`).join("")}
+               ${issues.length > 12 ? `<li>… y ${issues.length - 12} más</li>` : ""}</ul></details>`
+            : `<p class="hint">Sin bloqueos de metadata.</p>`
+        }
+        ${
+          warnings.length
+            ? `<details><summary>Avisos (${warnings.length})</summary>
+               <ul class="issue-list">${warnings.slice(0, 8).map((w) => `<li>${escapeHtml(w)}</li>`).join("")}</ul></details>`
+            : ""
+        }
+      `;
+    }
+
+    function renderToursList() {
+      const el = document.getElementById("toursList");
+      if (!tours.length) {
+        el.innerHTML = `
+          <div class="empty-state">
+            <strong>Sin tours todavía</strong>
+            Pide al superadmin que cree el primer tour para esta organización.
+          </div>`;
+        activeSelect.innerHTML = "";
+        return;
+      }
+      activeSelect.innerHTML = tours
+        .map(
+          (t) =>
+            `<option value="${escapeHtml(t.id)}" ${t.id === activeTourId ? "selected" : ""}>${escapeHtml(t.title)} (${escapeHtml(t.slug)})</option>`
+        )
+        .join("");
+      el.innerHTML = `<div class="tour-grid">${tours
+        .map((t) => {
+          const pub = publicTourHref({
+            tourSlug: t.slug,
+            orgSlug: activeOrgSlug,
+          });
+          const cw = controlWebHref({
+            tourSlug: t.slug,
+            orgSlug: activeOrgSlug,
+          });
+          return `<button type="button" class="tour-card ${t.id === activeTourId ? "is-active" : ""}" data-tour-id="${escapeHtml(t.id)}">
+            <span class="badge ${t.published ? "badge--ok" : "badge--muted"}">${t.published ? "publicado" : "borrador"}</span>
+            <p class="tour-card__title">${escapeHtml(t.title)}</p>
+            <p class="tour-card__meta"><code>/${escapeHtml(activeOrgSlug)}/${escapeHtml(t.slug)}/</code></p>
+            <div class="tour-card__actions">
+              <a href="${escapeHtml(pub)}" target="_blank" rel="noopener" data-stop>Visor</a>
+              <a href="${escapeHtml(cw)}" data-stop>Control Web</a>
+              <a href="#panel-branding" data-brand data-stop>Branding</a>
+            </div>
+          </button>`;
+        })
+        .join("")}</div>`;
+
+      el.querySelectorAll(".tour-card").forEach((card) => {
+        card.addEventListener("click", (e) => {
+          if (e.target.closest("[data-stop]")) {
+            if (e.target.closest("[data-brand]")) {
+              e.preventDefault();
+              setActiveTour(card.getAttribute("data-tour-id"));
+              activateTab("branding");
+            }
+            return;
+          }
+          setActiveTour(card.getAttribute("data-tour-id"));
+        });
+      });
+    }
+
+    async function loadTours() {
+      toursStatus.classList.remove("error");
+      toursStatus.textContent = "Cargando tours…";
+      try {
+        const org = getActiveOrg();
+        if (!org) {
+          tours = [];
+          renderToursList();
+          toursStatus.textContent = "Sin organización activa.";
+          return;
+        }
+        tours = await apiQuery("organizations:listTours", {
+          token,
+          organizationId: org.id,
+          now: Date.now(),
+        });
+        org.tourCount = tours.length;
+        const urlSlug = new URLSearchParams(location.search).get("slug");
+        const preferred =
+          tours.find((t) => t.slug === urlSlug) ||
+          tours.find((t) => t.slug === DEFAULT_TOUR_SLUG) ||
+          tours[0];
+        activeTourId = preferred?.id || null;
+        renderToursList();
+        renderQuota();
+        if (preferred) {
+          await applyActiveTour(preferred);
+        } else {
+          syncDeepLinks(null);
+          document.getElementById("publishTourLabel").textContent =
+            "Sin tour seleccionado.";
+          updateSpatialDangerUi(null);
+        }
+        toursStatus.textContent = `${tours.length} tour(s) en ${org.slug}.`;
+      } catch (e) {
+        toursStatus.textContent = e.message || "Error al listar tours";
+        toursStatus.classList.add("error");
+        document.getElementById("toursList").textContent =
+          "No autorizado o error de red.";
+      }
+    }
+
+    function updateSpatialDangerUi(tour) {
+      const btn = document.getElementById("syncSpatialBtn");
+      const status = document.getElementById("spatialSyncStatus");
+      if (!btn) return;
+      btn.disabled = !tour;
+      if (!tour) {
+        status.textContent = "Selecciona un tour para habilitar el reset.";
+      } else if (!status.dataset.locked) {
+        status.textContent = `Tour: ${tour.slug}. El reset sobrescribe conexiones curadas.`;
+      }
+    }
+
+    function syncColorPickers() {
+      const pairs = [
+        ["primaryColor", "primaryColorPick"],
+        ["primaryStrong", "primaryStrongPick"],
+        ["accentColor", "accentColorPick"],
+      ];
+      for (const [textId, pickId] of pairs) {
+        const text = document.getElementById(textId);
+        const pick = document.getElementById(pickId);
+        if (!text || !pick) continue;
+        const v = text.value.trim();
+        if (/^#[0-9a-fA-F]{6}$/.test(v)) pick.value = v;
+      }
+    }
+
+    function updateBrandPreview() {
+      const primary = document.getElementById("primaryColor").value.trim() || "#0a7a45";
+      const strong = document.getElementById("primaryStrong").value.trim() || primary;
+      const accent = document.getElementById("accentColor").value.trim() || "#1d9bf0";
+      const name =
+        document.getElementById("clientShortName").value.trim() ||
+        document.getElementById("clientName").value.trim() ||
+        "Cliente";
+      const meta =
+        document.getElementById("metaDescription").value.trim() ||
+        document.getElementById("metaTitle").value.trim() ||
+        "Meta del tour";
+      const powered = document.getElementById("showPoweredByOrbe360").checked;
+
+      const preview = document.getElementById("brandPreview");
+      preview.style.setProperty("--preview-primary", primary);
+      preview.style.setProperty("--preview-strong", strong);
+      document.getElementById("previewName").textContent = name;
+      document.getElementById("previewMeta").textContent = meta;
+      document.getElementById("previewPowered").hidden = !powered;
+      document.getElementById("swatchPrimary").style.background = primary;
+      document.getElementById("swatchStrong").style.background = strong;
+      document.getElementById("swatchAccent").style.background = accent;
+      document.getElementById("previewMark").style.background = accent;
+    }
+
+    function bindBrandingPreview() {
+      const ids = [
+        "clientName",
+        "clientShortName",
+        "primaryColor",
+        "primaryStrong",
+        "accentColor",
+        "metaTitle",
+        "metaDescription",
+        "showPoweredByOrbe360",
+      ];
+      for (const id of ids) {
+        const el = document.getElementById(id);
+        el.addEventListener("input", () => {
+          syncColorPickers();
+          updateBrandPreview();
+        });
+        el.addEventListener("change", updateBrandPreview);
+      }
+      const pairs = [
+        ["primaryColor", "primaryColorPick"],
+        ["primaryStrong", "primaryStrongPick"],
+        ["accentColor", "accentColorPick"],
+      ];
+      for (const [textId, pickId] of pairs) {
+        const text = document.getElementById(textId);
+        const pick = document.getElementById(pickId);
+        pick.addEventListener("input", () => {
+          text.value = pick.value;
+          updateBrandPreview();
+        });
+      }
+    }
+    bindBrandingPreview();
+
+    async function applyActiveTour(tour) {
+      activeTourId = tour.id;
+      syncDeepLinks(tour.slug);
+      document.getElementById("publishTourLabel").textContent =
+        `Tour: ${tour.title} · ${tour.slug} · ${tour.published ? "publicado" : "borrador"}`;
+      renderToursList();
+      updateSpatialDangerUi(tour);
+      statusEl.classList.remove("error");
+      await loadBranding();
+      await evaluateChecklist({ quiet: true });
+    }
+
+    function setActiveTour(tourId) {
+      const tour = tours.find((t) => t.id === tourId);
+      if (!tour) return;
+      applyActiveTour(tour);
+    }
+
+    activeSelect.addEventListener("change", () => {
+      setActiveTour(activeSelect.value);
+    });
+
+    activeOrgSelect.addEventListener("change", () => {
+      const next = orgs.find((o) => o.id === activeOrgSelect.value);
+      if (!next) return;
+      location.href = orgAdminHref(next.slug);
+    });
+
+    orgs = await apiQuery("organizations:listOrganizations", {
+      token,
+      now: Date.now(),
+    });
+
+    const pathCtx = parseOrgAdminPath(location.pathname);
+    const pathOrgSlug = pathCtx?.orgSlug || null;
+
+    if (!pathOrgSlug) {
+      if (orgs.length) {
+        location.replace(orgAdminHref(orgs[0].slug));
+      } else {
+        renderOrgs();
+      }
+    } else {
+      const preferredOrg = orgs.find((o) => o.slug === pathOrgSlug) || null;
+      if (!preferredOrg) {
+        // Wrong org in URL: do not render that org's panels; send user to their home org.
+        if (orgs.length) {
+          location.replace(
+            `${orgAdminHref(orgs[0].slug)}?deniedOrg=${encodeURIComponent(pathOrgSlug)}`
+          );
+        } else {
+          document.getElementById("orgs").hidden = false;
+          document.getElementById("orgs").innerHTML =
+            `<p class="error">No tienes acceso a la organización <code>${escapeHtml(pathOrgSlug)}</code>.</p>`;
+          toursStatus.textContent = "Organización no autorizada para esta sesión.";
+          toursStatus.classList.add("error");
+        }
+      } else {
+        activeOrgId = preferredOrg.id;
+        activeOrgSlug = preferredOrg.slug;
+        renderOrgs();
+        await loadTours();
+      }
+    }
+
+    async function evaluateChecklist(opts = {}) {
+      const quiet = Boolean(opts.quiet);
+      const tour = getActiveTour();
+      publishStatus.classList.remove("error");
+      if (!tour) {
+        publishStatus.textContent = "Selecciona un tour.";
+        return null;
+      }
+      if (!quiet) publishStatus.textContent = "Evaluando checklist (Convex)…";
+      lastChecklist = null;
+      lastChecklistSource = "";
+
+      try {
+        const result = await apiQuery("accessibilityPublish:evaluateTourFromDb", {
+          token,
+          tourId: tour.id,
+          requireCaptions: false,
+        });
+        lastChecklist = result;
+        lastChecklistSource = "evaluateTourFromDb (Convex SoT)";
+        renderChecklist(result, lastChecklistSource);
+        if (!quiet) {
+          publishStatus.textContent = result.ready
+            ? "Checklist DB: ready YES."
+            : "Checklist DB: ready NO.";
+        }
+        return result;
+      } catch (e) {
+        publishStatus.textContent = e.message || "Error al evaluar";
+        publishStatus.classList.add("error");
+        renderChecklist(null, "");
+        return null;
+      }
+    }
+
+    async function syncPackageToConvex() {
+      const tour = getActiveTour();
+      publishStatus.classList.remove("error");
+      if (!tour) {
+        publishStatus.textContent = "Selecciona un tour.";
+        return;
+      }
+      publishStatus.textContent = "Sincronizando paquete a11y → Convex…";
+      try {
+        let pkg = null;
+        try {
+          const res = await fetch("/assets/accessibility/a11y-package.json", {
+            cache: "no-store",
+          });
+          if (res.ok) pkg = await res.json();
+        } catch (_e) {
+          pkg = null;
+        }
+        let result;
+        if (pkg && typeof pkg === "object") {
+          if (pkg.tourSlug && pkg.tourSlug !== tour.slug) {
+            publishStatus.textContent = `Paquete es para "${pkg.tourSlug}"; tour activo es "${tour.slug}".`;
+            publishStatus.classList.add("error");
+            return;
+          }
+          result = await apiMutation("accessibilityPublish:importA11yPackage", {
+            token,
+            tourId: tour.id,
+            package: {
+              tourSlug: pkg.tourSlug,
+              scenes: pkg.scenes || {},
+              hotspots: pkg.hotspots || {},
+            },
+            saveSnapshot: true,
+            createMissing: tour.slug === "experienciavirtual",
+          });
+        } else if (tour.slug === "experienciavirtual") {
+          result = await apiMutation(
+            "accessibilityPublish:syncCampusA11yPackage",
+            {
+              token,
+              tourId: tour.id,
+              saveSnapshot: true,
+            }
+          );
+        } else {
+          publishStatus.textContent =
+            "No hay a11y-package.json local para importar.";
+          publishStatus.classList.add("error");
+          return;
+        }
+
+        const missing =
+          (result.scenesMissing?.length || 0) +
+          (result.hotspotsMissing?.length || 0);
+        publishStatus.textContent =
+          `Sync: ${result.scenesUpdated} escenas, ${result.hotspotsUpdated} hotspots` +
+          (missing ? ` · ${missing} keys sin match` : "") +
+          (result.checklist?.ready ? " · ready YES" : " · ready NO");
+        if (result.checklist) {
+          lastChecklist = result.checklist;
+          lastChecklistSource = "import → evaluateTourFromDb";
+          renderChecklist(result.checklist, lastChecklistSource);
+        } else {
+          await evaluateChecklist({ quiet: true });
+        }
+      } catch (e) {
+        publishStatus.textContent = e.message || "Error al sincronizar";
+        publishStatus.classList.add("error");
+      }
+    }
+
+    document.getElementById("evalChecklistBtn").addEventListener("click", () => {
+      evaluateChecklist({ quiet: false });
+    });
+
+    document.getElementById("syncA11yBtn").addEventListener("click", () => {
+      syncPackageToConvex();
+    });
+
+    document.getElementById("syncSpatialBtn").addEventListener("click", async () => {
+      const tour = getActiveTour();
+      const status = document.getElementById("spatialSyncStatus");
+      const btn = document.getElementById("syncSpatialBtn");
+      status.classList.remove("error");
+      delete status.dataset.locked;
+      if (!tour) {
+        status.textContent = "Selecciona un tour.";
+        return;
+      }
+      const first = window.confirm(
+        "Sync espacial campus sobrescribe tu grafo.\n\n" +
+          "Esto restaura ~144 conexiones del paquete campus y BORRA el trabajo curado.\n\n" +
+          "¿Resetear el grafo de «" +
+          tour.slug +
+          "»?"
+      );
+      if (!first) {
+        status.textContent = "Reset cancelado.";
+        return;
+      }
+      const typed = window.prompt(
+        "Escribe SOBRESCRIBIR para confirmar (o Cancelar)."
+      );
+      if (typed !== "SOBRESCRIBIR") {
+        status.textContent = "Confirmación incorrecta. Reset cancelado.";
+        return;
+      }
+      btn.disabled = true;
+      status.dataset.locked = "1";
+      status.textContent = "Reseteando grafo espacial…";
+      try {
+        const result = await apiMutation("tourAdmin:syncCampusSpatialGraph", {
+          token,
+          tourId: tour.id,
+        });
+        status.textContent =
+          `Grafo sobrescrito: ${result.connectionsSaved} conexiones, ${result.navHotspots} nav.`;
+        status.classList.add("error");
+      } catch (e) {
+        status.textContent = e.message || "Error al resetear grafo espacial";
+        status.classList.add("error");
+      } finally {
+        updateSpatialDangerUi(getActiveTour());
+        delete status.dataset.locked;
+      }
+    });
+
+    async function refreshTourFlags() {
+      const previous = activeTourId;
+      const org = getActiveOrg();
+      if (!org) return;
+      tours = await apiQuery("organizations:listTours", {
+        token,
+        organizationId: org.id,
+        now: Date.now(),
+      });
+      org.tourCount = tours.length;
+      activeTourId = previous;
+      const tour = getActiveTour();
+      renderToursList();
+      renderQuota();
+      if (tour) {
+        document.getElementById("publishTourLabel").textContent =
+          `Tour: ${tour.title} · ${tour.slug} · ${tour.published ? "publicado" : "borrador"}`;
+      }
+    }
+
+    document.getElementById("publishBtn").addEventListener("click", async () => {
+      const tour = getActiveTour();
+      publishStatus.classList.remove("error");
+      if (!tour) {
+        publishStatus.textContent = "Selecciona un tour.";
+        return;
+      }
+      const requireAccessible = document.getElementById("requireAccessible").checked;
+      publishStatus.textContent = requireAccessible
+        ? "Publicando con checklist a11y…"
+        : "Publicando grafo espacial…";
+
+      try {
+        if (requireAccessible) {
+          const result = await apiMutation(
+            "accessibilityPublish:setTourPublished",
+            {
+              token,
+              tourId: tour.id,
+              published: true,
+              requireAccessible: true,
+            }
+          );
+          if (result.checklist) {
+            lastChecklist = result.checklist;
+            renderChecklist(
+              result.checklist,
+              "setTourPublished ← evaluateTourFromDb"
+            );
+          }
+          publishStatus.textContent = "Tour publicado (claim a11y aplicado).";
+        } else {
+          await apiMutation("accessibilityPublish:setTourPublished", {
+            token,
+            tourId: tour.id,
+            published: true,
+            requireAccessible: false,
+          });
+          publishStatus.textContent =
+            "Tour publicado (solo espacial). Checklist a11y no exigido.";
+        }
+        await refreshTourFlags();
+        await evaluateChecklist({ quiet: true });
+      } catch (e) {
+        publishStatus.textContent = e.message || "Error al publicar";
+        publishStatus.classList.add("error");
+        if (lastChecklist)
+          renderChecklist(lastChecklist, lastChecklistSource || "última evaluación");
+      }
+    });
+
+    document.getElementById("unpublishBtn").addEventListener("click", async () => {
+      const tour = getActiveTour();
+      publishStatus.classList.remove("error");
+      if (!tour) {
+        publishStatus.textContent = "Selecciona un tour.";
+        return;
+      }
+      publishStatus.textContent = "Despublicando…";
+      try {
+        await apiMutation("accessibilityPublish:setTourPublished", {
+          token,
+          tourId: tour.id,
+          published: false,
+        });
+        publishStatus.textContent = "Tour despublicado.";
+        await refreshTourFlags();
+      } catch (e) {
+        publishStatus.textContent = e.message || "Error al despublicar";
+        publishStatus.classList.add("error");
+      }
+    });
+
+    function fillBranding(b) {
+      if (!b) return;
+      document.getElementById("clientName").value = b.clientName || "";
+      document.getElementById("clientShortName").value = b.clientShortName || "";
+      document.getElementById("primaryColor").value = b.primaryColor || "";
+      document.getElementById("primaryStrong").value = b.primaryStrong || "";
+      document.getElementById("accentColor").value = b.accentColor || "";
+      document.getElementById("metaTitle").value = b.metaTitle || "";
+      document.getElementById("metaDescription").value = b.metaDescription || "";
+      document.getElementById("logoUrl").value = b.logoUrl || "";
+      document.getElementById("fallbackImageUrl").value = b.fallbackImageUrl || "";
+      document.getElementById("showPoweredByOrbe360").checked =
+        b.showPoweredByOrbe360 !== false;
+      syncColorPickers();
+      updateBrandPreview();
+    }
+
+    async function loadBranding() {
+      const slug = document.getElementById("brandSlug").value.trim();
+      if (!activeOrgSlug) {
+        statusEl.textContent = "Selecciona una organización autorizada.";
+        statusEl.classList.add("error");
+        return;
+      }
+      statusEl.textContent = "Cargando branding…";
+      try {
+        const row = await apiQuery("branding:getBrandingForAdmin", {
+          token,
+          slug,
+          orgSlug: activeOrgSlug,
+          now: Date.now(),
+        });
+        if (!row) {
+          statusEl.textContent = "Tour no encontrado o sin acceso.";
+          return;
+        }
+        fillBranding(row.branding);
+        statusEl.textContent = "Branding cargado.";
+      } catch (e) {
+        statusEl.textContent = e.message || "Error al cargar branding";
+        statusEl.classList.add("error");
+      }
+    }
+
+    document.getElementById("loadBrandingBtn").addEventListener("click", () => {
+      statusEl.classList.remove("error");
+      loadBranding();
+    });
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      statusEl.classList.remove("error");
+      const slug = document.getElementById("brandSlug").value.trim();
+      const branding = {
+        clientName: document.getElementById("clientName").value.trim(),
+        clientShortName:
+          document.getElementById("clientShortName").value.trim() || undefined,
+        primaryColor: document.getElementById("primaryColor").value.trim(),
+        primaryStrong:
+          document.getElementById("primaryStrong").value.trim() || undefined,
+        accentColor:
+          document.getElementById("accentColor").value.trim() || undefined,
+        metaTitle: document.getElementById("metaTitle").value.trim(),
+        metaDescription: document.getElementById("metaDescription").value.trim(),
+        logoUrl: document.getElementById("logoUrl").value.trim() || undefined,
+        fallbackImageUrl:
+          document.getElementById("fallbackImageUrl").value.trim() || undefined,
+        showPoweredByOrbe360: document.getElementById("showPoweredByOrbe360")
+          .checked,
+        headerTitle:
+          document.getElementById("clientShortName").value.trim() || undefined,
+      };
+      statusEl.textContent = "Guardando…";
+      try {
+        if (!activeOrgSlug) {
+          throw new Error("Selecciona una organización autorizada.");
+        }
+        await apiMutation("branding:saveBranding", {
+          token,
+          slug,
+          orgSlug: activeOrgSlug,
+          branding,
+        });
+        statusEl.textContent =
+          "Branding guardado. Recarga el tour público para verlo.";
+        updateBrandPreview();
+      } catch (e) {
+        statusEl.textContent = e.message || "Error al guardar";
+        statusEl.classList.add("error");
+      }
+    });
+
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+      try {
+        await apiMutation("auth:logout", { token });
+      } catch (_e) {}
+      clearToken();
+      location.href = "/plataforma/login.html";
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tratamiento de datos personales — ORBE360</title>
+  <meta name="description" content="Aviso de tratamiento de datos personales — contexto Colombia Ley 1581, demo académica Orbe360.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/plataforma/legal.css?v=20260929e">
+  <script>
+    (function () {
+      var t = localStorage.getItem("orbe_theme");
+      if (t === "dark" || t === "light") document.documentElement.setAttribute("data-theme", t);
+      else if (window.matchMedia("(prefers-color-scheme: dark)").matches) document.documentElement.setAttribute("data-theme", "dark");
+    })();
+  </script>
+</head>
+<body class="legal-page">
+  <header class="legal-nav">
+    <a class="brand" href="/">ORBE<span>360</span></a>
+    <div class="legal-nav__tools">
+      <a href="/">← Inicio</a>
+      <button type="button" class="icon-btn" id="langToggle" aria-label="Cambiar idioma">EN</button>
+      <button type="button" class="icon-btn icon-btn--theme" id="themeToggle" aria-pressed="false" aria-label="Activar modo oscuro">
+        <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="legal-main">
+    <div data-lang-block="es">
+      <h1>Tratamiento de datos personales</h1>
+      <p class="legal-meta">Última actualización: 29 de septiembre de 2026 · Colombia (referencia Ley 1581 de 2012)</p>
+      <p class="legal-disclaimer">Aviso <strong>informativo</strong> para el piloto académico Orbe360. No constituye política corporativa ni registro ante la SIC. Un despliegue institucional real requeriría formalización con el responsable legal de la entidad.</p>
+
+      <h2>Responsable del tratamiento (demo)</h2>
+      <p>Proyecto académico Orbe360 — plataforma de recorridos 360° accesibles.<br>
+      Contacto: <a href="mailto:orbe360.demo@proyecto.local">orbe360.demo@proyecto.local</a></p>
+
+      <h2>Finalidades del tratamiento</h2>
+      <ol>
+        <li>Permitir el acceso y navegación en recorridos virtuales publicados.</li>
+        <li>Gestionar cuentas de administradores y editores de tours (autenticación, roles).</li>
+        <li>Almacenar y publicar contenido editorial (escenas, hotspots, textos, URLs de audio/subtítulos).</li>
+        <li>Recordar preferencias de accesibilidad y de interfaz del usuario.</li>
+        <li>Proteger el servicio (límite de intentos de login, trazas técnicas en demo).</li>
+      </ol>
+
+      <h2>Categorías de datos</h2>
+      <ul>
+        <li><strong>Identificación y contacto:</strong> correo, nombre (usuarios registrados).</li>
+        <li><strong>Credenciales:</strong> hash de contraseña (nunca texto plano en base de datos).</li>
+        <li><strong>Datos técnicos:</strong> token de sesión, logs HTTP en infraestructura demo.</li>
+        <li><strong>Preferencias:</strong> tema, idioma, opciones de accesibilidad (localStorage).</li>
+        <li><strong>Contenido institucional:</strong> textos y metadatos de tours (responsabilidad del cliente demo, p. ej. Unisimón).</li>
+      </ul>
+
+      <h2>Derechos del titular (Ley 1581 — marco general)</h2>
+      <p>Como titular de datos personales, en un entorno productivo formal podrías ejercer:</p>
+      <ul>
+        <li><strong>Conocer, actualizar y rectificar</strong> tus datos.</li>
+        <li><strong>Solicitar prueba</strong> de la autorización otorgada (cuando aplique).</li>
+        <li><strong>Revocar</strong> la autorización y/o solicitar <strong>supresión</strong>, salvo obligación legal o contractual.</li>
+        <li><strong>Acceder gratuitamente</strong> a tus datos tratados.</li>
+        <li>Presentar <strong>quejas</strong> ante la Superintendencia de Industria y Comercio (SIC) si consideras vulnerados tus derechos.</li>
+      </ul>
+      <p>En la demo académica, escribe a <a href="mailto:orbe360.demo@proyecto.local">orbe360.demo@proyecto.local</a> para ejercer estos derechos sobre datos de prueba.</p>
+
+      <h2>Transferencia y encargados</h2>
+      <ul>
+        <li><strong>Convex Inc.</strong> — procesamiento de datos en servidores en la nube (encargado del tratamiento técnico).</li>
+        <li><strong>Cloudflare</strong> — túnel de demo pública (metadatos de tráfico).</li>
+        <li><strong>Google</strong> — entrega de fuentes web (Google Fonts).</li>
+      </ul>
+      <p>No vendemos datos personales. No hay publicidad comportamental en el código actual.</p>
+
+      <h2>Medidas de seguridad (estado piloto)</h2>
+      <p>Contraseñas con hash PBKDF2 (migración desde SHA-256 legacy), sesiones con expiración, roles por organización. Limitación conocida: token en localStorage (ver <a href="/plataforma/privacidad.html">privacidad</a>).</p>
+
+      <h2>Vigencia</h2>
+      <p>Los datos se conservan mientras dure el piloto académico o el periodo necesario para las finalidades descritas, salvo solicitud de supresión razonable en el contexto demo.</p>
+    </div>
+
+    <div data-lang-block="en" hidden>
+      <h1>Personal data processing notice</h1>
+      <p class="legal-meta">Last updated: September 29, 2026 · Colombia (Law 1581 of 2012 reference)</p>
+      <p class="legal-disclaimer"><strong>Informational</strong> notice for the Orbe360 academic pilot. Not a corporate policy or SIC registration. A real institutional deployment requires formalization with the entity's legal owner.</p>
+
+      <h2>Controller (demo)</h2>
+      <p>Orbe360 academic project — accessible 360° tour platform.<br>
+      Contact: <a href="mailto:orbe360.demo@proyecto.local">orbe360.demo@proyecto.local</a></p>
+
+      <h2>Purposes</h2>
+      <ol>
+        <li>Enable access and navigation in published virtual tours.</li>
+        <li>Manage administrator and editor accounts (authentication, roles).</li>
+        <li>Store and publish editorial content (scenes, hotspots, copy, audio/caption URLs).</li>
+        <li>Remember accessibility and UI preferences.</li>
+        <li>Protect the service (login rate limits, technical traces in demo).</li>
+      </ol>
+
+      <h2>Data categories</h2>
+      <ul>
+        <li><strong>Identity & contact:</strong> email, name (registered users).</li>
+        <li><strong>Credentials:</strong> password hash (never plain text in DB).</li>
+        <li><strong>Technical:</strong> session token, HTTP logs on demo infrastructure.</li>
+        <li><strong>Preferences:</strong> theme, language, accessibility options (localStorage).</li>
+        <li><strong>Institutional content:</strong> tour texts and metadata (demo client responsibility, e.g. Unisimón).</li>
+      </ul>
+
+      <h2>Data subject rights (Colombia — general frame)</h2>
+      <p>In a formal production environment you could exercise access, rectification, deletion, revocation, and complaint rights before the SIC. For the academic demo, email <a href="mailto:orbe360.demo@proyecto.local">orbe360.demo@proyecto.local</a>.</p>
+
+      <h2>Processors & transfers</h2>
+      <ul>
+        <li><strong>Convex Inc.</strong> — cloud data processing.</li>
+        <li><strong>Cloudflare</strong> — public demo tunnel.</li>
+        <li><strong>Google</strong> — web fonts delivery.</li>
+      </ul>
+      <p>We do not sell personal data. No behavioral advertising in current code.</p>
+    </div>
+  </main>
+
+  <footer class="legal-foot">
+    <nav class="legal-foot__nav" aria-label="Legal">
+      <a href="/plataforma/accesibilidad.html">Accesibilidad</a>
+      <a href="/plataforma/privacidad.html">Privacidad</a>
+      <a href="/plataforma/cookies.html">Cookies</a>
+      <a href="/plataforma/tratamiento-datos.html">Tratamiento de datos</a>
+      <a href="/plataforma/terminos.html">Términos</a>
+      <a href="/">Inicio</a>
+    </nav>
+    <p>ORBE360 · Documento informativo — demo académica</p>
+  </footer>
+
+  <script src="/plataforma/legal-shell.js?v=20260929e" type="module"></script>
+  <script type="module">
+    import { initCookieConsent } from "/plataforma/cookie-consent.js?v=20260929e";
+    initCookieConsent();
+  </script>
+</body>
+</html>

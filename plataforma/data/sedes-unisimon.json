@@ -1,0 +1,35 @@
+{
+  "$comment": "Catálogo PRESENTACIONAL de sedes (orden, texto, foto). NO duplica datos de tours: el estado 'publicado' y el slug real salen de Convex (graph:listPublishedDemos). Para activar una sede: publicar su tour en Convex y poner aquí su tourSlug (+ image). Nada más.",
+  "orgSlug": "unisimoncucuta",
+  "sedes": [
+    {
+      "id": "sede-1",
+      "label": "Sede 1",
+      "blurb": "Recorrido en preparación.",
+      "image": null,
+      "tourSlug": null
+    },
+    {
+      "id": "sede-2",
+      "label": "Sede 2",
+      "blurb": "Biblioteca Anita Bolívar de Consuegra: ingreso por el mural en arco.",
+      "image": "/plataforma/assets/sedes/sede-2.jpg",
+      "alt": "Entrada de vidrio en arco rodeada por un mural colorido en la biblioteca de la Sede 2",
+      "tourSlug": "experienciavirtual"
+    },
+    {
+      "id": "sede-3",
+      "label": "Sede 3",
+      "blurb": "Recorrido en preparación.",
+      "image": null,
+      "tourSlug": null
+    },
+    {
+      "id": "sede-4",
+      "label": "Sede 4",
+      "blurb": "Recorrido en preparación.",
+      "image": null,
+      "tourSlug": null
+    }
+  ]
+}

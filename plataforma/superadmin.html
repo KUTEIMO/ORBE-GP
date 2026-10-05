@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Superadmin — Orbe360</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/plataforma/admin-shell.css">
+</head>
+<body class="admin">
+  <header class="admin-top">
+    <a class="brand" href="/">ORBE<span>360</span><span class="brand-context"> · Superadmin</span></a>
+    <nav>
+      <a id="navOrgAdmin" href="/plataforma/login.html">Vista org-admin</a>
+      <button type="button" class="btn btn--ghost" id="logoutBtn">Salir</button>
+    </nav>
+  </header>
+  <main class="admin-shell admin-shell--wide">
+    <div class="page-head">
+      <div>
+        <h1>Dashboard de plataforma</h1>
+        <p id="whoami" class="hint hint--tight">Cargando sesión…</p>
+        <p class="path-hint">Patrón local: <code>/{orgSlug}/{tourSlug}/</code> · org-admin: <code>/{orgSlug}/org-admin.html</code></p>
+      </div>
+    </div>
+
+    <div class="kpi-row" id="kpiRow" aria-live="polite">
+      <div class="kpi"><div class="kpi__value" id="kpiOrgs">—</div><div class="kpi__label">Organizaciones</div></div>
+      <div class="kpi"><div class="kpi__value" id="kpiTours">—</div><div class="kpi__label">Tours</div></div>
+      <div class="kpi"><div class="kpi__value" id="kpiPublished">—</div><div class="kpi__label">Publicados</div></div>
+      <div class="kpi"><div class="kpi__value" id="kpiUsers">—</div><div class="kpi__label">Usuarios</div></div>
+    </div>
+
+    <section class="card">
+      <h2>Empresas (clientes)</h2>
+      <p class="hint">Cada fila es una organización con cuota opcional y enlaces a su espacio.</p>
+      <div id="orgList">Cargando…</div>
+    </section>
+
+    <div class="admin-tabs" role="tablist" aria-label="Operaciones">
+      <button type="button" role="tab" id="tab-create" aria-controls="panel-create" aria-selected="true" data-tab="create">Crear</button>
+      <button type="button" role="tab" id="tab-tours" aria-controls="panel-tours" aria-selected="false" data-tab="tours">Tours</button>
+      <button type="button" role="tab" id="tab-users" aria-controls="panel-users" aria-selected="false" data-tab="users">Usuarios</button>
+    </div>
+
+    <div id="panel-create" class="tab-panel" role="tabpanel" aria-labelledby="tab-create">
+      <div class="section-grid">
+        <section class="card">
+          <h2>Nueva organización</h2>
+          <form id="orgForm">
+            <div class="field">
+              <label for="orgName">Nombre</label>
+              <input id="orgName" required placeholder="Empresa ejemplo">
+            </div>
+            <div class="field">
+              <label for="orgSlug">Slug (URL)</label>
+              <input id="orgSlug" required pattern="[a-z0-9\-]+" placeholder="empresa-ejemplo">
+            </div>
+            <div class="field">
+              <label for="orgDesc">Descripción</label>
+              <input id="orgDesc" placeholder="Cliente de tours virtuales">
+            </div>
+            <div class="field">
+              <label for="orgMaxTours">Máx. tours (vacío = ilimitado)</label>
+              <input id="orgMaxTours" type="number" min="0" step="1" placeholder="Sin límite">
+            </div>
+            <button class="btn btn--primary" type="submit">Crear cliente</button>
+          </form>
+          <p class="status" id="orgStatus" role="status"></p>
+        </section>
+
+        <section class="card">
+          <h2>Nuevo tour</h2>
+          <form id="tourForm">
+            <div class="field">
+              <label for="tourOrg">Organización</label>
+              <select id="tourOrg" required></select>
+            </div>
+            <div class="field">
+              <label for="tourTitle">Título</label>
+              <input id="tourTitle" required placeholder="Campus ejemplo">
+            </div>
+            <div class="field">
+              <label for="tourSlug">Slug (único en la org)</label>
+              <input id="tourSlug" required pattern="[a-z0-9\-]+" placeholder="campus-ejemplo">
+            </div>
+            <div class="field">
+              <label>
+                <input type="checkbox" id="tourPublished">
+                Publicado al crear
+              </label>
+            </div>
+            <button class="btn btn--primary" type="submit">Crear tour</button>
+          </form>
+          <p class="status" id="tourStatus" role="status"></p>
+        </section>
+
+        <section class="card section-grid--span">
+          <h2>Asignar administrador</h2>
+          <form id="userForm">
+            <div class="section-grid">
+              <div class="field">
+                <label for="userOrg">Organización</label>
+                <select id="userOrg" required></select>
+              </div>
+              <div class="field">
+                <label for="userRole">Rol</label>
+                <select id="userRole">
+                  <option value="orgAdmin">Admin de organización</option>
+                  <option value="tourEditor">Editor de tour</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="userName">Nombre</label>
+                <input id="userName" required>
+              </div>
+              <div class="field">
+                <label for="userEmail">Correo</label>
+                <input id="userEmail" type="email" required>
+              </div>
+              <div class="field">
+                <label for="userPassword">Contraseña</label>
+                <input id="userPassword" type="password" required minlength="8">
+              </div>
+            </div>
+            <button class="btn btn--primary" type="submit">Crear usuario</button>
+          </form>
+          <p class="status" id="userStatus" role="status"></p>
+        </section>
+      </div>
+    </div>
+
+    <section class="card tab-panel" id="panel-tours" role="tabpanel" aria-labelledby="tab-tours" hidden>
+      <h2>Todos los tours</h2>
+      <div id="tourList">Cargando…</div>
+    </section>
+
+    <section class="card tab-panel" id="panel-users" role="tabpanel" aria-labelledby="tab-users" hidden>
+      <h2>Usuarios de plataforma</h2>
+      <div id="userList">Cargando…</div>
+    </section>
+
+    <details class="card ops-panel" style="margin-top:1rem">
+      <summary>Avanzado — seed / mantenimiento</summary>
+      <p class="hint">Solo bootstrap o migración de slugs. No resetea el grafo del piloto.</p>
+      <button type="button" class="btn btn--ghost" id="seedBtn">Ejecutar seed</button>
+      <p class="status" id="seedStatus" role="status"></p>
+    </details>
+  </main>
+
+  <script src="/plataforma/config.js"></script>
+  <script type="module">
+    import { apiMutation, apiQuery, getToken, clearToken, fetchMe } from "/plataforma/convex-client.js";
+    import { publicTourHref, controlWebHref, orgAdminHref } from "/src/tourSlug.js";
+
+    const token = getToken();
+    if (!token) location.href = "/plataforma/login.html";
+
+    const whoami = document.getElementById("whoami");
+    const orgSelect = document.getElementById("userOrg");
+    const tourOrgSelect = document.getElementById("tourOrg");
+
+    function escapeHtml(s) {
+      return String(s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    const tabButtons = [...document.querySelectorAll('.admin-tabs [role="tab"]')];
+    function activateTab(name) {
+      for (const btn of tabButtons) {
+        const on = btn.dataset.tab === name;
+        btn.setAttribute("aria-selected", on ? "true" : "false");
+        const panel = document.getElementById(`panel-${btn.dataset.tab}`);
+        if (panel) panel.hidden = !on;
+      }
+    }
+    tabButtons.forEach((btn) => {
+      btn.addEventListener("click", () => activateTab(btn.dataset.tab));
+    });
+
+    async function refresh() {
+      const me = await fetchMe(token);
+      if (!me || !me.isSuperadmin) {
+        const homeOrgs = await apiQuery("organizations:listOrganizations", {
+          token,
+          now: Date.now(),
+        }).catch(() => []);
+        if (homeOrgs?.[0]?.slug) {
+          location.href = orgAdminHref(homeOrgs[0].slug);
+        } else {
+          location.href = "/plataforma/login.html";
+        }
+        return;
+      }
+      whoami.textContent = `Sesión: ${me.name} (${me.email}) · operador de plataforma`;
+
+      let stats = null;
+      try {
+        stats = await apiQuery("organizations:getPlatformStats", {
+          token,
+          now: Date.now(),
+        });
+      } catch (_e) {
+        stats = null;
+      }
+
+      const orgs = await apiQuery("organizations:listOrganizations", {
+        token,
+        now: Date.now(),
+      });
+      const tours = await apiQuery("organizations:listTours", {
+        token,
+        now: Date.now(),
+      });
+      const users = await apiQuery("auth:listUsers", { token });
+
+      if (stats) {
+        document.getElementById("kpiOrgs").textContent = String(stats.orgCount);
+        document.getElementById("kpiTours").textContent = String(stats.tourCount);
+        document.getElementById("kpiPublished").textContent = String(
+          stats.publishedTourCount
+        );
+        document.getElementById("kpiUsers").textContent = String(stats.userCount);
+      } else {
+        document.getElementById("kpiOrgs").textContent = String(orgs.length);
+        document.getElementById("kpiTours").textContent = String(tours.length);
+        document.getElementById("kpiPublished").textContent = String(
+          tours.filter((t) => t.published).length
+        );
+        document.getElementById("kpiUsers").textContent = String(users.length);
+      }
+
+      document.getElementById("orgList").innerHTML = `
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Empresa</th>
+              <th>Slug</th>
+              <th>Tours</th>
+              <th>Cuota</th>
+              <th>URL</th>
+              <th>Admin</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${
+              orgs
+                .map((o) => {
+                  const quota =
+                    o.maxTours != null
+                      ? `${o.tourCount ?? 0} / ${o.maxTours}`
+                      : `${o.tourCount ?? 0} · ∞`;
+                  return `<tr>
+                    <td>${escapeHtml(o.name)}</td>
+                    <td><code>${escapeHtml(o.slug)}</code></td>
+                    <td>${o.tourCount ?? 0}</td>
+                    <td>${escapeHtml(quota)}</td>
+                    <td><code class="path-hint">/${escapeHtml(o.slug)}/{tour}/</code></td>
+                    <td><a href="${escapeHtml(orgAdminHref(o.slug))}">org-admin</a></td>
+                  </tr>`;
+                })
+                .join("") || "<tr><td colspan=6>Sin organizaciones</td></tr>"
+            }
+          </tbody>
+        </table>`;
+
+      const orgOpts = orgs
+        .map(
+          (o) =>
+            `<option value="${escapeHtml(o.id)}">${escapeHtml(o.name)}</option>`
+        )
+        .join("");
+      orgSelect.innerHTML = orgOpts;
+      tourOrgSelect.innerHTML = orgOpts;
+
+      const firstOrg = orgs[0];
+      const navOrg = document.getElementById("navOrgAdmin");
+      if (firstOrg) navOrg.href = orgAdminHref(firstOrg.slug);
+
+      document.getElementById("tourList").innerHTML = `
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Título</th>
+              <th>Org</th>
+              <th>Slug</th>
+              <th>Estado</th>
+              <th>Enlaces</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${
+              tours
+                .map((t) => {
+                  const pub = t.orgSlug
+                    ? publicTourHref({ tourSlug: t.slug, orgSlug: t.orgSlug })
+                    : "#";
+                  const cw = t.orgSlug
+                    ? controlWebHref({ tourSlug: t.slug, orgSlug: t.orgSlug })
+                    : "#";
+                  const oa = t.orgSlug ? orgAdminHref(t.orgSlug) : "#";
+                  return `<tr>
+                    <td>${escapeHtml(t.title)}</td>
+                    <td><code>${escapeHtml(t.orgSlug || "?")}</code></td>
+                    <td><code>${escapeHtml(t.slug)}</code></td>
+                    <td><span class="badge ${t.published ? "badge--ok" : "badge--muted"}">${t.published ? "publicado" : "borrador"}</span></td>
+                    <td>
+                      <a href="${escapeHtml(pub)}" target="_blank" rel="noopener">visor</a>
+                      · <a href="${escapeHtml(cw)}">control</a>
+                      · <a href="${escapeHtml(oa)}">org-admin</a>
+                    </td>
+                  </tr>`;
+                })
+                .join("") || "<tr><td colspan=5>Sin tours</td></tr>"
+            }
+          </tbody>
+        </table>`;
+
+      document.getElementById("userList").innerHTML = `
+        <table class="table">
+          <thead><tr><th>Nombre</th><th>Email</th><th>Rol</th></tr></thead>
+          <tbody>
+            ${users
+              .map(
+                (u) => `<tr>
+                  <td>${escapeHtml(u.name)}</td>
+                  <td>${escapeHtml(u.email)}</td>
+                  <td>${u.isSuperadmin ? "Superadmin" : "Usuario"}</td>
+                </tr>`
+              )
+              .join("")}
+          </tbody>
+        </table>`;
+    }
+
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+      try {
+        await apiMutation("auth:logout", { token });
+      } catch (_e) {}
+      clearToken();
+      location.href = "/plataforma/login.html";
+    });
+
+    document.getElementById("orgForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const status = document.getElementById("orgStatus");
+      status.classList.remove("error");
+      const maxRaw = document.getElementById("orgMaxTours").value.trim();
+      const maxTours = maxRaw === "" ? undefined : Number(maxRaw);
+      try {
+        await apiMutation("organizations:createOrganization", {
+          token,
+          name: document.getElementById("orgName").value,
+          slug: document.getElementById("orgSlug").value,
+          description: document.getElementById("orgDesc").value || undefined,
+          ...(Number.isFinite(maxTours) ? { maxTours } : {}),
+        });
+        status.textContent = "Organización creada.";
+        e.target.reset();
+        await refresh();
+      } catch (err) {
+        status.textContent = err.message;
+        status.classList.add("error");
+      }
+    });
+
+    document.getElementById("tourForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const status = document.getElementById("tourStatus");
+      status.classList.remove("error");
+      try {
+        await apiMutation("organizations:createTour", {
+          token,
+          organizationId: document.getElementById("tourOrg").value,
+          title: document.getElementById("tourTitle").value,
+          slug: document.getElementById("tourSlug").value,
+          published: document.getElementById("tourPublished").checked,
+        });
+        status.textContent = "Tour creado. Branding por defecto generado.";
+        e.target.reset();
+        await refresh();
+      } catch (err) {
+        status.textContent = err.message;
+        status.classList.add("error");
+      }
+    });
+
+    document.getElementById("userForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const status = document.getElementById("userStatus");
+      status.classList.remove("error");
+      try {
+        await apiMutation("auth:createAdminUser", {
+          token,
+          organizationId: document.getElementById("userOrg").value,
+          name: document.getElementById("userName").value,
+          email: document.getElementById("userEmail").value,
+          password: document.getElementById("userPassword").value,
+          role: document.getElementById("userRole").value,
+        });
+        status.textContent = "Usuario creado. Ya puede iniciar sesión.";
+        e.target.reset();
+        await refresh();
+      } catch (err) {
+        status.textContent = err.message;
+        status.classList.add("error");
+      }
+    });
+
+    document.getElementById("seedBtn").addEventListener("click", async () => {
+      const status = document.getElementById("seedStatus");
+      try {
+        const result = await apiMutation("seed:seedPlatform", { token });
+        status.classList.remove("error");
+        status.textContent = result.alreadySeeded
+          ? "Seed ya existía (Unisimón + usuarios)."
+          : "Seed creado: Unisimón + superadmin + admin Unisimón.";
+        await refresh();
+      } catch (err) {
+        status.textContent = err.message;
+        status.classList.add("error");
+      }
+    });
+
+    refresh().catch((err) => {
+      whoami.textContent = err.message;
+      whoami.classList.add("error");
+    });
+  </script>
+</body>
+</html>

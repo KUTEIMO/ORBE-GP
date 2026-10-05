@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Accesibilidad Universal — ORBE360</title>
+  <meta name="description" content="Declaración y compromiso de accesibilidad universal de Orbe360: plataforma de recorridos 360° diseñada bajo buenas prácticas WCAG 2.2 AA.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Syne:wght@600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/plataforma/tokens.css?v=20261006">
+  <link rel="stylesheet" href="/plataforma/marketing.css?v=20261006">
+  <link rel="stylesheet" href="/plataforma/legal.css?v=20261006">
+  <style>
+    /* Estilos editoriales avanzados para Accesibilidad */
+    .a11y-editorial {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: clamp(2rem, 5vw, 4rem) clamp(1.25rem, 4vw, 2.5rem) 6rem;
+    }
+
+    .a11y-hero {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+      margin-bottom: clamp(3.5rem, 7vw, 6rem);
+      position: relative;
+    }
+
+    @media (min-width: 960px) {
+      .a11y-hero {
+        grid-template-columns: 1.25fr 0.75fr;
+        align-items: center;
+      }
+    }
+
+    .a11y-hero__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      background: var(--orbe-clay-surface-tint);
+      border: 1px solid var(--orbe-line);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--orbe-accent-deep);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1.25rem;
+    }
+
+    .a11y-hero__title {
+      font-family: "Syne", var(--orbe-display), system-ui, sans-serif;
+      font-size: clamp(2.2rem, 5.5vw, 4rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+      margin: 0 0 1.5rem;
+      color: var(--orbe-ink);
+    }
+
+    .a11y-hero__title span {
+      background: linear-gradient(135deg, var(--orbe-accent) 0%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .a11y-hero__lede {
+      font-size: clamp(1.05rem, 2vw, 1.3rem);
+      line-height: 1.6;
+      color: var(--orbe-muted);
+      margin: 0 0 2rem;
+      max-width: 42ch;
+    }
+
+    .a11y-hero__graphic {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: var(--orbe-clay-depth);
+      border: 1px solid var(--orbe-line);
+      border-radius: var(--orbe-clay-radius);
+      padding: 2.5rem;
+      box-shadow: var(--orbe-clay-shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Asymmetric Grid Sections */
+    .editorial-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      margin-bottom: 4.5rem;
+    }
+
+    @media (min-width: 860px) {
+      .editorial-grid--2col {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .editorial-grid--3col {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .feature-card {
+      background: var(--orbe-clay-surface);
+      border: 1px solid var(--orbe-line);
+      border-radius: var(--orbe-clay-radius);
+      padding: 2rem;
+      box-shadow: var(--orbe-clay-shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      position: relative;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--orbe-clay-shadow);
+    }
+
+    .feature-card__icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      background: var(--orbe-clay-surface-tint);
+      border: 1px solid var(--orbe-line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--orbe-accent);
+    }
+
+    .feature-card__title {
+      font-family: "Syne", var(--orbe-display), system-ui, sans-serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin: 0;
+      color: var(--orbe-ink);
+    }
+
+    .feature-card__text {
+      font-size: 0.95rem;
+      line-height: 1.65;
+      color: var(--orbe-muted);
+      margin: 0;
+    }
+
+    /* Standard Compliance Status Matrix */
+    .status-matrix {
+      background: var(--orbe-clay-surface);
+      border: 1px solid var(--orbe-line);
+      border-radius: var(--orbe-clay-radius);
+      padding: clamp(1.5rem, 3vw, 2.5rem);
+      margin: 3.5rem 0;
+      box-shadow: var(--orbe-clay-shadow-sm);
+    }
+
+    .status-matrix__head {
+      margin-bottom: 2rem;
+    }
+
+    .status-matrix__title {
+      font-family: "Syne", var(--orbe-display), system-ui, sans-serif;
+      font-size: 1.6rem;
+      font-weight: 800;
+      margin: 0 0 0.5rem;
+      color: var(--orbe-ink);
+    }
+
+    .status-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+    }
+
+    .status-table th,
+    .status-table td {
+      padding: 1rem 1.25rem;
+      text-align: left;
+      border-bottom: 1px solid var(--orbe-line);
+      vertical-align: middle;
+    }
+
+    .status-table th {
+      font-family: "Syne", sans-serif;
+      font-weight: 700;
+      color: var(--orbe-ink);
+      background: var(--orbe-clay-surface-tint);
+    }
+
+    .status-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .pill-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .pill-status--done {
+      background: rgba(16, 185, 129, 0.12);
+      color: #059669;
+      border: 1px solid rgba(16, 185, 129, 0.25);
+    }
+
+    .pill-status--testing {
+      background: rgba(245, 158, 11, 0.12);
+      color: #d97706;
+      border: 1px solid rgba(245, 158, 11, 0.25);
+    }
+
+    /* Callout & Feedback Banner */
+    .callout-box {
+      border-left: 4px solid var(--orbe-accent);
+      background: var(--orbe-clay-surface-tint);
+      border-radius: 0 var(--orbe-radius) var(--orbe-radius) 0;
+      padding: 1.5rem 1.75rem;
+      margin: 2.5rem 0;
+    }
+
+    .callout-box h4 {
+      margin: 0 0 0.5rem;
+      font-size: 1.1rem;
+      color: var(--orbe-ink);
+    }
+
+    .callout-box p {
+      margin: 0;
+      color: var(--orbe-muted);
+      line-height: 1.6;
+    }
+  </style>
+  <script>
+    (function () {
+      var t = localStorage.getItem("orbe_theme");
+      if (t === "dark" || t === "light") document.documentElement.setAttribute("data-theme", t);
+      else if (window.matchMedia("(prefers-color-scheme: dark)").matches) document.documentElement.setAttribute("data-theme", "dark");
+    })();
+  </script>
+</head>
+<body class="legal-page">
+  <header class="legal-nav" role="banner">
+    <a class="brand" href="/" aria-label="ORBE360 — Volver a la página principal">
+      ORBE<span>360</span>
+    </a>
+    <div class="legal-nav__tools">
+      <a href="/" aria-label="Regresar al inicio">← Inicio</a>
+      <button type="button" class="icon-btn" id="langToggle" aria-label="Cambiar idioma">EN</button>
+      <button type="button" class="icon-btn icon-btn--theme" id="themeToggle" aria-pressed="false" aria-label="Activar modo oscuro">
+        <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="main" class="a11y-editorial" role="main">
+    <!-- Idioma Español -->
+    <div data-lang-block="es">
+      <section class="a11y-hero" aria-labelledby="hero-title-es">
+        <div class="a11y-hero__content">
+          <div class="a11y-hero__badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+            Compromiso Universal
+          </div>
+          <h1 id="hero-title-es" class="a11y-hero__title">
+            Tu sede digital, <span>sin barreras</span> de acceso.
+          </h1>
+          <p class="a11y-hero__lede">
+            En Orbe360, la accesibilidad no es un complemento decorativo: es la base arquitectónica de nuestro motor 360 para que cualquier persona explore tus espacios.
+          </p>
+          <div class="cta-row">
+            <a class="btn btn--primary" href="#pilares">Explorar capacidades</a>
+            <a class="btn btn--ghost" href="#verificacion">Matriz de verificación</a>
+          </div>
+        </div>
+
+        <div class="a11y-hero__graphic" aria-hidden="true">
+          <svg width="240" height="240" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="120" cy="120" r="100" stroke="var(--orbe-line)" stroke-width="1.5" stroke-dasharray="4 4"/>
+            <circle cx="120" cy="120" r="75" stroke="var(--orbe-accent)" stroke-width="2" opacity="0.4"/>
+            <!-- Orbe central accesible -->
+            <circle cx="120" cy="120" r="48" fill="var(--orbe-clay-surface)" stroke="var(--orbe-accent)" stroke-width="2"/>
+            <circle cx="120" cy="85" r="8" fill="var(--orbe-accent)"/>
+            <path d="M96 150c6-20 42-20 48 0" stroke="var(--orbe-accent)" stroke-width="3" stroke-linecap="round"/>
+            <path d="M120 102v32M100 116h40" stroke="var(--orbe-accent)" stroke-width="3" stroke-linecap="round"/>
+            <!-- Ondas sensoriales -->
+            <path d="M40 120a80 80 0 0 1 20-54" stroke="var(--orbe-signal)" stroke-width="2" stroke-linecap="round"/>
+            <path d="M200 120a80 80 0 0 1-20 54" stroke="var(--orbe-signal)" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </section>
+
+      <!-- Pilares -->
+      <section id="pilares" aria-labelledby="pilares-title-es">
+        <h2 id="pilares-title-es" class="legal-main h2" style="font-size: 2rem; margin-bottom: 2rem;">Capacidades Integradas en el Motor</h2>
+        <div class="editorial-grid editorial-grid--3col">
+          <article class="feature-card">
+            <div class="feature-card__icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M8 16h8M6 12h.01M18 12h.01M10 12h4"/></svg>
+            </div>
+            <h3 class="feature-card__title">Navegación Total por Teclado</h3>
+            <p class="feature-card__text">Todos los elementos interactivos, escenas y hotspots son completamente alcanzables y operables mediante la tecla Tab, flechas y Enter, con anillos de enfoque visual de alto contraste.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-card__icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/></svg>
+            </div>
+            <h3 class="feature-card__title">Audiodescripción y Subtítulos</h3>
+            <p class="feature-card__text">Soporte nativo para pistas de audio descriptivas y archivos WebVTT con transcripciones sincronizadas para cada punto de interés y panorama de la experiencia.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-card__icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+            </div>
+            <h3 class="feature-card__title">Contraste y Modos Adaptables</h3>
+            <p class="feature-card__text">Tokens cromáticos calibrados para cumplir con ratios de contraste WCAG AA en modos claro y oscuro, garantizando legibilidad en cualquier condición de iluminación.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- Matriz de Estado -->
+      <section id="verificacion" class="status-matrix" aria-labelledby="status-title-es">
+        <div class="status-matrix__head">
+          <h2 id="status-title-es" class="status-matrix__title">Estado de Verificación Técnica</h2>
+          <p class="legal-meta" style="margin: 0;">Transparencia absoluta: nuestro compromiso de diseño frente a pruebas reales en dispositivos.</p>
+        </div>
+
+        <div class="legal-table-wrap" style="border: none;">
+          <table class="status-table">
+            <thead>
+              <tr>
+                <th scope="col">Criterio / Función</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Especificación / Alcance</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Foco y Atajos de Teclado</th>
+                <td><span class="pill-status pill-status--done">✓ Verificado</span></td>
+                <td>Navegación secuencial por escenas y cierre con tecla Escape.</td>
+              </tr>
+              <tr>
+                <th scope="row">Contraste de Color</th>
+                <td><span class="pill-status pill-status--done">✓ Verificado</span></td>
+                <td>Relación superior a 4.5:1 en texto regular y componentes UI.</td>
+              </tr>
+              <tr>
+                <th scope="row">Preferencia de Movimiento (Reduced Motion)</th>
+                <td><span class="pill-status pill-status--done">✓ Verificado</span></td>
+                <td>Desactivación automática de transiciones y parallax si el sistema lo solicita.</td>
+              </tr>
+              <tr>
+                <th scope="row">Lectores de Pantalla (TalkBack / NVDA)</th>
+                <td><span class="pill-status pill-status--testing">⟳ En Evaluación</span></td>
+                <td>Validación continua en hardware físico real antes de declarar soporte pleno.</td>
+              </tr>
+              <tr>
+                <th scope="row">Subtítulos y Transcripciones</th>
+                <td><span class="pill-status pill-status--done">✓ Soportado</span></td>
+                <td>Módulo multimedia listo para archivos WebVTT cargados por la institución.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Callout Responsabilidad Compartida -->
+      <section class="callout-box" aria-label="Responsabilidad Compartida">
+        <h4>Modelo de Responsabilidad Compartida</h4>
+        <p>
+          Orbe360 entrega la infraestructura técnica y los controles accesibles en el motor. La institución cliente es la encargada de alimentar y mantener los textos alternativos, grabaciones de voz y transcripciones correspondientes a su propio espacio.
+        </p>
+      </section>
+    </div>
+
+    <!-- Idioma Inglés -->
+    <div data-lang-block="en" hidden>
+      <section class="a11y-hero" aria-labelledby="hero-title-en">
+        <div class="a11y-hero__content">
+          <div class="a11y-hero__badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+            Universal Commitment
+          </div>
+          <h1 id="hero-title-en" class="a11y-hero__title">
+            Your venue, <span>barrier-free</span> for everyone.
+          </h1>
+          <p class="a11y-hero__lede">
+            At Orbe360, accessibility is not an afterthought: it is the architectural core of our 360° virtual engine ensuring anyone can visit your campus or facility.
+          </p>
+          <div class="cta-row">
+            <a class="btn btn--primary" href="#pilares">Explore Features</a>
+            <a class="btn btn--ghost" href="#verificacion">Verification Matrix</a>
+          </div>
+        </div>
+
+        <div class="a11y-hero__graphic" aria-hidden="true">
+          <svg width="240" height="240" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="120" cy="120" r="100" stroke="var(--orbe-line)" stroke-width="1.5" stroke-dasharray="4 4"/>
+            <circle cx="120" cy="120" r="75" stroke="var(--orbe-accent)" stroke-width="2" opacity="0.4"/>
+            <circle cx="120" cy="120" r="48" fill="var(--orbe-clay-surface)" stroke="var(--orbe-accent)" stroke-width="2"/>
+            <circle cx="120" cy="85" r="8" fill="var(--orbe-accent)"/>
+            <path d="M96 150c6-20 42-20 48 0" stroke="var(--orbe-accent)" stroke-width="3" stroke-linecap="round"/>
+            <path d="M120 102v32M100 116h40" stroke="var(--orbe-accent)" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </section>
+
+      <section id="pilares-en" aria-labelledby="pilares-title-en">
+        <h2 id="pilares-title-en" class="legal-main h2" style="font-size: 2rem; margin-bottom: 2rem;">Core Engine Capabilities</h2>
+        <div class="editorial-grid editorial-grid--3col">
+          <article class="feature-card">
+            <div class="feature-card__icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M8 16h8M6 12h.01M18 12h.01M10 12h4"/></svg>
+            </div>
+            <h3 class="feature-card__title">Full Keyboard Navigation</h3>
+            <p class="feature-card__text">Every interactive hotspot and navigation node is completely accessible via Tab, arrow keys, and Enter, backed by high-contrast visual focus rings.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-card__icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/></svg>
+            </div>
+            <h3 class="feature-card__title">Audio Descriptions & Subtitles</h3>
+            <p class="feature-card__text">Native support for descriptive voice tracks and WebVTT captions synchronized across each point of interest in the virtual journey.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-card__icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+            </div>
+            <h3 class="feature-card__title">Adaptive Contrast Modes</h3>
+            <p class="feature-card__text">Color tokens calibrated to meet WCAG AA contrast ratios across light and dark modes, ensuring legibility under any viewing environment.</p>
+          </article>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="legal-foot" role="contentinfo">
+    <nav class="legal-foot__nav" aria-label="Políticas y Enlaces">
+      <a href="/plataforma/accesibilidad.html" aria-current="page">Accesibilidad</a>
+      <a href="/plataforma/privacidad.html">Privacidad</a>
+      <a href="/plataforma/cookies.html">Cookies</a>
+      <a href="/plataforma/tratamiento-datos.html">Tratamiento de datos</a>
+      <a href="/plataforma/terminos.html">Términos</a>
+      <a href="/">Inicio</a>
+    </nav>
+    <p>ORBE360 · Plataforma de recorridos virtuales accesibles</p>
+  </footer>
+
+  <script src="/plataforma/legal-shell.js?v=20261006" type="module"></script>
+  <script type="module">
+    import { initCookieConsent } from "/plataforma/cookie-consent.js?v=20261006";
+    initCookieConsent();
+  </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+/**
+ * DEPRECATED — no usar en páginas nuevas.
+ * Reemplazado por:
+ *   - tokens.css      (marca compartida)
+ *   - marketing.css   (sitio público)
+ *   - admin-shell.css (login + paneles)
+ *
+ * Este archivo queda como stub de compatibilidad: importa tokens + admin-shell.
+ * Eliminar referencias restantes y borrar este archivo en una pasada posterior.
+ */
+
+@import url("tokens.css");
+@import url("admin-shell.css");
+
+/* Compatibilidad de selectores legacy usados fuera de body.admin */
+.top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 1.15rem;
+  border-bottom: 1px solid var(--orbe-line);
+  background: var(--orbe-white);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.panel-shell {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1.25rem 1.15rem 2.5rem;
+}

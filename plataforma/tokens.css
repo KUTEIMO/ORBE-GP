@@ -1,0 +1,84 @@
+/**
+ * Orbe360 Design Tokens — marca de la plataforma (marketing + admin).
+ * Fuente de verdad: docs/producto/12-design-system-orbe360.md
+ * Separación Orbe vs cliente: docs/producto/39-identidad-orbe-vs-cliente.md
+ *
+ * IMPORTANT — platform ≠ client tour:
+ * - Esta paleta es Orbe360 (vende el SaaS / motor).
+ * - Unisimón (#0a7a45) vive solo en TourBranding / tour-branding.json.
+ * - Viewer motor: chrome neutro + override white-label del cliente.
+ * - NO reutilizar verde institucional USB en chrome de plataforma.
+ */
+
+/* Escalas compartidas con el motor (espacio, radios, elevación, movimiento, z). */
+@import url("../css/design-tokens.css");
+
+:root {
+  /* —— Orbe360 product palette (2026-09) —— */
+  --orbe-accent: #0284c7;       /* sky signal — CTA primario */
+  --orbe-accent-deep: #0369a1;  /* hover / énfasis */
+  --orbe-signal: #38bdf8;       /* highlight sobre foto / dark */
+  --orbe-ink: #101828;          /* slate profundo */
+  --orbe-muted: #5a6a7e;        /* texto secundario */
+  --orbe-paper: #f4f7fb;        /* fondo frío (no cream) */
+  --orbe-line: #dbe3ee;         /* bordes */
+  --orbe-white: #ffffff;
+  --orbe-night: #0b1220;        /* bandas oscuras / CTA band */
+
+  --orbe-overlay-soft: rgba(16, 24, 40, 0.42);
+  --orbe-overlay: rgba(16, 24, 40, 0.55);
+  --orbe-overlay-strong: rgba(16, 24, 40, 0.68);
+
+  --orbe-font: "Outfit", system-ui, sans-serif;
+  --orbe-display: "Sora", system-ui, sans-serif;
+
+  --orbe-container: min(1120px, calc(100% - 2.5rem));
+  --orbe-section-y: clamp(4.5rem, 8vw, 7rem);
+  --orbe-radius: 10px;
+  --orbe-radius-lg: 14px;
+
+  /* Soft Clay (platform chrome — not client tour white-label) */
+  --orbe-clay-surface: #ffffff;
+  --orbe-clay-surface-tint: #eef6fc;
+  --orbe-clay-shadow: 0 8px 24px rgba(16, 24, 40, 0.1);
+  --orbe-clay-shadow-sm: 0 3px 12px rgba(16, 24, 40, 0.08);
+  --orbe-clay-inset: inset 0 1px 0 rgba(255, 255, 255, 0.92);
+  --orbe-clay-radius: 16px;
+  --orbe-clay-radius-admin: 12px;
+  --orbe-clay-node: #f0f9ff;
+  --orbe-clay-edge: rgba(3, 105, 161, 0.5);
+  --orbe-clay-depth: linear-gradient(165deg, #ffffff 0%, var(--orbe-clay-surface-tint) 100%);
+
+  /* Aliases: --orbe-green* → accent (compat con CSS/JS previos) */
+  --orbe-green: var(--orbe-accent);
+  --orbe-green-deep: var(--orbe-accent-deep);
+
+  /* Aliases legacy (transición desde landing.css) */
+  --ink: var(--orbe-ink);
+  --muted: var(--orbe-muted);
+  --green: var(--orbe-accent);
+  --green-deep: var(--orbe-accent-deep);
+  --line: var(--orbe-line);
+  --paper: var(--orbe-paper);
+  --font: var(--orbe-font);
+  --display: var(--orbe-display);
+}
+
+/* —— Marketing dark theme (toggle en landing) —— */
+[data-theme="dark"] {
+  --orbe-ink: #eef2f8;
+  --orbe-muted: #94a3b8;
+  --orbe-paper: #0f172a;
+  --orbe-line: #1e293b;
+  --orbe-white: #111827;
+  --orbe-clay-surface: #1a2332;
+  --orbe-clay-surface-tint: #152030;
+  --orbe-clay-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+  --orbe-clay-shadow-sm: 0 3px 14px rgba(0, 0, 0, 0.35);
+  --orbe-clay-inset: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --orbe-clay-depth: linear-gradient(165deg, #1a2332 0%, #152030 100%);
+  --orbe-clay-node: #1e293b;
+  --orbe-overlay-soft: rgba(0, 0, 0, 0.35);
+  --orbe-overlay: rgba(0, 0, 0, 0.5);
+  --orbe-overlay-strong: rgba(0, 0, 0, 0.65);
+}

@@ -1,0 +1,47 @@
+/* Orbe360 — carrusel de sedes (#sedes). Usa tokens de plataforma; modo claro/oscuro heredado. */
+.sedes { padding-block: clamp(2rem, 5vw, 3.5rem); }
+.sedes[hidden] { display: none; }
+.sedes__head { max-width: 46rem; margin: 0 auto 1.75rem; text-align: center; }
+.sedes__frame { position: relative; }
+.sedes__track {
+  display: flex; gap: 1.25rem; list-style: none; margin: 0; padding: .5rem .25rem 1rem;
+  overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+.sedes__track::-webkit-scrollbar { display: none; }
+.sedes__track:focus-visible { outline: 3px solid var(--orbe-accent); outline-offset: 4px; border-radius: var(--orbe-clay-radius); }
+.sede-card {
+  flex: 0 0 min(88%, 26rem); scroll-snap-align: center;
+  background: var(--orbe-clay-surface); border: 1px solid var(--orbe-line);
+  border-radius: var(--orbe-clay-radius); box-shadow: var(--orbe-clay-shadow-sm);
+  overflow: hidden; display: flex; flex-direction: column;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.sede-card:hover { transform: translateY(-3px); box-shadow: var(--orbe-clay-shadow); }
+.sede-card__media { aspect-ratio: 8 / 5; background: var(--orbe-clay-surface-tint); overflow: hidden; }
+.sede-card__media img, .sede-card__ph, .sede-card__ph svg { width: 100%; height: 100%; display: block; object-fit: cover; }
+.sede-card.is-soon .sede-card__media { filter: saturate(.85); }
+.sede-card__body { padding: 1.25rem 1.35rem 1.5rem; display: flex; flex-direction: column; gap: .5rem; flex: 1; }
+.sede-card__eyebrow { margin: 0; font-size: .75rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--orbe-accent-deep); }
+.sede-card h3 { margin: 0; font-family: "Syne", var(--orbe-display), system-ui, sans-serif; font-size: 1.4rem; color: var(--orbe-ink); }
+.sede-card p { margin: 0; color: var(--orbe-muted); font-size: .95rem; line-height: 1.55; }
+.sede-card__cta { margin-top: auto; align-self: flex-start; }
+.sede-card__soon {
+  margin-top: auto; align-self: flex-start; padding: .35rem .8rem; border-radius: 999px;
+  border: 1px dashed var(--orbe-line); color: var(--orbe-muted); font-size: .82rem; font-weight: 600;
+}
+.sedes__controls { display: flex; align-items: center; justify-content: center; gap: 1rem; margin-top: .5rem; }
+.sedes__controls .icon-btn { min-width: 2.75rem; min-height: 2.75rem; }
+.sedes__controls .icon-btn:disabled { opacity: .4; cursor: not-allowed; }
+.sedes__dots { display: flex; gap: .5rem; }
+.sedes__dots button {
+  width: .75rem; height: .75rem; padding: 0; border-radius: 50%; cursor: pointer;
+  border: 1px solid var(--orbe-accent); background: transparent;
+}
+.sedes__dots button[aria-current="true"] { background: var(--orbe-accent); }
+.sedes__dots button:focus-visible { outline: 3px solid var(--orbe-accent); outline-offset: 3px; }
+.sedes__error { text-align: center; color: var(--orbe-muted); }
+@media (prefers-reduced-motion: reduce) {
+  .sede-card, .sede-card:hover { transition: none; transform: none; }
+  .sedes__track { scroll-behavior: auto; }
+}
