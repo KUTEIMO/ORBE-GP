@@ -21,36 +21,39 @@
 
 Para desplegar y visualizar la plataforma en su equipo en segundos, elija una de las siguientes opciones:
 
-### 🏆 Opción 1: Comando Universal Infalible en Windows PowerShell (1 Sola Línea — Funciona en cualquier PC)
-> **¿No tiene Git? ¿No tiene Node? ¿Le sale error en winget o Microsoft Store?**  
-> Copie y pegue esta sola línea en Windows PowerShell. Instala Node.js oficial silenciosamente directo desde nodejs.org, descarga el proyecto desde GitHub vía ZIP, refresca el entorno, abre el navegador y arranca el servidor local automáticamente:
+### 🏆 Opción 1: Comando Universal en Windows PowerShell (1 Sola Línea — Funciona en cualquier PC)
+> Instala Git y Node.js si faltan, clona el proyecto, abre el navegador y arranca el servidor local directamente con `node` (evitando bloqueos de scripts `.ps1` de PowerShell):
 
 ```powershell
-cd $HOME; if (-not (Get-Command node -ErrorAction SilentlyContinue)) { Write-Host "Descargando e instalando Node.js oficial..."; Invoke-WebRequest -Uri "https://nodejs.org/dist/v20.18.0/node-v20.18.0-x64.msi" -OutFile "$env:TEMP
-ode.msi"; Start-Process msiexec.exe -ArgumentList "/i `"$env:TEMP
-ode.msi`" /qn" -Wait; $env:Path = "$([System.Environment]::GetEnvironmentVariable('Path','Machine'));$([System.Environment]::GetEnvironmentVariable('Path','User'))" }; Invoke-WebRequest -Uri "https://github.com/KUTEIMO/ORBE-GP/archive/refs/heads/main.zip" -OutFile "ORBE-GP.zip"; Expand-Archive -Path "ORBE-GP.zip" -DestinationPath "." -Force; cd "ORBE-GP-main"; Start-Process "http://localhost:8081/"; node scripts/dev-server.mjs
+winget install --id Git.Git -e --accept-package-agreements --accept-source-agreements; winget install --id OpenJS.NodeJS.LTS -e --accept-package-agreements --accept-source-agreements; $env:Path = "$([System.Environment]::GetEnvironmentVariable('Path','Machine'));$([System.Environment]::GetEnvironmentVariable('Path','User'))"; git clone https://github.com/KUTEIMO/ORBE-GP.git; cd ORBE-GP; Start-Process "http://localhost:8081/"; node scripts/dev-server.mjs
 ```
 
 ---
 
-### 🖱️ Opción 2: Doble Clic (Método Sin Consola)
+### 🚀 Opción 2: Si ya está dentro de la carpeta clonada (o si le salió error de npm.ps1)
+> Si ya clonó el repositorio o le apareció `npm.ps1 está deshabilitado en este sistema`, simplemente ejecute:
+
+```powershell
+node scripts/dev-server.mjs
+```
+*(O si prefiere usar npm):*
+```powershell
+npm.cmd start
+```
+
+---
+
+### 🖱️ Opción 3: Doble Clic (Método Sin Consola)
 > Si descargó el archivo ZIP (`ORBE-GP-Software-70.zip` o desde GitHub):
 1. Descomprima la carpeta.
 2. Haga doble clic en el archivo **`INICIAR_PROYECTO.bat`**.
-3. El sistema verificará Node.js (instalándolo si falta), abrirá su navegador en `http://localhost:8081/` y levantará el servidor web local automáticamente.
-
----
-
-### 🚀 Opción 3: Computador con Git y Node.js previamente instalados
-```powershell
-git clone https://github.com/KUTEIMO/ORBE-GP.git; cd ORBE-GP; npm install; Start-Process "http://localhost:8081/"; npm start
-```
+3. El sistema abrirá su navegador en `http://localhost:8081/` y levantará el servidor web local automáticamente.
 
 ---
 
 ### 🍎 Opción 4: En Mac / Linux (Terminal Bash o Zsh)
 ```bash
-git clone https://github.com/KUTEIMO/ORBE-GP.git && cd ORBE-GP && npm install && npm start
+git clone https://github.com/KUTEIMO/ORBE-GP.git && cd ORBE-GP && node scripts/dev-server.mjs
 ```
 
 ---
