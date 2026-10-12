@@ -10,10 +10,9 @@ echo.
 where node >nul 2>nul
 if %errorlevel% neq 0 (
     echo [!] Node.js no fue detectado en el sistema.
-    echo [*] Instalando Node.js LTS automáticamente con winget...
-    winget install --id OpenJS.NodeJS.LTS -e --accept-package-agreements --accept-source-agreements
-    set "PATH=%PATH%;C:\Program Files
-odejs"
+    echo [*] Descargando e instalando Node.js LTS oficial desde nodejs.org...
+    powershell -NoProfile -ExecutionPolicy Bypass -Command "Invoke-WebRequest -Uri 'https://nodejs.org/dist/v20.18.0/node-v20.18.0-x64.msi' -OutFile '$env:TEMP\node.msi'; Start-Process msiexec.exe -ArgumentList '/i \"$env:TEMP\node.msi\" /qn' -Wait"
+    set "PATH=%PATH%;C:\Program Files\nodejs"
 )
 
 echo [*] Abriendo el navegador en http://localhost:8081/...
