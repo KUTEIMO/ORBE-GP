@@ -182,3 +182,11 @@
   outline: 3px solid #fff;
   outline-offset: 2px;
 }
+
+.action-button--active {
+  background: rgba(2, 132, 199, 0.45) !important;
+  border-color: #38bdf8 !important;
+  color: #38bdf8 !important;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+}
+

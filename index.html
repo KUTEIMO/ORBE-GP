@@ -123,6 +123,12 @@
                         <path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9a10 10 0 1 0 0 20 10 10 0 0 0 0-20z"/>
                     </svg>
                 </button>
+                <button class="action-button" id="audioGuideToggle" type="button" aria-label="Activar audio guía descriptiva (tecla M)" title="Audio guía descriptiva (M)">
+                    <span class="sr-only">Audio guía descriptiva (tecla M)</span>
+                    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+                        <path fill="currentColor" d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                    </svg>
+                </button>
                 <button class="action-button" id="accessibilityToggle" type="button" aria-controls="accessibilityMenu" aria-expanded="false">
                     <span class="sr-only">Abrir panel de accesibilidad</span>
                     <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
@@ -216,11 +222,17 @@
                     </label>
                     <label class="option-label" for="captionAutoToggle" id="captionAutoLabel">Mostrar subtítulos automáticamente</label>
                 </div>
-                <div class="option-info" id="captionAutoHelp">
-                    Los subtítulos provienen de archivos VTT y se presentan en un panel accesible.
+                <div class="option-item" style="margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.12);">
+                    <button type="button" id="playSceneAudioBtn" class="toolbar-button" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; padding: 10px 14px; border-radius: var(--radius-md); background: rgba(2, 132, 199, 0.2); border: 1px solid rgba(2, 132, 199, 0.5); cursor: pointer;">
+                        <span aria-hidden="true">🔊</span> Escuchar audio guía de esta escena (M)
+                    </button>
+                    <p id="sceneAudioStatus" class="option-info" style="margin-top: 6px; font-size: 0.82rem;" aria-live="polite">
+                        Presiona la tecla M o activa el modo accesible para reproducir la audiodescripción.
+                    </p>
                 </div>
             </div>
         </aside>
+        <audio id="sceneAudio" preload="metadata" aria-label="Audio guía descriptiva de la escena"></audio>
 
         <section class="hotspot-panel" id="hotspotPanel" role="dialog" aria-modal="true" aria-labelledby="hotspotPanelTitle" hidden tabindex="-1">
             <div class="hotspot-panel__header">

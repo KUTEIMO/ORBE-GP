@@ -16,6 +16,7 @@ import { initHotspotEditing, hydrateHotspotOverrides } from './hotspotEditing.js
 import { bindGlobalUiGuards, openExclusive, openSceneMenu } from './uiLayers.js';
 import { stopActiveMedia } from './mediaSession.js';
 import { DEFAULT_TOUR_SLUG } from './tourSlug.js';
+import { initSceneAudio, playSceneNarration, stopSceneNarration, isAudioGuideActive } from './sceneAudio.js';
 
 // Early paint: public tour paths use neutral gray until Convex TourBranding.
 bootNeutralBrandingIfNeeded();
@@ -62,6 +63,11 @@ async function startApp() {
       if (viewerApi) {
         updateSceneDestinations(sceneData, viewerApi);
       }
+      if (appState.settings.autoNarration || appState.settings.accessibleMode || isAudioGuideActive()) {
+        playSceneNarration(sceneData);
+      } else {
+        stopSceneNarration();
+      }
     },
     onHotspotOpen: (sceneData, hotspotData, options) => {
       openExclusive('hotspot');
@@ -69,6 +75,7 @@ async function startApp() {
     }
   });
 
+  initSceneAudio(viewerApi);
   initMenu(config, viewerApi);
   initAccessibilityControls(config);
   applyInitialAccessibilityState();

@@ -1,5 +1,6 @@
 import { appState, updateSetting, getSetting } from './state.js';
 import { dismissOpenLayers, openExclusive, trapFocusWithin } from './uiLayers.js';
+import { playSceneNarration, stopSceneNarration } from './sceneAudio.js';
 
 const FONT_STEP = 0.1;
 const FONT_MIN = 0.8;
@@ -159,6 +160,11 @@ function setupAccessibleMode() {
       const enabled = event.target.checked;
       syncToggle('textToSpeechToggle', enabled);
       updateSetting('autoNarration', enabled);
+      if (enabled) {
+        playSceneNarration();
+      } else {
+        stopSceneNarration();
+      }
       persistSettings();
     });
   }
@@ -193,9 +199,7 @@ function applyAccessibleMode(enabled, options = {}) {
       syncToggle('captionAutoToggle', true);
       syncContrastButtons(true);
       announceTextScale(getSetting('textScale'), { silent: true });
-      /* Antes se robaba el foco hacia el botón "Alto" al activar el modo
-         accesible: el usuario perdía su posición en el panel. El cambio de
-         estado se comunica por `aria-checked` y por la región live. */
+      playSceneNarration();
     } else {
       updateSetting('autoNarration', false);
       updateSetting('autoCaptions', false);
@@ -207,6 +211,7 @@ function applyAccessibleMode(enabled, options = {}) {
       syncToggle('captionAutoToggle', false);
       syncContrastButtons(false);
       announceTextScale(1, { silent: true });
+      stopSceneNarration();
     }
     persistSettings();
   }

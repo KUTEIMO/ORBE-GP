@@ -13,11 +13,18 @@ const KEY_ACTIONS = {
   E: { roll: 0.05 }
 };
 
+import { toggleSceneAudio } from './sceneAudio.js';
+
 export function initKeyboardControls(viewerApi) {
   const panorama = document.getElementById('panorama');
   if (!panorama) return;
 
   panorama.addEventListener('keydown', (event) => {
+    if (event.key === 'm' || event.key === 'M') {
+      event.preventDefault();
+      toggleSceneAudio();
+      return;
+    }
     if (!KEY_ACTIONS[event.key]) return;
     event.preventDefault();
     applyAction(viewerApi, KEY_ACTIONS[event.key]);
