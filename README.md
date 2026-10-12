@@ -17,25 +17,46 @@
 
 ---
 
-## ⚡ DESPLIEGUE RÁPIDO EN LOCAL (1 SOLA LÍNEA DE COMANDOS)
+## ⚡ DESPLIEGUE RÁPIDO EN LOCAL (OPCIONES SEGÚN SU COMPUTADOR)
 
-Para desplegar y visualizar la plataforma en su computador en segundos, copie y pegue **una sola línea** según su terminal:
+Para desplegar y visualizar la plataforma en su equipo en segundos, elija una de las siguientes opciones:
 
-### Opción A: En Windows (PowerShell)
-> Clona el repositorio, instala dependencias, abre el navegador automáticamente e inicia el servidor web local en el puerto 8081:
-
+### 🚀 Opción 1: Computador con Git y Node.js instalados (Recomendada - 1 Sola Línea en PowerShell)
+Copie y pegue esta línea completa en Windows PowerShell:
 ```powershell
 git clone https://github.com/KUTEIMO/ORBE-GP.git; cd ORBE-GP; npm install; Start-Process "http://localhost:8081/"; npm start
 ```
 
-*(Si ya descargó el archivo ZIP y abrió la terminal dentro de la carpeta del proyecto):*
+---
+
+### 🛠️ Opción 2: Computador NUEVO o SIN Git ni Node.js (Instalador Automático Todo-en-Uno en 1 Sola Línea)
+> **¿Le sale el error `'git' o 'npm' no se reconoce como nombre de un cmdlet`?**  
+> Copie y pegue esta línea completa en Windows PowerShell. Instalará automáticamente Git y Node.js LTS mediante el gestor oficial de Windows (`winget`), refrescará el entorno en la misma ventana, clonará el proyecto y abrirá el navegador:
+
 ```powershell
-npm install; Start-Process "http://localhost:8081/"; npm start
+winget install --id Git.Git -e --accept-package-agreements --accept-source-agreements; winget install --id OpenJS.NodeJS.LTS -e --accept-package-agreements --accept-source-agreements; $env:Path = "$([System.Environment]::GetEnvironmentVariable('Path','Machine'));$([System.Environment]::GetEnvironmentVariable('Path','User'))"; git clone https://github.com/KUTEIMO/ORBE-GP.git; cd ORBE-GP; Start-Process "http://localhost:8081/"; npm start
 ```
 
 ---
 
-### Opción B: En Mac / Linux (Terminal Bash / Zsh)
+### 📦 Opción 3: Descarga Directa SIN necesidad de Git (Descarga ZIP automática en 1 Sola Línea)
+> Si ya tiene Node.js pero no tiene Git instalado, no hace falta instalar Git. PowerShell puede descargar el ZIP directamente de GitHub y ejecutarlo:
+
+```powershell
+Invoke-WebRequest -Uri "https://github.com/KUTEIMO/ORBE-GP/archive/refs/heads/main.zip" -OutFile "ORBE-GP.zip"; Expand-Archive -Path "ORBE-GP.zip" -DestinationPath "." -Force; cd "ORBE-GP-main"; Start-Process "http://localhost:8081/"; npm start
+```
+
+---
+
+### 🖱️ Opción 4: Doble Clic (Sin escribir comandos en terminal)
+> Si descargó el archivo ZIP o clonó la carpeta:
+1. Abra la carpeta del proyecto.
+2. Haga doble clic en el archivo **`INICIAR_PROYECTO.bat`**.
+3. El archivo verificará Node.js, abrirá su navegador en `http://localhost:8081/` y levantará el servidor web local automáticamente.
+
+---
+
+### 🍎 Opción 5: En Mac / Linux (Terminal Bash o Zsh)
 ```bash
 git clone https://github.com/KUTEIMO/ORBE-GP.git && cd ORBE-GP && npm install && npm start
 ```
@@ -54,30 +75,33 @@ Una vez iniciado el servidor, las superficies del proyecto están disponibles en
 
 ---
 
-## 🔐 CONTROL DE ACCESO BASADO EN ROLES (RBAC) Y SEGURIDAD
+## 🔒 CONTROL DE ACCESO Y ROLES DEMO (PANEL CMS / CONTROL-WEB)
 
-> 🛡️ **Aviso de Seguridad en Repositorio Público:**  
-> Por directrices de seguridad de la información y buenas prácticas de ingeniería de software, las credenciales institucionales y contraseñas de las cuentas de prueba para evaluar las rutas protegidas del panel administrativo (`/control-web/`) **se suministran de forma confidencial a la docente evaluadora a través de los canales privados oficiales de la Universidad** (carpeta privada de SharePoint / OneDrive Unisimón y en el documento técnico formal de entrega).
+Para evaluar las rutas protegidas y la autenticación con control de acceso basado en roles (RBAC):
 
-### Perfiles de Seguridad Implementados:
-* **Superadministrador de Plataforma:** Gestión global de sedes, organizaciones y políticas de acceso multi-inquilino.
-* **Administrador de Sede Unisimón:** Gestión de contenido 360°, vinculación de hotspots y audios en la Biblioteca Anita Consuegra.
-* **Usuario Visitante / Estudiante:** Acceso público inmediato a la experiencia inmersiva sensorial y navegación accesible (sin necesidad de credenciales).
+| Rol de Usuario | Identificador Institucional | Alcance de Permisos |
+| :--- | :--- | :--- |
+| **Superadmin Plataforma** | `superadmin@orbe360.local` | Gestión de clientes y organizaciones (Sin mutación de tours de sedes). |
+| **Admin Sede Unisimón** | `admin@unisimon.local` | Edición y administración del tour 360° de la Biblioteca Anita Consuegra. |
+| **Usuario Invitado** | `invitado@unisimon.local` | Navegación e interactividad sensorial pública de las escenas. |
+
+> 🛡️ **Seguridad y Confidencialidad (DevSecOps):**  
+> De acuerdo con las buenas prácticas de seguridad para repositorios públicos, las contraseñas de evaluación se encuentran documentadas **exclusivamente en el archivo confidencial `CUENTAS_Y_CREDENCIALES_PROYECTO.txt`** provisto en la carpeta oficial del curso en OneDrive / Teams y entregado directamente a la docente evaluadora.
 
 ---
 
 ## ♿ VERIFICACIÓN DE ACCESIBILIDAD UNIVERSAL (WCAG 2.1 AA)
-* **Audio Guía Descriptiva:** Presione la tecla **`M`** en el teclado para silenciar o activar la narración espacial de la escena.
+* **Audiodescripción Espacial Completa:** El 100% de los puntos de interés (hotspots) y escenas cuentan con audiodescripción espacial y narración de voz. Al hacer clic o presionar Enter sobre cualquier hotspot se reproduce su explicación sonora.
+* **Audio Guía de Escena (Tecla M):** Presione la tecla **`M`** en el teclado o el botón de bocina para alternar la locución de la escena completa.
 * **Lengua de Señas Colombiana (LSC):** Presione **`Alt + S`** o haga clic en el icono flotante de la esquina inferior derecha.
-* **Navegación por Teclado:** Utilice las teclas **`Tab`** y **`Enter`** para navegar sin ratón, observando el anillo visual de foco de alto contraste (ratio 3:1).
-* **Panel de Opciones Accesibles:** Presione **`Alt + A`** para abrir el menú de personalización de alto contraste y tamaño tipográfico.
+* **Navegación por Teclado:** Utilice las teclas **`Tab`** y **`Enter`** para navegar sin ratón con anillo de foco de alto contraste (ratio 3:1).
 
 ---
 
 ## 🛠️ ARQUITECTURA TÉCNICA (NORMA IEEE 1058)
 El proyecto implementa la separación de procesos técnicos del ciclo de vida del software:
-* `src/`: Capa de lógica y motor frontend (Pannellum, Three.js, WebGL a 60 FPS sin dependencias externas pesadas).
+* `src/`: Capa de lógica y motor frontend (Pannellum, Three.js, WebGL a 60 FPS sin frameworks pesados).
 * `convex/`: Capa de datos reactiva en tiempo real (Esquema de grafos de escenas y hotspots).
 * `plataforma/` y `control-web/`: Capa de presentación web responsive y CMS.
 * `media/`: Panoramas 360° equirectangulares, locuciones espaciales y recursos gráficos.
-* `scripts/dev-server.mjs`: Servidor local autónomo con reescritura de URLs virtuales multi-sede (`/tours/:org/:tour`).
+* `scripts/dev-server.mjs`: Servidor local con reescritura de URLs virtuales multi-sede (`/tours/:org/:tour`).

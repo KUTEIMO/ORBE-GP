@@ -566,7 +566,10 @@
           "yaw": 0.5,
           "pitch": 0.05,
           "description": "El punto de información ofrece atención presencial, folletos y orientación de servicios estudiantiles.",
-          "altText": "Punto de información"
+          "altText": "Punto de información",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/punto-informacion.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/punto-informacion.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/punto-informacion.vtt"
         },
         {
           "id": "acceso-accesible",
@@ -575,7 +578,10 @@
           "yaw": -0.9,
           "pitch": -0.05,
           "description": "Rampa con superficie antideslizante y señalización podotáctil que facilita la entrada de personas con movilidad reducida.",
-          "altText": "Acceso escaleras"
+          "altText": "Acceso escaleras",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/acceso-accesible.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/acceso-accesible.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/acceso-accesible.vtt"
         },
         {
           "id": "conn-mtx7qvy6-yk8o",
@@ -1198,7 +1204,10 @@
           "direction": "down",
           "description": "Aquí se reciben bolsos y se hace el control de seguridad / objetos perdidos antes de entrar a la biblioteca.",
           "weight": 1.45,
-          "altText": "Recepción de bolsos / Seguridad"
+          "altText": "Recepción de bolsos / Seguridad",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/78-mostrador.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/78-mostrador.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/78-mostrador.vtt"
         },
         {
           "id": "conn-mtx7ed6e-ug3x",
@@ -1383,7 +1392,10 @@
           "yaw": -1.1,
           "pitch": -0.25,
           "description": "Rampa corta hacia el acceso de la biblioteca; facilita el ingreso con movilidad reducida.",
-          "altText": "Rampa de acceso"
+          "altText": "Rampa de acceso",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/82-rampa.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/82-rampa.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/82-rampa.vtt"
         }
       ],
       "initialView": {
@@ -1401,7 +1413,10 @@
           "yaw": -0.85,
           "pitch": -0.08,
           "description": "Mostrador de préstamo de libros y computadores. El personal atiende solicitudes de material y equipos.",
-          "altText": "Préstamo de libros y computadores"
+          "altText": "Préstamo de libros y computadores",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/83-mostrador.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/83-mostrador.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/83-mostrador.vtt"
         },
         {
           "id": "83-bibliotecaria",
@@ -1410,7 +1425,10 @@
           "yaw": 0.15,
           "pitch": -0.02,
           "description": "Espacio de la bibliotecaria y consulta, visible a través del acceso acristalado del lobby.",
-          "altText": "Área de bibliotecaria y consulta"
+          "altText": "Área de bibliotecaria y consulta",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/83-bibliotecaria.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/83-bibliotecaria.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/83-bibliotecaria.vtt"
         },
         {
           "id": "83-letrero",
@@ -1419,7 +1437,10 @@
           "yaw": 1.55,
           "pitch": 0.15,
           "description": "Área del letrero y señalética de la Biblioteca Anita Bolívar de Consuegra.",
-          "altText": "Identificación de la biblioteca"
+          "altText": "Identificación de la biblioteca",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/83-letrero.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/83-letrero.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/83-letrero.vtt"
         },
         {
           "id": "mostrador-prestamo",
@@ -1428,7 +1449,10 @@
           "yaw": 0,
           "pitch": 0,
           "description": "Mostrador de préstamo y renovación de material.",
-          "altText": "Mostrador de préstamo y renovación de material."
+          "altText": "Mostrador de préstamo y renovación de material.",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/mostrador-prestamo.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/mostrador-prestamo.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/mostrador-prestamo.vtt"
         },
         {
           "id": "zona-estudio",
@@ -1437,7 +1461,10 @@
           "yaw": 0,
           "pitch": 0,
           "description": "Mesas de estudio colaborativo en el lobby.",
-          "altText": "Mesas de estudio colaborativo en el lobby."
+          "altText": "Mesas de estudio colaborativo en el lobby.",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/zona-estudio.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/zona-estudio.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/zona-estudio.vtt"
         }
       ],
       "initialView": {
@@ -1455,7 +1482,10 @@
           "yaw": 0.05,
           "pitch": 0.18,
           "description": "Mural ilustrado alrededor del acceso principal del lobby.",
-          "altText": "Mural del acceso"
+          "altText": "Mural del acceso",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/84-mural.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/84-mural.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/84-mural.vtt"
         },
         {
           "id": "84-prestamo",
@@ -1464,7 +1494,10 @@
           "yaw": -1.05,
           "pitch": -0.08,
           "description": "Mostrador de préstamo de libros y computadores (zona donde suelen reunirse los estudiantes para el servicio).",
-          "altText": "Préstamo de libros y computadores"
+          "altText": "Préstamo de libros y computadores",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/84-prestamo.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/84-prestamo.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/84-prestamo.vtt"
         },
         {
           "id": "84-bibliotecaria",
@@ -1473,7 +1506,10 @@
           "yaw": 0.05,
           "pitch": -0.05,
           "description": "Área de la bibliotecaria y consulta, detrás de las puertas de vidrio del arco central.",
-          "altText": "Área de bibliotecaria y consulta"
+          "altText": "Área de bibliotecaria y consulta",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/84-bibliotecaria.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/84-bibliotecaria.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/84-bibliotecaria.vtt"
         }
       ],
       "initialView": {
@@ -1491,7 +1527,10 @@
           "yaw": 0.95,
           "pitch": -0.08,
           "description": "Fila de computadores de uso académico en el lobby.",
-          "altText": "Estaciones de cómputo"
+          "altText": "Estaciones de cómputo",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/85-pcs.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/85-pcs.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/85-pcs.vtt"
         },
         {
           "id": "85-nombre",
@@ -1500,7 +1539,10 @@
           "yaw": 1.05,
           "pitch": 0.25,
           "description": "Nombre oficial de la biblioteca en el muro.",
-          "altText": "Letrero Anita Bolívar de Consuegra"
+          "altText": "Letrero Anita Bolívar de Consuegra",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/85-nombre.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/85-nombre.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/85-nombre.vtt"
         }
       ],
       "initialView": {
@@ -1518,7 +1560,10 @@
           "yaw": 0.1,
           "pitch": -0.2,
           "description": "Estantería perimetral baja que organiza el pasillo de lectura.",
-          "altText": "Estantería baja"
+          "altText": "Estantería baja",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/86-estantes.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/86-estantes.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/86-estantes.vtt"
         }
       ],
       "initialView": {
@@ -1536,7 +1581,10 @@
           "yaw": 0.15,
           "pitch": -0.05,
           "description": "Cabinas arqueadas para estudio individual o en pareja, con iluminación propia.",
-          "altText": "Cubículos de estudio"
+          "altText": "Cubículos de estudio",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/87-pods.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/87-pods.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/87-pods.vtt"
         }
       ],
       "initialView": {
@@ -1554,7 +1602,10 @@
           "yaw": -0.2,
           "pitch": -0.05,
           "description": "Cubículo con banca tapizada y mesa de madera para trabajo concentrado.",
-          "altText": "Cubículo grupal"
+          "altText": "Cubículo grupal",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/88-booth.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/88-booth.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/88-booth.vtt"
         }
       ],
       "initialView": {
@@ -1572,7 +1623,10 @@
           "yaw": 0.2,
           "pitch": -0.25,
           "description": "Mesa individual dentro del cubículo, con iluminación puntual.",
-          "altText": "Puesto de estudio"
+          "altText": "Puesto de estudio",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/89-mesa.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/89-mesa.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/89-mesa.vtt"
         }
       ],
       "initialView": {
@@ -1592,7 +1646,10 @@
           "direction": "up",
           "description": "Mesas curvas con sillas verdes para trabajo en grupo.",
           "weight": 1.45,
-          "altText": "Mesas colaborativas"
+          "altText": "Mesas colaborativas",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/90-mesas.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/90-mesas.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/90-mesas.vtt"
         }
       ],
       "initialView": {
@@ -1610,7 +1667,10 @@
           "yaw": 1.7,
           "pitch": -0.05,
           "description": "Consola/kiosco de apoyo cerca de la circulación vertical.",
-          "altText": "Punto de consulta"
+          "altText": "Punto de consulta",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/91-catalogo.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/91-catalogo.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/91-catalogo.vtt"
         }
       ],
       "initialView": {
@@ -1628,7 +1688,10 @@
           "yaw": 0.6,
           "pitch": -0.05,
           "description": "Salas cerradas con vidrio para trabajo en grupo o tutorías.",
-          "altText": "Salones de estudio"
+          "altText": "Salones de estudio",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/92-vidrio.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/92-vidrio.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/92-vidrio.vtt"
         }
       ],
       "initialView": {
@@ -1648,7 +1711,10 @@
           "direction": "forward",
           "description": "Estantería señalizada como colección GENERAL.",
           "weight": 1.5,
-          "altText": "Sección GENERAL"
+          "altText": "Sección GENERAL",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/93-general.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/93-general.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/93-general.vtt"
         },
         {
           "id": "93-marquez",
@@ -1657,7 +1723,10 @@
           "yaw": 1.4,
           "pitch": 0.05,
           "description": "Salón de vidrio con gráficos y referencias literarias.",
-          "altText": "Salón con referencia literaria"
+          "altText": "Salón con referencia literaria",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/93-marquez.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/93-marquez.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/93-marquez.vtt"
         }
       ],
       "initialView": {
@@ -1675,7 +1744,10 @@
           "yaw": -0.8,
           "pitch": -0.1,
           "description": "Estantería de consulta abierta en planta baja.",
-          "altText": "Colección en estantería"
+          "altText": "Colección en estantería",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/94-coleccion.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/94-coleccion.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/94-coleccion.vtt"
         }
       ],
       "initialView": {
@@ -1695,7 +1767,10 @@
           "direction": "forward",
           "description": "Mesa de estudio con módulos de tomacorrientes para portátiles.",
           "weight": 1.5,
-          "altText": "Mesa con energía"
+          "altText": "Mesa con energía",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/95-tomas.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/95-tomas.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/95-tomas.vtt"
         }
       ],
       "initialView": {
@@ -1715,7 +1790,10 @@
           "direction": "right",
           "description": "Mural colorido en el perímetro de la zona de salones.",
           "weight": 1.25,
-          "altText": "Mural artístico"
+          "altText": "Mural artístico",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/96-mural.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/96-mural.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/96-mural.vtt"
         }
       ],
       "initialView": {
@@ -1735,7 +1813,10 @@
           "direction": "down",
           "description": "Escalera con baranda de vidrio/metal hacia la mezanine.",
           "weight": 1.45,
-          "altText": "Circulación vertical"
+          "altText": "Circulación vertical",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/97-escalera.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/97-escalera.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/97-escalera.vtt"
         }
       ],
       "initialView": {
@@ -1755,7 +1836,10 @@
           "direction": "back",
           "description": "Salas decoradas con citas literarias para ambientar el estudio.",
           "weight": 1.35,
-          "altText": "Salón con citas literarias"
+          "altText": "Salón con citas literarias",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/98-citas.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/98-citas.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/98-citas.vtt"
         }
       ],
       "initialView": {
@@ -1775,7 +1859,10 @@
           "direction": "left",
           "description": "Salón temático Eva Luna, con decoración floral y cita.",
           "weight": 1.25,
-          "altText": "Cubículos De estudio y Proyectos"
+          "altText": "Cubículos De estudio y Proyectos",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/99-evaluna.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/99-evaluna.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/99-evaluna.vtt"
         }
       ],
       "initialView": {
@@ -1793,7 +1880,10 @@
           "yaw": 1.3,
           "pitch": 0.1,
           "description": "Mural de montaña, río y vegetación junto a la escalera.",
-          "altText": "Mural de paisaje"
+          "altText": "Mural de paisaje",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/100-mural.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/100-mural.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/100-mural.vtt"
         },
         {
           "id": "100-revistas",
@@ -1804,7 +1894,10 @@
           "direction": "left",
           "description": "Expositor/rack de revistas o novedades al pie de la escalera.",
           "weight": 1.25,
-          "altText": "Expositor de publicaciones"
+          "altText": "Expositor de publicaciones",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/100-revistas.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/100-revistas.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/100-revistas.vtt"
         }
       ],
       "initialView": {
@@ -1824,7 +1917,10 @@
           "direction": "down",
           "description": "Mural de páramo/montaña nevada en el descanso de escaleras.",
           "weight": 1.45,
-          "altText": "Mural de montaña"
+          "altText": "Mural de montaña",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/101-mural.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/101-mural.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/101-mural.vtt"
         }
       ],
       "initialView": {
@@ -1850,7 +1946,10 @@
           "yaw": 0.35,
           "pitch": -0.05,
           "description": "Cabinas altas verdes para estudio individual en mezanine.",
-          "altText": "Pods individuales"
+          "altText": "Pods individuales",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/103-pods.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/103-pods.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/103-pods.vtt"
         }
       ],
       "initialView": {
@@ -1870,7 +1969,10 @@
           "direction": "right",
           "description": "Letrero GENERAL sobre la colección del nivel superior.",
           "weight": 1.25,
-          "altText": "Sección GENERAL (mezanine)"
+          "altText": "Sección GENERAL (mezanine)",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/104-general.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/104-general.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/104-general.vtt"
         }
       ],
       "initialView": {
@@ -1890,7 +1992,10 @@
           "direction": "down",
           "description": "Etiquetas de sección en el borde de los estantes.",
           "weight": 1.45,
-          "altText": "Sección de estantería"
+          "altText": "Sección de estantería",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/105-seccion.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/105-seccion.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/105-seccion.vtt"
         }
       ],
       "initialView": {
@@ -1910,7 +2015,10 @@
           "direction": "forward",
           "description": "Estantes temáticos del nivel superior.",
           "weight": 1.5,
-          "altText": "Colección temática"
+          "altText": "Colección temática",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/106-economia.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/106-economia.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/106-economia.vtt"
         }
       ],
       "initialView": {
@@ -1930,7 +2038,10 @@
           "direction": "forward",
           "description": "Mesas redondas con taburetes naranja/verde para trabajo ágil.",
           "weight": 1.5,
-          "altText": "Mesas colaborativas"
+          "altText": "Mesas colaborativas",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/107-mesas.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/107-mesas.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/107-mesas.vtt"
         }
       ],
       "initialView": {
@@ -1950,7 +2061,10 @@
           "direction": "left",
           "description": "Barandal de mezanine con vista al lobby y mesas del nivel inferior.",
           "weight": 1.25,
-          "altText": "Vista a planta baja"
+          "altText": "Vista a planta baja",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/108-vista.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/108-vista.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/108-vista.vtt"
         }
       ],
       "initialView": {
@@ -1970,7 +2084,10 @@
           "direction": "forward",
           "description": "Cubículo acolchado verde para concentración en mezanine.",
           "weight": 1.5,
-          "altText": "Pod de estudio"
+          "altText": "Pod de estudio",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/109-pod.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/109-pod.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/109-pod.vtt"
         }
       ],
       "initialView": {
@@ -1990,7 +2107,10 @@
           "direction": "right",
           "description": "Señalización HEMEROTECA: periódicos, revistas y publicaciones periódicas.",
           "weight": 1.25,
-          "altText": "Hemeroteca"
+          "altText": "Hemeroteca",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/110-senal.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/110-senal.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/110-senal.vtt"
         }
       ],
       "initialView": {
@@ -2010,7 +2130,10 @@
           "direction": "forward",
           "description": "Vista al lobby: mesas, globos de luz y letrero de la biblioteca.",
           "weight": 1.5,
-          "altText": "Lobby en planta baja"
+          "altText": "Lobby en planta baja",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/111-abajo.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/111-abajo.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/111-abajo.vtt"
         }
       ],
       "initialView": {
@@ -2038,7 +2161,10 @@
           "direction": "down",
           "description": "Estantería señalizada PSICOLOGÍA en el nivel superior.",
           "weight": 1.45,
-          "altText": "Colección Psicología"
+          "altText": "Colección Psicología",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/113-psico.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/113-psico.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/113-psico.vtt"
         }
       ],
       "initialView": {
@@ -2058,7 +2184,10 @@
           "direction": "down",
           "description": "Letrero principal de la biblioteca sobre la zona de computadores.",
           "weight": 1.45,
-          "altText": "BIBLIOTECA ANITA BOLÍVAR DE CONSUEGRA"
+          "altText": "BIBLIOTECA ANITA BOLÍVAR DE CONSUEGRA",
+          "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/115-nombre.mp3",
+          "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/115-nombre.txt",
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/115-nombre.vtt"
         }
       ],
       "initialView": {

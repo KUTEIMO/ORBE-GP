@@ -1,7 +1,8 @@
-import { getSetting } from './state.js';
+import { getSetting, appState } from './state.js';
 import { dismissOpenLayers, trapFocusWithin } from './uiLayers.js';
 import { registerMediaSessionStop } from './mediaSession.js';
 import { resolveNarrationUrl } from './configLoader.js';
+import { pauseSceneNarration } from './sceneAudio.js';
 
 let lastFocusedElement = null;
 let currentHotspot = null;
@@ -83,10 +84,15 @@ export function forceStop() {
   stopSpeech();
 }
 
-export async function openHotspotPanel(sceneData, hotspotData, { focusPanel = false, autoNarration = false } = {}) {
+export async function openHotspotPanel(sceneData, hotspotData, { focusPanel = false, autoNarration = true } = {}) {
   currentScene = sceneData;
   currentHotspot = hotspotData;
   forceStop();
+  try {
+    pauseSceneNarration();
+  } catch (_e) {
+    /* ignore */
+  }
 
   const panelElement = panel();
   if (!panelElement) return;
@@ -104,18 +110,19 @@ export async function openHotspotPanel(sceneData, hotspotData, { focusPanel = fa
     });
   }
 
-  const wantAuto = autoNarration || getSetting('autoNarration');
+  // Reproducir narración del hotspot inmediatamente
+  const wantAuto = autoNarration ?? (getSetting('autoNarration') || appState?.accessibleMode || true);
   if (wantAuto) {
     const ready = await waitForNarrationReady(1200);
     if (ready) {
       await playAudio();
     } else {
-      // Honest: no file yet — optional speech fallback, not fake audio.
+      // Síntesis de voz directa si el archivo tarda o no está disponible
       startSpeechFallback({ asPrimaryAudio: false });
     }
   }
 
-  if (getSetting('autoCaptions')) {
+  if (getSetting('autoCaptions') || appState?.accessibleMode) {
     await showCaptions();
   } else {
     hideCaptions();

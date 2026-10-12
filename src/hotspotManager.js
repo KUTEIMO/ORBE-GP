@@ -207,6 +207,12 @@ function createHotspotButton({ sceneData, hotspot, onOpenHotspot, onNavigateScen
 
     if (hotspotType === 'nav' && hotspot.target && typeof onNavigateScene === 'function') {
       announceHotspot(`Navegando a: ${hotspot.title}`);
+      if (appState?.accessibleMode && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(`Navegando a: ${hotspot.title}`);
+        utter.lang = 'es-ES';
+        window.speechSynthesis.speak(utter);
+      }
       onNavigateScene(hotspot.target, { transition: true });
       return;
     }
@@ -214,7 +220,7 @@ function createHotspotButton({ sceneData, hotspot, onOpenHotspot, onNavigateScen
     if (typeof onOpenHotspot === 'function') {
       announceHotspot(`Hotspot abierto: ${hotspot.title}`);
       onOpenHotspot(sceneData, hotspot, {
-        autoNarration: getSetting('autoNarration'),
+        autoNarration: true,
         focusPanel: true
       });
     }
