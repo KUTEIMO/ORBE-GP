@@ -25,7 +25,7 @@ Para desplegar y visualizar la plataforma en su equipo en segundos, elija una de
 > Instala Git y Node.js si faltan, clona el proyecto, abre el navegador y arranca el servidor local directamente con `node` (evitando bloqueos de scripts `.ps1` de PowerShell):
 
 ```powershell
-winget install --id Git.Git -e --accept-package-agreements --accept-source-agreements; winget install --id OpenJS.NodeJS.LTS -e --accept-package-agreements --accept-source-agreements; $env:Path = "$([System.Environment]::GetEnvironmentVariable('Path','Machine'));$([System.Environment]::GetEnvironmentVariable('Path','User'))"; git clone https://github.com/KUTEIMO/ORBE-GP.git; cd ORBE-GP; Start-Process "http://localhost:8081/"; node scripts/dev-server.mjs
+cd $HOME; winget install --id Git.Git -e --accept-package-agreements --accept-source-agreements; winget install --id OpenJS.NodeJS.LTS -e --accept-package-agreements --accept-source-agreements; $env:Path = "$([System.Environment]::GetEnvironmentVariable('Path','Machine'));$([System.Environment]::GetEnvironmentVariable('Path','User'))"; git clone https://github.com/KUTEIMO/ORBE-GP.git; cd ORBE-GP; Start-Process "http://localhost:8081/"; node scripts/dev-server.mjs
 ```
 
 ---
