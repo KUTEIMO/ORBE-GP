@@ -1,95 +1,88 @@
-# ORBE360 (PEVCI) — PLATAFORMA DE RECORRIDOS VIRTUALES 360° PARA CAMPUS INCLUSIVOS
-### PROYECTO DE SOFTWARE — EVALUACIÓN SEGUNDO CORTE (70% DESARROLLADO)
+# ORBE360 (PEVCI) — Plataforma de Recorridos Virtuales 360° para Campus Inclusivos
+### Proyecto de Software — Evaluación Segundo Corte (70%)
 
 **Institución:** Universidad Simón Bolívar — Sede Cúcuta  
 **Facultad:** Ingenierías — Programa de Ingeniería de Sistemas  
 **Asignatura:** Gestión de Proyectos (Semestre 2026-2)  
-**Docente Evaluadora:** Ing. Nataly Duque Páez  
+**Docente:** Ing. Nataly Duque Páez  
 
 ---
 
 ### Integrantes del Equipo de Proyecto:
-1. **Eduardo José Soto Herrera** — `e_soto2@unisimon.edu.co` (Líder de Proyecto / Frontend 360°)
-2. **Saraic Noemi León Hernández** — `s_leon3@unisimon.edu.co` (Líder de Calidad / Accesibilidad WCAG)
-3. **Kevin Eduardo García Moreno** — `k_garcia8@unisimon.edu.co` (Líder Backend / Requerimientos Jira)
-4. **Sebastián David Omaña Villamizar** — `s_omana1@unisimon.edu.co` (Ingeniero DevSecOps / Base de Datos)
-5. **Jesús Omar Avendaño Avendaño** — `j_avendano4@unisimon.edu.co` (Ingeniero de Planificación / Cronograma)
+1. **Eduardo José Soto Herrera** — `e_soto2@unisimon.edu.co`
+2. **Saraic Noemi León Hernández** — `s_leon3@unisimon.edu.co`
+3. **Kevin Eduardo García Moreno** — `k_garcia8@unisimon.edu.co`
+4. **Sebastián David Omaña Villamizar** — `s_omana1@unisimon.edu.co`
+5. **Jesús Omar Avendaño Avendaño** — `j_avendano4@unisimon.edu.co`
 
 ---
 
-## ⚡ DESPLIEGUE RÁPIDO EN 1 SOLA LÍNEA (COPIAR Y PEGAR EN POWERSHELL)
+## Despliegue en 1 línea (Windows PowerShell)
 
-### 🚀 Opción A: Primer despliegue (instalación y descarga automática)
-> Copie y pegue esta sola línea en **Windows PowerShell** y presione **Enter**.  
-> Funciona en **cualquier computador** (configura requisitos automáticamente si faltan, descarga el proyecto, abre el navegador e inicia el servidor en el puerto 8081 sin errores):
+### Opción A: Primera vez (descarga y ejecución automática)
+Copie y pegue en Windows PowerShell y presione Enter. Configura Node.js si no existe, descarga el proyecto, abre el navegador e inicia el servidor en el puerto 8081:
 
 ```powershell
 cd $HOME; if (-not (Get-Command node -ErrorAction SilentlyContinue)) { Write-Host "Configurando Node.js oficial..."; try { winget install --id OpenJS.NodeJS.LTS -e --accept-package-agreements --accept-source-agreements } catch {} ; if (-not (Get-Command node -ErrorAction SilentlyContinue)) { Invoke-WebRequest -Uri "https://nodejs.org/dist/v20.18.0/node-v20.18.0-x64.msi" -OutFile "$env:TEMP\node.msi"; Start-Process msiexec.exe -ArgumentList "/i `"$env:TEMP\node.msi`" /qn" -Wait }; $env:Path += ";C:\Program Files\nodejs" }; if (-not (Test-Path "ORBE-GP")) { if (Get-Command git -ErrorAction SilentlyContinue) { git clone https://github.com/KUTEIMO/ORBE-GP.git } else { Invoke-WebRequest -Uri "https://github.com/KUTEIMO/ORBE-GP/archive/refs/heads/main.zip" -OutFile "ORBE-GP.zip"; Expand-Archive -Path "ORBE-GP.zip" -DestinationPath "." -Force; Rename-Item -Path "ORBE-GP-main" -NewName "ORBE-GP" -Force } }; cd ORBE-GP; Start-Process "http://localhost:8081/"; node scripts/dev-server.mjs
 ```
 
-### ⚡ Opción B: Si ya se descargó previamente (Reanudar / Iniciar al instante)
-> Si ya descargó el proyecto en el equipo (por ejemplo, en el PC de la docente), **no requiere volver a descargar nada**. Simplemente abra PowerShell, pegue esta línea y presione Enter para iniciar el servidor y abrir el navegador en 1 segundo:
+### Opción B: Si ya está descargado (iniciar directamente)
+Si el proyecto ya está descargado en el equipo, no vuelve a descargar nada. Ejecute en PowerShell para iniciar el servidor y abrir el navegador:
 
 ```powershell
 cd $HOME\ORBE-GP; Start-Process "http://localhost:8081/"; node scripts/dev-server.mjs
 ```
 
+---
+
+### Ejecución sin consola (archivo .bat)
+1. Ingrese a la carpeta `ORBE-GP`.
+2. Haga doble clic en el archivo `INICIAR_PROYECTO.bat`.
 
 ---
 
-### 🖱️ ¿Prefiere método sin consola? (Doble Clic)
-1. Descargue el archivo ZIP del proyecto (`ORBE-GP-Software-70.zip` o desde GitHub).
-2. Descomprima la carpeta.
-3. Haga doble clic en el archivo **`INICIAR_PROYECTO.bat`**.
-
----
-
-### 🍎 En Mac / Linux (Terminal Bash o Zsh)
+### Mac / Linux (Terminal Bash o Zsh)
 ```bash
 git clone https://github.com/KUTEIMO/ORBE-GP.git && cd ORBE-GP && node scripts/dev-server.mjs
 ```
 
 ---
 
-## 🌐 ENLACES DE ACCESO EN EL NAVEGADOR (PUERTO 8081)
+## Enlaces de acceso local (puerto 8081)
 
-Una vez iniciado el servidor, las superficies del proyecto están disponibles en:
+Una vez iniciado el servidor:
 
-| Superficie del Proyecto | URL Local | Descripción |
+| Sección | URL Local | Descripción |
 | :--- | :--- | :--- |
-| **Portal Web y Landing Page** | `http://localhost:8081/` | Página institucional con información del proyecto y catálogo de sedes. |
-| **Recorrido Virtual 360° Piloto Unisimón** | `http://localhost:8081/unisimoncucuta/experienciavirtual/` | Visor interactivo WebGL con 18 escenas de la Biblioteca Anita Consuegra. |
-| **Panel de Administración (CMS)** | `http://localhost:8081/unisimoncucuta/experienciavirtual/control-web/` | Interfaz de gestión de escenas, hotspots y configuración del tour. |
+| **Portal Web** | `http://localhost:8081/` | Página de inicio y catálogo del campus. |
+| **Recorrido Virtual 360°** | `http://localhost:8081/unisimoncucuta/experienciavirtual/` | Visor interactivo 360° con escenas, hotspots y subtítulos. |
+| **Panel de Administración (CMS)** | `http://localhost:8081/unisimoncucuta/experienciavirtual/control-web/` | Gestión de escenas, hotspots y configuración. |
 
 ---
 
-## 🔒 CONTROL DE ACCESO Y ROLES DEMO (PANEL CMS / CONTROL-WEB)
+## Control de acceso y cuentas demo (Panel CMS)
 
-Para evaluar las rutas protegidas y la autenticación con control de acceso basado en roles (RBAC):
-
-| Rol de Usuario | Identificador Institucional | Alcance de Permisos |
+| Rol | Correo Demo | Alcance |
 | :--- | :--- | :--- |
-| **Superadmin Plataforma** | `superadmin@orbe360.local` | Gestión de clientes y organizaciones (Sin mutación de tours de sedes). |
-| **Admin Sede Unisimón** | `admin@unisimon.local` | Edición y administración del tour 360° de la Biblioteca Anita Consuegra. |
-| **Usuario Invitado** | `invitado@unisimon.local` | Navegación e interactividad sensorial pública de las escenas. |
+| **Superadmin** | `superadmin@orbe360.local` | Gestión de organizaciones. |
+| **Admin Sede** | `admin@unisimon.local` | Edición del tour 360° y puntos de interés. |
+| **Invitado** | `invitado@unisimon.local` | Navegación pública. |
 
-> 🛡️ **Seguridad y Confidencialidad (DevSecOps):**  
-> De acuerdo con las buenas prácticas de seguridad para repositorios públicos, las contraseñas de evaluación se encuentran documentadas **exclusivamente en el archivo confidencial `CUENTAS_Y_CREDENCIALES_PROYECTO.txt`** provisto en la carpeta oficial del curso en OneDrive / Teams y entregado directamente a la docente evaluadora.
-
----
-
-## ♿ VERIFICACIÓN DE ACCESIBILIDAD UNIVERSAL (WCAG 2.1 AA)
-* **Audiodescripción Espacial Completa:** El 100% de los puntos de interés (hotspots) y escenas cuentan con audiodescripción espacial y narración de voz. Al hacer clic o presionar Enter sobre cualquier hotspot se reproduce su explicación sonora.
-* **Audio Guía de Escena (Tecla M):** Presione la tecla **`M`** en el teclado o el botón de bocina para alternar la locución de la escena completa.
-* **Lengua de Señas Colombiana (LSC):** Presione **`Alt + S`** o haga clic en el icono flotante de la esquina inferior derecha.
-* **Navegación por Teclado:** Utilice las teclas **`Tab`** y **`Enter`** para navegar sin ratón con anillo de foco de alto contraste (ratio 3:1).
+> Las credenciales de acceso se encuentran en el archivo `CUENTAS_Y_CREDENCIALES_PROYECTO.txt`.
 
 ---
 
-## 🛠️ ARQUITECTURA TÉCNICA (NORMA IEEE 1058)
-El proyecto implementa la separación de procesos técnicos del ciclo de vida del software:
-* `src/`: Capa de lógica y motor frontend (Pannellum, Three.js, WebGL a 60 FPS sin frameworks pesados).
-* `convex/`: Capa de datos reactiva en tiempo real (Esquema de grafos de escenas y hotspots).
-* `plataforma/` y `control-web/`: Capa de presentación web responsive y CMS.
-* `media/`: Panoramas 360° equirectangulares, locuciones espaciales y recursos gráficos.
-* `scripts/dev-server.mjs`: Servidor local con reescritura de URLs virtuales multi-sede (`/tours/:org/:tour`).
+## Accesibilidad (WCAG 2.1 AA)
+* **Audiodescripción y subtítulos en hotspots:** Los puntos de interés cuentan con narración de voz (Salomé) y subtítulos sincronizados.
+* **Audio guía de escena (Tecla M):** Con la tecla M o el botón de audio se reproduce la descripción general de la escena con subtítulos en vivo.
+* **Lengua de Señas Colombiana (LSC):** Atajo `Alt + S` o botón flotante inferior.
+* **Navegación por teclado:** Soporte de navegación secuencial con `Tab`, `Enter` y anillo de foco visible.
+
+---
+
+## Arquitectura técnica
+* `src/`: Lógica del visor 360° y módulos de accesibilidad.
+* `convex/`: Esquema de datos para persistencia de escenas y hotspots.
+* `plataforma/` y `control-web/`: Interfaz web y panel administrativo.
+* `media/`: Panoramas 360°, archivos de audio MP3 y subtítulos VTT.
+* `scripts/dev-server.mjs`: Servidor local para reescritura de rutas multi-sede.
