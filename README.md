@@ -19,12 +19,21 @@
 
 ## ⚡ DESPLIEGUE RÁPIDO EN 1 SOLA LÍNEA (COPIAR Y PEGAR EN POWERSHELL)
 
+### 🚀 Opción A: Primer despliegue (instalación y descarga automática)
 > Copie y pegue esta sola línea en **Windows PowerShell** y presione **Enter**.  
 > Funciona en **cualquier computador** (configura requisitos automáticamente si faltan, descarga el proyecto, abre el navegador e inicia el servidor en el puerto 8081 sin errores):
 
 ```powershell
 cd $HOME; if (-not (Get-Command node -ErrorAction SilentlyContinue)) { Write-Host "Configurando Node.js oficial..."; try { winget install --id OpenJS.NodeJS.LTS -e --accept-package-agreements --accept-source-agreements } catch {} ; if (-not (Get-Command node -ErrorAction SilentlyContinue)) { Invoke-WebRequest -Uri "https://nodejs.org/dist/v20.18.0/node-v20.18.0-x64.msi" -OutFile "$env:TEMP\node.msi"; Start-Process msiexec.exe -ArgumentList "/i `"$env:TEMP\node.msi`" /qn" -Wait }; $env:Path += ";C:\Program Files\nodejs" }; if (-not (Test-Path "ORBE-GP")) { if (Get-Command git -ErrorAction SilentlyContinue) { git clone https://github.com/KUTEIMO/ORBE-GP.git } else { Invoke-WebRequest -Uri "https://github.com/KUTEIMO/ORBE-GP/archive/refs/heads/main.zip" -OutFile "ORBE-GP.zip"; Expand-Archive -Path "ORBE-GP.zip" -DestinationPath "." -Force; Rename-Item -Path "ORBE-GP-main" -NewName "ORBE-GP" -Force } }; cd ORBE-GP; Start-Process "http://localhost:8081/"; node scripts/dev-server.mjs
 ```
+
+### ⚡ Opción B: Si ya se descargó previamente (Reanudar / Iniciar al instante)
+> Si ya descargó el proyecto en el equipo (por ejemplo, en el PC de la docente), **no requiere volver a descargar nada**. Simplemente abra PowerShell, pegue esta línea y presione Enter para iniciar el servidor y abrir el navegador en 1 segundo:
+
+```powershell
+cd $HOME\ORBE-GP; Start-Process "http://localhost:8081/"; node scripts/dev-server.mjs
+```
+
 
 ---
 
