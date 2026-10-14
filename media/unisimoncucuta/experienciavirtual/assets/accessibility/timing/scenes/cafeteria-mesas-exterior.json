@@ -1,0 +1,21 @@
+{
+  "sceneId": "cafeteria-mesas-exterior",
+  "locale": "es-CO",
+  "voice": "es-CO-SalomeNeural",
+  "durationSec": 12.0,
+  "audioFile": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/cafeteria-mesas-exterior.mp3",
+  "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/cafeteria-mesas-exterior.vtt",
+  "transcriptFile": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/cafeteria-mesas-exterior.txt",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 4.182,
+      "text": "Estás en el sector exterior de mesas de la cafetería."
+    },
+    {
+      "startSec": 4.132,
+      "endSec": 12.0,
+      "text": "Es una zona ventilada y cómoda donde la comunidad universitaria comparte alimentos, descanso y estudio informal."
+    }
+  ]
+}

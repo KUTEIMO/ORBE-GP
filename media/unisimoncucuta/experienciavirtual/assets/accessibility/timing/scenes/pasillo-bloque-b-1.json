@@ -1,0 +1,21 @@
+{
+  "sceneId": "pasillo-bloque-b-1",
+  "locale": "es-CO",
+  "voice": "es-CO-SalomeNeural",
+  "durationSec": 13.684,
+  "audioFile": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/pasillo-bloque-b-1.mp3",
+  "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/pasillo-bloque-b-1.vtt",
+  "transcriptFile": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/pasillo-bloque-b-1.txt",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 3.603,
+      "text": "Estás en el pasillo principal del Bloque B."
+    },
+    {
+      "startSec": 3.553,
+      "endSec": 13.684,
+      "text": "Desde este corredor puedes acceder a las primeras aulas de clase, consultar las carteleras informativas y avanzar hacia la cafetería o el patio central."
+    }
+  ]
+}

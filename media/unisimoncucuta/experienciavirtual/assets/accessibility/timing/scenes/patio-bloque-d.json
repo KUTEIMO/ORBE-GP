@@ -1,0 +1,16 @@
+{
+  "sceneId": "patio-bloque-d",
+  "locale": "es-CO",
+  "voice": "es-CO-SalomeNeural",
+  "durationSec": 10.155,
+  "audioFile": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/patio-bloque-d.mp3",
+  "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/patio-bloque-d.vtt",
+  "transcriptFile": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/patio-bloque-d.txt",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 10.155,
+      "text": "Estás en el sector del patio central colindante con el Bloque D. Desde aquí accedes a laboratorios, aulas especializadas y a la salida hacia la Avenida 3."
+    }
+  ]
+}

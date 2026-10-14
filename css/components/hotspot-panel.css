@@ -83,24 +83,58 @@
 }
 
 .caption-container {
-  background: rgba(0, 0, 0, 0.45);
-  padding: 0.75rem;
+  background: rgba(15, 23, 42, 0.88);
+  border: 1px solid rgba(56, 189, 248, 0.28);
+  padding: 0.85rem;
   border-radius: 12px;
-  max-height: 8rem;
+  max-height: 9.5rem;
   overflow-y: auto;
   display: none;
+  margin-top: 0.5rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(56, 189, 248, 0.4) transparent;
 }
 
 .caption-container[data-visible="true"] {
   display: block;
 }
 
+.caption-live-box {
+  background: rgba(56, 189, 248, 0.12);
+  border-left: 3px solid #38bdf8;
+  padding: 0.45rem 0.65rem;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #38bdf8;
+  font-size: 0.92rem;
+  line-height: 1.4;
+}
+
 .caption-list {
   list-style: none;
+  margin: 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.35rem;
 }
+
+.caption-item {
+  padding: 0.3rem 0.5rem;
+  border-radius: 6px;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.88rem;
+  line-height: 1.4;
+  transition: background 0.15s, color 0.15s;
+}
+
+.caption-item--active {
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  font-weight: 600;
+}
+
 
 .transcript-link {
   color: #fff;

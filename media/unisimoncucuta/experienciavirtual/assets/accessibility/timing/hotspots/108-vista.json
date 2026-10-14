@@ -1,0 +1,21 @@
+{
+  "hotspotId": "108-vista",
+  "locale": "es-CO",
+  "voice": "es-CO-SalomeNeural",
+  "durationSec": 7.066,
+  "audioFile": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/108-vista.mp3",
+  "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/108-vista.vtt",
+  "transcriptFile": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/108-vista.txt",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 2.286,
+      "text": "Vista a planta baja."
+    },
+    {
+      "startSec": 2.236,
+      "endSec": 7.066,
+      "text": "Barandal de mezanine con vista al lobby y mesas del nivel inferior."
+    }
+  ]
+}

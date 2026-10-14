@@ -1,17 +1,21 @@
 {
   "hotspotId": "78-mostrador",
   "locale": "es-CO",
-  "durationSec": 2.971,
-  "source": "tts",
-  "audioFile": "assets/audio/hotspots/78-mostrador.mp3",
-  "transcriptFile": "assets/transcripts/hotspots/78-mostrador.txt",
-  "captionFile": "assets/captions/hotspots/78-mostrador.vtt",
-  "scriptFile": "assets/accessibility/scripts/hotspots/78-mostrador.md",
+  "voice": "es-CO-SalomeNeural",
+  "durationSec": 11.316,
+  "audioFile": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/78-mostrador.mp3",
+  "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/78-mostrador.vtt",
+  "transcriptFile": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/78-mostrador.txt",
   "cues": [
     {
       "startSec": 0.1,
-      "endSec": 2.971,
-      "text": "Mostrador de control de ingreso. 00:00:02.921 --> 00:00:10.276 Aquí se reciben bolsos y se hace el control de seguridad u objetos perdidos antes de entrar al lobby de la biblioteca."
+      "endSec": 3.747,
+      "text": "Recepción de bolsos / Seguridad."
+    },
+    {
+      "startSec": 3.697,
+      "endSec": 11.316,
+      "text": "Aquí se reciben bolsos y se hace el control de seguridad / objetos perdidos antes de entrar a la biblioteca."
     }
   ]
 }

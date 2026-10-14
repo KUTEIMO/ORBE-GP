@@ -569,7 +569,8 @@
           "altText": "Punto de información",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/punto-informacion.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/punto-informacion.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/punto-informacion.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/punto-informacion.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/punto-informacion.json"
         },
         {
           "id": "acceso-accesible",
@@ -581,7 +582,8 @@
           "altText": "Acceso escaleras",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/acceso-accesible.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/acceso-accesible.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/acceso-accesible.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/acceso-accesible.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/acceso-accesible.json"
         },
         {
           "id": "conn-mtx7qvy6-yk8o",
@@ -1207,7 +1209,8 @@
           "altText": "Recepción de bolsos / Seguridad",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/78-mostrador.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/78-mostrador.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/78-mostrador.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/78-mostrador.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/78-mostrador.json"
         },
         {
           "id": "conn-mtx7ed6e-ug3x",
@@ -1395,7 +1398,8 @@
           "altText": "Rampa de acceso",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/82-rampa.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/82-rampa.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/82-rampa.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/82-rampa.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/82-rampa.json"
         }
       ],
       "initialView": {
@@ -1416,7 +1420,8 @@
           "altText": "Préstamo de libros y computadores",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/83-mostrador.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/83-mostrador.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/83-mostrador.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/83-mostrador.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/83-mostrador.json"
         },
         {
           "id": "83-bibliotecaria",
@@ -1428,7 +1433,8 @@
           "altText": "Área de bibliotecaria y consulta",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/83-bibliotecaria.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/83-bibliotecaria.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/83-bibliotecaria.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/83-bibliotecaria.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/83-bibliotecaria.json"
         },
         {
           "id": "83-letrero",
@@ -1440,7 +1446,8 @@
           "altText": "Identificación de la biblioteca",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/83-letrero.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/83-letrero.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/83-letrero.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/83-letrero.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/83-letrero.json"
         },
         {
           "id": "mostrador-prestamo",
@@ -1452,7 +1459,8 @@
           "altText": "Mostrador de préstamo y renovación de material.",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/mostrador-prestamo.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/mostrador-prestamo.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/mostrador-prestamo.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/mostrador-prestamo.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/mostrador-prestamo.json"
         },
         {
           "id": "zona-estudio",
@@ -1464,7 +1472,8 @@
           "altText": "Mesas de estudio colaborativo en el lobby.",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/zona-estudio.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/zona-estudio.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/zona-estudio.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/zona-estudio.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/zona-estudio.json"
         }
       ],
       "initialView": {
@@ -1485,7 +1494,8 @@
           "altText": "Mural del acceso",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/84-mural.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/84-mural.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/84-mural.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/84-mural.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/84-mural.json"
         },
         {
           "id": "84-prestamo",
@@ -1497,7 +1507,8 @@
           "altText": "Préstamo de libros y computadores",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/84-prestamo.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/84-prestamo.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/84-prestamo.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/84-prestamo.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/84-prestamo.json"
         },
         {
           "id": "84-bibliotecaria",
@@ -1509,7 +1520,8 @@
           "altText": "Área de bibliotecaria y consulta",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/84-bibliotecaria.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/84-bibliotecaria.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/84-bibliotecaria.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/84-bibliotecaria.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/84-bibliotecaria.json"
         }
       ],
       "initialView": {
@@ -1530,7 +1542,8 @@
           "altText": "Estaciones de cómputo",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/85-pcs.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/85-pcs.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/85-pcs.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/85-pcs.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/85-pcs.json"
         },
         {
           "id": "85-nombre",
@@ -1542,7 +1555,8 @@
           "altText": "Letrero Anita Bolívar de Consuegra",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/85-nombre.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/85-nombre.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/85-nombre.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/85-nombre.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/85-nombre.json"
         }
       ],
       "initialView": {
@@ -1563,7 +1577,8 @@
           "altText": "Estantería baja",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/86-estantes.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/86-estantes.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/86-estantes.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/86-estantes.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/86-estantes.json"
         }
       ],
       "initialView": {
@@ -1584,7 +1599,8 @@
           "altText": "Cubículos de estudio",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/87-pods.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/87-pods.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/87-pods.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/87-pods.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/87-pods.json"
         }
       ],
       "initialView": {
@@ -1605,7 +1621,8 @@
           "altText": "Cubículo grupal",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/88-booth.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/88-booth.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/88-booth.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/88-booth.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/88-booth.json"
         }
       ],
       "initialView": {
@@ -1626,7 +1643,8 @@
           "altText": "Puesto de estudio",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/89-mesa.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/89-mesa.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/89-mesa.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/89-mesa.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/89-mesa.json"
         }
       ],
       "initialView": {
@@ -1649,7 +1667,8 @@
           "altText": "Mesas colaborativas",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/90-mesas.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/90-mesas.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/90-mesas.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/90-mesas.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/90-mesas.json"
         }
       ],
       "initialView": {
@@ -1670,7 +1689,8 @@
           "altText": "Punto de consulta",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/91-catalogo.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/91-catalogo.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/91-catalogo.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/91-catalogo.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/91-catalogo.json"
         }
       ],
       "initialView": {
@@ -1691,7 +1711,8 @@
           "altText": "Salones de estudio",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/92-vidrio.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/92-vidrio.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/92-vidrio.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/92-vidrio.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/92-vidrio.json"
         }
       ],
       "initialView": {
@@ -1714,7 +1735,8 @@
           "altText": "Sección GENERAL",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/93-general.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/93-general.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/93-general.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/93-general.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/93-general.json"
         },
         {
           "id": "93-marquez",
@@ -1726,7 +1748,8 @@
           "altText": "Salón con referencia literaria",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/93-marquez.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/93-marquez.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/93-marquez.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/93-marquez.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/93-marquez.json"
         }
       ],
       "initialView": {
@@ -1747,7 +1770,8 @@
           "altText": "Colección en estantería",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/94-coleccion.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/94-coleccion.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/94-coleccion.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/94-coleccion.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/94-coleccion.json"
         }
       ],
       "initialView": {
@@ -1770,7 +1794,8 @@
           "altText": "Mesa con energía",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/95-tomas.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/95-tomas.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/95-tomas.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/95-tomas.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/95-tomas.json"
         }
       ],
       "initialView": {
@@ -1793,7 +1818,8 @@
           "altText": "Mural artístico",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/96-mural.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/96-mural.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/96-mural.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/96-mural.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/96-mural.json"
         }
       ],
       "initialView": {
@@ -1816,7 +1842,8 @@
           "altText": "Circulación vertical",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/97-escalera.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/97-escalera.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/97-escalera.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/97-escalera.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/97-escalera.json"
         }
       ],
       "initialView": {
@@ -1839,7 +1866,8 @@
           "altText": "Salón con citas literarias",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/98-citas.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/98-citas.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/98-citas.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/98-citas.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/98-citas.json"
         }
       ],
       "initialView": {
@@ -1862,7 +1890,8 @@
           "altText": "Cubículos De estudio y Proyectos",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/99-evaluna.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/99-evaluna.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/99-evaluna.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/99-evaluna.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/99-evaluna.json"
         }
       ],
       "initialView": {
@@ -1883,7 +1912,8 @@
           "altText": "Mural de paisaje",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/100-mural.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/100-mural.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/100-mural.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/100-mural.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/100-mural.json"
         },
         {
           "id": "100-revistas",
@@ -1897,7 +1927,8 @@
           "altText": "Expositor de publicaciones",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/100-revistas.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/100-revistas.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/100-revistas.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/100-revistas.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/100-revistas.json"
         }
       ],
       "initialView": {
@@ -1920,7 +1951,8 @@
           "altText": "Mural de montaña",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/101-mural.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/101-mural.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/101-mural.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/101-mural.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/101-mural.json"
         }
       ],
       "initialView": {
@@ -1949,7 +1981,8 @@
           "altText": "Pods individuales",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/103-pods.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/103-pods.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/103-pods.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/103-pods.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/103-pods.json"
         }
       ],
       "initialView": {
@@ -1972,7 +2005,8 @@
           "altText": "Sección GENERAL (mezanine)",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/104-general.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/104-general.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/104-general.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/104-general.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/104-general.json"
         }
       ],
       "initialView": {
@@ -1995,7 +2029,8 @@
           "altText": "Sección de estantería",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/105-seccion.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/105-seccion.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/105-seccion.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/105-seccion.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/105-seccion.json"
         }
       ],
       "initialView": {
@@ -2018,7 +2053,8 @@
           "altText": "Colección temática",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/106-economia.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/106-economia.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/106-economia.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/106-economia.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/106-economia.json"
         }
       ],
       "initialView": {
@@ -2041,7 +2077,8 @@
           "altText": "Mesas colaborativas",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/107-mesas.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/107-mesas.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/107-mesas.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/107-mesas.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/107-mesas.json"
         }
       ],
       "initialView": {
@@ -2064,7 +2101,8 @@
           "altText": "Vista a planta baja",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/108-vista.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/108-vista.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/108-vista.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/108-vista.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/108-vista.json"
         }
       ],
       "initialView": {
@@ -2087,7 +2125,8 @@
           "altText": "Pod de estudio",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/109-pod.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/109-pod.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/109-pod.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/109-pod.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/109-pod.json"
         }
       ],
       "initialView": {
@@ -2110,7 +2149,8 @@
           "altText": "Hemeroteca",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/110-senal.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/110-senal.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/110-senal.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/110-senal.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/110-senal.json"
         }
       ],
       "initialView": {
@@ -2133,7 +2173,8 @@
           "altText": "Lobby en planta baja",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/111-abajo.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/111-abajo.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/111-abajo.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/111-abajo.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/111-abajo.json"
         }
       ],
       "initialView": {
@@ -2164,7 +2205,8 @@
           "altText": "Colección Psicología",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/113-psico.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/113-psico.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/113-psico.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/113-psico.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/113-psico.json"
         }
       ],
       "initialView": {
@@ -2187,7 +2229,8 @@
           "altText": "BIBLIOTECA ANITA BOLÍVAR DE CONSUEGRA",
           "narration": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/115-nombre.mp3",
           "transcript": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/115-nombre.txt",
-          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/115-nombre.vtt"
+          "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/115-nombre.vtt",
+          "timingFile": "/media/unisimoncucuta/experienciavirtual/assets/accessibility/timing/hotspots/115-nombre.json"
         }
       ],
       "initialView": {

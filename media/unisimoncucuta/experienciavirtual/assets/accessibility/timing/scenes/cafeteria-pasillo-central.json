@@ -1,0 +1,21 @@
+{
+  "sceneId": "cafeteria-pasillo-central",
+  "locale": "es-CO",
+  "voice": "es-CO-SalomeNeural",
+  "durationSec": 10.303,
+  "audioFile": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/cafeteria-pasillo-central.mp3",
+  "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/cafeteria-pasillo-central.vtt",
+  "transcriptFile": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/cafeteria-pasillo-central.txt",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 3.866,
+      "text": "Te encuentras en el pasillo central de la cafetería."
+    },
+    {
+      "startSec": 3.816,
+      "endSec": 10.303,
+      "text": "Conecta las diferentes islas de mesas con la caseta de pedidos y las áreas verdes exteriores."
+    }
+  ]
+}

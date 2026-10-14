@@ -1,0 +1,21 @@
+{
+  "hotspotId": "87-pods",
+  "locale": "es-CO",
+  "voice": "es-CO-SalomeNeural",
+  "durationSec": 8.092,
+  "audioFile": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/87-pods.mp3",
+  "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/87-pods.vtt",
+  "transcriptFile": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/87-pods.txt",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 2.261,
+      "text": "Cubículos de estudio."
+    },
+    {
+      "startSec": 2.211,
+      "endSec": 8.092,
+      "text": "Cabinas arqueadas para estudio individual o en pareja, con iluminación propia."
+    }
+  ]
+}

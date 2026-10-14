@@ -1,1 +1,1 @@
-Mostrador de control de ingreso. Aquí se reciben bolsos y se hace el control de seguridad u objetos perdidos antes de entrar al lobby de la biblioteca.
+Recepción de bolsos / Seguridad. Aquí se reciben bolsos y se hace el control de seguridad / objetos perdidos antes de entrar a la biblioteca.

@@ -1,0 +1,21 @@
+{
+  "sceneId": "pasillo-bloque-b-3",
+  "locale": "es-CO",
+  "voice": "es-CO-SalomeNeural",
+  "durationSec": 13.895,
+  "audioFile": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/pasillo-bloque-b-3.mp3",
+  "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/pasillo-bloque-b-3.vtt",
+  "transcriptFile": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/pasillo-bloque-b-3.txt",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 3.576,
+      "text": "Estás en el corredor de aulas del Bloque B."
+    },
+    {
+      "startSec": 3.526,
+      "endSec": 13.895,
+      "text": "Es un espacio iluminado, ventilado y accesible para el tránsito seguro de estudiantes, profesores y visitantes hacia los salones y laboratorios."
+    }
+  ]
+}

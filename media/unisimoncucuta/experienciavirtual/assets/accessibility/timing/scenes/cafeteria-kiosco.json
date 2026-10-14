@@ -1,0 +1,21 @@
+{
+  "sceneId": "cafeteria-kiosco",
+  "locale": "es-CO",
+  "voice": "es-CO-SalomeNeural",
+  "durationSec": 10.895,
+  "audioFile": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/cafeteria-kiosco.mp3",
+  "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/cafeteria-kiosco.vtt",
+  "transcriptFile": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/cafeteria-kiosco.txt",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 3.366,
+      "text": "Te encuentras junto al kiosco de la cafetería."
+    },
+    {
+      "startSec": 3.316,
+      "endSec": 10.895,
+      "text": "Desde este punto tienes vista completa del área de mesas y el paso peatonal hacia la biblioteca y el edificio cultural."
+    }
+  ]
+}

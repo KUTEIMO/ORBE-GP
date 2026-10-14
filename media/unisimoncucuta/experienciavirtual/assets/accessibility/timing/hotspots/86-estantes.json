@@ -1,0 +1,21 @@
+{
+  "hotspotId": "86-estantes",
+  "locale": "es-CO",
+  "voice": "es-CO-SalomeNeural",
+  "durationSec": 6.566,
+  "audioFile": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/86-estantes.mp3",
+  "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/86-estantes.vtt",
+  "transcriptFile": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/86-estantes.txt",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 2.194,
+      "text": "Estantería baja."
+    },
+    {
+      "startSec": 2.144,
+      "endSec": 6.566,
+      "text": "Estantería perimetral baja que organiza el pasillo de lectura."
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "sceneId": "patio-cubierta-central",
+  "locale": "es-CO",
+  "voice": "es-CO-SalomeNeural",
+  "durationSec": 11.803,
+  "audioFile": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/patio-cubierta-central.mp3",
+  "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/patio-cubierta-central.vtt",
+  "transcriptFile": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/patio-cubierta-central.txt",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 3.958,
+      "text": "Te encuentras bajo la gran cubierta del patio central."
+    },
+    {
+      "startSec": 3.908,
+      "endSec": 11.803,
+      "text": "Protege de la lluvia y el sol, permitiendo la realización de eventos deportivos, académicos y culturales."
+    }
+  ]
+}

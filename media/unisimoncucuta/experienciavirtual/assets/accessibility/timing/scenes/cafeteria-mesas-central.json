@@ -1,0 +1,21 @@
+{
+  "sceneId": "cafeteria-mesas-central",
+  "locale": "es-CO",
+  "voice": "es-CO-SalomeNeural",
+  "durationSec": 11.026,
+  "audioFile": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/cafeteria-mesas-central.mp3",
+  "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/cafeteria-mesas-central.vtt",
+  "transcriptFile": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/cafeteria-mesas-central.txt",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 4.037,
+      "text": "Estás en el área central de mesas de la cafetería."
+    },
+    {
+      "startSec": 3.987,
+      "endSec": 11.026,
+      "text": "Rodeada de vegetación y sombra, es uno de los puntos de encuentro más concurridos del campus universitario."
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "sceneId": "pasillo-bloque-b-5",
+  "locale": "es-CO",
+  "voice": "es-CO-SalomeNeural",
+  "durationSec": 10.342,
+  "audioFile": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/pasillo-bloque-b-5.mp3",
+  "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/pasillo-bloque-b-5.vtt",
+  "transcriptFile": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/pasillo-bloque-b-5.txt",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 5.984,
+      "text": "Estás en el pasillo de transición hacia la cafetería y áreas de bienestar universitario."
+    },
+    {
+      "startSec": 5.934,
+      "endSec": 10.342,
+      "text": "Desde aquí puedes integrarte a las zonas sociales del campus."
+    }
+  ]
+}

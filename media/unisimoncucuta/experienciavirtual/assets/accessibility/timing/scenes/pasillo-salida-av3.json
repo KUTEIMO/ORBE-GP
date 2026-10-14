@@ -1,0 +1,21 @@
+{
+  "sceneId": "pasillo-salida-av3",
+  "locale": "es-CO",
+  "voice": "es-CO-SalomeNeural",
+  "durationSec": 9.961,
+  "audioFile": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/pasillo-salida-av3.mp3",
+  "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/pasillo-salida-av3.vtt",
+  "transcriptFile": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/pasillo-salida-av3.txt",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 5.879,
+      "text": "Estás en el corredor de conexión directa hacia la portería y salida de la Avenida 3."
+    },
+    {
+      "startSec": 5.829,
+      "endSec": 9.961,
+      "text": "Es un acceso rápido para la comunidad universitaria."
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+# Pasillo Bloque B — Aulas y Circulación 1
+
+Estás en el pasillo principal del Bloque B. Desde este corredor puedes acceder a las primeras aulas de clase, consultar las carteleras informativas y avanzar hacia la cafetería o el patio central.

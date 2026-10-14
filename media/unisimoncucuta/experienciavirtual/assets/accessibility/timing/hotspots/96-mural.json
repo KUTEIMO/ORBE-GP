@@ -1,0 +1,21 @@
+{
+  "hotspotId": "96-mural",
+  "locale": "es-CO",
+  "voice": "es-CO-SalomeNeural",
+  "durationSec": 6.211,
+  "audioFile": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/96-mural.mp3",
+  "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/96-mural.vtt",
+  "transcriptFile": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/96-mural.txt",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 2.273,
+      "text": "Mural artístico."
+    },
+    {
+      "startSec": 2.223,
+      "endSec": 6.211,
+      "text": "Mural colorido en el perímetro de la zona de salones."
+    }
+  ]
+}

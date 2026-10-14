@@ -1,0 +1,3 @@
+# Pasillo Bloque B — Acceso Servicios
+
+Te encuentras en el pasillo de servicios del Bloque B, próximo al acceso de la cafetería y los puntos de apoyo estudiantil del campus.

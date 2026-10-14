@@ -1,17 +1,21 @@
 {
   "hotspotId": "82-rampa",
   "locale": "es-CO",
-  "durationSec": 3.97,
-  "source": "tts",
-  "audioFile": "assets/audio/hotspots/82-rampa.mp3",
-  "transcriptFile": "assets/transcripts/hotspots/82-rampa.txt",
-  "captionFile": "assets/captions/hotspots/82-rampa.vtt",
-  "scriptFile": "assets/accessibility/scripts/hotspots/82-rampa.md",
+  "voice": "es-CO-SalomeNeural",
+  "durationSec": 8.381,
+  "audioFile": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/82-rampa.mp3",
+  "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/82-rampa.vtt",
+  "transcriptFile": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/82-rampa.txt",
   "cues": [
     {
       "startSec": 0.1,
-      "endSec": 3.97,
-      "text": "Rampa corta frente a las puertas de la biblioteca. 00:00:03.920 --> 00:00:07.420 Facilita el ingreso con movilidad reducida. 00:00:07.420 --> 00:00:13.211 El letrero BIBLIOTECA identifica el acceso a la Biblioteca Anita Bolívar de Consuegra."
+      "endSec": 2.128,
+      "text": "Rampa de acceso."
+    },
+    {
+      "startSec": 2.078,
+      "endSec": 8.381,
+      "text": "Rampa corta hacia el acceso de la biblioteca; facilita el ingreso con movilidad reducida."
     }
   ]
 }

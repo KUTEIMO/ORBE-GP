@@ -1,0 +1,3 @@
+# Pasillo Bloque B — Zona de Aulas
+
+Estás en el corredor de aulas del Bloque B. Es un espacio iluminado, ventilado y accesible para el tránsito seguro de estudiantes, profesores y visitantes hacia los salones y laboratorios.

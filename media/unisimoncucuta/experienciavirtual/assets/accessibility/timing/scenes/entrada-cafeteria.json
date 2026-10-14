@@ -1,17 +1,31 @@
 {
-  "sceneKey": "entrada-cafeteria",
+  "sceneId": "entrada-cafeteria",
   "locale": "es-CO",
-  "durationSec": 4.918,
-  "source": "tts",
-  "audioFile": "assets/audio/scenes/entrada-cafeteria.mp3",
-  "transcriptFile": "assets/transcripts/scenes/entrada-cafeteria.txt",
-  "captionFile": "assets/captions/scenes/entrada-cafeteria.vtt",
-  "scriptFile": "assets/accessibility/scripts/scenes/entrada-cafeteria.md",
+  "voice": "es-CO-SalomeNeural",
+  "durationSec": 25.711,
+  "audioFile": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/entrada-cafeteria.mp3",
+  "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/entrada-cafeteria.vtt",
+  "transcriptFile": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/entrada-cafeteria.txt",
   "cues": [
     {
       "startSec": 0.1,
-      "endSec": 4.918,
-      "text": "Escena: Entrada Cafetería - Muro de Medios Unisimón."
+      "endSec": 5.458,
+      "text": "Estás en la entrada de la cafetería, junto al muro de medios Unisimón."
+    },
+    {
+      "startSec": 5.408,
+      "endSec": 9.974,
+      "text": "Desde aquí se accede al área de mesas y a la caseta de alimentos."
+    },
+    {
+      "startSec": 9.974,
+      "endSec": 19.382,
+      "text": "A tu alrededor encontrarás información institucional, menú del día y amplios espacios de descanso y encuentro para la comunidad universitaria."
+    },
+    {
+      "startSec": 19.382,
+      "endSec": 25.711,
+      "text": "Para continuar, avanza hacia el pasillo de mesas o regresa a los pasillos del Bloque B."
     }
   ]
 }

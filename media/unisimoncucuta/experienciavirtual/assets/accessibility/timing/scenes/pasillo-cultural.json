@@ -1,0 +1,21 @@
+{
+  "sceneId": "pasillo-cultural",
+  "locale": "es-CO",
+  "voice": "es-CO-SalomeNeural",
+  "durationSec": 10.816,
+  "audioFile": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/pasillo-cultural.mp3",
+  "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/pasillo-cultural.vtt",
+  "transcriptFile": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/pasillo-cultural.txt",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 6.497,
+      "text": "Te encuentras en el corredor peatonal que une la cafetería con el Edificio Cultural y la biblioteca."
+    },
+    {
+      "startSec": 6.447,
+      "endSec": 10.816,
+      "text": "Un camino arborizado ideal para el desplazamiento seguro."
+    }
+  ]
+}

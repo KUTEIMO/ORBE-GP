@@ -1,0 +1,21 @@
+{
+  "sceneId": "pasillo-bloque-b-2",
+  "locale": "es-CO",
+  "voice": "es-CO-SalomeNeural",
+  "durationSec": 11.947,
+  "audioFile": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/pasillo-bloque-b-2.mp3",
+  "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/pasillo-bloque-b-2.vtt",
+  "transcriptFile": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/pasillo-bloque-b-2.txt",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 4.089,
+      "text": "Te encuentras en la sección media del pasillo del Bloque B."
+    },
+    {
+      "startSec": 4.039,
+      "endSec": 11.947,
+      "text": "Este tramo conecta las aulas de docencia con las escaleras hacia niveles superiores y el área de servicios estudiantiles."
+    }
+  ]
+}

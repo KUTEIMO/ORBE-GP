@@ -1,0 +1,21 @@
+{
+  "hotspotId": "94-coleccion",
+  "locale": "es-CO",
+  "voice": "es-CO-SalomeNeural",
+  "durationSec": 6.197,
+  "audioFile": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/94-coleccion.mp3",
+  "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/94-coleccion.vtt",
+  "transcriptFile": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/94-coleccion.txt",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 2.563,
+      "text": "Colección en estantería."
+    },
+    {
+      "startSec": 2.513,
+      "endSec": 6.197,
+      "text": "Estantería de consulta abierta en planta baja."
+    }
+  ]
+}

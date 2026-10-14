@@ -1,0 +1,16 @@
+{
+  "sceneId": "pasillo-bloque-b-4",
+  "locale": "es-CO",
+  "voice": "es-CO-SalomeNeural",
+  "durationSec": 11.353,
+  "audioFile": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/pasillo-bloque-b-4.mp3",
+  "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/pasillo-bloque-b-4.vtt",
+  "transcriptFile": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/pasillo-bloque-b-4.txt",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 11.353,
+      "text": "Te encuentras en la intersección que comunica el Bloque B con el patio central C y D. Hacia un costado accedes a las áreas deportivas y hacia el frente continúas el recorrido hacia la cafetería."
+    }
+  ]
+}

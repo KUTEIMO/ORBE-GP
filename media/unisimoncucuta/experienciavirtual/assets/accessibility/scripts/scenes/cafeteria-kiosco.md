@@ -1,0 +1,3 @@
+# Cafetería — Kiosco y Zona de Encuentro
+
+Te encuentras junto al kiosco de la cafetería. Desde este punto tienes vista completa del área de mesas y el paso peatonal hacia la biblioteca y el edificio cultural.

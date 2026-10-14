@@ -4,7 +4,8 @@
  * con fallback honesto a Web Speech API (síntesis de voz) y atajo de teclado 'M'.
  */
 import { appState, getSetting, updateSetting } from './state.js';
-import { sceneAudioPath } from './a11yPaths.js';
+import { sceneAudioPath, sceneCaptionPath } from './a11yPaths.js';
+import { parseVtt } from './vttParser.js';
 
 let sceneAudioEl = null;
 let currentPlayingSceneId = null;
@@ -12,6 +13,8 @@ let isAudioActive = false;
 let speechUtterance = null;
 let liveAnnounceTimer = null;
 let viewerApiRef = null;
+let sceneCues = [];
+let isCaptionDismissedByUser = false;
 
 function getAudioElement() {
   if (!sceneAudioEl) {
@@ -44,9 +47,29 @@ export function initSceneAudio(viewerApi) {
     });
   }
 
+  const closeCaptionBtn = document.getElementById('closeSceneCaptionBtn');
+  if (closeCaptionBtn) {
+    closeCaptionBtn.addEventListener('click', () => {
+      isCaptionDismissedByUser = true;
+      hideSceneCaptionOverlay();
+    });
+  }
+
+  audio.addEventListener('timeupdate', () => {
+    if (!isAudioActive || isCaptionDismissedByUser || sceneCues.length === 0) return;
+    const ct = audio.currentTime;
+    const activeCue =
+      sceneCues.find((c) => ct >= c.start && ct <= c.end) ||
+      sceneCues.find((c) => ct >= c.start && ct <= c.end + 0.8);
+    if (activeCue) {
+      updateSceneCaptionText(activeCue.text);
+    }
+  });
+
   audio.addEventListener('ended', () => {
     isAudioActive = false;
     updateAudioUiState(false);
+    hideSceneCaptionOverlay();
   });
 
   audio.addEventListener('error', (e) => {
@@ -77,6 +100,27 @@ function getCurrentSceneData() {
   return null;
 }
 
+async function loadSceneCaptions(target) {
+  sceneCues = [];
+  const sceneId = target.id;
+  const captionUrl = target.captionFile || (sceneId ? sceneCaptionPath(sceneId) : null);
+  if (!captionUrl) return;
+
+  try {
+    const res = await fetch(captionUrl);
+    if (res.ok) {
+      const vttText = await res.text();
+      sceneCues = parseVtt(vttText);
+      if (sceneCues.length > 0 && isAudioActive && !isCaptionDismissedByUser) {
+        updateSceneCaptionText(sceneCues[0].text);
+        showSceneCaptionOverlay();
+      }
+    }
+  } catch (err) {
+    console.warn('[sceneAudio] No se pudieron cargar los subtítulos VTT de la escena:', err);
+  }
+}
+
 export async function playSceneNarration(sceneData, options = {}) {
   const target = sceneData || getCurrentSceneData();
   if (!target) return;
@@ -84,6 +128,7 @@ export async function playSceneNarration(sceneData, options = {}) {
   const audio = getAudioElement();
   const sceneId = target.id;
   currentPlayingSceneId = sceneId;
+  isCaptionDismissedByUser = false;
 
   // Ruta canónica del MP3 en media
   const audioUrl = target.narration || sceneAudioPath(sceneId);
@@ -96,6 +141,9 @@ export async function playSceneNarration(sceneData, options = {}) {
   isAudioActive = true;
   updateAudioUiState(true, target.title);
 
+  // Cargar y activar subtítulos sincronizados
+  loadSceneCaptions(target);
+
   try {
     await audio.play();
     announceStatus(`Reproduciendo audio guía: ${target.title}`);
@@ -103,6 +151,7 @@ export async function playSceneNarration(sceneData, options = {}) {
     if (err.name === 'NotAllowedError') {
       console.warn('[sceneAudio] Autoplay pausado por el navegador hasta interacción del usuario.');
       isAudioActive = false;
+      hideSceneCaptionOverlay();
       updateAudioUiState(false, 'Haz clic para activar audio guía (M)');
     } else {
       console.warn('[sceneAudio] Error al reproducir audio, usando síntesis de voz:', err);
@@ -118,6 +167,7 @@ export function pauseSceneNarration() {
   }
   stopSpeech();
   isAudioActive = false;
+  hideSceneCaptionOverlay();
   updateAudioUiState(false);
   announceStatus('Audio guía pausada.');
 }
@@ -130,6 +180,7 @@ export function stopSceneNarration() {
   }
   stopSpeech();
   isAudioActive = false;
+  hideSceneCaptionOverlay();
   updateAudioUiState(false);
 }
 
@@ -150,27 +201,63 @@ export function isAudioGuideActive() {
   return isAudioActive;
 }
 
+function showSceneCaptionOverlay() {
+  const overlay = document.getElementById('sceneCaptionOverlay');
+  if (overlay && !isCaptionDismissedByUser) {
+    overlay.removeAttribute('hidden');
+    overlay.setAttribute('aria-hidden', 'false');
+  }
+}
+
+function hideSceneCaptionOverlay() {
+  const overlay = document.getElementById('sceneCaptionOverlay');
+  if (overlay) {
+    overlay.setAttribute('hidden', 'hidden');
+    overlay.setAttribute('aria-hidden', 'true');
+  }
+}
+
+function updateSceneCaptionText(text) {
+  const captionTextEl = document.getElementById('sceneCaptionText');
+  if (captionTextEl && text) {
+    captionTextEl.textContent = text;
+    showSceneCaptionOverlay();
+  }
+}
+
 function fallbackSpeechNarration(sceneData) {
   if (!('speechSynthesis' in window)) {
     isAudioActive = false;
     updateAudioUiState(false);
+    hideSceneCaptionOverlay();
     return;
   }
   stopSpeech();
 
-  const textToRead = sceneData.srSummary || sceneData.altText || sceneData.longDescription || sceneData.title || 'Recinto del campus.';
+  const textToRead =
+    sceneData.srSummary ||
+    sceneData.altText ||
+    sceneData.longDescription ||
+    sceneData.title ||
+    'Recinto del campus.';
+
+  updateSceneCaptionText(textToRead);
+  showSceneCaptionOverlay();
+
   speechUtterance = new SpeechSynthesisUtterance(textToRead);
-  speechUtterance.lang = 'es-ES';
+  speechUtterance.lang = 'es-CO';
   speechUtterance.rate = 0.95;
 
   speechUtterance.onend = () => {
     isAudioActive = false;
     updateAudioUiState(false);
+    hideSceneCaptionOverlay();
   };
 
   speechUtterance.onerror = () => {
     isAudioActive = false;
     updateAudioUiState(false);
+    hideSceneCaptionOverlay();
   };
 
   isAudioActive = true;
@@ -225,3 +312,4 @@ function announceStatus(msg) {
     });
   }, 50);
 }
+

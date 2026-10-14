@@ -1,0 +1,21 @@
+{
+  "hotspotId": "101-mural",
+  "locale": "es-CO",
+  "voice": "es-CO-SalomeNeural",
+  "durationSec": 7.605,
+  "audioFile": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/101-mural.mp3",
+  "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/101-mural.vtt",
+  "transcriptFile": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/101-mural.txt",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 2.18,
+      "text": "Mural de montaña."
+    },
+    {
+      "startSec": 2.13,
+      "endSec": 7.605,
+      "text": "Mural de páramo/montaña nevada en el descanso de escaleras."
+    }
+  ]
+}

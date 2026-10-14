@@ -1,0 +1,3 @@
+# Pasillo Bloque B — Entrada Cafetería
+
+Estás en el tramo final del pasillo del Bloque B que da apertura directa al espacio de la cafetería universitaria y el muro de medios.

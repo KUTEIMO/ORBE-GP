@@ -1,0 +1,3 @@
+# Pasillo hacia Edificio Cultural
+
+Te encuentras en el corredor peatonal que une la cafetería con el Edificio Cultural y la biblioteca. Un camino arborizado ideal para el desplazamiento seguro.

@@ -1,0 +1,3 @@
+# Patio Central — Bloque C
+
+Estás en el patio central junto al Bloque C. Es un área abierta con instalaciones deportivas, cubierta protectora y zonas de libre esparcimiento estudiantil.

@@ -1,0 +1,3 @@
+# Cafetería — Pasillo hacia Caseta
+
+Estás en el pasillo que conduce a la caseta principal de comidas y bebidas de la cafetería. Cuenta con señalización accesible y amplias zonas de circulación.

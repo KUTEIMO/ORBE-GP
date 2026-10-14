@@ -1,0 +1,21 @@
+{
+  "sceneId": "cafeteria-pasillo-caseta",
+  "locale": "es-CO",
+  "voice": "es-CO-SalomeNeural",
+  "durationSec": 10.974,
+  "audioFile": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/cafeteria-pasillo-caseta.mp3",
+  "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/cafeteria-pasillo-caseta.vtt",
+  "transcriptFile": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/cafeteria-pasillo-caseta.txt",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 6.261,
+      "text": "Estás en el pasillo que conduce a la caseta principal de comidas y bebidas de la cafetería."
+    },
+    {
+      "startSec": 6.211,
+      "endSec": 10.974,
+      "text": "Cuenta con señalización accesible y amplias zonas de circulación."
+    }
+  ]
+}

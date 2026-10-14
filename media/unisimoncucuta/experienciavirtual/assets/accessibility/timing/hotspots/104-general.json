@@ -1,0 +1,21 @@
+{
+  "hotspotId": "104-general",
+  "locale": "es-CO",
+  "voice": "es-CO-SalomeNeural",
+  "durationSec": 7.105,
+  "audioFile": "/media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/104-general.mp3",
+  "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/104-general.vtt",
+  "transcriptFile": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/104-general.txt",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 3.062,
+      "text": "Sección GENERAL (mezanine)."
+    },
+    {
+      "startSec": 3.013,
+      "endSec": 7.105,
+      "text": "Letrero GENERAL sobre la colección del nivel superior."
+    }
+  ]
+}

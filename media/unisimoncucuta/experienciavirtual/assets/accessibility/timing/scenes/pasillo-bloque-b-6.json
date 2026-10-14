@@ -1,0 +1,16 @@
+{
+  "sceneId": "pasillo-bloque-b-6",
+  "locale": "es-CO",
+  "voice": "es-CO-SalomeNeural",
+  "durationSec": 8.747,
+  "audioFile": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/pasillo-bloque-b-6.mp3",
+  "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/pasillo-bloque-b-6.vtt",
+  "transcriptFile": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/pasillo-bloque-b-6.txt",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 8.747,
+      "text": "Te encuentras en el pasillo de servicios del Bloque B, próximo al acceso de la cafetería y los puntos de apoyo estudiantil del campus."
+    }
+  ]
+}

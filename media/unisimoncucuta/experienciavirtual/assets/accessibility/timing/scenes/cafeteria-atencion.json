@@ -1,0 +1,21 @@
+{
+  "sceneId": "cafeteria-atencion",
+  "locale": "es-CO",
+  "voice": "es-CO-SalomeNeural",
+  "durationSec": 10.632,
+  "audioFile": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/cafeteria-atencion.mp3",
+  "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/cafeteria-atencion.vtt",
+  "transcriptFile": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/cafeteria-atencion.txt",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 4.589,
+      "text": "Estás frente a la zona de atención de comidas y refrigerios."
+    },
+    {
+      "startSec": 4.539,
+      "endSec": 10.632,
+      "text": "Aquí los estudiantes y docentes acceden al servicio de alimentación diaria del campus."
+    }
+  ]
+}

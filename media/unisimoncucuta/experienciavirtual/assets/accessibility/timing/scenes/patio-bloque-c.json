@@ -1,0 +1,16 @@
+{
+  "sceneId": "patio-bloque-c",
+  "locale": "es-CO",
+  "voice": "es-CO-SalomeNeural",
+  "durationSec": 10.011,
+  "audioFile": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/patio-bloque-c.mp3",
+  "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/patio-bloque-c.vtt",
+  "transcriptFile": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/patio-bloque-c.txt",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 10.011,
+      "text": "Estás en el patio central junto al Bloque C. Es un área abierta con instalaciones deportivas, cubierta protectora y zonas de libre esparcimiento estudiantil."
+    }
+  ]
+}

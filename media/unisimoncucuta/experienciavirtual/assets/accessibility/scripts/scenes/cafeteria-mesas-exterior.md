@@ -1,0 +1,3 @@
+# Cafetería — Mesas Exteriores
+
+Estás en el sector exterior de mesas de la cafetería. Es una zona ventilada y cómoda donde la comunidad universitaria comparte alimentos, descanso y estudio informal.

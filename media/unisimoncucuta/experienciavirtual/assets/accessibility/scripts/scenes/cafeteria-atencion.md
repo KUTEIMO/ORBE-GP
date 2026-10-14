@@ -1,0 +1,3 @@
+# Cafetería — Punto de Atención
+
+Estás frente a la zona de atención de comidas y refrigerios. Aquí los estudiantes y docentes acceden al servicio de alimentación diaria del campus.

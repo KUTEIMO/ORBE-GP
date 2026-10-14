@@ -50,8 +50,8 @@
     <link rel="stylesheet" href="/css/components/hotspots.css?v=r5">
     <link rel="stylesheet" href="/css/components/nav-hotspot.css?v=r5">
     <link rel="stylesheet" href="/css/components/speaking-indicator.css?v=r5">
-    <link rel="stylesheet" href="/css/components/accessibility-controls.css?v=r5">
-    <link rel="stylesheet" href="/css/components/hotspot-panel.css?v=r7">
+    <link rel="stylesheet" href="/css/components/accessibility-controls.css?v=r8">
+    <link rel="stylesheet" href="/css/components/hotspot-panel.css?v=r8">
     <link rel="stylesheet" href="/css/components/direction-cue.css?v=r6">
     <link rel="stylesheet" href="/css/components/skip-links.css?v=r5">
     <link rel="stylesheet" href="/css/components/fallback.css?v=r5">
@@ -233,6 +233,14 @@
             </div>
         </aside>
         <audio id="sceneAudio" preload="metadata" aria-label="Audio guía descriptiva de la escena"></audio>
+
+        <div id="sceneCaptionOverlay" class="scene-caption-overlay" role="region" aria-label="Subtítulos en vivo de la audio guía" hidden>
+            <div class="scene-caption-header">
+                <span class="scene-caption-badge" aria-hidden="true">🔊 Subtítulos en vivo</span>
+                <button type="button" id="closeSceneCaptionBtn" class="scene-caption-close" aria-label="Ocultar subtítulos">✕</button>
+            </div>
+            <p class="scene-caption-text" id="sceneCaptionText" aria-live="polite"></p>
+        </div>
 
         <section class="hotspot-panel" id="hotspotPanel" role="dialog" aria-modal="true" aria-labelledby="hotspotPanelTitle" hidden tabindex="-1">
             <div class="hotspot-panel__header">

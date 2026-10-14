@@ -1,0 +1,3 @@
+# Patio Central — Bloque D
+
+Estás en el sector del patio central colindante con el Bloque D. Desde aquí accedes a laboratorios, aulas especializadas y a la salida hacia la Avenida 3.

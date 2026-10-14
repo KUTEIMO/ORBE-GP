@@ -1,0 +1,16 @@
+{
+  "sceneId": "pasillo-bloque-b-cafeteria",
+  "locale": "es-CO",
+  "voice": "es-CO-SalomeNeural",
+  "durationSec": 8.379,
+  "audioFile": "/media/unisimoncucuta/experienciavirtual/assets/audio/scenes/pasillo-bloque-b-cafeteria.mp3",
+  "captionFile": "/media/unisimoncucuta/experienciavirtual/assets/captions/scenes/pasillo-bloque-b-cafeteria.vtt",
+  "transcriptFile": "/media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/pasillo-bloque-b-cafeteria.txt",
+  "cues": [
+    {
+      "startSec": 0.1,
+      "endSec": 8.379,
+      "text": "Estás en el tramo final del pasillo del Bloque B que da apertura directa al espacio de la cafetería universitaria y el muro de medios."
+    }
+  ]
+}

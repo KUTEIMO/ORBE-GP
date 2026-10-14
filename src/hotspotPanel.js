@@ -3,6 +3,7 @@ import { dismissOpenLayers, trapFocusWithin } from './uiLayers.js';
 import { registerMediaSessionStop } from './mediaSession.js';
 import { resolveNarrationUrl } from './configLoader.js';
 import { pauseSceneNarration } from './sceneAudio.js';
+import { parseVtt } from './vttParser.js';
 
 let lastFocusedElement = null;
 let currentHotspot = null;
@@ -10,6 +11,7 @@ let currentScene = null;
 let speechUtterance = null;
 let speechPaused = false;
 let hasRealNarration = false;
+let currentHotspotCues = [];
 
 const panel = () => document.getElementById('hotspotPanel');
 const summary = () => document.getElementById('hotspotSummary');
@@ -68,6 +70,25 @@ export function initHotspotPanel() {
   if (toggleCaptions) {
     toggleCaptions.addEventListener('click', () => toggleCaptionVisibility());
   }
+
+  const audio = audioElement();
+  if (audio) {
+    audio.addEventListener('timeupdate', () => {
+      if (!audio.paused && currentHotspotCues.length > 0) {
+        const ct = audio.currentTime;
+        const activeIndex = currentHotspotCues.findIndex(c => ct >= c.start && ct <= c.end);
+        if (activeIndex !== -1) {
+          const activeCue = currentHotspotCues[activeIndex];
+          const liveBox = document.getElementById('hotspotLiveCue');
+          if (liveBox) liveBox.textContent = `“${activeCue.text}”`;
+          const items = document.querySelectorAll('.caption-item');
+          items.forEach((item, idx) => {
+            item.classList.toggle('caption-item--active', idx === activeIndex);
+          });
+        }
+      }
+    });
+  }
 }
 
 /** Stop audio + speech without mutating panel visibility (idempotent). */
@@ -122,11 +143,8 @@ export async function openHotspotPanel(sceneData, hotspotData, { focusPanel = fa
     }
   }
 
-  if (getSetting('autoCaptions') || appState?.accessibleMode) {
-    await showCaptions();
-  } else {
-    hideCaptions();
-  }
+  // Mostrar subtítulos inmediatamente al abrir el hotspot
+  await showCaptions();
 }
 
 /**
@@ -365,7 +383,8 @@ async function showCaptions() {
     const response = await fetch(captionFile);
     if (!response.ok) throw new Error(`No se pudo cargar ${captionFile}`);
     const text = await response.text();
-    container.replaceChildren(buildCaptionList(text));
+    currentHotspotCues = parseVtt(text);
+    renderCaptionsDom(container, currentHotspotCues, text);
     container.dataset.visible = 'true';
     container.hidden = false;
     if (toggleButton) toggleButton.textContent = 'Ocultar subtítulos';
@@ -387,20 +406,32 @@ function hideCaptions() {
   if (toggleButton) toggleButton.textContent = 'Mostrar subtítulos';
 }
 
-/** Build caption DOM with textContent (no innerHTML / XSS). */
-function buildCaptionList(vttText) {
-  const lines = vttText
-    .split('\n')
-    .filter((line) => line.trim().length > 0 && !line.startsWith('WEBVTT'));
+function renderCaptionsDom(container, cues, rawText) {
+  container.replaceChildren();
+  if (!cues || cues.length === 0) {
+    const p = document.createElement('p');
+    p.textContent = currentHotspot?.description || currentHotspot?.title || rawText;
+    container.appendChild(p);
+    return;
+  }
+  const liveBox = document.createElement('div');
+  liveBox.className = 'caption-live-box';
+  liveBox.id = 'hotspotLiveCue';
+  liveBox.textContent = `“${cues[0].text}”`;
+  container.appendChild(liveBox);
+
   const ul = document.createElement('ul');
   ul.className = 'caption-list';
-  for (const line of lines) {
+  cues.forEach((c, idx) => {
     const li = document.createElement('li');
-    li.textContent = line;
+    li.className = 'caption-item';
+    if (idx === 0) li.classList.add('caption-item--active');
+    li.textContent = c.text;
     ul.appendChild(li);
-  }
-  return ul;
+  });
+  container.appendChild(ul);
 }
+
 
 function startSpeechFallback({ asPrimaryAudio = false } = {}) {
   if (!currentHotspot) return;
