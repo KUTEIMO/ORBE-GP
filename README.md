@@ -33,6 +33,17 @@ Si el proyecto ya está descargado en el equipo, no vuelve a descargar nada. Eje
 cd $HOME\ORBE-GP; Start-Process "http://localhost:8081/"; node scripts/dev-server.mjs
 ```
 
+### Opción C: Actualizar cambios en equipo ya descargado (sincronizar y ejecutar)
+Si ya tiene el proyecto descargado en el computador y desea actualizarlo con los últimos cambios publicados (sin tener que volver a descomprimir ni reconfigurar nada), copie y pegue en Windows PowerShell y presione Enter:
+
+```powershell
+cd $HOME\ORBE-GP; if (Test-Path .git) { git pull } else { Invoke-WebRequest -Uri "https://github.com/KUTEIMO/ORBE-GP/archive/refs/heads/main.zip" -OutFile "$HOME\update.zip"; Expand-Archive -Path "$HOME\update.zip" -DestinationPath "$HOME\temp_update" -Force; Copy-Item -Path "$HOME\temp_update\ORBE-GP-main\*" -Destination "$HOME\ORBE-GP" -Recurse -Force; Remove-Item "$HOME\update.zip", "$HOME\temp_update" -Recurse -Force }; Start-Process "http://localhost:8081/"; node scripts/dev-server.mjs
+```
+
+---
+
+
+
 ---
 
 ### Ejecución sin consola (archivo .bat)
