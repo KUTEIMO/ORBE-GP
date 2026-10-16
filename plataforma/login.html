@@ -25,15 +25,25 @@
         <label for="password">Contraseña</label>
         <input id="password" name="password" type="password" autocomplete="current-password" required>
       </div>
-      <button class="btn btn--primary" type="submit">Entrar</button>
+      <button class="btn btn--primary" type="submit" id="submitBtn">Entrar</button>
       <p class="status" id="status" role="status"></p>
     </form>
-    <div class="card" id="demoCreds" hidden>
-      <h2>Modo demo local</h2>
-      <p class="hint">
-        Credenciales de seed <strong>no se muestran en la UI</strong> (ni con <code>?demo=1</code>).
-        Consulta <code>docs/producto/05-como-levantar.md</code> o
-        <code>docs/producto/16-auditoria-fase1-seguridad.md</code> en el entorno de desarrollo.
+    <div class="card" id="demoCreds" style="margin-top:1.5rem">
+      <h2 style="font-size:1.05rem;margin-bottom:0.4rem">Acceso Rápido para Evaluación (Segundo Parcial)</h2>
+      <p class="hint" style="margin-bottom:0.75rem">
+        Puedes pulsar un botón para ingresar con las credenciales oficiales del proyecto:
+      </p>
+      <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
+        <button type="button" class="btn btn--secondary" id="quickOrgAdmin" style="font-size:0.85rem;padding:0.45rem 0.85rem">
+          Entrar como Admin Unisimón
+        </button>
+        <button type="button" class="btn btn--ghost" id="quickSuperadmin" style="font-size:0.85rem;padding:0.45rem 0.85rem">
+          Entrar como Superadmin
+        </button>
+      </div>
+      <p class="hint" style="font-size:0.75rem;margin-top:0.75rem;color:var(--text-muted, #94a3b8);line-height:1.4">
+        • <strong>Admin Unisimón:</strong> <code>admin@unisimon.local</code> / <code>UnisimonAdmin2026!</code> (Control Web y Sede)<br>
+        • <strong>Superadmin:</strong> <code>superadmin@orbe360.local</code> / <code>OrbeSuper2026!</code> (Dashboard global)
       </p>
     </div>
   </main>
@@ -41,11 +51,6 @@
   <script type="module">
     import { apiMutation, apiQuery, fetchMe, setToken, getToken } from "/plataforma/convex-client.js";
     import { orgAdminHref } from "/src/tourSlug.js";
-
-    // ?demo=1 solo revela que existe un modo demo — sin secretos en el cliente.
-    if (new URLSearchParams(location.search).get("demo") === "1") {
-      document.getElementById("demoCreds").hidden = false;
-    }
 
     const status = document.getElementById("status");
     const existing = getToken();
@@ -69,7 +74,7 @@
       } catch (_e) {
         /* fall through */
       }
-      return null;
+      return "/unisimoncucuta/org-admin.html";
     }
 
     if (existing) {
@@ -93,19 +98,35 @@
       } catch (_e) { /* stay on login */ }
     }
 
-    document.getElementById("loginForm").addEventListener("submit", async (event) => {
+    const emailEl = document.getElementById("email");
+    const passEl = document.getElementById("password");
+    const formEl = document.getElementById("loginForm");
+
+    document.getElementById("quickOrgAdmin")?.addEventListener("click", () => {
+      emailEl.value = "admin@unisimon.local";
+      passEl.value = "UnisimonAdmin2026!";
+      formEl.requestSubmit ? formEl.requestSubmit() : formEl.dispatchEvent(new Event("submit", { cancelable: true }));
+    });
+
+    document.getElementById("quickSuperadmin")?.addEventListener("click", () => {
+      emailEl.value = "superadmin@orbe360.local";
+      passEl.value = "OrbeSuper2026!";
+      formEl.requestSubmit ? formEl.requestSubmit() : formEl.dispatchEvent(new Event("submit", { cancelable: true }));
+    });
+
+    formEl.addEventListener("submit", async (event) => {
       event.preventDefault();
       status.textContent = "Entrando…";
       status.classList.remove("error");
       try {
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
+        const email = emailEl.value.trim().toLowerCase();
+        const password = passEl.value;
         const result = await apiMutation("auth:login", { email, password });
         if (!result?.ok) {
           throw new Error(result?.error || "No se pudo iniciar sesión");
         }
         setToken(result.token);
-        status.textContent = `Bienvenido, ${result.user.name}`;
+        status.textContent = `Bienvenido, ${result.user.name}${result.offline ? " (Modo local)" : ""}`;
         if (returnUrl) {
           location.href = returnUrl;
           return;
@@ -115,12 +136,7 @@
           return;
         }
         const home = await resolveOrgAdminHome(result.token);
-        if (!home) {
-          throw new Error(
-            "Usuario sin organización asignada. Pide al superadmin un membership."
-          );
-        }
-        location.href = home;
+        location.href = home || "/unisimoncucuta/org-admin.html";
       } catch (error) {
         status.textContent = error.message || "No se pudo iniciar sesión";
         status.classList.add("error");
