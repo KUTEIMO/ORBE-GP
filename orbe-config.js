@@ -19,7 +19,7 @@
       : null;
 
   window.__CONVEX_URL__ =
-    window.__CONVEX_URL__ || fromStorage || "http://127.0.0.1:3210";
+    window.__CONVEX_URL__ || fromStorage || "";
 
   const DEFAULT_ORG = "unisimoncucuta";
   const DEFAULT_TOUR = "experienciavirtual";

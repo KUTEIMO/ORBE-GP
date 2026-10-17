@@ -9,7 +9,7 @@
       : null;
 
   window.__CONVEX_URL__ =
-    window.__CONVEX_URL__ || fromStorage || "http://127.0.0.1:3210";
+    window.__CONVEX_URL__ || fromStorage || "";
 
   window.__ORBE_ORG_SLUG__ = window.__ORBE_ORG_SLUG__ || "unisimoncucuta";
   window.__ORBE_TOUR_SLUG__ = window.__ORBE_TOUR_SLUG__ || "experienciavirtual";

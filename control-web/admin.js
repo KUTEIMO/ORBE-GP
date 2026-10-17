@@ -364,27 +364,23 @@ function handleAdminOfflineFallback(kind, path, args = {}) {
 
 async function convexFetch(kind, path, args) {
   const base = CONVEX_URL();
-  if (base) {
-    try {
-      const response = await fetch(`${base}/api/${kind}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ path, args, format: 'json' })
-      });
-      const data = await response.json();
-      if (!response.ok || data.status === 'error') {
-        throw new Error(data.errorMessage || data.message || 'Error Convex');
-      }
-      return data.value;
-    } catch (networkError) {
-      const fallback = handleAdminOfflineFallback(kind, path, args);
-      if (fallback !== undefined) return fallback;
-      throw networkError;
+  try {
+    const url = base ? `${base}/api/${kind}` : `/api/${kind}`;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ path, args, format: 'json' })
+    });
+    const data = await response.json();
+    if (!response.ok || data.status === 'error') {
+      throw new Error(data.errorMessage || data.message || 'Error Convex');
     }
+    return data.value;
+  } catch (networkError) {
+    const fallback = handleAdminOfflineFallback(kind, path, args);
+    if (fallback !== undefined) return fallback;
+    throw networkError;
   }
-  const fallback = handleAdminOfflineFallback(kind, path, args);
-  if (fallback !== undefined) return fallback;
-  throw new Error('Falta CONVEX_URL (orbe-config.js)');
 }
 
 async function pullConvexSnapshot() {

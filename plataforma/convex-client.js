@@ -65,9 +65,14 @@ function handleOfflineFallback(kind, path, args = {}) {
   if (kind === "mutation") {
     if (path === "auth:login") {
       const email = String(args.email || "").trim().toLowerCase();
-      const password = String(args.password || "");
+      const password = String(args.password || "").trim();
       const match = DEMO_ACCOUNTS.find(
-        (acc) => acc.email.toLowerCase() === email && acc.password === password
+        (acc) =>
+          (acc.email.toLowerCase() === email ||
+            (email === "admin" && acc.email === "admin@unisimon.local") ||
+            (email === "admin@unisimon.edu.co" && acc.email === "admin@unisimon.local") ||
+            (email === "superadmin" && acc.email === "superadmin@orbe360.local")) &&
+          acc.password === password
       );
       if (match) {
         return {
@@ -77,7 +82,7 @@ function handleOfflineFallback(kind, path, args = {}) {
           offline: true,
         };
       }
-      return { ok: false, error: "Credenciales inválidas" };
+      return { ok: false, error: "Credenciales inválidas. Verifica tu correo y contraseña." };
     }
 
     if (path === "auth:logout") {
@@ -199,33 +204,25 @@ function handleOfflineFallback(kind, path, args = {}) {
 
 async function convexFetch(kind, path, args) {
   const base = getConvexUrl();
-  if (base) {
-    try {
-      const response = await fetch(`${base}/api/${kind}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ path, args, format: "json" }),
-      });
-      const data = await response.json();
-      if (!response.ok || data.status === "error") {
-        throw new Error(data.errorMessage || data.message || "Error Convex");
-      }
-      return data.value;
-    } catch (networkOrConvexError) {
-      const fallback = handleOfflineFallback(kind, path, args);
-      if (fallback !== undefined) {
-        return fallback;
-      }
-      throw networkOrConvexError;
+  try {
+    const url = base ? `${base}/api/${kind}` : `/api/${kind}`;
+    const response = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ path, args, format: "json" }),
+    });
+    const data = await response.json();
+    if (!response.ok || data.status === "error") {
+      throw new Error(data.errorMessage || data.message || "Error Convex");
     }
+    return data.value;
+  } catch (networkOrConvexError) {
+    const fallback = handleOfflineFallback(kind, path, args);
+    if (fallback !== undefined) {
+      return fallback;
+    }
+    throw networkOrConvexError;
   }
-  const fallback = handleOfflineFallback(kind, path, args);
-  if (fallback !== undefined) {
-    return fallback;
-  }
-  throw new Error(
-    "Falta la URL de Convex o servidor offline."
-  );
 }
 
 export function apiMutation(path, args = {}) {
