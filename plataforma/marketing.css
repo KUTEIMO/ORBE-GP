@@ -26,8 +26,7 @@
 
 html { scroll-behavior: smooth; }
 
-body.marketing,
-body.orbe-portal {
+body.marketing {
   --mk-display: "Syne", var(--orbe-display), system-ui, sans-serif;
   --mk-bg-h: 205;
   --mk-bg-s: 85%;
@@ -96,15 +95,10 @@ body.orbe-portal {
 [data-theme="dark"] .story-bg__grain { opacity: 0.07; }
 
 body.marketing > main,
-body.orbe-portal > main,
 body.marketing > footer,
-body.orbe-portal > footer,
 body.marketing > .public-nav,
-body.orbe-portal > .public-nav,
 body.marketing > .scroll-progress,
-body.orbe-portal > .scroll-progress,
-body.marketing > .skip,
-body.orbe-portal > .skip {
+body.marketing > .skip {
   position: relative;
   z-index: 1;
 }
@@ -444,27 +438,20 @@ body.orbe-portal > .skip {
   justify-content: center;
 }
 
-/* —— Reveal (Progressive Enhancement: visible por defecto si JS falla o es bloqueado) —— */
+/* —— Reveal (JS toggles .is-in) —— */
 [data-reveal] {
-  opacity: 1;
-  transform: none;
-}
-html.orbe-motion-ready [data-reveal]:not(.is-in) {
   opacity: 0;
   transform: translateY(1.25rem);
   transition:
     opacity var(--orbe-dur-slower, 520ms) var(--orbe-ease-out, ease),
     transform var(--orbe-dur-slower, 520ms) var(--orbe-ease-out, ease);
 }
-html.orbe-motion-ready [data-reveal="brand"]:not(.is-in) {
+[data-reveal="brand"] {
   transform: translateY(0.6rem) scale(0.96);
 }
 [data-reveal].is-in {
   opacity: 1;
   transform: none;
-  transition:
-    opacity var(--orbe-dur-slower, 520ms) var(--orbe-ease-out, ease),
-    transform var(--orbe-dur-slower, 520ms) var(--orbe-ease-out, ease);
 }
 [data-reveal-delay="1"] { transition-delay: calc(var(--orbe-stagger, 40ms) * 2); }
 [data-reveal-delay="2"] { transition-delay: calc(var(--orbe-stagger, 40ms) * 4); }
@@ -1281,8 +1268,7 @@ html.orbe-motion-ready [data-reveal="brand"]:not(.is-in) {
 .privacy-teaser__links a:hover { text-decoration: underline; }
 
 /* —— Cookie consent banner —— */
-body.marketing.has-cookie-banner,
-body.orbe-portal.has-cookie-banner {
+body.marketing.has-cookie-banner {
   padding-bottom: 6.5rem;
 }
 .cookie-banner {
@@ -2112,14 +2098,12 @@ body.orbe-portal.has-cookie-banner {
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(56, 189, 248, 0.15);
 }
 
-body.marketing,
-body.orbe-portal {
+body.marketing {
   --orbe-ink: #0f172a;
   --orbe-muted: #334155;
 }
 
-[data-theme="dark"] body.marketing,
-body.orbe-portal {
+[data-theme="dark"] body.marketing {
   --orbe-ink: #f8fafc;
   --orbe-muted: #94a3b8;
 }
