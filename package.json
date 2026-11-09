@@ -1,13 +1,49 @@
 {
-  "name": "orbe-gp",
-  "version": "1.0.0",
-  "description": "Orbe360 (PEVCI) — Plataforma Web de Recorridos Virtuales 360° para Campus Inclusivos (Gestión de Proyectos - Universidad Simón Bolívar)",
+  "name": "tour-virtual-accesible",
+  "version": "0.2.0",
+  "description": "Orbe360 — plataforma de tours 360° inclusivos (piloto Unisimón / PEVCI).",
   "type": "module",
   "scripts": {
     "start": "node scripts/dev-server.mjs",
-    "dev": "node scripts/dev-server.mjs"
+    "dev:web": "node scripts/dev-server.mjs",
+    "start:static": "npx http-server -c-1 -p 8081 .",
+    "dev:convex": "npx convex dev",
+    "seed": "npx convex run seed:seedPlatform",
+    "seed:allow-local": "npx convex env set ALLOW_OPEN_SEED 1",
+    "seed:orbe-sandbox": "node scripts/seed-orbe-sandbox.mjs",
+    "backup:unisimon-graph": "node scripts/backup-unisimon-graph.mjs",
+    "sync:unisimon-graph": "node scripts/sync-tenant-tour-graph-from-convex.mjs",
+    "migrate:unisimon-media": "node scripts/migrate-unisimon-media-to-tenant.mjs",
+    "migrate:unisimon-urls": "npx convex run migratePilotMediaUrls:migratePilotMediaUrls",
+    "qa:cleanup": "node scripts/qa-cleanup.mjs",
+    "spatial:embed": "node scripts/gen-campus-spatial-embed.mjs",
+    "qa": "node scripts/qa-orbe.mjs",
+    "qa:authz": "node scripts/verify-control-web-authz.mjs",
+    "check:a11y": "node scripts/check-a11y-publish.mjs",
+    "audit:routes": "node scripts/audit-routes.mjs",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "typecheck": "tsc -p convex/tsconfig.json --noEmit",
+    "check:drift": "node scripts/check-tree-drift.mjs",
+    "check:static": "npm run lint && npm run typecheck",
+    "check": "node scripts/qa-orbe.mjs && node scripts/verify-control-web-authz.mjs && node scripts/audit-routes.mjs && node scripts/check-a11y-publish.mjs",
+    "check:full": "npm run check:static && npm run check && npm test",
+    "audit": "node audit-runner.js",
+    "a11y:tts": "python scripts/generate-a11y-tts.py",
+    "a11y:tts:dry": "python scripts/generate-a11y-tts.py --dry-run",
+    "test": "npx playwright test",
+    "test:report": "npx playwright test --reporter=list"
   },
   "dependencies": {
     "convex": "^1.21.0"
+  },
+  "devDependencies": {
+    "@convex-dev/eslint-plugin": "^5.0.0",
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.48.0",
+    "eslint": "^10.11.0",
+    "http-server": "^14.1.1",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.71.0"
   }
 }

@@ -1,5 +1,21 @@
-node_modules/
 .env
-.env.local
+.env.*
+!.env.example
+node_modules/
+coverage/
+playwright-report/
+test-results/
+blob-report/
 .DS_Store
 Thumbs.db
+Desktop.ini
+*.log
+*.tmp
+.vscode/
+# Deploy-time Convex URL / slug inject (portable; never commit production secrets)
+config.local.js
+plataforma/config.local.js
+orbe-config.local.js
+!.config.local.js.example
+!config.local.js.example
+

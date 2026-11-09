@@ -19,6 +19,7 @@ export function initAccessibilityControls(config) {
   setupAccessibleMode();
   setupAccessibilityPanel();
   helpDialogOpener = setupHelpDialog(config);
+  setupWcagAuditDialog();
 }
 
 export function applyInitialAccessibilityState() {
@@ -322,6 +323,32 @@ function setupHelpDialog(config) {
   });
 
   return open;
+}
+
+function setupWcagAuditDialog() {
+  const toggleBtn = document.getElementById('wcagAuditToggle');
+  const dialog = document.getElementById('wcagAuditDialog');
+  const closeBtn = document.getElementById('closeWcagAuditDialog');
+
+  if (!toggleBtn || !dialog || !closeBtn) return;
+
+  toggleBtn.addEventListener('click', () => {
+    dialog.showModal();
+    requestAnimationFrame(() => {
+      closeBtn.focus();
+    });
+  });
+
+  closeBtn.addEventListener('click', () => {
+    dialog.close();
+    toggleBtn.focus();
+  });
+
+  dialog.addEventListener('cancel', (event) => {
+    event.preventDefault();
+    dialog.close();
+    toggleBtn.focus();
+  });
 }
 
 function populateHelpShortcuts(list, config) {

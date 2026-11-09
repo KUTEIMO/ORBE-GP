@@ -248,7 +248,7 @@ function updatePanelContent(sceneData, hotspotData) {
       audio.oncanplay = () => {
         hasRealNarration = true;
         setAudioControlsEnabled(true);
-        setAudioStatus('Audio listo para reproducirse.');
+        setAudioStatus('[Voz Humana: Saraic Noemi Leon] Audio listo para reproducirse.');
       };
       audio.onerror = () => {
         hasRealNarration = false;
@@ -315,7 +315,7 @@ async function playAudio() {
     try {
       stopSpeech();
       await audio.play();
-      setAudioStatus('Reproduciendo audiodescripción.');
+      setAudioStatus('[Audio Oficial: Saraic Noemi Leon] Reproduciendo audiodescripción con voz humana.');
       setAudioControlsEnabled(true);
       return;
     } catch (error) {

@@ -1,0 +1,810 @@
+{
+  "tool": "edge-tts",
+  "voice": "es-CO-SalomeNeural",
+  "rate": "-5%",
+  "licenseNote": "edge-tts uses Microsoft Edge online neural voices. Suitable as temporary production placeholders; replace with human recordings for final release per institutional policy.",
+  "scenes": [
+    {
+      "key": "entrada-principal",
+      "kind": "scene",
+      "title": "Entrada Principal - Acceso Sede 2",
+      "zone": "Entrada y pasillos Bloque B",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Entrada Principal - Acceso Sede 2. Zona: Entrada y pasillos Bloque B. Orientación. Estás en Entrada Principal. Te encuentras en la entrada principal de la Sede 2. A la izquierda está el punto de información y al frente se observa el acceso accesible con rampa y señalización. Puntos de interés principales. Punto de información a la izquierda. Rampa de acceso accesible al frente. Zona de espera y señalización del campus. Desde el menú de escenas o la lista de destinos puedes ir a la biblioteca o avanzar al hall de ingreso. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/entrada-principal.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/entrada-principal.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/entrada-principal.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/entrada-principal.md"
+      },
+      "durationSec": 50.34,
+      "cueCount": 12
+    },
+    {
+      "key": "hall-ingreso",
+      "kind": "scene",
+      "title": "Hall de Ingreso - Recepción Central",
+      "zone": "Entrada y pasillos Bloque B",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Hall de Ingreso - Recepción Central. Zona: Entrada y pasillos Bloque B. Orientación. Estás en Hall de ingreso. Estás en el hall de ingreso y recepción central de la Sede 2. Es el punto de orientación hacia pasillos del Bloque B, aulas y servicios. Puntos de interés principales. Recepción central. Conexión hacia pasillos del Bloque B. Usa la lista de destinos para continuar hacia la cafetería, pasillos o salida. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/hall-ingreso.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/hall-ingreso.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/hall-ingreso.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/hall-ingreso.md"
+      },
+      "durationSec": 43,
+      "cueCount": 10
+    },
+    {
+      "key": "entrada-cafeteria",
+      "kind": "scene",
+      "title": "Entrada Cafetería - Muro de Medios Unisimón",
+      "zone": "Cafetería y lobby común",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Entrada Cafetería - Muro de Medios Unisimón. Zona: Cafetería y lobby común. Orientación. Estás en Entrada cafetería. Estás en la entrada de la cafetería, junto al muro de medios Unisimón. Desde aquí se accede al área de mesas y a la caseta de alimentos. Puntos de interés principales. Muro de medios Unisimón. Acceso al pasillo de mesas de la cafetería. Continúa hacia el pasillo de mesas o regresa a los pasillos del Bloque B. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/entrada-cafeteria.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/entrada-cafeteria.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/entrada-cafeteria.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/entrada-cafeteria.md"
+      },
+      "durationSec": 4.92,
+      "cueCount": 1
+    },
+    {
+      "key": "cafeteria-mesas",
+      "kind": "scene",
+      "title": "Pasillo Cafetería - Mesas de comidas",
+      "zone": "Cafetería y lobby común",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Pasillo Cafetería - Mesas de comidas. Zona: Cafetería y lobby común. Orientación. Estás en Mesas cafetería. Estás en el pasillo de la cafetería con mesas para comidas. Es un espacio común de encuentro entre clases. Puntos de interés principales. Mesas de comidas. Conexión hacia caseta de alimentos y baños. Desde aquí puedes ir a la caseta de comidas, al control de ingreso de la biblioteca o al edificio cultural. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/cafeteria-mesas.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/cafeteria-mesas.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/cafeteria-mesas.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/cafeteria-mesas.md"
+      },
+      "durationSec": 45.01,
+      "cueCount": 12
+    },
+    {
+      "key": "cafeteria-caseta",
+      "kind": "scene",
+      "title": "Cafetería - Caseta de comidas",
+      "zone": "Cafetería y lobby común",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Cafetería - Caseta de comidas. Zona: Cafetería y lobby común. Orientación. Estás en Caseta cafetería. Estás frente a la caseta de cafetería de comidas frías y calientes. Aquí se atienden pedidos de alimentos y bebidas. Puntos de interés principales. Caseta de atención de alimentos. Área de mesas cercana. Vuelve al pasillo de mesas o avanza hacia la biblioteca. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/cafeteria-caseta.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/cafeteria-caseta.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/cafeteria-caseta.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/cafeteria-caseta.md"
+      },
+      "durationSec": 41.91,
+      "cueCount": 12
+    },
+    {
+      "key": "cultural-acceso",
+      "kind": "scene",
+      "title": "Edificio Cultural — Acceso",
+      "zone": "Edificio Cultural",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Edificio Cultural — Acceso. Zona: Edificio Cultural. Orientación. Estás en Acceso cultural. Estás en el acceso al Edificio Cultural, junto a la biblioteca. Es un espacio de actividades artísticas y culturales del campus. Puntos de interés principales. Acceso al Edificio Cultural. Proximidad a la biblioteca. Puedes entrar al interior del edificio cultural o dirigirte a las puertas de la biblioteca. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/cultural-acceso.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/cultural-acceso.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/cultural-acceso.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/cultural-acceso.md"
+      },
+      "durationSec": 44.37,
+      "cueCount": 12
+    },
+    {
+      "key": "cultural-interior",
+      "kind": "scene",
+      "title": "Edificio Cultural - Interior mural musical",
+      "zone": "Edificio Cultural",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Edificio Cultural - Interior mural musical. Zona: Edificio Cultural. Orientación. Estás en Interior cultural. Estás en el interior del Edificio Cultural, frente a un mural musical. El espacio se usa para actividades culturales y encuentros. Puntos de interés principales. Mural musical. Sala interior del edificio cultural. Regresa al acceso del edificio o continúa hacia la biblioteca. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/cultural-interior.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/cultural-interior.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/cultural-interior.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/cultural-interior.md"
+      },
+      "durationSec": 43.59,
+      "cueCount": 12
+    },
+    {
+      "key": "patio-cancha",
+      "kind": "scene",
+      "title": "Patio C–D - Cubierta, cancha y escalera Bloque C",
+      "zone": "Patio central entre Bloque C y D",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Patio C–D - Cubierta, cancha y escalera Bloque C. Zona: Patio central entre Bloque C y D. Orientación. Estás en Patio cancha. Estás en el patio central entre los bloques C y D. Hay cubierta, cancha y escalera hacia el Bloque C. Puntos de interés principales. Cancha y zona cubierta. Escalera del Bloque C. Usa la lista de destinos para ir a la rampa accesible del patio o volver a los pasillos. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/patio-cancha.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/patio-cancha.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/patio-cancha.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/patio-cancha.md"
+      },
+      "durationSec": 39.22,
+      "cueCount": 7
+    },
+    {
+      "key": "patio-rampa",
+      "kind": "scene",
+      "title": "Patio C–D - Rampa accesible y zona abierta",
+      "zone": "Patio central entre Bloque C y D",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Patio C–D - Rampa accesible y zona abierta. Zona: Patio central entre Bloque C y D. Orientación. Estás en Patio rampa. Estás en el patio C–D junto a la rampa accesible y la zona abierta. La rampa facilita el desplazamiento con movilidad reducida. Puntos de interés principales. Rampa accesible. Zona abierta del patio. Puedes circular por el patio o regresar a pasillos del Bloque B. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/patio-rampa.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/patio-rampa.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/patio-rampa.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/patio-rampa.md"
+      },
+      "durationSec": 42.72,
+      "cueCount": 11
+    },
+    {
+      "key": "salida-av3",
+      "kind": "scene",
+      "title": "Pasillo Bloque B - Salida Av. 3",
+      "zone": "Entrada y pasillos Bloque B",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Pasillo Bloque B - Salida Av. 3. Zona: Entrada y pasillos Bloque B. Orientación. Estás en Salida Av. 3. Estás en el pasillo del Bloque B orientado hacia la salida a la Avenida 3. Es una salida secundaria del edificio. Puntos de interés principales. Salida hacia Avenida 3. Pasillo del Bloque B. Regresa al hall o al patio según tu recorrido. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/salida-av3.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/salida-av3.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/salida-av3.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/salida-av3.md"
+      },
+      "durationSec": 39.29,
+      "cueCount": 10
+    },
+    {
+      "key": "pre-biblioteca-puertas",
+      "kind": "scene",
+      "title": "Pre-biblioteca — Puertas y rampa",
+      "zone": "Cafetería y lobby común",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Pre-biblioteca — Puertas y rampa. Zona: Cafetería y lobby común. Orientación. Estás en Puertas biblioteca. Estás frente a las puertas de la Biblioteca Anita Bolívar de Consuegra. Hay rampa corta, plantas y el letrero BIBLIOTECA. Puntos de interés principales. Rampa de acceso: Rampa corta hacia el acceso de la biblioteca; facilita el ingreso con movilidad reducida. Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. Destinos disponibles desde aquí: Entrar al lobby. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/pre-biblioteca-puertas.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/pre-biblioteca-puertas.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/pre-biblioteca-puertas.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/pre-biblioteca-puertas.md"
+      },
+      "durationSec": 51.25,
+      "cueCount": 12
+    },
+    {
+      "key": "control-ingreso-biblioteca",
+      "kind": "scene",
+      "title": "Control de ingreso — Biblioteca Anita Consuegra",
+      "zone": "Cafetería y lobby común",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Control de ingreso — Biblioteca Anita Consuegra. Zona: Cafetería y lobby común. Orientación. Estás en Control de ingreso. Mostrador acristalado de control de ingreso a la biblioteca. Desde aquí se orienta el acceso al lobby. Puntos de interés principales. Recepción de bolsos / Seguridad: Aquí se reciben bolsos y se hace el control de seguridad / objetos perdidos antes de entrar a la biblioteca. Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. Destinos disponibles desde aquí: Hacia puertas biblioteca. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/control-ingreso-biblioteca.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/control-ingreso-biblioteca.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/control-ingreso-biblioteca.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/control-ingreso-biblioteca.md"
+      },
+      "durationSec": 53.38,
+      "cueCount": 12
+    },
+    {
+      "key": "biblioteca-lobby",
+      "kind": "scene",
+      "title": "Biblioteca — Lobby de ingreso",
+      "zone": "Biblioteca Anita Bolívar de Consuegra — Planta baja",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Biblioteca — Lobby de ingreso. Zona: Biblioteca Anita Bolívar de Consuegra — Planta baja. Orientación. Estás en Lobby. Umbral del lobby: arco con franja tricolor al frente, mostrador y mesas a la izquierda, sala de computadores a la derecha. Puntos de interés principales. Préstamo de libros y computadores: Mostrador de préstamo de libros y computadores. El personal atiende solicitudes de material y equipos. Área de bibliotecaria y consulta: Espacio de la bibliotecaria y consulta, visible a través del acceso acristalado del lobby. Identificación de la biblioteca: Área del letrero y señalética de la Biblioteca Anita Bolívar de Consuegra. Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. Destinos disponibles desde aquí: Profundizar lobby. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-lobby.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-lobby.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-lobby.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/biblioteca-lobby.md"
+      },
+      "durationSec": 70.67,
+      "cueCount": 14
+    },
+    {
+      "key": "biblioteca-lobby-mural",
+      "kind": "scene",
+      "title": "Biblioteca — Lobby mural y PCs",
+      "zone": "Biblioteca Anita Bolívar de Consuegra — Planta baja",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Biblioteca — Lobby mural y PCs. Zona: Biblioteca Anita Bolívar de Consuegra — Planta baja. Orientación. Estás en Lobby mural. Vista del lobby: mural en el arco, fila de PCs a la derecha, mesas a la izquierda y escalera a mezanine al fondo. Puntos de interés principales. Mural del acceso: Mural ilustrado alrededor del acceso principal del lobby. Préstamo de libros y computadores: Mostrador de préstamo de libros y computadores (zona donde suelen reunirse los estudiantes para el servicio). Área de bibliotecaria y consulta: Área de la bibliotecaria y consulta, detrás de las puertas de vidrio del arco central. Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. Destinos disponibles desde aquí: Otro ángulo del lobby. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-lobby-mural.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-lobby-mural.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-lobby-mural.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/biblioteca-lobby-mural.md"
+      },
+      "durationSec": 68.46,
+      "cueCount": 12
+    },
+    {
+      "key": "biblioteca-lobby-pcs",
+      "kind": "scene",
+      "title": "Biblioteca — Lobby ángulo PCs",
+      "zone": "Biblioteca Anita Bolívar de Consuegra — Planta baja",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Biblioteca — Lobby ángulo PCs. Zona: Biblioteca Anita Bolívar de Consuegra — Planta baja. Orientación. Estás en Lobby PCs. Computadores bajo el letrero de la biblioteca; mural y mesas visibles hacia el centro-izquierda. Puntos de interés principales. Estaciones de cómputo: Fila de computadores de uso académico en el lobby. Letrero Anita Bolívar de Consuegra: Nombre oficial de la biblioteca en el muro. Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. Destinos disponibles desde aquí: Al pasillo central. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-lobby-pcs.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-lobby-pcs.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-lobby-pcs.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/biblioteca-lobby-pcs.md"
+      },
+      "durationSec": 52.18,
+      "cueCount": 10
+    },
+    {
+      "key": "biblioteca-pasillo-central",
+      "kind": "scene",
+      "title": "Biblioteca — Pasillo central de lectura",
+      "zone": "Biblioteca Anita Bolívar de Consuegra — Planta baja",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Biblioteca — Pasillo central de lectura. Zona: Biblioteca Anita Bolívar de Consuegra — Planta baja. Orientación. Estás en Pasillo central. Eje central: mesas de estudio, estantería baja y fondo hacia el mural/acceso. Puntos de interés principales. Estantería baja: Estantería perimetral baja que organiza el pasillo de lectura. Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. Destinos disponibles desde aquí: Hacia cubículos. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-pasillo-central.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-pasillo-central.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-pasillo-central.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/biblioteca-pasillo-central.md"
+      },
+      "durationSec": 49.14,
+      "cueCount": 11
+    },
+    {
+      "key": "biblioteca-cubiculos-arco",
+      "kind": "scene",
+      "title": "Biblioteca — Cubículos arqueados",
+      "zone": "Biblioteca Anita Bolívar de Consuegra — Planta baja",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Biblioteca — Cubículos arqueados. Zona: Biblioteca Anita Bolívar de Consuegra — Planta baja. Orientación. Estás en Cubículos. Frente a los cubículos de estudio semi-privados; a la izquierda PCs, a la derecha mesas comunales. Puntos de interés principales. Cubículos de estudio: Cabinas arqueadas para estudio individual o en pareja, con iluminación propia. Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. Destinos disponibles desde aquí: Entrar a fila de cubículos. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-cubiculos-arco.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-cubiculos-arco.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-cubiculos-arco.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/biblioteca-cubiculos-arco.md"
+      },
+      "durationSec": 50.83,
+      "cueCount": 11
+    },
+    {
+      "key": "biblioteca-cubiculos-fila",
+      "kind": "scene",
+      "title": "Biblioteca — Fila de cubículos",
+      "zone": "Biblioteca Anita Bolívar de Consuegra — Planta baja",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Biblioteca — Fila de cubículos. Zona: Biblioteca Anita Bolívar de Consuegra — Planta baja. Orientación. Estás en Fila cubículos. Pasillo frente a los cubículos; al fondo se abre hacia la estantería. Puntos de interés principales. Cubículo grupal: Cubículo con banca tapizada y mesa de madera para trabajo concentrado. Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. Destinos disponibles desde aquí: Interior de un cubículo. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-cubiculos-fila.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-cubiculos-fila.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-cubiculos-fila.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/biblioteca-cubiculos-fila.md"
+      },
+      "durationSec": 47.71,
+      "cueCount": 11
+    },
+    {
+      "key": "biblioteca-cubiculo-interior",
+      "kind": "scene",
+      "title": "Biblioteca — Interior de cubículo",
+      "zone": "Biblioteca Anita Bolívar de Consuegra — Planta baja",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Biblioteca — Interior de cubículo. Zona: Biblioteca Anita Bolívar de Consuegra — Planta baja. Orientación. Estás en Dentro del cubículo. Estás dentro de un cubículo: mesa triangular, silla azul y vista hacia la sala con estantes. Puntos de interés principales. Puesto de estudio: Mesa individual dentro del cubículo, con iluminación puntual. Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. Destinos disponibles desde aquí: Salir del cubículo. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-cubiculo-interior.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-cubiculo-interior.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-cubiculo-interior.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/biblioteca-cubiculo-interior.md"
+      },
+      "durationSec": 49.09,
+      "cueCount": 11
+    },
+    {
+      "key": "biblioteca-mesas-curvas",
+      "kind": "scene",
+      "title": "Biblioteca — Mesas curvas y PCs",
+      "zone": "Biblioteca Anita Bolívar de Consuegra — Planta baja",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Biblioteca — Mesas curvas y PCs. Zona: Biblioteca Anita Bolívar de Consuegra — Planta baja. Orientación. Estás en Mesas curvas. Área abierta de mesas curvas; al fondo computadores y letrero; mezanine arriba. Puntos de interés principales. Mesas colaborativas: Mesas curvas con sillas verdes para trabajo en grupo. Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. Destinos disponibles desde aquí: Hacia hub de mesas. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-mesas-curvas.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-mesas-curvas.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-mesas-curvas.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/biblioteca-mesas-curvas.md"
+      },
+      "durationSec": 47.67,
+      "cueCount": 10
+    },
+    {
+      "key": "biblioteca-lectura-escalera",
+      "kind": "scene",
+      "title": "Biblioteca — Lectura y acceso a escalera",
+      "zone": "Biblioteca Anita Bolívar de Consuegra — Planta baja",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Biblioteca — Lectura y acceso a escalera. Zona: Biblioteca Anita Bolívar de Consuegra — Planta baja. Orientación. Estás en Lectura / escalera. Nodo entre zona de lectura, PCs y la escalera hacia el nivel superior. Puntos de interés principales. Punto de consulta: Consola/kiosco de apoyo cerca de la circulación vertical. Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. Destinos disponibles desde aquí: Hacia escaleras. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-lectura-escalera.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-lectura-escalera.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-lectura-escalera.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/biblioteca-lectura-escalera.md"
+      },
+      "durationSec": 49.07,
+      "cueCount": 11
+    },
+    {
+      "key": "biblioteca-hub-salones",
+      "kind": "scene",
+      "title": "Biblioteca — Hub mesas y salones de vidrio",
+      "zone": "Biblioteca Anita Bolívar de Consuegra — Planta baja",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Biblioteca — Hub mesas y salones de vidrio. Zona: Biblioteca Anita Bolívar de Consuegra — Planta baja. Orientación. Estás en Hub salones. Centro de la planta baja: mesas alrededor y salones acristalados al medio. Puntos de interés principales. Salones de estudio: Salas cerradas con vidrio para trabajo en grupo o tutorías. Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. Destinos disponibles desde aquí: Colección GENERAL. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-hub-salones.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-hub-salones.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-hub-salones.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/biblioteca-hub-salones.md"
+      },
+      "durationSec": 47.99,
+      "cueCount": 11
+    },
+    {
+      "key": "biblioteca-general",
+      "kind": "scene",
+      "title": "Biblioteca — Colección GENERAL",
+      "zone": "Biblioteca Anita Bolívar de Consuegra — Planta baja",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Biblioteca — Colección GENERAL. Zona: Biblioteca Anita Bolívar de Consuegra — Planta baja. Orientación. Estás en GENERAL. Frente a la colección GENERAL; salones literarios a un lado y mesas abiertas al otro. Puntos de interés principales. Sección GENERAL: Estantería señalizada como colección GENERAL. Salón con referencia literaria: Salón de vidrio con gráficos y referencias literarias. Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. Destinos disponibles desde aquí: Pasillo de estantería. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-general.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-general.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-general.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/biblioteca-general.md"
+      },
+      "durationSec": 53.3,
+      "cueCount": 12
+    },
+    {
+      "key": "biblioteca-pasillo-estantes",
+      "kind": "scene",
+      "title": "Biblioteca — Pasillo de estantería",
+      "zone": "Biblioteca Anita Bolívar de Consuegra — Planta baja",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Biblioteca — Pasillo de estantería. Zona: Biblioteca Anita Bolívar de Consuegra — Planta baja. Orientación. Estás en Pasillo estantes. Aisle de estantería de planta baja; conexión hacia mesas de estudio entre libros. Puntos de interés principales. Colección en estantería: Estantería de consulta abierta en planta baja. Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. Destinos disponibles desde aquí: Mesa entre estantes. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-pasillo-estantes.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-pasillo-estantes.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-pasillo-estantes.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/biblioteca-pasillo-estantes.md"
+      },
+      "durationSec": 47.7,
+      "cueCount": 11
+    },
+    {
+      "key": "biblioteca-mesa-estantes",
+      "kind": "scene",
+      "title": "Biblioteca — Mesa entre estantes",
+      "zone": "Biblioteca Anita Bolívar de Consuegra — Planta baja",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Biblioteca — Mesa entre estantes. Zona: Biblioteca Anita Bolívar de Consuegra — Planta baja. Orientación. Estás en Mesa / estantes. Puesto de estudio embebido entre estantes, con tomas eléctricas en la mesa. Puntos de interés principales. Mesa con energía: Mesa de estudio con módulos de tomacorrientes para portátiles. Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. Destinos disponibles desde aquí: Mesas en U. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-mesa-estantes.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-mesa-estantes.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-mesa-estantes.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/biblioteca-mesa-estantes.md"
+      },
+      "durationSec": 48.17,
+      "cueCount": 11
+    },
+    {
+      "key": "biblioteca-mesas-u",
+      "kind": "scene",
+      "title": "Biblioteca — Mesas en U y salones",
+      "zone": "Biblioteca Anita Bolívar de Consuegra — Planta baja",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Biblioteca — Mesas en U y salones. Zona: Biblioteca Anita Bolívar de Consuegra — Planta baja. Orientación. Estás en Mesas en U. Área de mesas en U mirando a salones acristalados y murales laterales. Puntos de interés principales. Mural artístico: Mural colorido en el perímetro de la zona de salones. Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. Destinos disponibles desde aquí: Salones y escalera. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-mesas-u.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-mesas-u.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-mesas-u.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/biblioteca-mesas-u.md"
+      },
+      "durationSec": 45.5,
+      "cueCount": 10
+    },
+    {
+      "key": "biblioteca-salones-escalera",
+      "kind": "scene",
+      "title": "Biblioteca — Salones de proyecto y escalera",
+      "zone": "Biblioteca Anita Bolívar de Consuegra — Planta baja",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Biblioteca — Salones de proyecto y escalera. Zona: Biblioteca Anita Bolívar de Consuegra — Planta baja. Orientación. Estás en Salones / escalera. Nudo clave: salones de proyecto, mural y escalera al nivel superior. Puntos de interés principales. Circulación vertical: Escalera con baranda de vidrio/metal hacia la mezanine. Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. Destinos disponibles desde aquí: Subir escaleras. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-salones-escalera.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-salones-escalera.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-salones-escalera.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/biblioteca-salones-escalera.md"
+      },
+      "durationSec": 50,
+      "cueCount": 11
+    },
+    {
+      "key": "biblioteca-salones-2",
+      "kind": "scene",
+      "title": "Biblioteca — Salones de proyecto 2",
+      "zone": "Biblioteca Anita Bolívar de Consuegra — Planta baja",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Biblioteca — Salones de proyecto 2. Zona: Biblioteca Anita Bolívar de Consuegra — Planta baja. Orientación. Estás en Salones 2. Frente a salones acristalados con tipografía literaria; mesas abiertas a ambos lados. Puntos de interés principales. Salón con citas literarias: Salas decoradas con citas literarias para ambientar el estudio. Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. Destinos disponibles desde aquí: Salones Allende. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-salones-2.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-salones-2.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-salones-2.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/biblioteca-salones-2.md"
+      },
+      "durationSec": 49.51,
+      "cueCount": 11
+    },
+    {
+      "key": "biblioteca-salones-allende",
+      "kind": "scene",
+      "title": "Biblioteca — Salones Allende / Eva Luna",
+      "zone": "Biblioteca Anita Bolívar de Consuegra — Planta baja",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Biblioteca — Salones Allende / Eva Luna. Zona: Biblioteca Anita Bolívar de Consuegra — Planta baja. Orientación. Estás en Allende / Eva Luna. Cubículos/salones temáticos literarios; mesas con tomas a izquierda y derecha. Puntos de interés principales. Salón Isabel Allende: Salón con retrato y referencia a Isabel Allende. Salón Eva Luna: Salón temático Eva Luna, con decoración floral y cita. Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. Destinos disponibles desde aquí: Hacia escaleras. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-salones-allende.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-salones-allende.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-salones-allende.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/biblioteca-salones-allende.md"
+      },
+      "durationSec": 56.17,
+      "cueCount": 12
+    },
+    {
+      "key": "biblioteca-escaleras-p1",
+      "kind": "scene",
+      "title": "Biblioteca — Escaleras a mezanine",
+      "zone": "Biblioteca Anita Bolívar de Consuegra — Planta baja",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Biblioteca — Escaleras a mezanine. Zona: Biblioteca Anita Bolívar de Consuegra — Planta baja. Orientación. Estás en Escaleras. Pie de escalera: mural de río/montaña a la derecha, zona de estudio a la izquierda, subida al centro. Puntos de interés principales. Mural de paisaje: Mural de montaña, río y vegetación junto a la escalera. Expositor de publicaciones: Expositor/rack de revistas o novedades al pie de la escalera. Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. Destinos disponibles desde aquí: Subir al descanso. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-escaleras-p1.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-escaleras-p1.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-escaleras-p1.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/biblioteca-escaleras-p1.md"
+      },
+      "durationSec": 58.63,
+      "cueCount": 12
+    },
+    {
+      "key": "biblioteca-lobby-letrero",
+      "kind": "scene",
+      "title": "Biblioteca — Computadores y letrero principal",
+      "zone": "Biblioteca Anita Bolívar de Consuegra — Planta baja",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Biblioteca — Computadores y letrero principal. Zona: Biblioteca Anita Bolívar de Consuegra — Planta baja. Orientación. Estás en Letrero / PCs. Otra toma del lobby centrada en el letrero y las estaciones de cómputo. Puntos de interés principales. BIBLIOTECA ANITA BOLÍVAR DE CONSUEGRA: Letrero principal de la biblioteca sobre la zona de computadores. Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. Destinos disponibles desde aquí: Volver lobby ingreso. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-lobby-letrero.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-lobby-letrero.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-lobby-letrero.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/biblioteca-lobby-letrero.md"
+      },
+      "durationSec": 50.12,
+      "cueCount": 11
+    },
+    {
+      "key": "biblioteca-descanso-escaleras",
+      "kind": "scene",
+      "title": "Biblioteca mezanine — Descanso de escaleras",
+      "zone": "Biblioteca — Mezanine / nivel superior",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Biblioteca mezanine — Descanso de escaleras. Zona: Biblioteca — Mezanine / nivel superior. Orientación. Estás en Descanso. Punto de transición vertical con mural de montaña; abajo el lobby, arriba pods y estantería. Puntos de interés principales. Mural de montaña: Mural de páramo/montaña nevada en el descanso de escaleras. Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. Destinos disponibles desde aquí: Subir a mezanine. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-descanso-escaleras.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-descanso-escaleras.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-descanso-escaleras.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/biblioteca-descanso-escaleras.md"
+      },
+      "durationSec": 50.21,
+      "cueCount": 11
+    },
+    {
+      "key": "biblioteca-descanso-b",
+      "kind": "scene",
+      "title": "Biblioteca mezanine — Descanso (ángulo cercano)",
+      "zone": "Biblioteca — Mezanine / nivel superior",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Biblioteca mezanine — Descanso (ángulo cercano). Zona: Biblioteca — Mezanine / nivel superior. Orientación. Estás en Descanso B. Misma circulación vertical desde un punto muy cercano; refuerza la sensación de avance continuo. Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. Destinos disponibles desde aquí: A lounge. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-descanso-b.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-descanso-b.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-descanso-b.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/biblioteca-descanso-b.md"
+      },
+      "durationSec": 39.26,
+      "cueCount": 8
+    },
+    {
+      "key": "biblioteca-mezanine-lounge",
+      "kind": "scene",
+      "title": "Biblioteca mezanine — Lounge y pods",
+      "zone": "Biblioteca — Mezanine / nivel superior",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Biblioteca mezanine — Lounge y pods. Zona: Biblioteca — Mezanine / nivel superior. Orientación. Estás en Lounge. Llegada a mezanine: lounge, pods acústicos y aisle de estantería verde a la derecha. Puntos de interés principales. Pods individuales: Cabinas altas verdes para estudio individual en mezanine. Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. Destinos disponibles desde aquí: Pasillo GENERAL. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-mezanine-lounge.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-mezanine-lounge.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-mezanine-lounge.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/biblioteca-mezanine-lounge.md"
+      },
+      "durationSec": 48.08,
+      "cueCount": 11
+    },
+    {
+      "key": "biblioteca-mezanine-general",
+      "kind": "scene",
+      "title": "Biblioteca mezanine — Estantería GENERAL",
+      "zone": "Biblioteca — Mezanine / nivel superior",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Biblioteca mezanine — Estantería GENERAL. Zona: Biblioteca — Mezanine / nivel superior. Orientación. Estás en Estantes GENERAL. Entre estantes de la mezanine; se observan textos académicos. Puntos de interés principales. Sección GENERAL (mezanine): Letrero GENERAL sobre la colección del nivel superior. Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. Destinos disponibles desde aquí: Siguiente aisle. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-mezanine-general.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-mezanine-general.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-mezanine-general.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/biblioteca-mezanine-general.md"
+      },
+      "durationSec": 47.46,
+      "cueCount": 11
+    },
+    {
+      "key": "biblioteca-mezanine-aisle-2",
+      "kind": "scene",
+      "title": "Biblioteca mezanine — Pasillo de estantes 2",
+      "zone": "Biblioteca — Mezanine / nivel superior",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Biblioteca mezanine — Pasillo de estantes 2. Zona: Biblioteca — Mezanine / nivel superior. Orientación. Estás en Aisle 2. Segundo tramo del aisle; al fondo se abre a zona de mesas. Puntos de interés principales. Sección de estantería: Etiquetas de sección en el borde de los estantes. Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. Destinos disponibles desde aquí: Hacia estudio. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-mezanine-aisle-2.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-mezanine-aisle-2.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-mezanine-aisle-2.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/biblioteca-mezanine-aisle-2.md"
+      },
+      "durationSec": 46.74,
+      "cueCount": 11
+    },
+    {
+      "key": "biblioteca-mezanine-estantes-estudio",
+      "kind": "scene",
+      "title": "Biblioteca mezanine — Estantes y estudio",
+      "zone": "Biblioteca — Mezanine / nivel superior",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Biblioteca mezanine — Estantes y estudio. Zona: Biblioteca — Mezanine / nivel superior. Orientación. Estás en Estantes / estudio. Transición entre colección y zona de mesas/pods en mezanine. Puntos de interés principales. Colección temática: Estantes temáticos del nivel superior. Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. Destinos disponibles desde aquí: Trabajo en grupo. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-mezanine-estantes-estudio.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-mezanine-estantes-estudio.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-mezanine-estantes-estudio.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/biblioteca-mezanine-estantes-estudio.md"
+      },
+      "durationSec": 47.8,
+      "cueCount": 11
+    },
+    {
+      "key": "biblioteca-mezanine-grupo-a",
+      "kind": "scene",
+      "title": "Biblioteca mezanine — Trabajo en grupo A",
+      "zone": "Biblioteca — Mezanine / nivel superior",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Biblioteca mezanine — Trabajo en grupo A. Zona: Biblioteca — Mezanine / nivel superior. Orientación. Estás en Grupo A. Zona colaborativa: pods a un lado, mesas circulares al centro, estantería y escalera al fondo. Puntos de interés principales. Mesas colaborativas: Mesas redondas con taburetes naranja/verde para trabajo ágil. Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. Destinos disponibles desde aquí: Grupo B. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-mezanine-grupo-a.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-mezanine-grupo-a.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-mezanine-grupo-a.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/biblioteca-mezanine-grupo-a.md"
+      },
+      "durationSec": 48.13,
+      "cueCount": 9
+    },
+    {
+      "key": "biblioteca-mezanine-grupo-b",
+      "kind": "scene",
+      "title": "Biblioteca mezanine — Trabajo en grupo B",
+      "zone": "Biblioteca — Mezanine / nivel superior",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Biblioteca mezanine — Trabajo en grupo B. Zona: Biblioteca — Mezanine / nivel superior. Orientación. Estás en Grupo B. Planta abierta de mezanine: booths, mesas circulares y barandal hacia abajo. Puntos de interés principales. Vista a planta baja: Barandal de mezanine con vista al lobby y mesas del nivel inferior. Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. Destinos disponibles desde aquí: Cubículos amoblados. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-mezanine-grupo-b.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-mezanine-grupo-b.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-mezanine-grupo-b.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/biblioteca-mezanine-grupo-b.md"
+      },
+      "durationSec": 46.42,
+      "cueCount": 9
+    },
+    {
+      "key": "biblioteca-mezanine-cubiculos",
+      "kind": "scene",
+      "title": "Biblioteca mezanine — Cubículos amoblados",
+      "zone": "Biblioteca — Mezanine / nivel superior",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Biblioteca mezanine — Cubículos amoblados. Zona: Biblioteca — Mezanine / nivel superior. Orientación. Estás en Cubículos P2. Detalle de cubículos/pods amoblados del nivel superior. Puntos de interés principales. Pod de estudio: Cubículo acolchado verde para concentración en mezanine. Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. Destinos disponibles desde aquí: Hemeroteca. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-mezanine-cubiculos.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-mezanine-cubiculos.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-mezanine-cubiculos.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/biblioteca-mezanine-cubiculos.md"
+      },
+      "durationSec": 46.67,
+      "cueCount": 11
+    },
+    {
+      "key": "biblioteca-hemeroteca",
+      "kind": "scene",
+      "title": "Biblioteca mezanine — HEMEROTECA",
+      "zone": "Biblioteca — Mezanine / nivel superior",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Biblioteca mezanine — HEMEROTECA. Zona: Biblioteca — Mezanine / nivel superior. Orientación. Estás en Hemeroteca. Acceso señalado a hemeroteca; mesas y barandal hacia el vacío central. Puntos de interés principales. Hemeroteca: Señalización HEMEROTECA: periódicos, revistas y publicaciones periódicas. Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. Destinos disponibles desde aquí: Balcón vista piso 1. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-hemeroteca.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-hemeroteca.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-hemeroteca.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/biblioteca-hemeroteca.md"
+      },
+      "durationSec": 49.17,
+      "cueCount": 11
+    },
+    {
+      "key": "biblioteca-balcon-1",
+      "kind": "scene",
+      "title": "Biblioteca mezanine — Balcón vista a piso 1",
+      "zone": "Biblioteca — Mezanine / nivel superior",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Biblioteca mezanine — Balcón vista a piso 1. Zona: Biblioteca — Mezanine / nivel superior. Orientación. Estás en Balcón. Balcón de mezanine: mesas, estantería y vista clara al lobby. Puntos de interés principales. Lobby en planta baja: Vista al lobby: mesas, globos de luz y letrero de la biblioteca. Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. Destinos disponibles desde aquí: Otro ángulo del balcón. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-balcon-1.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-balcon-1.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-balcon-1.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/biblioteca-balcon-1.md"
+      },
+      "durationSec": 48.76,
+      "cueCount": 11
+    },
+    {
+      "key": "biblioteca-balcon-2",
+      "kind": "scene",
+      "title": "Biblioteca mezanine — Balcón con librería",
+      "zone": "Biblioteca — Mezanine / nivel superior",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Biblioteca mezanine — Balcón con librería. Zona: Biblioteca — Mezanine / nivel superior. Orientación. Estás en Balcón 2. Avance continuo sobre el balcón; mantiene la vista al nivel inferior. Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. Destinos disponibles desde aquí: Psicología. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-balcon-2.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-balcon-2.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-balcon-2.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/biblioteca-balcon-2.md"
+      },
+      "durationSec": 25.17,
+      "cueCount": 6
+    },
+    {
+      "key": "biblioteca-psicologia",
+      "kind": "scene",
+      "title": "Biblioteca mezanine — Estantería Psicología",
+      "zone": "Biblioteca — Mezanine / nivel superior",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Escena: Biblioteca mezanine — Estantería Psicología. Zona: Biblioteca — Mezanine / nivel superior. Orientación. Estás en Psicología. Colección de Psicología en mezanine; cierre del recorrido del nivel superior. Puntos de interés principales. Colección Psicología: Estantería señalizada PSICOLOGÍA en el nivel superior. Para continuar sin usar el panorama, abre la lista de destinos o puntos de interés. Destinos disponibles desde aquí: Volver al lounge. Esta narración es temporal generada por voz artificial. Puede reemplazarse luego por una grabación humana usando el mismo guion.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/scenes/biblioteca-psicologia.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/scenes/biblioteca-psicologia.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/scenes/biblioteca-psicologia.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/scenes/biblioteca-psicologia.md"
+      },
+      "durationSec": 47.89,
+      "cueCount": 11
+    }
+  ],
+  "hotspots": [
+    {
+      "key": "punto-informacion",
+      "kind": "hotspot",
+      "title": "Punto de información",
+      "zone": "entrada-principal",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Punto de información. Está a la izquierda según la orientación de la entrada principal. Aquí puedes pedir horarios, ubicación de servicios estudiantiles y orientación general del campus Sede 2.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/punto-informacion.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/punto-informacion.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/punto-informacion.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/hotspots/punto-informacion.md"
+      },
+      "durationSec": 13.97,
+      "cueCount": 3
+    },
+    {
+      "key": "acceso-accesible",
+      "kind": "hotspot",
+      "title": "Acceso accesible",
+      "zone": "entrada-principal",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Acceso accesible. Al frente de la entrada principal hay una rampa con barandas. La superficie es antideslizante y facilita el ingreso de personas con movilidad reducida hacia la puerta principal.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/acceso-accesible.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/acceso-accesible.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/acceso-accesible.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/hotspots/acceso-accesible.md"
+      },
+      "durationSec": 13.92,
+      "cueCount": 3
+    },
+    {
+      "key": "mostrador-prestamo",
+      "kind": "hotspot",
+      "title": "Mostrador de préstamo",
+      "zone": "biblioteca-lobby",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Mostrador de préstamo de la Biblioteca Anita Bolívar de Consuegra. Aquí se realizan préstamos de libros, renovaciones y asesorías rápidas sobre recursos digitales. Pide orientación al personal bibliotecario.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/mostrador-prestamo.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/mostrador-prestamo.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/mostrador-prestamo.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/hotspots/mostrador-prestamo.md"
+      },
+      "durationSec": 15.75,
+      "cueCount": 3
+    },
+    {
+      "key": "zona-estudio",
+      "kind": "hotspot",
+      "title": "Zona de estudio colaborativo",
+      "zone": "biblioteca-lobby",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Zona de estudio colaborativo en el lobby de la biblioteca. Hay mesas para trabajo en grupo, con vista hacia la mezanine. Desde aquí puedes continuar a cubículos, salones de vidrio o la colección general.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/zona-estudio.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/zona-estudio.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/zona-estudio.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/hotspots/zona-estudio.md"
+      },
+      "durationSec": 14.53,
+      "cueCount": 3
+    },
+    {
+      "key": "rampa-pre-biblioteca",
+      "kind": "hotspot",
+      "title": "Rampa de acceso a biblioteca",
+      "zone": "pre-biblioteca-puertas",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Rampa corta frente a las puertas de la biblioteca. Facilita el ingreso con movilidad reducida. El letrero BIBLIOTECA identifica el acceso a la Biblioteca Anita Bolívar de Consuegra.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/rampa-pre-biblioteca.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/rampa-pre-biblioteca.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/rampa-pre-biblioteca.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/hotspots/rampa-pre-biblioteca.md"
+      },
+      "durationSec": 13.21,
+      "cueCount": 3
+    },
+    {
+      "key": "control-bolsos",
+      "kind": "hotspot",
+      "title": "Recepción de bolsos y seguridad",
+      "zone": "control-ingreso-biblioteca",
+      "voice": "es-CO-SalomeNeural",
+      "text": "Mostrador de control de ingreso. Aquí se reciben bolsos y se hace el control de seguridad u objetos perdidos antes de entrar al lobby de la biblioteca.",
+      "paths": {
+        "audio": "media/unisimoncucuta/experienciavirtual/assets/audio/hotspots/control-bolsos.mp3",
+        "transcript": "media/unisimoncucuta/experienciavirtual/assets/transcripts/hotspots/control-bolsos.txt",
+        "captions": "media/unisimoncucuta/experienciavirtual/assets/captions/hotspots/control-bolsos.vtt",
+        "script": "media/unisimoncucuta/experienciavirtual/assets/scripts/hotspots/control-bolsos.md"
+      },
+      "durationSec": 10.28,
+      "cueCount": 2
+    }
+  ]
+}

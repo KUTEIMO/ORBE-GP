@@ -45,6 +45,7 @@ export function closeAllLayers(except = null) {
   if (except !== 'hotspot') closeHotspotPanelDom();
   if (except !== 'help') closeDialog('helpDialog');
   if (except !== 'share') closeDialog('shareDialog');
+  if (except !== 'wcagAudit') closeDialog('wcagAuditDialog');
   if (except !== 'keyboardHint') {
     const hint = document.getElementById('keyboardInstructions');
     if (hint) {

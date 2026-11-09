@@ -540,9 +540,20 @@ function resolveInitialScene(config, fallbackId) {
   try {
     const url = new URL(window.location.href);
     const sceneParam = url.searchParams.get('scene');
-    if (!sceneParam) return fallbackId;
-    const exists = config.scenes.some((scene) => scene.id === sceneParam);
-    return exists ? sceneParam : fallbackId;
+    if (sceneParam) {
+      const exists = config.scenes.some((scene) => scene.id === sceneParam);
+      if (exists) return sceneParam;
+    }
+    const sedeParam = url.searchParams.get('sede');
+    if (sedeParam && Array.isArray(config.scenes)) {
+      const sedeTarget = config.scenes.find((s) => 
+        String(s.sede) === String(sedeParam) || 
+        s.id.includes(`sede-${sedeParam}`) || 
+        s.id.includes(`sede${sedeParam}`)
+      );
+      if (sedeTarget) return sedeTarget.id;
+    }
+    return fallbackId;
   } catch (_error) {
     return fallbackId;
   }
