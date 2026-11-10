@@ -83,16 +83,16 @@
 }
 
 .caption-container {
-  background: rgba(15, 23, 42, 0.88);
-  border: 1px solid rgba(56, 189, 248, 0.28);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   padding: 0.85rem;
-  border-radius: 12px;
+  border-radius: var(--orbe-rad-md, 12px);
   max-height: 9.5rem;
   overflow-y: auto;
   display: none;
   margin-top: 0.5rem;
   scrollbar-width: thin;
-  scrollbar-color: rgba(56, 189, 248, 0.4) transparent;
+  scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
 }
 
 .caption-container[data-visible="true"] {
@@ -100,13 +100,13 @@
 }
 
 .caption-live-box {
-  background: rgba(56, 189, 248, 0.12);
-  border-left: 3px solid #38bdf8;
+  background: rgba(255, 255, 255, 0.06);
+  border-left: 3px solid var(--brand, #2d6a4f);
   padding: 0.45rem 0.65rem;
   border-radius: 6px;
   margin-bottom: 0.5rem;
-  font-weight: 600;
-  color: #38bdf8;
+  font-weight: 500;
+  color: #ffffff;
   font-size: 0.92rem;
   line-height: 1.4;
 }
@@ -154,7 +154,8 @@
    ───────────────────────────────────────────────────────── */
 
 .hotspot-panel {
-  z-index: var(--orbe-z-panel, 1400);
+  /* Por encima de .ui-backdrop (1200) y .scene-menu (1250); design-tokens --orbe-z-panel es 1000 */
+  z-index: 1450;
   border-radius: var(--orbe-rad-lg, 16px);
   padding: var(--orbe-space-5, 1.25rem) var(--orbe-space-5, 1.35rem);
   box-shadow:

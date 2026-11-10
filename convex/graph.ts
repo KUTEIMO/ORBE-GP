@@ -7,6 +7,7 @@ import {
   toBrandingPublic,
 } from "./lib/branding";
 import { findTourByOrgAndSlug } from "./lib/tourResolve";
+import { getUserBySession, userCanEditTour } from "./lib/authHelpers";
 import {
   hotspotVisualReturnFields,
   pickHotspotVisual,
@@ -39,10 +40,13 @@ export const getTourGraph = query({
     slug: v.optional(v.string()),
     orgSlug: v.optional(v.string()),
     tourSlug: v.optional(v.string()),
+    token: v.optional(v.string()),
+    now: v.optional(v.number()),
   },
   returns: v.union(
     v.null(),
     v.object({
+      isDraftPreview: v.optional(v.boolean()),
       tour: v.object({
         id: v.id("tours"),
         slug: v.string(),
@@ -104,6 +108,7 @@ export const getTourGraph = query({
               id: v.string(),
               type: v.union(v.literal("nav"), v.literal("info")),
               title: v.string(),
+              shortLabel: v.optional(v.string()),
               yaw: v.number(),
               pitch: v.number(),
               direction: v.optional(v.string()),
@@ -140,7 +145,16 @@ export const getTourGraph = query({
       tourSlug,
       slug: args.slug,
     });
-    if (!tour || !tour.published) return null;
+    if (!tour) return null;
+    let isDraftPreview = false;
+    if (!tour.published) {
+      if (!args.token) return null;
+      const user = await getUserBySession(ctx, args.token, args.now);
+      if (!user || !(await userCanEditTour(ctx, user, tour._id))) {
+        return null;
+      }
+      isDraftPreview = true;
+    }
 
     const org = await ctx.db.get(tour.organizationId);
     if (!org) return null;
@@ -198,54 +212,57 @@ export const getTourGraph = query({
       const navHotspots =
         connections.length > 0
           ? edges.map((c) => {
-              const to = sceneById.get(c.toSceneId);
-              const toFile = to?.fileKey || "";
-              const match = toFile ? navByTarget.get(toFile) : undefined;
-              return {
-                id: match?.clientKey || `conn-${scene.fileKey}-${toFile}`,
-                type: "nav" as const,
-                title: match?.title || c.label || "Ir a escena",
-                yaw: match?.yaw ?? 0,
-                pitch: match?.pitch ?? -0.05,
-                direction: match?.direction || c.direction,
-                targetFile: toFile || undefined,
-                description: match?.description || c.label,
-                srSummary: match?.srSummary,
-                narration: match?.narrationUrl,
-                narrationOptional: match?.narrationOptional,
-                transcript: match?.transcriptUrl,
-                captionFile: match?.captionUrl,
-                timingFile: match?.timingUrl,
-                weight: match?.weight,
-                ...pickHotspotVisual(match || {}),
-              };
-            })
+            const to = sceneById.get(c.toSceneId);
+            const toFile = to?.fileKey || "";
+            const match = toFile ? navByTarget.get(toFile) : undefined;
+            return {
+              id: match?.clientKey || `conn-${scene.fileKey}-${toFile}`,
+              type: "nav" as const,
+              title: match?.title || c.label || "Ir a escena",
+              shortLabel: match?.shortLabel,
+              yaw: match?.yaw ?? 0,
+              pitch: match?.pitch ?? -0.05,
+              direction: match?.direction || c.direction,
+              targetFile: toFile || undefined,
+              description: match?.description || c.label,
+              srSummary: match?.srSummary,
+              narration: match?.narrationUrl,
+              narrationOptional: match?.narrationOptional,
+              transcript: match?.transcriptUrl,
+              captionFile: match?.captionUrl,
+              timingFile: match?.timingUrl,
+              weight: match?.weight,
+              ...pickHotspotVisual(match || {}),
+            };
+          })
           : stored
-              .filter((h) => h.type === "nav")
-              .map((h) => ({
-                id: h.clientKey,
-                type: h.type,
-                title: h.title,
-                yaw: h.yaw,
-                pitch: h.pitch,
-                direction: h.direction,
-                targetFile: h.targetFileKey,
-                description: h.description,
-                srSummary: h.srSummary,
-                narration: h.narrationUrl,
-                narrationOptional: h.narrationOptional,
-                transcript: h.transcriptUrl,
-                captionFile: h.captionUrl,
-                timingFile: h.timingUrl,
-                weight: h.weight,
-                ...pickHotspotVisual(h),
-              }));
+            .filter((h) => h.type === "nav")
+            .map((h) => ({
+              id: h.clientKey,
+              type: h.type,
+              title: h.title,
+              shortLabel: h.shortLabel,
+              yaw: h.yaw,
+              pitch: h.pitch,
+              direction: h.direction,
+              targetFile: h.targetFileKey,
+              description: h.description,
+              srSummary: h.srSummary,
+              narration: h.narrationUrl,
+              narrationOptional: h.narrationOptional,
+              transcript: h.transcriptUrl,
+              captionFile: h.captionUrl,
+              timingFile: h.timingUrl,
+              weight: h.weight,
+              ...pickHotspotVisual(h),
+            }));
 
       const hotspots = [
         ...infoHotspots.map((h) => ({
           id: h.clientKey,
           type: h.type,
           title: h.title,
+          shortLabel: h.shortLabel,
           yaw: h.yaw,
           pitch: h.pitch,
           direction: h.direction,
@@ -285,6 +302,7 @@ export const getTourGraph = query({
     }
 
     return {
+      ...(isDraftPreview ? { isDraftPreview: true } : {}),
       tour: {
         id: tour._id,
         slug: tour.slug,

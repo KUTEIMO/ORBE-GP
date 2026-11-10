@@ -42,6 +42,9 @@ export function initHotspotPanel() {
     panelElement.addEventListener('pointerdown', (event) => {
       event.stopPropagation();
     });
+    panelElement.addEventListener('click', (event) => {
+      event.stopPropagation();
+    });
 
     panelElement.addEventListener('keydown', (event) => {
       if (event.key === 'Escape') {
@@ -248,7 +251,7 @@ function updatePanelContent(sceneData, hotspotData) {
       audio.oncanplay = () => {
         hasRealNarration = true;
         setAudioControlsEnabled(true);
-        setAudioStatus('[Voz Humana: Saraic Noemi Leon] Audio listo para reproducirse.');
+        setAudioStatus('Audio de accesibilidad listo para reproducirse.');
       };
       audio.onerror = () => {
         hasRealNarration = false;
@@ -315,7 +318,7 @@ async function playAudio() {
     try {
       stopSpeech();
       await audio.play();
-      setAudioStatus('[Audio Oficial: Saraic Noemi Leon] Reproduciendo audiodescripción con voz humana.');
+      setAudioStatus('Reproduciendo audiodescripción.');
       setAudioControlsEnabled(true);
       return;
     } catch (error) {
@@ -371,7 +374,7 @@ async function showCaptions() {
   const toggleButton = document.getElementById('toggleCaptions');
   if (!container) return;
 
-  const captionFile = currentHotspot?.captionFile || currentScene?.captionFile;
+  const captionFile = currentHotspot?.captionFile || (currentHotspot?.narration ? null : currentScene?.captionFile);
   if (!captionFile) {
     container.textContent = 'No hay subtítulos disponibles para este recurso.';
     container.dataset.visible = 'true';

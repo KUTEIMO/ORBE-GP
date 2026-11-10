@@ -124,7 +124,7 @@ export function resolveTourSlug(opts = {}) {
   const fromPath = parseTourPath(pathname);
   if (fromPath?.tourSlug) return fromPath.tourSlug;
 
-  let fromUrl = null;
+  let fromUrl;
   try {
     const raw = typeof search === "string" ? search : "";
     const params = new URLSearchParams(

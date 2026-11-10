@@ -330,3 +330,25 @@ export const canEditTour = query({
     return await userCanEditTour(ctx, user, args.tourId);
   },
 });
+
+export const updateTourTitle = mutation({
+  args: {
+    token: v.string(),
+    tourId: v.id("tours"),
+    title: v.string(),
+  },
+  returns: v.string(),
+  handler: async (ctx, args) => {
+    const user = await requireUser(ctx, args.token);
+    if (!(await userCanEditTour(ctx, user, args.tourId))) {
+      throw new Error("No autorizado para actualizar este tour");
+    }
+    const clean = args.title.trim();
+    if (!clean) throw new Error("Título requerido");
+    await ctx.db.patch(args.tourId, {
+      title: clean,
+      updatedAt: Date.now(),
+    });
+    return clean;
+  },
+});

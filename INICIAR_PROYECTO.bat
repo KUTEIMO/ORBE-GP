@@ -15,10 +15,18 @@ if %errorlevel% neq 0 (
     set "PATH=%PATH%;C:\Program Files\nodejs"
 )
 
-echo [*] Abriendo el navegador en http://localhost:8081/...
-start "" "http://localhost:8081/"
+echo [*] Verificando backend Convex local en 127.0.0.1:3210...
+powershell -NoProfile -Command "try { Invoke-WebRequest -UseBasicParsing -Uri 'http://127.0.0.1:3210/version' -TimeoutSec 2 | Out-Null; exit 0 } catch { exit 1 }"
+if %errorlevel% neq 0 (
+    echo [*] Iniciando servidor Convex local en ventana aparte...
+    start "ORBE360 - Convex Dev" cmd /c "npx convex dev"
+    timeout /t 4 /nobreak >nul
+)
 
-echo [*] Iniciando servidor web local Orbe360 en el puerto 8081...
+echo [*] Abriendo el navegador en http://127.0.0.1:8081/...
+start "" "http://127.0.0.1:8081/"
+
+echo [*] Iniciando servidor web local Orbe360 en 127.0.0.1:8081...
 node scripts/dev-server.mjs
 if %errorlevel% neq 0 (
     npm start

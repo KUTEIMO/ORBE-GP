@@ -16,7 +16,27 @@
   <main id="main" class="login-shell">
     <h1>Administración Orbe360</h1>
     <p class="lede">Gestiona las experiencias virtuales de tu organización.</p>
-    <form class="card" id="loginForm">
+
+    <div class="warn-box" id="loginConnWarn" role="alert" hidden>
+      <p style="margin:0 0 0.5rem" id="loginConnWarnText"></p>
+      <button type="button" class="btn btn--tiny" id="loginRetryBtn">Reintentar conexión</button>
+    </div>
+
+    <section class="card" id="activeSessionCard" hidden aria-live="polite">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.5rem">
+        <strong style="font-size:1rem">Sesión activa</strong>
+        <span class="badge badge--ok" id="activeRoleBadge">—</span>
+      </div>
+      <p style="margin:0 0 0.2rem;font-weight:600" id="activeUserLine">—</p>
+      <p class="hint" style="margin:0 0 1rem" id="activeEmailLine">—</p>
+      <div class="warn-box" id="activeReturnNotice" hidden></div>
+      <div class="cta-row" id="activeSessionActions"></div>
+      <div style="margin-top:1rem;padding-top:0.85rem;border-top:1px solid var(--orbe-line);display:flex;justify-content:flex-end">
+        <button type="button" class="btn btn--ghost" id="btnSwitchAccount">Cerrar sesión y cambiar de cuenta</button>
+      </div>
+    </section>
+
+    <form class="card" id="loginForm" hidden>
       <div class="field">
         <label for="email">Correo</label>
         <input id="email" name="email" type="email" autocomplete="username" required placeholder="tu@organizacion.com">
@@ -28,80 +48,235 @@
       <button class="btn btn--primary" type="submit" id="submitBtn">Entrar</button>
       <p class="status" id="status" role="status"></p>
     </form>
+
+    <aside id="demoCreds" hidden aria-hidden="true"></aside>
   </main>
   <script src="/plataforma/config.js"></script>
   <script type="module">
-    import { apiMutation, apiQuery, fetchMe, setToken, getToken } from "/plataforma/convex-client.js";
-    import { orgAdminHref } from "/src/tourSlug.js";
+    import { apiMutation, apiQuery, fetchMe, setToken, getToken, clearToken } from "/plataforma/convex-client.js";
+    import { controlWebHref, orgAdminHref, DEFAULT_TOUR_SLUG } from "/src/tourSlug.js";
 
     const status = document.getElementById("status");
-    const existing = getToken();
+    const emailEl = document.getElementById("email");
+    const passEl = document.getElementById("password");
+    const formEl = document.getElementById("loginForm");
+    const activeCard = document.getElementById("activeSessionCard");
+    const connWarn = document.getElementById("loginConnWarn");
+    const connWarnText = document.getElementById("loginConnWarnText");
+
     const params = new URLSearchParams(location.search);
+    const isSwitch = params.get("switch") === "1";
     const rawReturn = params.get("return");
     const returnUrl =
       rawReturn &&
       rawReturn.startsWith("/") &&
       !rawReturn.startsWith("//") &&
-      !rawReturn.includes("://")
+      !rawReturn.includes("://") &&
+      !rawReturn.includes("/plataforma/login")
         ? rawReturn
         : null;
 
-    async function resolveOrgAdminHome(token) {
-      try {
-        const orgs = await apiQuery("organizations:listOrganizations", {
-          token,
-          now: Date.now(),
-        });
-        if (orgs?.length) return orgAdminHref(orgs[0].slug);
-      } catch (_e) {
-        /* fall through */
-      }
-      return "/unisimoncucuta/org-admin.html";
+    function isReturnAllowedForUser(url, me) {
+      if (!url || !me) return false;
+      if (me.isSuperadmin && url.includes("control-web")) return false;
+      if (me.isSuperadmin && url.includes("org-admin")) return false;
+      if (!me.isSuperadmin && url.includes("superadmin")) return false;
+      return true;
     }
 
-    if (existing) {
+    async function resolveUserDestinations(token, me) {
+      if (me.isSuperadmin) {
+        return {
+          roleLabel: "Superadmin",
+          homeHref: "/plataforma/superadmin.html",
+          homeLabel: "Ir al panel de plataforma",
+          extraLinks: [],
+        };
+      }
+
+      const memberships = Array.isArray(me.memberships) ? me.memberships : [];
+      const orgs = await apiQuery("organizations:listOrganizations", {
+        token,
+        now: Date.now(),
+      }).catch(() => []);
+      const adminM = memberships.find((m) => m.role === "orgAdmin");
+      const primaryOrg = orgs?.find((o) => o.slug === (adminM?.orgSlug || memberships[0]?.orgSlug)) || orgs?.[0];
+      const primaryOrgSlug = adminM?.orgSlug || memberships[0]?.orgSlug || primaryOrg?.slug || null;
+      const primaryOrgId = adminM?.organizationId || memberships[0]?.organizationId || primaryOrg?.id || null;
+      const orgTitle = primaryOrg?.name || adminM?.orgName || primaryOrgSlug || "la organización";
+      const tours = primaryOrgId
+        ? await apiQuery("organizations:listTours", {
+            token,
+            organizationId: primaryOrgId,
+            now: Date.now(),
+          }).catch(() => [])
+        : [];
+      const primaryTour =
+        tours.find((t) => t.slug === DEFAULT_TOUR_SLUG) || tours[0] || null;
+
+      if (adminM || !memberships.length) {
+        const homeHref = primaryOrgSlug ? orgAdminHref(primaryOrgSlug) : "/plataforma/login.html";
+        const cw =
+          primaryOrgSlug && primaryTour
+            ? controlWebHref({ orgSlug: primaryOrgSlug, tourSlug: primaryTour.slug })
+            : null;
+        return {
+          roleLabel: "Admin Org",
+          homeHref,
+          homeLabel: primaryOrgSlug ? `Ir al panel (${orgTitle})` : "Ir al panel",
+          extraLinks: cw ? [{ href: cw, label: "Abrir Control Web" }] : [],
+        };
+      }
+
+      const editorOrgSlug = primaryOrgSlug;
+      const cw =
+        editorOrgSlug && primaryTour
+          ? controlWebHref({ orgSlug: editorOrgSlug, tourSlug: primaryTour.slug })
+          : null;
+      return {
+        roleLabel: "Editor",
+        homeHref: cw || (editorOrgSlug ? orgAdminHref(editorOrgSlug) : "/"),
+        homeLabel: cw ? "Abrir Control Web" : "Ver tours asignados",
+        extraLinks: editorOrgSlug ? [{ href: orgAdminHref(editorOrgSlug), label: "Ver panel de organización" }] : [],
+      };
+    }
+
+    async function signOutCurrent(tokenToRevoke) {
+      if (tokenToRevoke) {
+        try {
+          await apiMutation("auth:logout", { token: tokenToRevoke });
+        } catch (_e) {
+          /* ignore remote failure on sign out */
+        }
+      }
+      clearToken();
+    }
+
+    let currentSessionToken = null;
+
+    function renderActiveSession(me, token, dest) {
+      currentSessionToken = token;
+      activeCard.hidden = false;
+      formEl.hidden = true;
+      document.getElementById("activeRoleBadge").textContent = dest.roleLabel;
+      document.getElementById("activeUserLine").textContent = me.name || me.email;
+      document.getElementById("activeEmailLine").textContent = me.email;
+
+      const returnNotice = document.getElementById("activeReturnNotice");
+      const canReturn = isReturnAllowedForUser(returnUrl, me);
+      if (returnUrl && !canReturn) {
+        returnNotice.hidden = false;
+        returnNotice.textContent = me.isSuperadmin
+          ? "La sección solicitada corresponde a una organización y no está disponible para cuentas de plataforma."
+          : "Tu cuenta actual no tiene acceso a la vista solicitada.";
+      } else {
+        returnNotice.hidden = true;
+      }
+
+      const actionsEl = document.getElementById("activeSessionActions");
+      actionsEl.replaceChildren();
+
+      const homeBtn = document.createElement("a");
+      homeBtn.className = "btn btn--primary";
+      homeBtn.href = dest.homeHref;
+      homeBtn.textContent = dest.homeLabel;
+      actionsEl.appendChild(homeBtn);
+
+      if (canReturn && returnUrl !== dest.homeHref) {
+        const backBtn = document.createElement("a");
+        backBtn.className = "btn btn--ghost";
+        backBtn.href = returnUrl;
+        backBtn.textContent = returnUrl.includes("control-web")
+          ? "Volver a Control Web"
+          : returnUrl.includes("org-admin")
+            ? "Volver al panel"
+            : "Continuar";
+        actionsEl.appendChild(backBtn);
+      }
+
+      for (const extra of dest.extraLinks) {
+        if (extra.href === returnUrl || extra.href === dest.homeHref) continue;
+        const a = document.createElement("a");
+        a.className = "btn btn--ghost";
+        a.href = extra.href;
+        a.textContent = extra.label;
+        actionsEl.appendChild(a);
+      }
+    }
+
+    document.getElementById("btnSwitchAccount")?.addEventListener("click", async () => {
+      await signOutCurrent(currentSessionToken || getToken());
+      currentSessionToken = null;
+      activeCard.hidden = true;
+      formEl.hidden = false;
+      status.textContent = "Sesión cerrada. Ingresa con otra cuenta.";
+      status.classList.remove("error");
+      emailEl.focus();
+    });
+
+    async function checkExistingSession() {
+      connWarn.hidden = true;
+      const existing = getToken();
+      if (!existing) {
+        activeCard.hidden = true;
+        formEl.hidden = false;
+        return;
+      }
       try {
         const me = await fetchMe(existing);
-        if (me) {
-          if (returnUrl) {
-            location.href = returnUrl;
-          } else if (me.isSuperadmin) {
-            location.href = "/plataforma/superadmin.html";
-          } else {
-            const home = await resolveOrgAdminHome(existing);
-            if (home) location.href = home;
-          }
+        if (!me) {
+          clearToken();
+          activeCard.hidden = true;
+          formEl.hidden = false;
+          return;
         }
-      } catch (_e) { /* stay on login */ }
+        const dest = await resolveUserDestinations(existing, me);
+        if (returnUrl && !isSwitch && isReturnAllowedForUser(returnUrl, me)) {
+          location.href = returnUrl;
+          return;
+        }
+        renderActiveSession(me, existing, dest);
+      } catch (err) {
+        formEl.hidden = false;
+        connWarn.hidden = false;
+        connWarnText.textContent = err?.message || "No se pudo conectar con el servidor para verificar tu sesión.";
+      }
     }
 
-    const emailEl = document.getElementById("email");
-    const passEl = document.getElementById("password");
-    const formEl = document.getElementById("loginForm");
+    document.getElementById("loginRetryBtn")?.addEventListener("click", () => {
+      void checkExistingSession();
+    });
+
+    await checkExistingSession();
 
     formEl.addEventListener("submit", async (event) => {
       event.preventDefault();
       status.textContent = "Verificando credenciales…";
       status.classList.remove("error");
       try {
+        const previousToken = getToken();
         const email = emailEl.value.trim().toLowerCase();
         const password = passEl.value.trim();
         const result = await apiMutation("auth:login", { email, password });
         if (!result?.ok) {
           throw new Error(result?.error || "Credenciales inválidas. Verifica tu correo y contraseña.");
         }
+        if (previousToken && previousToken !== result.token) {
+          await signOutCurrent(previousToken);
+        }
         setToken(result.token);
         status.textContent = `Bienvenido, ${result.user.name}`;
-        if (returnUrl) {
+
+        const me = (await fetchMe(result.token).catch(() => null)) || {
+          ...result.user,
+          memberships: [],
+        };
+        if (returnUrl && isReturnAllowedForUser(returnUrl, me)) {
           location.href = returnUrl;
           return;
         }
-        if (result.user.isSuperadmin) {
-          location.href = "/plataforma/superadmin.html";
-          return;
-        }
-        const home = await resolveOrgAdminHome(result.token);
-        location.href = home || "/unisimoncucuta/org-admin.html";
+        const dest = await resolveUserDestinations(result.token, me);
+        location.href = dest.homeHref;
       } catch (error) {
         status.textContent = error.message || "No se pudo iniciar sesión";
         status.classList.add("error");

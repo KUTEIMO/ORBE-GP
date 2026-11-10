@@ -109,7 +109,7 @@ export function resolveClientBranding(branding, _tourSlug) {
   return branding;
 }
 
-function hexToRgba(hex, alpha) {
+function parseHexRgb(hex) {
   const raw = String(hex || "").replace("#", "");
   const full =
     raw.length === 3
@@ -118,12 +118,32 @@ function hexToRgba(hex, alpha) {
           .map((c) => c + c)
           .join("")
       : raw;
-  if (full.length !== 6) return `rgba(75, 85, 99, ${alpha})`;
+  if (full.length !== 6) return { r: 75, g: 85, b: 99 };
   const n = Number.parseInt(full, 16);
-  const r = (n >> 16) & 255;
-  const g = (n >> 8) & 255;
-  const b = n & 255;
+  if (Number.isNaN(n)) return { r: 75, g: 85, b: 99 };
+  return { r: (n >> 16) & 255, g: (n >> 8) & 255, b: n & 255 };
+}
+
+function hexToRgba(hex, alpha) {
+  const { r, g, b } = parseHexRgb(hex);
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
+/**
+ * WCAG 2.1 relative luminance -> pick dark or light ink with >= 4.5:1 contrast.
+ * @param {string} hex
+ * @returns {string}
+ */
+function contrastInkForHex(hex) {
+  const { r, g, b } = parseHexRgb(hex);
+  const toLin = (c) => {
+    const s = c / 255;
+    return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
+  };
+  const lum = 0.2126 * toLin(r) + 0.7152 * toLin(g) + 0.0722 * toLin(b);
+  // Threshold ~0.36 favors white text on institutional greens (#0a7a45 has lum ~0.14)
+  // and dark ink on bright yellow/cyan/light pastels.
+  return lum > 0.36 ? "#09110d" : "#ffffff";
 }
 
 function ensureMetaDescription(content) {
@@ -167,6 +187,7 @@ export function applyTourBranding(branding, opts = {}) {
 
   root.style.setProperty("--brand", primary);
   root.style.setProperty("--brand-strong", strong);
+  root.style.setProperty("--brand-ink", contrastInkForHex(primary));
   root.style.setProperty("--brand-soft", hexToRgba(primary, 0.88));
   root.style.setProperty("--brand-ghost", hexToRgba(primary, 0.22));
   root.style.setProperty("--accent", accent);

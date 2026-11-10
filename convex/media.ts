@@ -225,3 +225,250 @@ export const attachPanoramaToScene = mutation({
     };
   },
 });
+
+const a11yPatchReturnValidator = v.object({
+  srSummary: v.optional(v.string()),
+  narrationUrl: v.optional(v.string()),
+  narrationOptional: v.optional(v.boolean()),
+  transcriptUrl: v.optional(v.string()),
+  captionUrl: v.optional(v.string()),
+  timingUrl: v.optional(v.string()),
+});
+
+export const attachSceneA11y = mutation({
+  args: {
+    token: v.string(),
+    tourSlug: v.string(),
+    orgSlug: v.string(),
+    fileKey: v.string(),
+    srSummary: v.optional(v.string()),
+    narrationOptional: v.optional(v.boolean()),
+    narrationStorageId: v.optional(v.id("_storage")),
+    captionStorageId: v.optional(v.id("_storage")),
+    transcriptStorageId: v.optional(v.id("_storage")),
+    timingStorageId: v.optional(v.id("_storage")),
+    clearNarration: v.optional(v.boolean()),
+    clearCaption: v.optional(v.boolean()),
+  },
+  returns: a11yPatchReturnValidator,
+  handler: async (ctx, args) => {
+    const user = await requireUser(ctx, args.token);
+    const tour = await resolveTourForMedia(ctx, {
+      tourSlug: args.tourSlug,
+      orgSlug: args.orgSlug,
+    });
+    if (!(await userCanEditTour(ctx, user, tour._id))) {
+      throw new Error("No autorizado para editar accesibilidad de este tour");
+    }
+
+    const scene = await ctx.db
+      .query("scenes")
+      .withIndex("by_tour_and_file", (q) =>
+        q.eq("tourId", tour._id).eq("fileKey", args.fileKey)
+      )
+      .unique();
+    if (!scene) throw new Error(`Escena no encontrada: ${args.fileKey}`);
+
+    const now = Date.now();
+    const narrationUrl = args.clearNarration
+      ? undefined
+      : args.narrationStorageId
+        ? (await ctx.storage.getUrl(args.narrationStorageId)) ?? undefined
+        : scene.narrationUrl;
+    const captionUrl = args.clearCaption
+      ? undefined
+      : args.captionStorageId
+        ? (await ctx.storage.getUrl(args.captionStorageId)) ?? undefined
+        : scene.captionUrl;
+    const transcriptUrl = args.clearCaption
+      ? undefined
+      : args.transcriptStorageId
+        ? (await ctx.storage.getUrl(args.transcriptStorageId)) ?? undefined
+        : scene.transcriptUrl;
+    const timingUrl = args.clearCaption
+      ? undefined
+      : args.timingStorageId
+        ? (await ctx.storage.getUrl(args.timingStorageId)) ?? undefined
+        : scene.timingUrl;
+    const srSummary =
+      typeof args.srSummary === "string"
+        ? args.srSummary.trim() || undefined
+        : scene.srSummary;
+    const narrationOptional =
+      typeof args.narrationOptional === "boolean"
+        ? args.narrationOptional
+        : scene.narrationOptional;
+
+    await ctx.db.patch(scene._id, {
+      srSummary,
+      narrationOptional,
+      narrationUrl,
+      captionUrl,
+      transcriptUrl,
+      timingUrl,
+      updatedAt: now,
+    });
+
+    if (args.narrationStorageId && narrationUrl) {
+      await ctx.db.insert("assets", {
+        organizationId: tour.organizationId,
+        tourId: tour._id,
+        kind: "audio",
+        label: `${scene.title} (narración)`,
+        url: narrationUrl,
+        storageId: args.narrationStorageId,
+        objectKey: `orgs/${tour.organizationId}/tours/${tour._id}/assets/audio/${scene.fileKey}`,
+        createdAt: now,
+      });
+    }
+    if (args.captionStorageId && captionUrl) {
+      await ctx.db.insert("assets", {
+        organizationId: tour.organizationId,
+        tourId: tour._id,
+        kind: "caption",
+        label: `${scene.title} (VTT)`,
+        url: captionUrl,
+        storageId: args.captionStorageId,
+        objectKey: `orgs/${tour.organizationId}/tours/${tour._id}/assets/captions/${scene.fileKey}.vtt`,
+        createdAt: now,
+      });
+    }
+    if (args.transcriptStorageId && transcriptUrl) {
+      await ctx.db.insert("assets", {
+        organizationId: tour.organizationId,
+        tourId: tour._id,
+        kind: "transcript",
+        label: `${scene.title} (TXT)`,
+        url: transcriptUrl,
+        storageId: args.transcriptStorageId,
+        objectKey: `orgs/${tour.organizationId}/tours/${tour._id}/assets/transcripts/${scene.fileKey}.txt`,
+        createdAt: now,
+      });
+    }
+
+    await ctx.db.patch(tour._id, { updatedAt: now });
+    return {
+      srSummary,
+      narrationUrl,
+      narrationOptional,
+      transcriptUrl,
+      captionUrl,
+      timingUrl,
+    };
+  },
+});
+
+export const attachHotspotA11y = mutation({
+  args: {
+    token: v.string(),
+    tourSlug: v.string(),
+    orgSlug: v.string(),
+    hotspotClientKey: v.string(),
+    srSummary: v.optional(v.string()),
+    narrationOptional: v.optional(v.boolean()),
+    narrationStorageId: v.optional(v.id("_storage")),
+    captionStorageId: v.optional(v.id("_storage")),
+    transcriptStorageId: v.optional(v.id("_storage")),
+    timingStorageId: v.optional(v.id("_storage")),
+    clearNarration: v.optional(v.boolean()),
+    clearCaption: v.optional(v.boolean()),
+  },
+  returns: a11yPatchReturnValidator,
+  handler: async (ctx, args) => {
+    const user = await requireUser(ctx, args.token);
+    const tour = await resolveTourForMedia(ctx, {
+      tourSlug: args.tourSlug,
+      orgSlug: args.orgSlug,
+    });
+    if (!(await userCanEditTour(ctx, user, tour._id))) {
+      throw new Error("No autorizado para editar accesibilidad de este tour");
+    }
+
+    const hotspot = await ctx.db
+      .query("hotspots")
+      .withIndex("by_client_key", (q) =>
+        q.eq("tourId", tour._id).eq("clientKey", args.hotspotClientKey)
+      )
+      .unique();
+    if (!hotspot) {
+      throw new Error(
+        `Hotspot no encontrado en Convex (${args.hotspotClientKey}). Pulsa "Guardar cambios" primero si acabas de crearlo.`
+      );
+    }
+
+    const now = Date.now();
+    const narrationUrl = args.clearNarration
+      ? undefined
+      : args.narrationStorageId
+        ? (await ctx.storage.getUrl(args.narrationStorageId)) ?? undefined
+        : hotspot.narrationUrl;
+    const captionUrl = args.clearCaption
+      ? undefined
+      : args.captionStorageId
+        ? (await ctx.storage.getUrl(args.captionStorageId)) ?? undefined
+        : hotspot.captionUrl;
+    const transcriptUrl = args.clearCaption
+      ? undefined
+      : args.transcriptStorageId
+        ? (await ctx.storage.getUrl(args.transcriptStorageId)) ?? undefined
+        : hotspot.transcriptUrl;
+    const timingUrl = args.clearCaption
+      ? undefined
+      : args.timingStorageId
+        ? (await ctx.storage.getUrl(args.timingStorageId)) ?? undefined
+        : hotspot.timingUrl;
+    const srSummary =
+      typeof args.srSummary === "string"
+        ? args.srSummary.trim() || undefined
+        : hotspot.srSummary;
+    const narrationOptional =
+      typeof args.narrationOptional === "boolean"
+        ? args.narrationOptional
+        : hotspot.narrationOptional;
+
+    await ctx.db.patch(hotspot._id, {
+      srSummary,
+      narrationOptional,
+      narrationUrl,
+      captionUrl,
+      transcriptUrl,
+      timingUrl,
+      updatedAt: now,
+    });
+
+    if (args.narrationStorageId && narrationUrl) {
+      await ctx.db.insert("assets", {
+        organizationId: tour.organizationId,
+        tourId: tour._id,
+        kind: "audio",
+        label: `${hotspot.title} (narración)`,
+        url: narrationUrl,
+        storageId: args.narrationStorageId,
+        objectKey: `orgs/${tour.organizationId}/tours/${tour._id}/assets/hotspots/${hotspot.clientKey}`,
+        createdAt: now,
+      });
+    }
+    if (args.captionStorageId && captionUrl) {
+      await ctx.db.insert("assets", {
+        organizationId: tour.organizationId,
+        tourId: tour._id,
+        kind: "caption",
+        label: `${hotspot.title} (VTT)`,
+        url: captionUrl,
+        storageId: args.captionStorageId,
+        objectKey: `orgs/${tour.organizationId}/tours/${tour._id}/assets/hotspots/${hotspot.clientKey}.vtt`,
+        createdAt: now,
+      });
+    }
+
+    await ctx.db.patch(tour._id, { updatedAt: now });
+    return {
+      srSummary,
+      narrationUrl,
+      narrationOptional,
+      transcriptUrl,
+      captionUrl,
+      timingUrl,
+    };
+  },
+});

@@ -11,7 +11,8 @@
   <header class="admin-top">
     <a class="brand" href="/">ORBE<span>360</span><span class="brand-context"> · Superadmin</span></a>
     <nav>
-      <a id="navOrgAdmin" href="/plataforma/login.html">Vista org-admin</a>
+      <a href="/">Inicio Orbe360</a>
+      <a id="navAccountLink" href="/plataforma/login.html?switch=1&return=%2Fplataforma%2Fsuperadmin.html">Cuenta</a>
       <button type="button" class="btn btn--ghost" id="logoutBtn">Salir</button>
     </nav>
   </header>
@@ -20,9 +21,12 @@
       <div>
         <h1>Dashboard de plataforma</h1>
         <p id="whoami" class="hint hint--tight">Cargando sesión…</p>
-        <p class="path-hint">Patrón local: <code>/{orgSlug}/{tourSlug}/</code> · org-admin: <code>/{orgSlug}/org-admin.html</code></p>
       </div>
     </div>
+    <div class="warn-box" id="superRoleNotice" role="status" hidden></div>
+    <p class="guide" id="superPolicyGuide">
+      Gobernanza de plataforma: administras organizaciones, altas de tours y usuarios. El contenido interno de cada recorrido se gestiona desde la cuenta de su organización.
+    </p>
 
     <div class="kpi-row" id="kpiRow" aria-live="polite">
       <div class="kpi"><div class="kpi__value" id="kpiOrgs">—</div><div class="kpi__label">Organizaciones</div></div>
@@ -151,10 +155,21 @@
   <script src="/plataforma/config.js"></script>
   <script type="module">
     import { apiMutation, apiQuery, getToken, clearToken, fetchMe } from "/plataforma/convex-client.js";
-    import { publicTourHref, controlWebHref, orgAdminHref } from "/src/tourSlug.js";
+    import { publicTourHref, orgAdminHref } from "/src/tourSlug.js";
 
     const token = getToken();
-    if (!token) location.href = "/plataforma/login.html";
+    const loginBackUrl = `/plataforma/login.html?return=${encodeURIComponent(location.pathname)}`;
+    if (!token) location.href = loginBackUrl;
+
+    const noticeParam = new URLSearchParams(location.search).get("notice");
+    const noticeBox = document.getElementById("superRoleNotice");
+    if (noticeBox && noticeParam) {
+      noticeBox.hidden = false;
+      noticeBox.textContent =
+        noticeParam === "superadmin_no_tour_edit"
+          ? "Redirigido: la cuenta Superadmin no puede editar escenas ni hotspots en Control Web. Inicia sesión con un usuario de la empresa para editar contenido."
+          : "Redirigido: el panel Org Admin es exclusivo para los administradores de cada empresa. Aquí administras organizaciones, cuotas y usuarios.";
+    }
 
     const whoami = document.getElementById("whoami");
     const orgSelect = document.getElementById("userOrg");
@@ -183,7 +198,12 @@
 
     async function refresh() {
       const me = await fetchMe(token);
-      if (!me || !me.isSuperadmin) {
+      if (!me) {
+        clearToken();
+        location.href = loginBackUrl;
+        return;
+      }
+      if (!me.isSuperadmin) {
         const homeOrgs = await apiQuery("organizations:listOrganizations", {
           token,
           now: Date.now(),
@@ -195,7 +215,7 @@
         }
         return;
       }
-      whoami.textContent = `Sesión: ${me.name} (${me.email}) · operador de plataforma`;
+      whoami.textContent = `Sesión: ${me.name} (${me.email}) · Operador de plataforma`;
 
       let stats = null;
       try {
@@ -241,8 +261,8 @@
               <th>Slug</th>
               <th>Tours</th>
               <th>Cuota</th>
-              <th>URL</th>
-              <th>Admin</th>
+              <th>Ruta pública</th>
+              <th>Acceso empresa</th>
             </tr>
           </thead>
           <tbody>
@@ -259,7 +279,7 @@
                     <td>${o.tourCount ?? 0}</td>
                     <td>${escapeHtml(quota)}</td>
                     <td><code class="path-hint">/${escapeHtml(o.slug)}/{tour}/</code></td>
-                    <td><a href="${escapeHtml(orgAdminHref(o.slug))}">org-admin</a></td>
+                    <td><code>${escapeHtml(orgAdminHref(o.slug))}</code> <span class="hint">(cuenta empresa)</span></td>
                   </tr>`;
                 })
                 .join("") || "<tr><td colspan=6>Sin organizaciones</td></tr>"
@@ -276,10 +296,6 @@
       orgSelect.innerHTML = orgOpts;
       tourOrgSelect.innerHTML = orgOpts;
 
-      const firstOrg = orgs[0];
-      const navOrg = document.getElementById("navOrgAdmin");
-      if (firstOrg) navOrg.href = orgAdminHref(firstOrg.slug);
-
       document.getElementById("tourList").innerHTML = `
         <table class="table">
           <thead>
@@ -288,7 +304,7 @@
               <th>Org</th>
               <th>Slug</th>
               <th>Estado</th>
-              <th>Enlaces</th>
+              <th>Visibilidad / Acceso</th>
             </tr>
           </thead>
           <tbody>
@@ -298,20 +314,15 @@
                   const pub = t.orgSlug
                     ? publicTourHref({ tourSlug: t.slug, orgSlug: t.orgSlug })
                     : "#";
-                  const cw = t.orgSlug
-                    ? controlWebHref({ tourSlug: t.slug, orgSlug: t.orgSlug })
-                    : "#";
-                  const oa = t.orgSlug ? orgAdminHref(t.orgSlug) : "#";
+                  const accessCol = t.published
+                    ? `<a href="${escapeHtml(pub)}" target="_blank" rel="noopener">Abrir visor público</a>`
+                    : `<span class="hint">Borrador privado (solo empresa)</span>`;
                   return `<tr>
                     <td>${escapeHtml(t.title)}</td>
                     <td><code>${escapeHtml(t.orgSlug || "?")}</code></td>
                     <td><code>${escapeHtml(t.slug)}</code></td>
                     <td><span class="badge ${t.published ? "badge--ok" : "badge--muted"}">${t.published ? "publicado" : "borrador"}</span></td>
-                    <td>
-                      <a href="${escapeHtml(pub)}" target="_blank" rel="noopener">visor</a>
-                      · <a href="${escapeHtml(cw)}">control</a>
-                      · <a href="${escapeHtml(oa)}">org-admin</a>
-                    </td>
+                    <td>${accessCol}</td>
                   </tr>`;
                 })
                 .join("") || "<tr><td colspan=5>Sin tours</td></tr>"

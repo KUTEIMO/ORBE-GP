@@ -206,6 +206,20 @@ body.cw-authorized .cw-auth-gate {
   align-items: center;
 }
 
+.cw-session-chip {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--cw-accent-deep);
+  background: var(--cw-accent-soft);
+  border: 1px solid rgba(2, 132, 199, 0.25);
+  border-radius: 999px;
+  padding: 0.28rem 0.65rem;
+  max-width: 15rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .dirty-badge {
   font-size: 0.75rem;
   font-weight: 700;

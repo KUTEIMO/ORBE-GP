@@ -18,4 +18,13 @@ plataforma/config.local.js
 orbe-config.local.js
 !.config.local.js.example
 !config.local.js.example
+# Local Convex dev state & excluded backup/scratch folders (never commit)
+.convex/
+test-results/
+backups/
+_restos_exras_bloqueados/
+# Release ZIP bundles exceed GitHub's 100 MB limit (shared via OneDrive)
+entregables-corte-*/**/*.zip
+entregables-corte-*/*.zip
+*.zip
 

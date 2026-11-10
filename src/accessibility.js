@@ -328,20 +328,24 @@ function setupHelpDialog(config) {
 function setupWcagAuditDialog() {
   const toggleBtn = document.getElementById('wcagAuditToggle');
   const dialog = document.getElementById('wcagAuditDialog');
-  const closeBtn = document.getElementById('closeWcagAuditDialog');
 
-  if (!toggleBtn || !dialog || !closeBtn) return;
+  if (!toggleBtn || !dialog) return;
+
+  const closeBtns = dialog.querySelectorAll('[data-close-dialog], #closeWcagAuditDialog');
 
   toggleBtn.addEventListener('click', () => {
     dialog.showModal();
+    const primaryBtn = dialog.querySelector('.wcag-primary-button, [data-close-dialog]');
     requestAnimationFrame(() => {
-      closeBtn.focus();
+      primaryBtn?.focus();
     });
   });
 
-  closeBtn.addEventListener('click', () => {
-    dialog.close();
-    toggleBtn.focus();
+  closeBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      dialog.close();
+      toggleBtn.focus();
+    });
   });
 
   dialog.addEventListener('cancel', (event) => {

@@ -11,6 +11,8 @@
   <header class="admin-top">
     <a class="brand" href="/">ORBE<span>360</span><span class="brand-context" id="brandOrgContext"></span></a>
     <nav>
+      <a href="/">Inicio Orbe360</a>
+      <a id="navAccountLink" href="/plataforma/login.html?switch=1">Cuenta</a>
       <button type="button" class="btn btn--ghost" id="logoutBtn">Salir</button>
     </nav>
   </header>
@@ -18,8 +20,10 @@
     <div class="page-head">
       <div>
         <h1>Panel de organización</h1>
-        <p id="whoami" class="hint hint--tight">Cargando…</p>
-        <p id="quotaHint" class="quota-pill" hidden></p>
+        <div class="org-subbar">
+          <span id="whoami">Cargando…</span>
+          <span id="quotaHint" class="quota-pill" hidden></span>
+        </div>
       </div>
       <div class="field" id="orgSelectField" hidden style="margin:0;min-width:14rem">
         <label for="activeOrgSelect">Organización</label>
@@ -35,13 +39,50 @@
       <button type="button" role="tab" id="tab-access" aria-controls="panel-access" aria-selected="false" data-tab="access">Accesos</button>
     </div>
 
-    <section class="card tab-panel" id="panel-tours" role="tabpanel" aria-labelledby="tab-tours">
-      <h2>Tours</h2>
-      <p class="hint">Selecciona un tour para branding, publicación y enlaces. URL pública: <code>/{org}/{tour}/</code></p>
-      <label class="hint" for="activeTourSelect" style="display:block;margin-bottom:0.35rem">Tour activo</label>
+    <div class="active-tour-bar" id="activeTourBar" hidden>
+      <label for="activeTourSelect">Tour en edición</label>
       <select id="activeTourSelect" aria-label="Tour activo"></select>
+    </div>
+
+    <section class="card tab-panel" id="panel-tours" role="tabpanel" aria-labelledby="tab-tours">
+      <div class="page-head" style="margin-bottom:0.5rem">
+        <h2 style="margin:0">Tours de la organización</h2>
+      </div>
       <div id="toursList">Cargando tours…</div>
       <p class="status" id="toursStatus" role="status"></p>
+
+      <details class="card ops-panel" id="createTourDetails" style="margin-top:1.25rem">
+        <summary>Crear nuevo tour</summary>
+        <form id="orgCreateTourForm" style="margin-top:0.75rem">
+          <div class="section-grid">
+            <div class="field">
+              <label for="newTourTitle">Título del tour / sede</label>
+              <input id="newTourTitle" required placeholder="Ej. Sede 4 — Bloque G">
+            </div>
+            <div class="field">
+              <label for="newTourSlug">Slug de URL (único en la org)</label>
+              <input id="newTourSlug" required pattern="[a-z0-9]+(?:-[a-z0-9]+)*" placeholder="ej. sede-4">
+            </div>
+          </div>
+          <p class="hint" id="newTourUrlPreview" style="margin-top:0.25rem">Rutas resultantes: <code>/{org}/{slug}/</code> · <code>/{org}/{slug}/control-web/</code></p>
+          <div class="field">
+            <label>
+              <input type="checkbox" id="newTourPublished">
+              Publicar al crear (recomendado dejar sin marcar: queda en borrador privado para admin hasta que decidas publicar)
+            </label>
+          </div>
+          <div class="field">
+            <label>
+              <input type="checkbox" id="newTourInheritBrand" checked>
+              Aplicar paleta e identidad visual institucional del tour principal
+            </label>
+          </div>
+          <div class="cta-row">
+            <button type="submit" class="btn btn--primary" id="newTourSubmitBtn">Crear tour y rutas</button>
+          </div>
+          <p class="status" id="newTourStatus" role="status"></p>
+        </form>
+      </details>
     </section>
 
     <section class="card tab-panel" id="panel-branding" role="tabpanel" aria-labelledby="tab-branding" hidden>
@@ -133,17 +174,16 @@
         <h2>Publicación</h2>
         <p class="hint" id="publishTourLabel">Sin tour seleccionado.</p>
         <div id="checklistSummary" class="checklist-box" aria-live="polite">
-          <p class="hint">Evalúa el checklist a11y antes de publicar con claim accesible.</p>
+          <p class="hint">Evalúa los requisitos de accesibilidad antes de publicar.</p>
         </div>
         <div class="field">
           <label>
             <input type="checkbox" id="requireAccessible" checked>
-            Exigir checklist a11y al publicar
+            Exigir requisitos de accesibilidad al publicar
           </label>
         </div>
         <div class="cta-row">
           <button type="button" class="btn btn--ghost" id="evalChecklistBtn">Evaluar checklist</button>
-          <button type="button" class="btn btn--ghost" id="syncA11yBtn">Sincronizar paquete → Convex</button>
           <button type="button" class="btn btn--primary" id="publishBtn">Publicar</button>
           <button type="button" class="btn btn--ghost" id="unpublishBtn">Despublicar</button>
           <a class="btn btn--ghost" id="publicViewerLink" href="#" target="_blank" rel="noopener">Abrir visor</a>
@@ -153,28 +193,13 @@
     </section>
 
     <section class="card tab-panel" id="panel-access" role="tabpanel" aria-labelledby="tab-access" hidden>
-      <h2>Accesos del tour activo</h2>
-      <p class="hint">Enlaces dinámicos según org + tour seleccionados.</p>
+      <h2>Accesos</h2>
       <div class="cta-row">
         <a class="btn btn--primary" id="ctaControlWeb" href="#">Control Web</a>
         <a class="btn btn--ghost" id="ctaPublicTour" href="#">Tour público</a>
         <a class="btn btn--ghost" id="navPublicTour" href="#" hidden>Ver tour público</a>
         <a class="btn btn--ghost" id="navControlWeb" href="#" hidden>Control Web</a>
       </div>
-
-      <details class="card card--danger-zone ops-panel" id="spatialDangerSection" style="margin-top:1rem">
-        <summary>Avanzado — reset grafo espacial</summary>
-        <p class="warn-box" role="alert">
-          <strong>Sync espacial campus sobrescribe tu grafo.</strong>
-          Solo para reset consciente del piloto — no es un refresh diario.
-        </p>
-        <div class="cta-row">
-          <button type="button" class="btn btn--danger" id="syncSpatialBtn" disabled>
-            Reset grafo campus (sobrescribe)
-          </button>
-        </div>
-        <p class="status" id="spatialSyncStatus" role="status"></p>
-      </details>
     </section>
   </main>
 
@@ -190,20 +215,38 @@
     } from "/src/tourSlug.js";
 
     const token = getToken();
-    if (!token) location.href = "/plataforma/login.html";
+    const loginBackUrl = `/plataforma/login.html?return=${encodeURIComponent(location.pathname + location.search)}`;
+    if (!token) location.href = loginBackUrl;
 
-    const me = await fetchMe(token);
+    const navAccountLink = document.getElementById("navAccountLink");
+    if (navAccountLink) {
+      navAccountLink.href = `/plataforma/login.html?switch=1&return=${encodeURIComponent(location.pathname + location.search)}`;
+    }
+
+    let me = null;
+    try {
+      me = await fetchMe(token);
+    } catch (connErr) {
+      const who = document.getElementById("whoami");
+      who.textContent = connErr?.message || "Sin conexión con Convex.";
+      who.classList.add("error");
+      const retry = document.createElement("button");
+      retry.type = "button";
+      retry.className = "btn btn--primary";
+      retry.style.marginTop = "0.5rem";
+      retry.textContent = "Reintentar conexión";
+      retry.addEventListener("click", () => location.reload());
+      who.after(retry);
+      throw connErr;
+    }
     if (!me) {
       clearToken();
-      location.href = "/plataforma/login.html";
+      location.href = loginBackUrl;
     }
 
-    if (me.isSuperadmin) {
-      location.href = "/plataforma/superadmin.html";
+    if (me?.isSuperadmin) {
+      location.href = "/plataforma/superadmin.html?notice=use_org_admin_account";
     }
-
-    document.getElementById("whoami").textContent =
-      `Sesión: ${me.name} (${me.email})`;
 
     /** @type {Array<{ id: string, name: string, slug: string, maxTours?: number|null, tourCount?: number }>} */
     let orgs = [];
@@ -219,6 +262,30 @@
     let lastChecklist = null;
     /** @type {string} */
     let lastChecklistSource = "";
+
+    function getActiveMembership() {
+      const list = Array.isArray(me?.memberships) ? me.memberships : [];
+      return (
+        list.find((m) => m.organizationId === activeOrgId || m.orgSlug === activeOrgSlug) ||
+        list[0] ||
+        null
+      );
+    }
+
+    function refreshWhoami() {
+      if (!me) return;
+      const m = getActiveMembership();
+      const roleText = m?.role === "tourEditor" ? "Editor de tour" : "Administrador de organización";
+      document.getElementById("whoami").textContent =
+        `Sesión: ${me.name} (${me.email}) · ${roleText}`;
+      const createDetails = document.getElementById("createTourDetails");
+      if (createDetails) {
+        createDetails.hidden = m?.role === "tourEditor";
+      }
+    }
+    if (me && !me.isSuperadmin) {
+      refreshWhoami();
+    }
 
     const statusEl = document.getElementById("brandingStatus");
     const form = document.getElementById("brandingForm");
@@ -246,12 +313,16 @@
 
     /* —— Tabs —— */
     const tabButtons = [...document.querySelectorAll('.admin-tabs [role="tab"]')];
+    const activeTourBar = document.getElementById("activeTourBar");
     function activateTab(name) {
       for (const btn of tabButtons) {
         const on = btn.dataset.tab === name;
         btn.setAttribute("aria-selected", on ? "true" : "false");
         const panel = document.getElementById(`panel-${btn.dataset.tab}`);
         if (panel) panel.hidden = !on;
+      }
+      if (activeTourBar) {
+        activeTourBar.hidden = name === "tours" || tours.length === 0;
       }
     }
     tabButtons.forEach((btn) => {
@@ -326,7 +397,7 @@
       renderQuota();
     }
 
-    function renderChecklist(result, sourceLabel) {
+    function renderChecklist(result, _sourceLabel) {
       const box = document.getElementById("checklistSummary");
       if (!result) {
         box.innerHTML = `<p class="hint">Sin evaluación aún.</p>`;
@@ -337,20 +408,19 @@
       const warnings = Array.isArray(result.warnings) ? result.warnings : [];
       box.innerHTML = `
         <p>
-          <span class="badge ${ready ? "badge--ok" : "badge--no"}">ready ${ready ? "YES" : "NO"}</span>
-          <span class="hint"> · ${escapeHtml(sourceLabel)}</span>
+          <span class="badge ${ready ? "badge--ok" : "badge--no"}">${ready ? "Listo" : "Pendiente"}</span>
         </p>
         <p class="hint">
           Escenas: ${result.sceneCount ?? 0} ·
-          srSummary: ${result.scenesWithSrSummary ?? 0} ·
-          narración: ${result.scenesWithNarrationOrOptional ?? 0}
+          Resumen pantalla: ${result.scenesWithSrSummary ?? 0} ·
+          Locuciones: ${result.scenesWithNarrationOrOptional ?? 0}
         </p>
         ${
           issues.length
-            ? `<details open><summary>Bloqueos (${issues.length})</summary>
+            ? `<details open><summary>Pendientes (${issues.length})</summary>
                <ul class="issue-list">${issues.slice(0, 12).map((i) => `<li>${escapeHtml(i)}</li>`).join("")}
                ${issues.length > 12 ? `<li>… y ${issues.length - 12} más</li>` : ""}</ul></details>`
-            : `<p class="hint">Sin bloqueos de metadata.</p>`
+            : `<p class="hint">Sin bloqueos de accesibilidad.</p>`
         }
         ${
           warnings.length
@@ -363,19 +433,24 @@
 
     function renderToursList() {
       const el = document.getElementById("toursList");
+      const m = getActiveMembership();
+      const isEditorOnly = m?.role === "tourEditor";
       if (!tours.length) {
         el.innerHTML = `
           <div class="empty-state">
             <strong>Sin tours todavía</strong>
-            Pide al superadmin que cree el primer tour para esta organización.
+            ${isEditorOnly
+              ? "Pide al administrador de tu organización que cree el primer tour."
+              : "Crea el primer tour para esta organización en el apartado inferior."}
           </div>`;
         activeSelect.innerHTML = "";
+        if (activeTourBar) activeTourBar.hidden = true;
         return;
       }
       activeSelect.innerHTML = tours
         .map(
           (t) =>
-            `<option value="${escapeHtml(t.id)}" ${t.id === activeTourId ? "selected" : ""}>${escapeHtml(t.title)} (${escapeHtml(t.slug)})</option>`
+            `<option value="${escapeHtml(t.id)}" ${t.id === activeTourId ? "selected" : ""}>${escapeHtml(t.title)}</option>`
         )
         .join("");
       el.innerHTML = `<div class="tour-grid">${tours
@@ -388,35 +463,41 @@
             tourSlug: t.slug,
             orgSlug: activeOrgSlug,
           });
-          return `<button type="button" class="tour-card ${t.id === activeTourId ? "is-active" : ""}" data-tour-id="${escapeHtml(t.id)}">
-            <span class="badge ${t.published ? "badge--ok" : "badge--muted"}">${t.published ? "publicado" : "borrador"}</span>
-            <p class="tour-card__title">${escapeHtml(t.title)}</p>
+          return `<article class="tour-card ${t.id === activeTourId ? "is-active" : ""}" data-tour-id="${escapeHtml(t.id)}">
+            <div class="tour-card__head">
+              <p class="tour-card__title">${escapeHtml(t.title)}</p>
+              <span class="badge ${t.published ? "badge--ok" : "badge--muted"}">${t.published ? "Publicado" : "Borrador"}</span>
+            </div>
             <p class="tour-card__meta"><code>/${escapeHtml(activeOrgSlug)}/${escapeHtml(t.slug)}/</code></p>
             <div class="tour-card__actions">
-              <a href="${escapeHtml(pub)}" target="_blank" rel="noopener" data-stop>Visor</a>
-              <a href="${escapeHtml(cw)}" data-stop>Control Web</a>
-              <a href="#panel-branding" data-brand data-stop>Branding</a>
+              <a class="btn btn--tiny btn--primary" href="${escapeHtml(cw)}" data-stop>Control Web</a>
+              <a class="btn btn--tiny btn--ghost" href="${escapeHtml(pub)}" target="_blank" rel="noopener" data-stop>${t.published ? "Visor" : "Vista previa"}</a>
+              <button type="button" class="btn btn--tiny btn--ghost" data-brand data-stop>Branding</button>
+              <button type="button" class="btn btn--tiny btn--ghost" data-pub data-stop>Publicar</button>
             </div>
-          </button>`;
+          </article>`;
         })
         .join("")}</div>`;
 
       el.querySelectorAll(".tour-card").forEach((card) => {
         card.addEventListener("click", (e) => {
+          const tid = card.getAttribute("data-tour-id");
           if (e.target.closest("[data-stop]")) {
             if (e.target.closest("[data-brand]")) {
-              e.preventDefault();
-              setActiveTour(card.getAttribute("data-tour-id"));
+              setActiveTour(tid);
               activateTab("branding");
+            } else if (e.target.closest("[data-pub]")) {
+              setActiveTour(tid);
+              activateTab("publish");
             }
             return;
           }
-          setActiveTour(card.getAttribute("data-tour-id"));
+          setActiveTour(tid);
         });
       });
     }
 
-    async function loadTours() {
+    async function loadTours(selectSlug = null) {
       toursStatus.classList.remove("error");
       toursStatus.textContent = "Cargando tours…";
       try {
@@ -433,7 +514,7 @@
           now: Date.now(),
         });
         org.tourCount = tours.length;
-        const urlSlug = new URLSearchParams(location.search).get("slug");
+        const urlSlug = selectSlug || new URLSearchParams(location.search).get("slug");
         const preferred =
           tours.find((t) => t.slug === urlSlug) ||
           tours.find((t) => t.slug === DEFAULT_TOUR_SLUG) ||
@@ -447,26 +528,13 @@
           syncDeepLinks(null);
           document.getElementById("publishTourLabel").textContent =
             "Sin tour seleccionado.";
-          updateSpatialDangerUi(null);
         }
-        toursStatus.textContent = `${tours.length} tour(s) en ${org.slug}.`;
+        toursStatus.textContent = `${tours.length} ${tours.length === 1 ? "tour" : "tours"}`;
       } catch (e) {
         toursStatus.textContent = e.message || "Error al listar tours";
         toursStatus.classList.add("error");
         document.getElementById("toursList").textContent =
           "No autorizado o error de red.";
-      }
-    }
-
-    function updateSpatialDangerUi(tour) {
-      const btn = document.getElementById("syncSpatialBtn");
-      const status = document.getElementById("spatialSyncStatus");
-      if (!btn) return;
-      btn.disabled = !tour;
-      if (!tour) {
-        status.textContent = "Selecciona un tour para habilitar el reset.";
-      } else if (!status.dataset.locked) {
-        status.textContent = `Tour: ${tour.slug}. El reset sobrescribe conexiones curadas.`;
       }
     }
 
@@ -550,9 +618,8 @@
       activeTourId = tour.id;
       syncDeepLinks(tour.slug);
       document.getElementById("publishTourLabel").textContent =
-        `Tour: ${tour.title} · ${tour.slug} · ${tour.published ? "publicado" : "borrador"}`;
+        `${tour.title} · ${tour.published ? "Publicado" : "Borrador"}`;
       renderToursList();
-      updateSpatialDangerUi(tour);
       statusEl.classList.remove("error");
       await loadBranding();
       await evaluateChecklist({ quiet: true });
@@ -606,8 +673,10 @@
       } else {
         activeOrgId = preferredOrg.id;
         activeOrgSlug = preferredOrg.slug;
+        refreshWhoami();
         renderOrgs();
         await loadTours();
+        updateNewTourPreview();
       }
     }
 
@@ -619,7 +688,7 @@
         publishStatus.textContent = "Selecciona un tour.";
         return null;
       }
-      if (!quiet) publishStatus.textContent = "Evaluando checklist (Convex)…";
+      if (!quiet) publishStatus.textContent = "Evaluando requisitos…";
       lastChecklist = null;
       lastChecklistSource = "";
 
@@ -630,12 +699,12 @@
           requireCaptions: false,
         });
         lastChecklist = result;
-        lastChecklistSource = "evaluateTourFromDb (Convex SoT)";
+        lastChecklistSource = "Estado actual";
         renderChecklist(result, lastChecklistSource);
         if (!quiet) {
           publishStatus.textContent = result.ready
-            ? "Checklist DB: ready YES."
-            : "Checklist DB: ready NO.";
+            ? "Listo para publicar con accesibilidad."
+            : "Faltan requisitos de accesibilidad.";
         }
         return result;
       } catch (e) {
@@ -646,132 +715,8 @@
       }
     }
 
-    async function syncPackageToConvex() {
-      const tour = getActiveTour();
-      publishStatus.classList.remove("error");
-      if (!tour) {
-        publishStatus.textContent = "Selecciona un tour.";
-        return;
-      }
-      publishStatus.textContent = "Sincronizando paquete a11y → Convex…";
-      try {
-        let pkg = null;
-        try {
-          const res = await fetch("/assets/accessibility/a11y-package.json", {
-            cache: "no-store",
-          });
-          if (res.ok) pkg = await res.json();
-        } catch (_e) {
-          pkg = null;
-        }
-        let result;
-        if (pkg && typeof pkg === "object") {
-          if (pkg.tourSlug && pkg.tourSlug !== tour.slug) {
-            publishStatus.textContent = `Paquete es para "${pkg.tourSlug}"; tour activo es "${tour.slug}".`;
-            publishStatus.classList.add("error");
-            return;
-          }
-          result = await apiMutation("accessibilityPublish:importA11yPackage", {
-            token,
-            tourId: tour.id,
-            package: {
-              tourSlug: pkg.tourSlug,
-              scenes: pkg.scenes || {},
-              hotspots: pkg.hotspots || {},
-            },
-            saveSnapshot: true,
-            createMissing: tour.slug === "experienciavirtual",
-          });
-        } else if (tour.slug === "experienciavirtual") {
-          result = await apiMutation(
-            "accessibilityPublish:syncCampusA11yPackage",
-            {
-              token,
-              tourId: tour.id,
-              saveSnapshot: true,
-            }
-          );
-        } else {
-          publishStatus.textContent =
-            "No hay a11y-package.json local para importar.";
-          publishStatus.classList.add("error");
-          return;
-        }
-
-        const missing =
-          (result.scenesMissing?.length || 0) +
-          (result.hotspotsMissing?.length || 0);
-        publishStatus.textContent =
-          `Sync: ${result.scenesUpdated} escenas, ${result.hotspotsUpdated} hotspots` +
-          (missing ? ` · ${missing} keys sin match` : "") +
-          (result.checklist?.ready ? " · ready YES" : " · ready NO");
-        if (result.checklist) {
-          lastChecklist = result.checklist;
-          lastChecklistSource = "import → evaluateTourFromDb";
-          renderChecklist(result.checklist, lastChecklistSource);
-        } else {
-          await evaluateChecklist({ quiet: true });
-        }
-      } catch (e) {
-        publishStatus.textContent = e.message || "Error al sincronizar";
-        publishStatus.classList.add("error");
-      }
-    }
-
     document.getElementById("evalChecklistBtn").addEventListener("click", () => {
       evaluateChecklist({ quiet: false });
-    });
-
-    document.getElementById("syncA11yBtn").addEventListener("click", () => {
-      syncPackageToConvex();
-    });
-
-    document.getElementById("syncSpatialBtn").addEventListener("click", async () => {
-      const tour = getActiveTour();
-      const status = document.getElementById("spatialSyncStatus");
-      const btn = document.getElementById("syncSpatialBtn");
-      status.classList.remove("error");
-      delete status.dataset.locked;
-      if (!tour) {
-        status.textContent = "Selecciona un tour.";
-        return;
-      }
-      const first = window.confirm(
-        "Sync espacial campus sobrescribe tu grafo.\n\n" +
-          "Esto restaura ~144 conexiones del paquete campus y BORRA el trabajo curado.\n\n" +
-          "¿Resetear el grafo de «" +
-          tour.slug +
-          "»?"
-      );
-      if (!first) {
-        status.textContent = "Reset cancelado.";
-        return;
-      }
-      const typed = window.prompt(
-        "Escribe SOBRESCRIBIR para confirmar (o Cancelar)."
-      );
-      if (typed !== "SOBRESCRIBIR") {
-        status.textContent = "Confirmación incorrecta. Reset cancelado.";
-        return;
-      }
-      btn.disabled = true;
-      status.dataset.locked = "1";
-      status.textContent = "Reseteando grafo espacial…";
-      try {
-        const result = await apiMutation("tourAdmin:syncCampusSpatialGraph", {
-          token,
-          tourId: tour.id,
-        });
-        status.textContent =
-          `Grafo sobrescrito: ${result.connectionsSaved} conexiones, ${result.navHotspots} nav.`;
-        status.classList.add("error");
-      } catch (e) {
-        status.textContent = e.message || "Error al resetear grafo espacial";
-        status.classList.add("error");
-      } finally {
-        updateSpatialDangerUi(getActiveTour());
-        delete status.dataset.locked;
-      }
     });
 
     async function refreshTourFlags() {
@@ -790,7 +735,7 @@
       renderQuota();
       if (tour) {
         document.getElementById("publishTourLabel").textContent =
-          `Tour: ${tour.title} · ${tour.slug} · ${tour.published ? "publicado" : "borrador"}`;
+          `${tour.title} · ${tour.published ? "Publicado" : "Borrador"}`;
       }
     }
 
@@ -802,9 +747,7 @@
         return;
       }
       const requireAccessible = document.getElementById("requireAccessible").checked;
-      publishStatus.textContent = requireAccessible
-        ? "Publicando con checklist a11y…"
-        : "Publicando grafo espacial…";
+      publishStatus.textContent = "Publicando…";
 
       try {
         if (requireAccessible) {
@@ -819,12 +762,9 @@
           );
           if (result.checklist) {
             lastChecklist = result.checklist;
-            renderChecklist(
-              result.checklist,
-              "setTourPublished ← evaluateTourFromDb"
-            );
+            renderChecklist(result.checklist, "Estado actual");
           }
-          publishStatus.textContent = "Tour publicado (claim a11y aplicado).";
+          publishStatus.textContent = "Tour publicado.";
         } else {
           await apiMutation("accessibilityPublish:setTourPublished", {
             token,
@@ -832,8 +772,7 @@
             published: true,
             requireAccessible: false,
           });
-          publishStatus.textContent =
-            "Tour publicado (solo espacial). Checklist a11y no exigido.";
+          publishStatus.textContent = "Tour publicado (sin validación accesible).";
         }
         await refreshTourFlags();
         await evaluateChecklist({ quiet: true });
@@ -956,6 +895,124 @@
       } catch (e) {
         statusEl.textContent = e.message || "Error al guardar";
         statusEl.classList.add("error");
+      }
+    });
+
+    function slugifyTourTitle(val) {
+      return String(val || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)/g, "");
+    }
+
+    function updateNewTourPreview() {
+      const orgPart = activeOrgSlug || "{org}";
+      const slugInput = document.getElementById("newTourSlug");
+      const previewEl = document.getElementById("newTourUrlPreview");
+      const s = slugInput?.value.trim() || "{slug}";
+      if (previewEl) {
+        previewEl.innerHTML =
+          `Rutas resultantes: <code>/${escapeHtml(orgPart)}/${escapeHtml(s)}/</code> · <code>/${escapeHtml(orgPart)}/${escapeHtml(s)}/control-web/</code>`;
+      }
+    }
+
+    const newTourTitleEl = document.getElementById("newTourTitle");
+    const newTourSlugEl = document.getElementById("newTourSlug");
+    let slugManuallyEdited = false;
+
+    newTourTitleEl?.addEventListener("input", () => {
+      if (!slugManuallyEdited && newTourSlugEl) {
+        newTourSlugEl.value = slugifyTourTitle(newTourTitleEl.value);
+      }
+      updateNewTourPreview();
+    });
+
+    newTourSlugEl?.addEventListener("input", () => {
+      slugManuallyEdited = newTourSlugEl.value.trim().length > 0;
+      updateNewTourPreview();
+    });
+
+    document.getElementById("orgCreateTourForm")?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const status = document.getElementById("newTourStatus");
+      const btn = document.getElementById("newTourSubmitBtn");
+      status.classList.remove("error");
+
+      const org = getActiveOrg();
+      if (!org || !activeOrgSlug) {
+        status.textContent = "Selecciona una organización activa.";
+        status.classList.add("error");
+        return;
+      }
+
+      const title = newTourTitleEl.value.trim();
+      const slug = newTourSlugEl.value.trim().toLowerCase();
+      const published = document.getElementById("newTourPublished").checked;
+      const inheritBrand = document.getElementById("newTourInheritBrand").checked;
+
+      if (!title || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) {
+        status.textContent = "Slug inválido (usa solo minúsculas, números y guiones).";
+        status.classList.add("error");
+        return;
+      }
+
+      if (btn) btn.disabled = true;
+      status.textContent = "Creando tour y rutas…";
+      try {
+        await apiMutation("organizations:createTour", {
+          token,
+          organizationId: org.id,
+          slug,
+          title,
+          published,
+        });
+
+        if (inheritBrand && tours.length > 0) {
+          try {
+            const refTour = tours.find((t) => t.slug === DEFAULT_TOUR_SLUG) || tours[0];
+            const refRow = await apiQuery("branding:getBrandingForAdmin", {
+              token,
+              slug: refTour.slug,
+              orgSlug: activeOrgSlug,
+              now: Date.now(),
+            });
+            if (refRow?.branding && refRow.branding.primaryColor !== "#0284c7") {
+              await apiMutation("branding:saveBranding", {
+                token,
+                slug,
+                orgSlug: activeOrgSlug,
+                branding: {
+                  ...refRow.branding,
+                  metaTitle: `${title} — ${refRow.branding.clientShortName || refRow.branding.clientName}`,
+                  metaDescription: `Recorrido virtual 360° — ${title}.`,
+                  headerTitle: refRow.branding.clientShortName || title,
+                },
+              });
+            }
+          } catch (_brandErr) {
+            // Non-blocking: tour already created cleanly
+          }
+        }
+
+        e.target.reset();
+        slugManuallyEdited = false;
+        document.getElementById("newTourPublished").checked = false;
+        document.getElementById("newTourInheritBrand").checked = true;
+        await loadTours(slug);
+        updateNewTourPreview();
+        const cwUrl = controlWebHref({ tourSlug: slug, orgSlug: activeOrgSlug });
+        const pubUrl = publicTourHref({ tourSlug: slug, orgSlug: activeOrgSlug });
+        status.innerHTML =
+          `Tour creado y seleccionado: <code>${escapeHtml(slug)}</code> · ` +
+          `<a href="${escapeHtml(cwUrl)}">Abrir Control Web</a> · ` +
+          `<a href="${escapeHtml(pubUrl)}" target="_blank" rel="noopener">Abrir Visor</a>`;
+      } catch (err) {
+        status.textContent = err.message || "Error al crear tour";
+        status.classList.add("error");
+      } finally {
+        if (btn) btn.disabled = false;
       }
     });
 

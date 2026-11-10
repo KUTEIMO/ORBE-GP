@@ -26,6 +26,7 @@
 import http from "node:http";
 import fs from "node:fs";
 import path from "node:path";
+import { spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -355,190 +356,94 @@ function buildPrettyRedirect(slug, searchParams) {
   return `/${mapped.org}/${mapped.tour}/${q ? `?${q}` : ""}`;
 }
 
-/**
- * Mock accounts for local evaluation (Gestión de Proyectos 2026-2).
- */
-const DEV_USERS = [
-  {
-    email: "superadmin@orbe360.local",
-    password: "OrbeSuper2026!",
-    token: "demo-token-superadmin",
-    user: {
-      id: "mock-superadmin",
-      name: "Superadministrador Orbe360",
-      email: "superadmin@orbe360.local",
-      isSuperadmin: true,
-    },
-  },
-  {
-    email: "admin@unisimon.local",
-    password: "UnisimonAdmin2026!",
-    token: "demo-token-orgadmin",
-    user: {
-      id: "mock-orgadmin",
-      name: "Administrador Unisimón",
-      email: "admin@unisimon.local",
-      isSuperadmin: false,
-    },
-  },
-  {
-    email: "admin@unisimon.edu.co",
-    password: "UnisimonAdmin2026!",
-    token: "demo-token-orgadmin",
-    user: {
-      id: "mock-orgadmin",
-      name: "Administrador Unisimón",
-      email: "admin@unisimon.local",
-      isSuperadmin: false,
-    },
-  },
-  {
-    email: "qa-third@orbe-authz.test",
-    password: "QaThirdUser2026!",
-    token: "demo-token-qa",
-    user: {
-      id: "mock-qa",
-      name: "Usuario QA Test",
-      email: "qa-third@orbe-authz.test",
-      isSuperadmin: false,
-    },
-  },
-];
-
-function handleDevApi(apiPath, args = {}) {
-  if (apiPath === "auth:login") {
-    const email = String(args.email || "").trim().toLowerCase();
-    const password = String(args.password || "").trim();
-    const match = DEV_USERS.find(
-      (u) =>
-        (u.email.toLowerCase() === email ||
-          (email === "admin" && u.email === "admin@unisimon.local") ||
-          (email === "superadmin" && u.email === "superadmin@orbe360.local")) &&
-        u.password === password
-    );
-    if (match) {
-      return { ok: true, token: match.token, user: match.user };
-    }
-    return { ok: false, error: "Credenciales inválidas. Verifica tu correo y contraseña." };
-  }
-
-  if (apiPath === "auth:me") {
-    const token = String(args.token || "");
-    const match = DEV_USERS.find((u) => u.token === token);
-    if (match) return match.user;
-    if (token.includes("superadmin")) return DEV_USERS[0].user;
-    return DEV_USERS[1].user;
-  }
-
-  if (apiPath === "auth:logout") {
-    return { ok: true };
-  }
-
-  if (apiPath === "organizations:listOrganizations") {
-    return [
-      {
-        id: "org-unisimon",
-        name: "Universidad Simón Bolívar (Cúcuta)",
-        slug: "unisimoncucuta",
-        description: "Sede Cúcuta — Campus Anita Consuegra",
-        maxTours: 5,
-        tourCount: 1,
-      },
-    ];
-  }
-
-  if (apiPath === "organizations:listTours") {
-    return [
-      {
-        id: "tour-unisimon-1",
-        organizationId: "org-unisimon",
-        orgSlug: "unisimoncucuta",
-        slug: "experienciavirtual",
-        title: "Campus Cúcuta — Biblioteca Anita Consuegra",
-        published: true,
-      },
-    ];
-  }
-
-  if (apiPath === "organizations:getPlatformStats") {
-    return { orgCount: 1, tourCount: 1, publishedTourCount: 1, userCount: 2 };
-  }
-
-  if (apiPath === "auth:listUsers") {
-    return [DEV_USERS[0].user, DEV_USERS[1].user];
-  }
-
-  if (apiPath === "tourAdmin:assertTourEditorAccess") {
-    const token = String(args.token || "");
-    if (token === "demo-token-superadmin" || token.includes("superadmin")) {
-      return { ok: false, reason: "superadmin_no_tour_edit" };
-    }
-    return {
-      ok: true,
-      tourId: "local-tour-unisimon",
-      title: "Campus Cúcuta — Biblioteca Anita Consuegra",
-      orgSlug: args.orgSlug || "unisimoncucuta",
-      tourSlug: args.tourSlug || "experienciavirtual",
-    };
-  }
-
-  if (apiPath === "tourAdmin:getAdminSnapshot") {
-    return null;
-  }
-
-  if (apiPath === "tourAdmin:saveTourSnapshot" || apiPath === "tourAdmin:syncGraphFromAdmin") {
-    return {
-      ok: true,
-      scenesSaved: (args.scenes || []).length || 62,
-      connectionsSaved: (args.connections || []).length || 43,
-    };
-  }
-
-  if (apiPath === "branding:getBrandingForAdmin" || apiPath === "branding:getPublicBranding") {
-    return {
-      branding: {
-        clientName: "Universidad Simón Bolívar",
-        clientShortName: "Unisimón Cúcuta",
-        primaryColor: "#0a7a45",
-        primaryStrong: "#086638",
-        accentColor: "#1d9bf0",
-        metaTitle: "Recorrido Virtual 360° Unisimón",
-        metaDescription: "Campus Virtual Inclusivo PEVCI — Universidad Simón Bolívar Sede Cúcuta",
-        logoUrl: "/media/branding/logo-unisimon.png",
-        fallbackImageUrl: "/panoramas/biblioteca_01_entrada.jpg",
-      },
-    };
-  }
-
-  return { ok: true };
-}
-
 const server = http.createServer((req, res) => {
   try {
     const method = (req.method || "GET").toUpperCase();
     const url = new URL(req.url || "/", `http://${HOST}:${PORT}`);
     const pathname = url.pathname;
 
-    // Local Mock API endpoints for zero-config authentication & admin
+    // Never emulate Convex API on the static web server: surface missing Convex cleanly
     if (method === "POST" && (pathname === "/api/mutation" || pathname === "/api/query")) {
+      res.writeHead(503, {
+        "Content-Type": "application/json; charset=utf-8",
+        "Cache-Control": "no-store",
+      });
+      res.end(
+        JSON.stringify({
+          status: "error",
+          errorMessage:
+            "Las consultas a Convex deben enviarse al servidor Convex (http://127.0.0.1:3210). Ejecuta 'npx convex dev'.",
+        })
+      );
+      return;
+    }
+
+    // Salomé Neural TTS endpoint (local dev helper for Control Web; output stored in Convex File Storage)
+    if (method === "POST" && pathname === "/api/tts/salome") {
       let body = "";
+      let aborted = false;
       req.on("data", (chunk) => {
         body += chunk;
+        if (body.length > 100_000) {
+          aborted = true;
+          res.writeHead(413, { "Content-Type": "application/json" });
+          res.end(JSON.stringify({ ok: false, error: "Guion demasiado grande." }));
+          req.destroy();
+        }
       });
       req.on("end", () => {
+        if (aborted) return;
+        let parsed;
         try {
-          const parsed = JSON.parse(body || "{}");
-          const result = handleDevApi(parsed.path, parsed.args || {});
-          res.writeHead(200, {
-            "Content-Type": "application/json; charset=utf-8",
-            "Cache-Control": "no-store",
-            "Access-Control-Allow-Origin": "*",
-          });
-          res.end(JSON.stringify({ status: "success", value: result }));
-        } catch (err) {
-          res.writeHead(500, { "Content-Type": "application/json" });
-          res.end(JSON.stringify({ status: "error", errorMessage: err.message }));
+          parsed = JSON.parse(body || "{}");
+        } catch {
+          res.writeHead(400, { "Content-Type": "application/json" });
+          res.end(JSON.stringify({ ok: false, error: "JSON inválido." }));
+          return;
         }
+        const py = spawn("python", [path.join(ROOT, "scripts", "tts-salome.py")], {
+          cwd: ROOT,
+          stdio: ["pipe", "pipe", "pipe"],
+        });
+        let out = "";
+        let errOut = "";
+        py.stdout.on("data", (d) => {
+          out += d.toString("utf8");
+        });
+        py.stderr.on("data", (d) => {
+          errOut += d.toString("utf8");
+        });
+        py.on("error", (err) => {
+          if (res.writableEnded) return;
+          res.writeHead(500, { "Content-Type": "application/json" });
+          res.end(JSON.stringify({ ok: false, error: `Python no disponible: ${err.message}` }));
+        });
+        py.on("close", (code) => {
+          if (res.writableEnded) return;
+          try {
+            const payload = JSON.parse(out || "{}");
+            res.writeHead(payload.ok ? 200 : 400, {
+              "Content-Type": "application/json; charset=utf-8",
+              "Cache-Control": "no-store",
+            });
+            res.end(JSON.stringify(payload));
+          } catch {
+            res.writeHead(code === 0 ? 500 : 502, { "Content-Type": "application/json" });
+            res.end(
+              JSON.stringify({
+                ok: false,
+                error: errOut.trim() || "Error inesperado generando audio con Salomé.",
+              })
+            );
+          }
+        });
+        py.stdin.end(
+          JSON.stringify({
+            text: String(parsed.text || ""),
+            voice: String(parsed.voice || "es-CO-SalomeNeural"),
+            rate: String(parsed.rate || "-5%"),
+          })
+        );
       });
       return;
     }

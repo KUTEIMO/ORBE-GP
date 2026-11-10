@@ -8,8 +8,14 @@
       ? localStorage.getItem("orbe360.convexUrl")
       : null;
 
+  const isLoopback =
+    typeof location !== "undefined" &&
+    (location.hostname === "127.0.0.1" || location.hostname === "localhost");
+
   window.__CONVEX_URL__ =
-    window.__CONVEX_URL__ || fromStorage || "";
+    window.__CONVEX_URL__ ||
+    fromStorage ||
+    (isLoopback ? "http://127.0.0.1:3210" : "");
 
   window.__ORBE_ORG_SLUG__ = window.__ORBE_ORG_SLUG__ || "unisimoncucuta";
   window.__ORBE_TOUR_SLUG__ = window.__ORBE_TOUR_SLUG__ || "experienciavirtual";

@@ -103,7 +103,8 @@ function getCurrentSceneData() {
 async function loadSceneCaptions(target) {
   sceneCues = [];
   const sceneId = target.id;
-  const captionUrl = target.captionFile || (sceneId ? sceneCaptionPath(sceneId) : null);
+  const strictDb = Boolean(appState.config?.convexAuthoritative);
+  const captionUrl = target.captionFile || (!strictDb && sceneId ? sceneCaptionPath(sceneId) : null);
   if (!captionUrl) return;
 
   try {
@@ -130,16 +131,23 @@ export async function playSceneNarration(sceneData, options = {}) {
   currentPlayingSceneId = sceneId;
   isCaptionDismissedByUser = false;
 
-  // Ruta canónica del MP3 en media
-  const audioUrl = target.narration || sceneAudioPath(sceneId);
+  const strictDb = Boolean(appState.config?.convexAuthoritative);
+  const audioUrl = target.narration || (!strictDb ? sceneAudioPath(sceneId) : null);
 
   stopSpeech();
   audio.pause();
   audio.currentTime = 0;
-  audio.src = audioUrl;
 
   isAudioActive = true;
   updateAudioUiState(true, target.title);
+
+  if (!audioUrl) {
+    loadSceneCaptions(target);
+    fallbackSpeechNarration(target);
+    return;
+  }
+
+  audio.src = audioUrl;
 
   // Cargar y activar subtítulos sincronizados
   loadSceneCaptions(target);
@@ -283,19 +291,23 @@ function updateAudioUiState(isPlaying, customText) {
 
   const btnPanel = document.getElementById('playSceneAudioBtn');
   if (btnPanel) {
+    const pauseSvg = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+    const speakerSvg = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path fill="currentColor" d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>';
     btnPanel.innerHTML = isPlaying
-      ? '<span aria-hidden="true">⏸</span> Pausar audio guía de esta escena'
-      : '<span aria-hidden="true">🔊</span> Escuchar audio guía de esta escena (M)';
+      ? `${pauseSvg}<span>Pausar audio guía de esta escena</span>`
+      : `${speakerSvg}<span>Escuchar audio guía de esta escena (M)</span>`;
     btnPanel.classList.toggle('toolbar-button--active', isPlaying);
   }
 
   const statusEl = document.getElementById('sceneAudioStatus');
   if (statusEl) {
     if (isPlaying) {
-      statusEl.textContent = `🔊 Reproduciendo narración: ${customText || 'escena'}`;
-      statusEl.style.color = '#38bdf8';
+      statusEl.textContent = `Reproduciendo narración: ${customText || 'escena'}`;
+      statusEl.classList.add('scene-audio-status--active');
+      statusEl.style.color = '';
     } else {
       statusEl.textContent = customText ? customText : 'Audio guía en pausa (Presiona M para escuchar)';
+      statusEl.classList.remove('scene-audio-status--active');
       statusEl.style.color = '';
     }
   }

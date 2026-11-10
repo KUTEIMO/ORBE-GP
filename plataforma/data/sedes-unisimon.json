@@ -4,32 +4,35 @@
   "sedes": [
     {
       "id": "sede-1",
-      "label": "Sede 1",
-      "blurb": "Recorrido en preparación.",
-      "image": null,
+      "label": "Sede 1 · Bloque A",
+      "blurb": "Núcleo Av. 3: Rectoría, admisiones, registro, servicios financieros y atención administrativa.",
+      "image": "/plataforma/assets/sedes/unisimon_sede_1_1791299946541.jpg",
+      "alt": "Sede 1 Universidad Simón Bolívar Cúcuta — Bloque A",
       "tourSlug": null
     },
     {
       "id": "sede-2",
-      "label": "Sede 2",
-      "blurb": "Biblioteca Anita Bolívar de Consuegra: ingreso por el mural en arco.",
+      "label": "Sede 2 · Bloques B, C y D",
+      "blurb": "Av. 3 #13-34: Biblioteca Anita Consuegra, aulas generales, cómputo, cafetería y laboratorios científicos.",
       "image": "/plataforma/assets/sedes/sede-2.jpg",
-      "alt": "Entrada de vidrio en arco rodeada por un mural colorido en la biblioteca de la Sede 2",
+      "alt": "Entrada de vidrio en arco rodeada por un mural colorido en la biblioteca de la Sede 2 (Bloques B, C y D)",
       "tourSlug": "experienciavirtual"
     },
     {
       "id": "sede-3",
-      "label": "Sede 3",
-      "blurb": "Recorrido en preparación.",
-      "image": null,
+      "label": "Sede 3 · Bloques E y F",
+      "blurb": "Extensiones Av. 4: Consultorio Jurídico, Centro de Conciliación, Cámara Gesell y áreas de Ciencias Jurídicas, Sociales y Psicología.",
+      "image": "/plataforma/assets/sedes/unisimon_laboratorios_1791299966443.jpg",
+      "alt": "Sede 3 Universidad Simón Bolívar Cúcuta — Bloques E y F",
       "tourSlug": null
     },
     {
       "id": "sede-4",
-      "label": "Sede 4",
-      "blurb": "Recorrido en preparación.",
-      "image": null,
-      "tourSlug": null
+      "label": "Sede 4 · Bloque G",
+      "blurb": "Campus Extensiones: laboratorios terapéuticos especializados, educación continua y aulas de posgrado.",
+      "image": "/plataforma/assets/sedes/unisimon_clinica_1791299977674.jpg",
+      "alt": "Sede 4 Bloque G Universidad Simón Bolívar Cúcuta",
+      "tourSlug": "sede-4"
     }
   ]
 }

@@ -739,10 +739,10 @@ def build_drive_links_document():
     data = [
         ("1. ENLACE OFICIAL AL DRIVE / ONEDRIVE DE LA DOCENTE", "https://unisimonedu-my.sharepoint.com/:f:/g/personal/nataly_duquep_unisimon_edu_co/IgAg3c5VF8G2TIOVUb4eRKfzAWbakYrcJk31GGgSgV0L8nE?e=iEbVog\n\n(Archivo comprimido autónomo: ORBE-GP-Software-Avance-15.zip subido con fecha anterior al cierre oficial del aula extendida)"),
         ("2. REPOSITORIO GITHUB OFICIAL DEL PROYECTO", "https://github.com/KUTEIMO/ORBE-GP\n\n(Rama principal 'main' limpia, sin dependencias pesadas, congelada con fecha oficial)"),
-        ("3. ENLACE DEL DESPLIEGUE EN VIVO (WEB DEMO)", "http://localhost:8082/ (Entorno Local)\nhttps://orbe360.preview.unisimon.edu.co (Despliegue Staging / Cloudflare)"),
+        ("3. ENLACE DEL DESPLIEGUE EN VIVO (WEB DEMO)", "http://127.0.0.1:8081/ (Entorno Local) · Convex Local: http://127.0.0.1:3210\nhttps://orbe360.preview.unisimon.edu.co (Despliegue Staging / Cloudflare)"),
         ("4. TABLERO JIRA CLOUD (METODOLOGÍA ÁGIL)", "https://orbe360.atlassian.net (Proyecto: KANBAN PEVCI-ORBE360 - 60 Tickets Gestionados)"),
-        ("5. ENLACE DEL VIDEO EXPLICATIVO (AVANCE 15%)", "https://unisimonedu-my.sharepoint.com/personal/nataly_duquep_unisimon_edu_co/VIDEO_AVANCE_15_ORBE360.mp4\n\n(Video demo de 4 minutos demostrando la landing, el visor 360, los audios humanos de Saraic Noemí y el plan de pruebas)"),
-        ("6. INSTRUCCIONES DE EJECUCIÓN EN PC DOCENTE", "1. Descomprimir el archivo ZIP.\n2. Ejecutar 'npm install' en la terminal.\n3. Ejecutar 'npm start' y abrir el navegador en http://localhost:8082")
+        ("5. ENLACE DEL VIDEO EXPLICATIVO (AVANCE 15%)", "https://unisimonedu-my.sharepoint.com/personal/nataly_duquep_unisimon_edu_co/VIDEO_AVANCE_15_ORBE360.mp4\n\n(Video demo de 4 minutos demostrando la landing, el visor 360, los audios humanos de Saraic Noemí, flujos multi-rol Convex y el plan de pruebas)"),
+        ("6. INSTRUCCIONES DE EJECUCIÓN EN PC DOCENTE", "1. Descomprimir el archivo ZIP.\n2. Ejecutar 'npm install' (si falta node_modules) o abrir directamente 'INICIAR_PROYECTO.bat'.\n3. Iniciar 'npx convex dev' (127.0.0.1:3210) y 'npm start', luego abrir http://127.0.0.1:8081/")
     ]
     
     for idx, (label, val) in enumerate(data):
@@ -906,7 +906,8 @@ En atención a las directrices de la docente Ing. Nataly Duque Páez, el 30% del
 * **URL:** `https://github.com/KUTEIMO/ORBE-GP`
 
 ### 3. Despliegue en Vivo:
-* **Local:** `http://localhost:8082`
+* **Local Web:** `http://127.0.0.1:8081/`
+* **Backend Convex Local:** `http://127.0.0.1:3210` (`npx convex dev`)
 * **Staging:** `https://orbe360.preview.unisimon.edu.co`
 
 ### 4. Tablero Jira Cloud:

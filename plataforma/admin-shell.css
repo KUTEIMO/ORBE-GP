@@ -83,7 +83,7 @@ body.admin {
 }
 
 .admin-shell--wide {
-  max-width: 1180px;
+  max-width: 1280px;
 }
 
 .admin-shell h1 {
@@ -436,15 +436,15 @@ code {
 /* —— Tour cards —— */
 .tour-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 0.85rem;
+  grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+  gap: 1rem;
   margin-top: 0.75rem;
 }
 .tour-card {
   display: flex;
   flex-direction: column;
   gap: 0.55rem;
-  padding: 1rem;
+  padding: 1.05rem 1.15rem;
   border: 1px solid var(--orbe-line);
   border-radius: var(--orbe-clay-radius-admin, 12px);
   background: var(--orbe-clay-depth, #fff);
@@ -457,6 +457,9 @@ code {
   color: inherit;
   transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
 }
+.tour-card:only-child {
+  max-width: 560px;
+}
 .tour-card:hover,
 .tour-card:focus-visible {
   border-color: var(--orbe-accent);
@@ -465,15 +468,22 @@ code {
 }
 .tour-card.is-active {
   border-color: var(--orbe-accent);
-  background: linear-gradient(165deg, #fff 0%, #e0f2fe 100%);
+  background: linear-gradient(165deg, #fff 0%, #f0f9ff 100%);
   box-shadow:
     var(--orbe-clay-inset),
-    0 6px 18px rgba(2, 132, 199, 0.18);
+    0 6px 18px rgba(2, 132, 199, 0.14);
+}
+.tour-card__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.6rem;
 }
 .tour-card__title {
   font-family: var(--orbe-display);
   font-weight: 600;
-  font-size: 1.02rem;
+  font-size: 1.04rem;
+  line-height: 1.3;
   margin: 0;
 }
 .tour-card__meta {
@@ -485,18 +495,53 @@ code {
 .tour-card__actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
+  gap: 0.45rem;
   margin-top: auto;
-  padding-top: 0.35rem;
+  padding-top: 0.7rem;
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
 }
-.tour-card__actions a {
-  font-size: 0.8rem;
+
+.org-subbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.65rem;
+  font-size: 0.88rem;
+  color: var(--orbe-muted);
+  margin: 0;
+}
+.org-subbar .quota-pill {
+  margin: 0;
+  font-size: 0.78rem;
+  padding: 0.16rem 0.6rem;
+}
+
+.active-tour-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  margin: 0.85rem 0 0;
+  padding: 0.65rem 0.9rem;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid var(--orbe-line);
+  border-radius: var(--orbe-clay-radius-admin, 12px);
+}
+.active-tour-bar label {
+  font-size: 0.84rem;
   font-weight: 600;
-  color: var(--orbe-accent-deep);
-  text-decoration: none;
+  color: var(--orbe-muted);
 }
-.tour-card__actions a:hover {
-  text-decoration: underline;
+.active-tour-bar select {
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 0.4rem 0.65rem;
+  border: 1px solid var(--orbe-line);
+  border-radius: 8px;
+  background: var(--orbe-white);
+  min-width: min(320px, 100%);
 }
 
 .empty-state {

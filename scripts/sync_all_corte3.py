@@ -10,24 +10,66 @@ ENTREGA_C3_DIR = r"c:\Users\SOTO\APLICATIVOS\proyectos unisimon\ORBE360_ENTREGA_
 ENTREGA_C2_70 = r"c:\Users\SOTO\APLICATIVOS\proyectos unisimon\ORBE360_ENTREGA_SEGUNDO_CORTE_70"
 ENTREGA_C2_ED = r"c:\Users\SOTO\APLICATIVOS\proyectos unisimon\ORBE360_ENTREGA_SEGUNDO_CORTE_EDICION"
 
-SYNC_DIRS = ["src", "css", "plataforma", "scripts", "media", "vendors", "control-web"]
-SYNC_FILES = ["index.html", "package.json", "orbe-config.js", "config.json", ".gitignore", "INICIAR_PROYECTO.bat", "README.md"]
+SYNC_DIRS = ["src", "css", "plataforma", "control-web", "convex", "scripts", "media", "vendors", "docs", "tests"]
+SYNC_FILES = [
+    "index.html",
+    "package.json",
+    "package-lock.json",
+    "orbe-config.js",
+    "config.json",
+    "convex.json",
+    "AGENTS.md",
+    "eslint.config.mjs",
+    "playwright.config.js",
+    ".gitignore",
+    "INICIAR_PROYECTO.bat",
+    "README.md",
+]
+
+EXCLUDED_DIRS = {
+    ".git",
+    ".convex",
+    "node_modules",
+    "temp",
+    "tmp",
+    ".cache",
+    "__pycache__",
+    "backups",
+    "_restos_exras_bloqueados",
+    "test-results",
+    "playwright-report",
+}
+
+def should_skip_file(filename):
+    if filename.endswith((".pyc", ".tmp")):
+        return True
+    if filename == "test_audio.mp3":
+        return True
+    if (filename == ".env" or filename.startswith(".env.")) and not filename.endswith(".example"):
+        return True
+    if filename in {"config.local.js", "orbe-config.local.js", "plataforma/config.local.js"}:
+        return True
+    return False
 
 def copy_tree_filtered(src_dir, dst_dir):
     os.makedirs(dst_dir, exist_ok=True)
     for root, dirs, files in os.walk(src_dir):
-        # Excluir carpetas irrelevantes o pesadas no deseadas
-        dirs[:] = [d for d in dirs if d not in [".git", "node_modules", "temp", "tmp", ".cache", "__pycache__"]]
+        # Excluir carpetas irrelevantes, estado local de Convex o respaldos
+        dirs[:] = [d for d in dirs if d not in EXCLUDED_DIRS]
         rel = os.path.relpath(root, src_dir)
         target_root = os.path.join(dst_dir, rel) if rel != "." else dst_dir
         os.makedirs(target_root, exist_ok=True)
         for f in files:
-            if f.endswith((".pyc", ".tmp")):
+            if should_skip_file(f):
                 continue
             s = os.path.join(root, f)
             d = os.path.join(target_root, f)
-            # Copiar solo si no existe o ha cambiado
-            if not os.path.exists(d) or os.path.getmtime(s) > os.path.getmtime(d):
+            # Copiar si no existe, es mas reciente o cambio el tamanio
+            if (
+                not os.path.exists(d)
+                or os.path.getmtime(s) > os.path.getmtime(d)
+                or os.path.getsize(s) != os.path.getsize(d)
+            ):
                 shutil.copy2(s, d)
 
 print("================================================================================")
@@ -50,18 +92,18 @@ for f in SYNC_FILES:
         shutil.copy2(s, t)
 print("  -> Archivos raiz copiados a ORBE-GP.")
 
-# 2. Sincronizar copias de corte 2 (para prevenir drift en plataforma y css)
-print("\n[2/5] Sincronizando mejoras comunes hacia carpetas de edicion de segundo corte...")
+# 2. Sincronizar copias de corte 2 (para prevenir drift en copias editables/GP)
+print("\n[2/5] Sincronizando mejoras comunes hacia carpetas de edicion y respaldo...")
 for base_c2 in [ENTREGA_C2_70, ENTREGA_C2_ED]:
     target_gp = os.path.join(base_c2, "01_Software_Desarrollado_70_Porciento", "ORBE-GP")
     if os.path.exists(target_gp):
         print(f"  -> Actualizando {base_c2}...")
-        for d in ["src", "css", "plataforma"]:
+        for d in ["src", "css", "plataforma", "control-web", "convex", "scripts"]:
             s = os.path.join(ORBE_DIR, d)
             t = os.path.join(target_gp, d)
             if os.path.exists(s):
                 copy_tree_filtered(s, t)
-        for f in ["index.html"]:
+        for f in ["index.html", "package.json", "orbe-config.js", "config.json", "convex.json", "INICIAR_PROYECTO.bat", ".gitignore"]:
             s = os.path.join(ORBE_DIR, f)
             t = os.path.join(target_gp, f)
             if os.path.exists(s):
@@ -108,11 +150,11 @@ DOCENTE EVALUADORA: ING. NATALY DUQUE PAEZ
 CONTENIDO DE ESTA CARPETA:
 1. ORBE-GP/ (Carpeta Descomprimida):
    Codigo fuente completo con avance del 15% (85% acumulado):
-   - 62 escenas 360 interactivo con Marzipano WebGL.
-   - 43 hotspots informativos con audio de voz humana oficial (Saraic Noemi Leon).
-   - Subtitulos WebVTT sincronizados y accesibilidad universal WCAG 2.1 AA.
-   - Nuevo modal de diagnostico de calidad y accesibilidad en tiempo real.
-   - Archivo ejecutable 'INICIAR_PROYECTO.bat'.
+   - 62 escenas 360 interactivas con Marzipano WebGL (Sede 2: Bloques B, C y D) y borrador preparado para Sede 4 (Bloque G).
+   - 43 hotspots informativos con locucion accesible (Saraic Noemi Leon) y Estudio de Audio en Control Web (Voz Salome TTS, microfono y carga de audio).
+   - Subtitulos WebVTT sincronizados, contraste dinamico WCAG 2.1 AA (--brand-ink) y diagnostico de calidad.
+   - Autenticacion multi-rol contra Convex (127.0.0.1:3210), navegacion adaptativa por rol y rediseno UI/UX Soft Clay sin controles destructivos.
+   - Archivo ejecutable 'INICIAR_PROYECTO.bat' y documentacion tecnica (docs/producto/66-reglas-diseno-ui-ux-y-flujos-orbe360.md).
 
 2. ORBE-GP-Software-Avance-15.zip (Archivo Comprimido):
    Paquete ZIP autonomo para descarga o subida directa a OneDrive.
@@ -137,12 +179,13 @@ INSTRUCCIONES DE EJECUCION:
 --------------------------------------------------------------------------------
 Opcion 1 (Doble Clic Local):
   Abra la carpeta 'ORBE-GP' y haga doble clic en 'INICIAR_PROYECTO.bat'.
-  El script verificara Node.js, abrira el navegador en http://localhost:8082/
-  e iniciara el servidor local de manera automatica.
+  El script verificara Node.js y el servidor Convex local (127.0.0.1:3210),
+  abrira el navegador en http://127.0.0.1:8081/ e iniciara el servidor web.
 
 Opcion 2 (Terminal):
+  npx convex dev
   npm start
-  Abrir navegador en: http://localhost:8082/
+  Abrir navegador en: http://127.0.0.1:8081/
 """
 with open(os.path.join(c3_sw_dir, "GUIA_Y_ENLACES_DEL_SOFTWARE.txt"), "w", encoding="utf-8") as f:
     f.write(guia_txt)
@@ -196,8 +239,10 @@ zip_target_c3 = os.path.join(c3_sw_dir, "ORBE-GP-Software-Avance-15.zip")
 
 with zipfile.ZipFile(zip_target_orbe, "w", zipfile.ZIP_DEFLATED) as zipf:
     for root, dirs, files in os.walk(c3_sw_gp):
-        dirs[:] = [d for d in dirs if d not in [".git", "temp", "tmp", "node_modules", ".cache"]]
+        dirs[:] = [d for d in dirs if d not in EXCLUDED_DIRS]
         for file in files:
+            if should_skip_file(file):
+                continue
             file_path = os.path.join(root, file)
             arcname = os.path.relpath(file_path, c3_sw_dir)
             zipf.write(file_path, arcname)
@@ -209,17 +254,18 @@ with open(zip_target_orbe, "rb") as f:
     while chunk := f.read(8192):
         h.update(chunk)
 sha256_hash = h.hexdigest().upper()
+zip_size = os.path.getsize(zip_target_orbe)
 print(f"  -> ZIP generado exitosamente: {zip_target_orbe}")
-print(f"  -> Tamanio: {os.path.getsize(zip_target_orbe):,} bytes")
+print(f"  -> Tamanio: {zip_size:,} bytes ({zip_size / (1024 * 1024):.2f} MB)")
 print(f"  -> SHA-256: {sha256_hash}")
 
-# 5. Git Commit y Push en ORBE-GP y ORBE
+# 5. Git Commit y Push en ORBE-GP
 print("\n[5/5] Realizando Git commit y push en ORBE-GP hacia GitHub...")
 try:
     subprocess.run(["git", "add", "-A"], cwd=GP_DIR, check=True)
     status_out = subprocess.run(["git", "status", "--porcelain"], cwd=GP_DIR, capture_output=True, text=True).stdout
     if status_out.strip():
-        commit_msg = "[KAN-55][KAN-56][KAN-57][KAN-58] feat: Avance 15% Tercer Corte - Audio humano Saraic Noemi, precarga espacial, diagnostico WCAG en vivo y estandar IEEE 1058"
+        commit_msg = "[KAN-55][KAN-56][KAN-57][KAN-58] feat: Avance 15% Tercer Corte - Flujos multi-rol Convex, Audio Studio Salome, Sedes 1-4 Unisimon y reglas UI/UX Soft Clay"
         subprocess.run(["git", "commit", "-m", commit_msg], cwd=GP_DIR, check=True)
         print("  -> Commit en ORBE-GP realizado con exito.")
     else:
@@ -236,3 +282,4 @@ except Exception as e:
 print("\n================================================================================")
 print("PROCESO DE SINCRONIZACION Y DESPLIEGUE FINALIZADO EXITOSAMENTE")
 print("================================================================================")
+

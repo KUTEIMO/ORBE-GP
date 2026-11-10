@@ -101,6 +101,12 @@ const hotspotValidator = v.object({
   weight: v.optional(v.number()),
   shortLabel: v.optional(v.string()),
   altText: v.optional(v.string()),
+  srSummary: v.optional(v.string()),
+  narration: v.optional(v.string()),
+  narrationOptional: v.optional(v.boolean()),
+  transcript: v.optional(v.string()),
+  captionFile: v.optional(v.string()),
+  timingFile: v.optional(v.string()),
   iconKey: hotspotIconKeyValidator,
   category: hotspotCategoryValidator,
   animationPreset: hotspotAnimationPresetValidator,
@@ -122,6 +128,12 @@ const scenePatchValidator = v.object({
   imageUrl: v.string(),
   altText: v.string(),
   longDescription: v.optional(v.string()),
+  srSummary: v.optional(v.string()),
+  narration: v.optional(v.string()),
+  narrationOptional: v.optional(v.boolean()),
+  transcript: v.optional(v.string()),
+  captionFile: v.optional(v.string()),
+  timingFile: v.optional(v.string()),
   initialView: v.optional(initialViewValidator),
   hotspots: v.array(hotspotValidator),
 });
@@ -142,6 +154,7 @@ export const getAdminSnapshot = query({
       tourId: v.id("tours"),
       slug: v.string(),
       title: v.string(),
+      published: v.optional(v.boolean()),
       scenes: v.any(),
       connections: v.array(
         v.object({
@@ -221,11 +234,25 @@ export const getAdminSnapshot = query({
           weight?: number;
           shortLabel?: string;
           altText?: string;
+          srSummary?: string;
+          narration?: string;
+          narrationOptional?: boolean;
+          transcript?: string;
+          captionFile?: string;
+          timingFile?: string;
         }>;
         title?: string;
         shortTitle?: string;
         zone?: string;
         imageUrl?: string;
+        altText?: string;
+        longDescription?: string;
+        srSummary?: string;
+        narration?: string;
+        narrationOptional?: boolean;
+        transcript?: string;
+        captionFile?: string;
+        timingFile?: string;
         order?: number;
         initialView?: { yaw: number; pitch: number; fov?: number };
       }
@@ -250,6 +277,7 @@ export const getAdminSnapshot = query({
                 id: match?.clientKey || `conn-${scene.fileKey}-${toFile}`,
                 type: "nav" as const,
                 title: match?.title || c.label || "Ir a escena",
+                shortLabel: match?.shortLabel,
                 yaw: match?.yaw ?? 0,
                 pitch: match?.pitch ?? -0.05,
                 direction: match?.direction || c.direction,
@@ -265,6 +293,7 @@ export const getAdminSnapshot = query({
                 id: h.clientKey,
                 type: "nav" as const,
                 title: h.title,
+                shortLabel: h.shortLabel,
                 yaw: h.yaw,
                 pitch: h.pitch,
                 direction: h.direction,
@@ -279,6 +308,14 @@ export const getAdminSnapshot = query({
         shortTitle: scene.shortTitle,
         zone: scene.zone,
         imageUrl: scene.imageUrl,
+        altText: scene.altText,
+        longDescription: scene.longDescription,
+        srSummary: scene.srSummary,
+        narration: scene.narrationUrl,
+        narrationOptional: scene.narrationOptional,
+        transcript: scene.transcriptUrl,
+        captionFile: scene.captionUrl,
+        timingFile: scene.timingUrl,
         order: scene.order,
         initialView: scene.initialView,
         hotspots: [
@@ -286,11 +323,18 @@ export const getAdminSnapshot = query({
             id: h.clientKey,
             type: h.type,
             title: h.title,
+            shortLabel: h.shortLabel,
             yaw: h.yaw,
             pitch: h.pitch,
             direction: h.direction,
             targetFile: h.targetFileKey,
             description: h.description,
+            srSummary: h.srSummary,
+            narration: h.narrationUrl,
+            narrationOptional: h.narrationOptional,
+            transcript: h.transcriptUrl,
+            captionFile: h.captionUrl,
+            timingFile: h.timingUrl,
             weight: h.weight,
             ...pickHotspotVisual(h),
           })),
@@ -305,6 +349,7 @@ export const getAdminSnapshot = query({
       tourId: tour._id,
       slug: tour.slug,
       title: tour.title,
+      published: tour.published,
       scenes: sceneMap,
       connections: connections.map((c) => {
         const from = byId.get(c.fromSceneId);
@@ -359,6 +404,8 @@ export const saveTourSnapshot = mutation({
     ),
     /** Explicit confirm to publish zero connections over an existing curated graph. */
     allowEmptyConnections: v.optional(v.boolean()),
+    /** Explicit fileKeys removed by admin in Control Web UI. */
+    deletedFileKeys: v.optional(v.array(v.string())),
   },
   returns: v.object({
     scenesSaved: v.number(),
@@ -402,6 +449,26 @@ export const saveTourSnapshot = mutation({
 
     const now = Date.now();
     const fileToSceneId = new Map<string, Id<"scenes">>();
+
+    // Explicitly delete scenes marked as removed by admin in Control Web
+    if (Array.isArray(args.deletedFileKeys) && args.deletedFileKeys.length > 0) {
+      for (const delKey of args.deletedFileKeys) {
+        const sc = await ctx.db
+          .query("scenes")
+          .withIndex("by_tour_and_file", (q) =>
+            q.eq("tourId", tour._id).eq("fileKey", delKey)
+          )
+          .unique();
+        if (sc) {
+          const hs = await ctx.db
+            .query("hotspots")
+            .withIndex("by_scene", (q) => q.eq("sceneId", sc._id))
+            .collect();
+          for (const h of hs) await ctx.db.delete(h._id);
+          await ctx.db.delete(sc._id);
+        }
+      }
+    }
 
     // Upsert scenes
     for (const patch of args.scenes) {
@@ -551,6 +618,7 @@ export const saveTourSnapshot = mutation({
           clientKey: h.id,
           type: h.type,
           title: h.title,
+          ...(h.shortLabel ? { shortLabel: h.shortLabel } : {}),
           yaw: h.yaw,
           pitch: h.pitch,
           direction: h.direction,
@@ -713,11 +781,12 @@ export const getCampusSpatialPackageMeta = query({
     navCount: v.number(),
     connectionCount: v.number(),
   }),
-  handler: async () => ({
-    tourSlug: CAMPUS_SPATIAL_TOUR_SLUG,
-    sceneCount: CAMPUS_SPATIAL_SCENE_COUNT,
-    hotspotCount: CAMPUS_SPATIAL_HOTSPOT_COUNT,
-    navCount: CAMPUS_SPATIAL_NAV_COUNT,
-    connectionCount: CAMPUS_SPATIAL_CONNECTION_COUNT,
-  }),
+  handler: () =>
+    Promise.resolve({
+      tourSlug: CAMPUS_SPATIAL_TOUR_SLUG,
+      sceneCount: CAMPUS_SPATIAL_SCENE_COUNT,
+      hotspotCount: CAMPUS_SPATIAL_HOTSPOT_COUNT,
+      navCount: CAMPUS_SPATIAL_NAV_COUNT,
+      connectionCount: CAMPUS_SPATIAL_CONNECTION_COUNT,
+    }),
 });

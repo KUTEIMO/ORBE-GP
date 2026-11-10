@@ -1,4 +1,6 @@
 import {
+  clearSessionToken,
+  controlWebLoginUrl,
   getSessionToken,
   requireControlWebAccess,
 } from './auth-gate.js';
@@ -50,20 +52,64 @@ function PANORAMA_BASE() {
 }
 const CONVEX_URL = () => String(window.__CONVEX_URL__ || '').replace(/\/$/, '');
 
-function syncHeaderTourLink() {
+function syncHeaderTourLink(published = null) {
   const link = document.getElementById('headerTourLink');
-  if (!link) return;
+  const orgLink = document.getElementById('headerOrgAdminLink');
+  const acctLink = document.getElementById('headerAccountLink');
   const slug = TOUR_SLUG();
   const org = ORG_SLUG();
+
+  if (acctLink) {
+    acctLink.href = controlWebLoginUrl(undefined, { switchAccount: true });
+    acctLink.title = 'Ver sesión activa o cambiar de cuenta';
+  }
+  if (orgLink && org) {
+    orgLink.href = `/${org}/org-admin.html`;
+    orgLink.hidden = false;
+  }
+  if (!link) return;
   if (!slug || !org) {
     link.href = '#';
     link.title = 'Sin contexto /{org}/{tour}/';
     return;
   }
   link.href = `/${org}/${slug}/`;
-  link.title = `Visor público · ${org}/${slug}`;
+  if (published === false) {
+    link.textContent = 'Vista previa';
+    link.title = `Vista previa (borrador privado) · ${org}/${slug}`;
+  } else if (published === true) {
+    link.textContent = 'Ver tour';
+    link.title = `Visor público · ${org}/${slug}`;
+  } else {
+    link.title = `Visor · ${org}/${slug}`;
+  }
 }
 syncHeaderTourLink();
+
+async function hydrateHeaderSession() {
+  const token = getSessionToken();
+  const chip = document.getElementById('cwSessionChip');
+  const orgLink = document.getElementById('headerOrgAdminLink');
+  if (!token) return;
+  try {
+    const me = await convexFetch('query', 'auth:me', { token, now: Date.now() });
+    if (!me) return;
+    const org = ORG_SLUG();
+    const membership = (me.memberships || []).find((m) => m.orgSlug === org) || me.memberships?.[0] || null;
+    const roleLabel = membership?.role === 'tourEditor' ? 'Editor' : 'Admin Org';
+    if (chip) {
+      chip.textContent = `${me.name} · ${roleLabel}`;
+      chip.title = `${me.email} (${roleLabel})`;
+      chip.hidden = false;
+    }
+    if (orgLink && membership?.role === 'tourEditor') {
+      orgLink.textContent = 'Mis tours';
+      orgLink.title = 'Ver tours asignados de la organización';
+    }
+  } catch {
+    /* keep static header on transient errors */
+  }
+}
 
 const DIRECTION_PRESETS = {
   forward: { yaw: 0, pitch: -0.06, label: 'Adelante' },
@@ -76,11 +122,24 @@ const DIRECTION_PRESETS = {
 
 const DEFAULT_FRONT_VIEW = { yaw: 0, pitch: 0, fov: Math.PI / 2 };
 
+const DEFAULT_ZONES = {
+  general: 'General',
+  acceso: 'Acceso / Entrada',
+  'primer-piso': 'Primer piso',
+  'segundo-piso': 'Segundo piso',
+  'tercer-piso': 'Tercer piso',
+  exterior: 'Exteriores / Campus',
+  laboratorios: 'Laboratorios y Aulas',
+  salud: 'Ciencias de la Salud / Clínica',
+  auditorio: 'Auditorio y salas'
+};
+
 const state = {
   config: null,
   scenes: [],
   zones: {},
   availableFiles: [],
+  deletedFileKeys: [],
   graph: { version: 1, connections: [], scenes: {}, sceneMeta: {} },
   selectedFile: null,
   selectedHotspotId: null,
@@ -135,18 +194,24 @@ const els = {
   btnPlaceHere: document.getElementById('btnPlaceHere'),
   btnSetFrontView: document.getElementById('btnSetFrontView'),
   frontViewHint: document.getElementById('frontViewHint'),
+  btnOpenSceneA11y: document.getElementById('btnOpenSceneA11y'),
   btnDeleteSelected: document.getElementById('btnDeleteSelected'),
   btnSaveScene: document.getElementById('btnSaveScene'),
   btnDiscardScene: document.getElementById('btnDiscardScene'),
+  btnDeleteScene: document.getElementById('btnDeleteScene'),
   sceneTools: document.getElementById('sceneTools'),
   sceneDialog: document.getElementById('sceneDialog'),
   sceneForm: document.getElementById('sceneForm'),
   sceneDialogTitle: document.getElementById('sceneDialogTitle'),
   sceneFileSelect: document.getElementById('sceneFileSelect'),
   sceneZoneSelect: document.getElementById('sceneZoneSelect'),
+  sceneCustomZone: document.getElementById('sceneCustomZone'),
+  sceneLongDesc: document.getElementById('sceneLongDesc'),
+  sceneAltText: document.getElementById('sceneAltText'),
   sceneDialogHint: document.getElementById('sceneDialogHint'),
   sceneFileLabel: document.getElementById('sceneFileLabel'),
   sceneUploadLabel: document.getElementById('sceneUploadLabel'),
+  sceneUploadText: document.getElementById('sceneUploadText'),
   panoramaUploadInput: document.getElementById('panoramaUploadInput'),
   sceneFormSave: document.getElementById('sceneFormSave'),
   confirmDialog: document.getElementById('confirmDialog'),
@@ -185,56 +250,16 @@ async function init() {
   }
   state.authorized = true;
 
-  const [config, library, fileGraph] = await Promise.all([
-    fetchJson('../config.json'),
-    fetchJson('../biblioteca-scenes.json').catch(() => ({})),
-    fetchJson('../tour-graph.json').catch(() => ({ version: 1, connections: [], scenes: {}, sceneMeta: {} }))
-  ]);
-
-  state.config = config;
-  state.zones = config.zones || {};
-  state.availableFiles = (config.scenes || []).map((s) => s.file);
-  const accessible = { ...(config.accessibleScenes || {}), ...library };
-
-  state.scenes = (config.scenes || []).map((entry, index) => {
-    const patch = accessible[entry.file] || {};
-    const meta = {};
-    return {
-      file: entry.file,
-      zone: entry.zone,
-      id: patch.id || slugify(entry.file),
-      title: patch.title || config.sceneNames?.[entry.file] || entry.file,
-      shortTitle: patch.shortTitle || cleanTitle(patch.title || config.sceneNames?.[entry.file] || entry.file),
-      hotspots: Array.isArray(patch.hotspots) ? structuredClone(patch.hotspots) : [],
-      order: index,
-      ...meta
-    };
-  });
-
-  const stored = loadStoredGraph();
-  // Never prefer an empty placeholder {connections:[],scenes:{}} over a richer source.
-  // Empty static tour-graph after media migrate wiped the editor → Guardar wiped Convex.
-  state.graph = normalizeGraph(pickRichestGraph(stored, fileGraph));
-
-  Object.entries(state.graph.scenes || {}).forEach(([file, patch]) => {
-    const scene = state.scenes.find((s) => s.file === file);
-    if (scene && Array.isArray(patch.hotspots)) scene.hotspots = structuredClone(patch.hotspots);
-  });
-
-  Object.entries(state.graph.sceneMeta || {}).forEach(([file, meta]) => {
-    const scene = state.scenes.find((s) => s.file === file);
-    if (!scene || !meta) return;
-    if (meta.title) scene.title = meta.title;
-    if (meta.shortTitle) scene.shortTitle = meta.shortTitle;
-    if (meta.zone) scene.zone = meta.zone;
-  });
+  const staticCfg = await fetchJson('../config.json').catch(() => ({}));
+  state.config = staticCfg;
+  state.zones = { ...DEFAULT_ZONES, ...(staticCfg.zones || {}) };
+  state.availableFiles = [];
+  state.scenes = [];
+  state.graph = normalizeGraph({ version: 1, connections: [], scenes: {}, sceneMeta: {} });
 
   fillZones();
   fillTargets();
   fillConnectSelects();
-  state.focusNeighborhood = state.scenes.length >= LARGE_TOUR_SCENE_THRESHOLD;
-  if (els.graphFocusNeighborhood) els.graphFocusNeighborhood.checked = state.focusNeighborhood;
-  if (els.graphHighlightOrphans) els.graphHighlightOrphans.checked = state.highlightOrphans;
   bindUi();
   setWorkMode('view');
   renderSceneList();
@@ -246,13 +271,34 @@ async function init() {
 
   applyTourChrome(access.title ? { title: access.title, slug: TOUR_SLUG() } : null);
   const token = getSessionToken();
-  setStatus('Sesión autorizada. Edita el grafo y pulsa Guardar cambios para publicar en Convex.');
-  await pullConvexSnapshot().catch((err) => {
-    setStatus(`No se pudo cargar snapshot Convex: ${err.message || err}`);
-  });
+  setStatus('Cargando recorrido…');
+  await pullConvexSnapshot();
+  state.focusNeighborhood = state.scenes.length >= LARGE_TOUR_SCENE_THRESHOLD;
+  if (els.graphFocusNeighborhood) els.graphFocusNeighborhood.checked = state.focusNeighborhood;
+  if (els.graphHighlightOrphans) els.graphHighlightOrphans.checked = state.highlightOrphans;
+  layoutNodes();
+  renderGraph();
   state.lastSyncedConnectionCount = (state.graph.connections || []).length;
   updateGraphStats();
-  await loadClientBrandContext(token);
+  updateEmptyStateUi();
+  await Promise.all([loadClientBrandContext(token), hydrateHeaderSession()]);
+}
+
+function updateEmptyStateUi() {
+  if (!els.editorEmpty) return;
+  if (state.scenes.length > 0) {
+    els.editorEmpty.textContent = 'Ninguna escena seleccionada · Elige una en el listado para verla en 360° y colocar hotspots.';
+    return;
+  }
+  els.editorEmpty.innerHTML = `
+    <p style="margin:0 0 0.75rem"><strong>Tour sin escenas todavía</strong> · Aún no hay panoramas 360° en este recorrido.</p>
+    <button type="button" class="btn btn--primary" id="btnQuickUploadFirst">Subir primera foto 360°</button>
+  `;
+  const quickBtn = document.getElementById('btnQuickUploadFirst');
+  quickBtn?.addEventListener('click', () => {
+    setWorkMode('scenes');
+    openSceneDialog('upload');
+  });
 }
 
 /** Product chrome stays Orbe360; optional client chip from TourBranding (context only). */
@@ -321,66 +367,22 @@ async function loadClientBrandContext(token) {
   }
 }
 
-function handleAdminOfflineFallback(kind, path, args = {}) {
-  const token = args.token || getSessionToken();
-  if (path === 'tourAdmin:assertTourEditorAccess') {
-    if (token === 'demo-token-superadmin') {
-      return { ok: false, reason: 'superadmin_no_tour_edit' };
-    }
-    if (token) {
-      return {
-        ok: true,
-        tourId: 'local-tour-unisimon',
-        title: 'Campus Cúcuta — Biblioteca Anita Consuegra',
-        orgSlug: args.orgSlug || requireOrgSlugCw(),
-        tourSlug: args.tourSlug || TOUR_SLUG(),
-      };
-    }
-  }
-  if (path === 'branding:getBrandingForAdmin' || path === 'branding:getPublicBranding') {
-    return {
-      branding: {
-        clientName: 'Universidad Simón Bolívar',
-        clientShortName: 'Unisimón Cúcuta',
-        primaryColor: '#0a7a45',
-        primaryStrong: '#086638',
-        accentColor: '#1d9bf0',
-      }
-    };
-  }
-  if (path === 'tourAdmin:getAdminSnapshot') {
-    return null;
-  }
-  if (path === 'tourAdmin:saveTourSnapshot') {
-    return {
-      ok: true,
-      scenesSaved: (args.scenes || []).length,
-      connectionsSaved: (args.connections || []).length,
-      offlineSaved: true,
-    };
-  }
-  return undefined;
-}
-
 async function convexFetch(kind, path, args) {
   const base = CONVEX_URL();
-  try {
-    const url = base ? `${base}/api/${kind}` : `/api/${kind}`;
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ path, args, format: 'json' })
-    });
-    const data = await response.json();
-    if (!response.ok || data.status === 'error') {
-      throw new Error(data.errorMessage || data.message || 'Error Convex');
-    }
-    return data.value;
-  } catch (networkError) {
-    const fallback = handleAdminOfflineFallback(kind, path, args);
-    if (fallback !== undefined) return fallback;
-    throw networkError;
+  if (!base) {
+    throw new Error('Configuración de servicio no disponible.');
   }
+  const url = `${base.replace(/\/$/, '')}/api/${kind}`;
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ path, args, format: 'json' })
+  });
+  const data = await response.json();
+  if (!response.ok || data.status === 'error') {
+    throw new Error(data.errorMessage || data.message || 'Error en el servidor');
+  }
+  return data.value;
 }
 
 async function pullConvexSnapshot() {
@@ -391,20 +393,62 @@ async function pullConvexSnapshot() {
     slug: TOUR_SLUG(),
     orgSlug: requireOrgSlugCw(),
   });
-  if (!snap) return;
+  if (!snap) {
+    state.scenes = [];
+    state.availableFiles = [];
+    state.graph = normalizeGraph({ version: 1, connections: [], scenes: {}, sceneMeta: {} });
+    state.deletedFileKeys = [];
+    updateDirtyUi(false);
+    fillTargets();
+    fillZones();
+    renderSceneList();
+    renderConnections();
+    layoutNodes();
+    renderGraph();
+    updateEmptyStateUi();
+    setStatus('Recorrido no encontrado.');
+    return;
+  }
   applyTourChrome(snap);
-  if (!snap.scenes || Object.keys(snap.scenes).length === 0) return;
+  if (typeof snap.published === 'boolean') {
+    syncHeaderTourLink(snap.published);
+  }
 
-  // Isolation: Convex snapshot replaces local scene list (never keep other-tenant config.json scenes).
+  const sceneEntries = snap.scenes ? Object.entries(snap.scenes) : [];
+  if (sceneEntries.length === 0) {
+    state.scenes = [];
+    state.availableFiles = [];
+    state.graph = normalizeGraph({ version: 1, connections: [], scenes: {}, sceneMeta: {} });
+    state.deletedFileKeys = [];
+    updateDirtyUi(false);
+    fillTargets();
+    fillZones();
+    renderSceneList();
+    renderConnections();
+    layoutNodes();
+    renderGraph();
+    updateEmptyStateUi();
+    setStatus(`Conectado (0 escenas · ${snap.published ? 'publicado' : 'borrador privado'}).`);
+    return;
+  }
+
   const nextScenes = [];
   const nextAvailable = [];
-  Object.entries(snap.scenes).forEach(([file, patch]) => {
+  sceneEntries.forEach(([file, patch]) => {
     const scene = {
       file,
       zone: patch.zone || 'general',
       id: slugify(file),
       title: patch.title || file,
       shortTitle: patch.shortTitle || patch.title || file,
+      altText: patch.altText || patch.title || file,
+      longDescription: patch.longDescription || '',
+      srSummary: patch.srSummary || '',
+      narration: patch.narration || '',
+      narrationOptional: Boolean(patch.narrationOptional),
+      transcript: patch.transcript || '',
+      captionFile: patch.captionFile || '',
+      timingFile: patch.timingFile || '',
       hotspots: Array.isArray(patch.hotspots) ? structuredClone(patch.hotspots) : [],
       order: typeof patch.order === 'number' ? patch.order : nextScenes.length,
       imageUrl: patch.imageUrl || null,
@@ -419,20 +463,14 @@ async function pullConvexSnapshot() {
     nextScenes.push(scene);
     nextAvailable.push(file);
   });
+  nextScenes.sort((a, b) => a.order - b.order);
   state.scenes = nextScenes;
   state.availableFiles = nextAvailable;
+  state.deletedFileKeys = [];
 
-  const localConnCount = (state.graph.connections || []).length;
-  const snapConnCount = Array.isArray(snap.connections) ? snap.connections.length : 0;
-  // Do not replace a curated local graph with an empty Convex connections array
-  // (post-migrate empty snapshot / failed save). Keep local and mark dirty for recovery.
-  if (Array.isArray(snap.connections)) {
-    if (snapConnCount > 0 || localConnCount === 0) {
-      state.graph.connections = structuredClone(snap.connections);
-    }
-  }
+  state.graph.connections = structuredClone(Array.isArray(snap.connections) ? snap.connections : []);
   state.graph.scenes = {};
-  Object.entries(snap.scenes).forEach(([file, patch]) => {
+  sceneEntries.forEach(([file, patch]) => {
     state.graph.scenes[file] = {
       hotspots: structuredClone(patch.hotspots || []),
       ...(patch.initialView && typeof patch.initialView.yaw === 'number'
@@ -444,22 +482,18 @@ async function pullConvexSnapshot() {
   // Public SoT = connections edges. Align local nav hotspots so editor matches viewer.
   const navBefore = countNavHotspots();
   const connCount = (state.graph.connections || []).length;
-  if (snapConnCount === 0 && localConnCount > 0) {
+  if (connCount > 0 && navBefore !== connCount) {
     syncNavHotspotsToConnections();
     setStatus(
-      `Convex sin conexiones (${Object.keys(snap.scenes).length} escenas); se mantienen ${localConnCount} locales. ` +
-        `Pulsa Guardar para restaurar el grafo en Convex.`
-    );
-    updateDirtyUi(true);
-  } else if (connCount > 0 && navBefore !== connCount) {
-    syncNavHotspotsToConnections();
-    setStatus(
-      `Sincronizado desde Convex (${Object.keys(snap.scenes).length} escenas). ` +
-        `Desync corregido: ${navBefore} nav → ${connCount} conexiones. Pulsa Guardar cambios para publicar.`
+      `Conectado (${sceneEntries.length} escenas). ` +
+        `Ajustadas ${navBefore} → ${connCount} conexiones. Pulsa Guardar cambios.`
     );
     updateDirtyUi(true);
   } else {
-    setStatus(`Sincronizado desde Convex (${Object.keys(snap.scenes).length} escenas · ${requireOrgSlugCw()}/${TOUR_SLUG()}).`);
+    setStatus(
+      `Conectado (${sceneEntries.length} escenas · ${snap.published ? 'publicado' : 'borrador privado'}).`
+    );
+    updateDirtyUi(false);
   }
 
   fillTargets();
@@ -477,6 +511,7 @@ async function pullConvexSnapshot() {
       state.selectedFile = null;
     }
   }
+  updateEmptyStateUi();
 }
 
 function bindUi() {
@@ -537,6 +572,14 @@ function bindUi() {
   });
   document.getElementById('btnExport').addEventListener('click', exportGraph);
   document.getElementById('btnImport').addEventListener('click', () => els.importFile.click());
+  document.getElementById('btnCwLogout')?.addEventListener('click', async () => {
+    const t = getSessionToken();
+    if (t) {
+      await convexFetch('mutation', 'auth:logout', { token: t }).catch(() => {});
+    }
+    clearSessionToken();
+    location.href = controlWebLoginUrl();
+  });
   els.importFile.addEventListener('change', importGraph);
 
   document.getElementById('btnAddScene').addEventListener('click', () => openSceneDialog('add'));
@@ -548,16 +591,22 @@ function bindUi() {
     }
     openSceneDialog('edit');
   });
+  els.btnDeleteScene?.addEventListener('click', () => {
+    void deleteSelectedScene();
+  });
 
   els.sceneForm.addEventListener('submit', onSceneFormSubmit);
   els.btnSaveScene.addEventListener('click', applySelectedSceneToGraph);
   els.btnDiscardScene.addEventListener('click', discardSelectedSceneEdits);
   els.btnPlaceHere.addEventListener('click', placeHotspotAtViewCenter);
   els.btnSetFrontView?.addEventListener('click', useCurrentViewAsForward);
+  els.btnOpenSceneA11y?.addEventListener('click', () => {
+    const scene = getSelectedScene();
+    if (scene) void openA11yStudio({ kind: 'scene', fileKey: scene.file });
+  });
   els.btnDeleteSelected.addEventListener('click', deleteSelectedHotspot);
   document.getElementById('btnPruneConnections')?.addEventListener('click', pruneOrphanConnections);
   document.getElementById('btnClearSceneConnections')?.addEventListener('click', clearSelectedSceneConnections);
-  document.getElementById('btnClearAllConnections')?.addEventListener('click', clearAllConnections);
 
   document.querySelectorAll('[data-place]').forEach((btn) => {
     btn.addEventListener('click', () => {
@@ -587,6 +636,7 @@ function bindUi() {
     renderGraph();
     state.viewer?.updateSize?.();
   });
+  bindA11yStudioUi();
 }
 
 function setWorkMode(mode) {
@@ -612,6 +662,7 @@ function setWorkMode(mode) {
   els.directionSelect.disabled = !hotspotUi;
   els.btnPlaceHere.disabled = !(hotspotUi && state.selectedFile);
   if (els.btnSetFrontView) els.btnSetFrontView.disabled = !(hotspotUi && state.selectedFile && state.view);
+  if (els.btnOpenSceneA11y) els.btnOpenSceneA11y.disabled = !(state.authorized && state.selectedFile);
   els.btnDeleteSelected.disabled = !(hotspotUi && state.selectedHotspotId);
   els.btnSaveScene.disabled = !(hotspotUi && state.selectedFile);
   els.btnDiscardScene.disabled = !(hotspotUi && state.selectedFile);
@@ -647,15 +698,16 @@ function setWorkMode(mode) {
 }
 
 function fillZones() {
+  const merged = { ...DEFAULT_ZONES, ...state.zones };
   const zones = [...new Set([
-    ...Object.keys(state.zones),
+    ...Object.keys(merged),
     ...state.scenes.map((s) => s.zone).filter(Boolean)
   ])];
   els.zoneFilter.innerHTML = `<option value="">Todas las zonas</option>` + zones.map((z) =>
-    `<option value="${z}">${state.zones[z] || z}</option>`
+    `<option value="${escapeAttr(z)}">${escapeHtml(merged[z] || z)}</option>`
   ).join('');
   els.sceneZoneSelect.innerHTML = zones.map((z) =>
-    `<option value="${z}">${state.zones[z] || z}</option>`
+    `<option value="${escapeAttr(z)}">${escapeHtml(merged[z] || z)}</option>`
   ).join('');
 }
 
@@ -796,6 +848,7 @@ async function selectScene(file) {
   const hotspotUi = state.workMode === 'hotspots';
   els.btnPlaceHere.disabled = !hotspotUi;
   if (els.btnSetFrontView) els.btnSetFrontView.disabled = !hotspotUi;
+  if (els.btnOpenSceneA11y) els.btnOpenSceneA11y.disabled = !state.authorized;
   els.btnDeleteSelected.disabled = true;
   els.btnSaveScene.disabled = !hotspotUi;
   els.btnDiscardScene.disabled = !hotspotUi;
@@ -845,7 +898,7 @@ async function mountViewer(scene) {
 }
 
 function sceneImageUrl(scene) {
-  if (scene?.imageUrl && (/^https?:\/\//i.test(scene.imageUrl) || scene.imageUrl.startsWith('data:'))) {
+  if (scene?.imageUrl && (/^https?:\/\//i.test(scene.imageUrl) || scene.imageUrl.startsWith('data:') || scene.imageUrl.startsWith('/media/'))) {
     return scene.imageUrl;
   }
   return `${PANORAMA_BASE()}${scene.file}`;
@@ -1277,12 +1330,16 @@ function renderHotspotEditor(scene) {
         `<option value="${key}" ${key === category ? 'selected' : ''}>${escapeHtml(meta.label)}</option>`
       )
       .join('');
+    const a11yTags = h.type !== 'nav'
+      ? `${h.narration ? ' · audio OK' : ''}${h.captionFile ? ' · VTT OK' : ''}`
+      : '';
     return `
     <li class="hotspot-admin-item${state.selectedHotspotId === h.id ? ' hotspot-admin-item--selected' : ''}" data-index="${index}" data-id="${escapeAttr(h.id)}">
       <strong>${escapeHtml(h.title || h.id)}</strong>
-      <div class="meta">${h.type || 'info'} · ${iconKey} · ${category} · ${anim} · ${h.direction || classifyLookingDirection(h.yaw || 0, h.pitch || 0, scene)} · yaw ${(h.yaw || 0).toFixed(2)} · pitch ${(h.pitch || 0).toFixed(2)}</div>
+      <div class="meta">${h.type || 'info'} · ${iconKey} · ${category} · ${anim} · ${h.direction || classifyLookingDirection(h.yaw || 0, h.pitch || 0, scene)} · yaw ${(h.yaw || 0).toFixed(2)} · pitch ${(h.pitch || 0).toFixed(2)}${a11yTags}</div>
       <div class="row">
-        <input data-field="title" value="${escapeAttr(h.title || '')}" ${canEdit ? '' : 'disabled'}>
+        <input data-field="title" title="Título completo" placeholder="Título del hotspot" value="${escapeAttr(h.title || '')}" ${canEdit ? '' : 'disabled'}>
+        <input data-field="shortLabel" title="Etiqueta corta en el chip 360°" placeholder="Etiqueta corta (chip)" value="${escapeAttr(h.shortLabel || '')}" ${canEdit ? '' : 'disabled'}>
         <select data-field="type" ${canEdit ? '' : 'disabled'}>
           <option value="nav" ${h.type === 'nav' ? 'selected' : ''}>nav</option>
           <option value="info" ${h.type !== 'nav' ? 'selected' : ''}>info</option>
@@ -1302,7 +1359,11 @@ function renderHotspotEditor(scene) {
           ${state.scenes.map((s) => `<option value="${s.file}" ${s.file === (h.targetFile || '') ? 'selected' : ''}>${escapeHtml(s.shortTitle)}</option>`).join('')}
         </select>
         <button type="button" data-action="look" ${state.view ? '' : 'disabled'}>Mirar</button>
+        ${h.type !== 'nav' ? `<button type="button" data-action="a11y" ${state.authorized ? '' : 'disabled'}>Audio / VTT</button>` : ''}
         <button type="button" data-action="delete" ${canEdit ? '' : 'disabled'}>Eliminar</button>
+      </div>
+      <div class="row" style="margin-top:0.35rem">
+        <textarea data-field="description" rows="2" style="width:100%;font-family:inherit;font-size:0.84rem;padding:0.4rem;border-radius:6px;border:1px solid var(--cw-line, #d1d5db);" placeholder="Descripción del hotspot (se muestra al abrir el modal informativo)" ${canEdit ? '' : 'disabled'}>${escapeHtml(h.description || '')}</textarea>
       </div>
     </li>`;
   }).join('') || '<li class="meta list-empty">Escena sin hotspots · Encuadra la vista y pulsa «Colocar hotspot aquí».</li>';
@@ -1312,7 +1373,7 @@ function renderHotspotEditor(scene) {
     const hotspotId = item.dataset.id;
 
     item.addEventListener('click', (event) => {
-      if (event.target.closest('button, input, select')) return;
+      if (event.target.closest('button, input, select, textarea')) return;
       selectHotspot(hotspotId, { look: true, scrollList: false });
     });
 
@@ -1345,6 +1406,9 @@ function renderHotspotEditor(scene) {
     });
     item.querySelector('[data-action="look"]')?.addEventListener('click', () => {
       selectHotspot(hotspotId, { look: true, scrollList: true });
+    });
+    item.querySelector('[data-action="a11y"]')?.addEventListener('click', () => {
+      void openA11yStudio({ kind: 'hotspot', fileKey: scene.file, hotspotId });
     });
     item.querySelector('[data-action="delete"]')?.addEventListener('click', async () => {
       const ok = await askConfirm('Eliminar hotspot', '¿Seguro que quieres eliminar este hotspot? Esta acción se puede descartar antes de guardar.');
@@ -1449,10 +1513,10 @@ async function saveAllChanges() {
   if (connCount === 0 && sceneCount > 3 && prevConn > 0) {
     const ok = await askConfirm(
       'Guardar sin conexiones',
-      `Vas a publicar 0 conexiones (antes había ${prevConn} en Convex). El tour público perderá la navegación. ¿Continuar?`
+      `Vas a guardar 0 conexiones (antes había ${prevConn}). El recorrido perderá sus enlaces de navegación. ¿Continuar?`
     );
     if (!ok) {
-      setStatus('Guardado cancelado: se evita borrar el grafo en Convex.');
+      setStatus('Guardado cancelado para proteger las conexiones existentes.');
       return;
     }
   } else if (sceneCount >= LARGE_TOUR_SCENE_THRESHOLD && delta >= 20) {
@@ -1485,17 +1549,18 @@ async function saveAllChanges() {
       return;
     }
     state.lastSyncedConnectionCount = result.connectionsSaved ?? connCount;
+    state.deletedFileKeys = [];
     updateDirtyUi(false);
     setSaveProgress('');
     const msg =
-      `Guardado OK: ${result.scenesSaved} escenas, ${result.hotspotsSaved} hotspots, ` +
-      `${result.connectionsSaved} conexiones. Recarga el tour (F5).`;
+      `Cambios guardados: ${result.scenesSaved} escenas, ${result.hotspotsSaved} hotspots, ` +
+      `${result.connectionsSaved} conexiones.`;
     setStatus(msg);
     announceToast(msg);
   } catch (error) {
     updateDirtyUi(true);
     setSaveProgress('');
-    setStatus(`Error al sincronizar Convex: ${error.message}`);
+    setStatus(`Error al guardar: ${error.message}`);
   } finally {
     state.saving = false;
     updateDirtyUi(state.dirty);
@@ -2023,34 +2088,6 @@ async function clearSelectedSceneConnections() {
   setStatus(`Escena “${scene.shortTitle}” sin conexiones en borrador. Pulsa Guardar cambios.`);
 }
 
-async function clearAllConnections() {
-  const ok = await askConfirm(
-    'Limpiar todas las conexiones',
-    '¿Borrar TODAS las conexiones del grafo y todos los hotspots de navegación de todas las escenas? Los puntos info se conservan. Deberás confirmar de nuevo al Guardar si el tour tenía aristas en Convex.'
-  );
-  if (!ok) return;
-
-  state.graph.connections = [];
-  state.scenes.forEach((scene) => {
-    scene.hotspots = scene.hotspots.filter((h) => h.type !== 'nav');
-    syncScenePatch(scene);
-  });
-
-  persistGraphLocal();
-  markDirty();
-  renderConnections();
-  layoutNodes();
-  renderGraph();
-  renderSceneList();
-  updateGraphStats();
-  const selected = getSelectedScene();
-  if (selected) {
-    renderViewerHotspots(selected);
-    renderHotspotEditor(selected);
-  }
-  setStatus('Grafo limpio en borrador. Pulsa Guardar cambios para publicar (pedirá confirmación si Convex tenía aristas).');
-}
-
 function renderConnections() {
   const canEdit = state.workMode === 'hotspots' || state.workMode === 'scenes';
   const visibleFiles = new Set(state.nodePositions.keys());
@@ -2107,25 +2144,37 @@ function renderConnections() {
 function openSceneDialog(mode) {
   state.sceneDialogMode = mode;
   const isUpload = mode === 'upload';
+  const isEdit = mode === 'edit';
   els.sceneDialogTitle.textContent =
     mode === 'add' ? 'Añadir / registrar escena'
-      : mode === 'upload' ? 'Subir panorama a Convex'
+      : mode === 'upload' ? 'Subir panorama 360°'
         : 'Editar datos de escena';
   if (els.sceneDialogHint) {
     els.sceneDialogHint.textContent = isUpload
-      ? 'Sube un JPG/PNG/WebP equirectangular. Queda en Convex File Storage y aparece en el tour público.'
+      ? 'Sube una imagen equirectangular (JPG, PNG o WebP) para agregarla al recorrido.'
       : mode === 'add'
-        ? 'Registra un archivo ya presente en panoramas/ (config local).'
-        : 'Actualiza título y zona de la escena seleccionada.';
+        ? 'Registra un archivo ya presente en el proyecto.'
+        : 'Actualiza título, zona, descripción o reemplaza la imagen panorámica de esta escena.';
   }
-  if (els.sceneFileLabel) els.sceneFileLabel.hidden = isUpload;
-  if (els.sceneUploadLabel) els.sceneUploadLabel.hidden = !isUpload;
+  if (els.sceneFileLabel) {
+    els.sceneFileLabel.hidden = isUpload;
+    els.sceneFileLabel.style.display = isUpload ? 'none' : '';
+  }
+  if (els.sceneUploadLabel) {
+    els.sceneUploadLabel.hidden = !(isUpload || isEdit);
+    els.sceneUploadLabel.style.display = (isUpload || isEdit) ? '' : 'none';
+  }
+  if (els.sceneUploadText) {
+    els.sceneUploadText.textContent = isEdit
+      ? 'Reemplazar imagen equirectangular (opcional)'
+      : 'Subir imagen equirectangular (JPG/PNG/WebP)';
+  }
   if (els.panoramaUploadInput) {
     els.panoramaUploadInput.value = '';
     els.panoramaUploadInput.required = isUpload;
   }
   els.sceneFileSelect.required = !isUpload;
-  els.sceneFileSelect.disabled = mode === 'edit';
+  els.sceneFileSelect.disabled = isEdit;
 
   if (!isUpload) {
     const used = new Set(state.scenes.map((s) => s.file));
@@ -2136,22 +2185,37 @@ function openSceneDialog(mode) {
       setStatus('No hay panoramas sin registrar en config.json. Usa “Subir panorama” para añadir nuevos.');
       return;
     }
-    els.sceneFileSelect.innerHTML = files.map((f) => `<option value="${f}">${f}</option>`).join('');
+    els.sceneFileSelect.innerHTML = files.map((f) => `<option value="${escapeAttr(f)}">${escapeHtml(f)}</option>`).join('');
   }
 
+  fillZones();
   const scene = getSelectedScene();
-  if (mode === 'edit' && scene) {
-    els.sceneForm.shortTitle.value = scene.shortTitle;
-    els.sceneForm.title.value = scene.title;
+  if (isEdit && scene) {
+    els.sceneForm.shortTitle.value = scene.shortTitle || '';
+    els.sceneForm.title.value = scene.title || '';
     els.sceneFileSelect.value = scene.file;
-    els.sceneZoneSelect.value = scene.zone || els.sceneZoneSelect.options[0]?.value;
+    if (Array.from(els.sceneZoneSelect.options).some((o) => o.value === (scene.zone || ''))) {
+      els.sceneZoneSelect.value = scene.zone;
+    }
+    if (els.sceneCustomZone) els.sceneCustomZone.value = '';
+    if (els.sceneLongDesc) els.sceneLongDesc.value = scene.longDescription || '';
+    if (els.sceneAltText) els.sceneAltText.value = scene.altText || '';
   } else {
     els.sceneForm.reset();
-    if (els.sceneFileLabel) els.sceneFileLabel.hidden = isUpload;
-    if (els.sceneUploadLabel) els.sceneUploadLabel.hidden = !isUpload;
+    if (els.sceneFileLabel) {
+      els.sceneFileLabel.hidden = isUpload;
+      els.sceneFileLabel.style.display = isUpload ? 'none' : '';
+    }
+    if (els.sceneUploadLabel) {
+      els.sceneUploadLabel.hidden = !(isUpload || isEdit);
+      els.sceneUploadLabel.style.display = (isUpload || isEdit) ? '' : 'none';
+    }
     els.sceneFileSelect.disabled = false;
     els.sceneForm.shortTitle.value = '';
     els.sceneForm.title.value = '';
+    if (els.sceneCustomZone) els.sceneCustomZone.value = '';
+    if (els.sceneLongDesc) els.sceneLongDesc.value = '';
+    if (els.sceneAltText) els.sceneAltText.value = '';
   }
   if (els.sceneFormSave) {
     els.sceneFormSave.textContent = isUpload ? 'Subir y registrar' : 'Guardar';
@@ -2165,11 +2229,21 @@ async function onSceneFormSubmit(event) {
   event.preventDefault();
   const shortTitle = els.sceneForm.shortTitle.value.trim();
   const title = els.sceneForm.title.value.trim();
-  const zone = els.sceneZoneSelect.value;
-  if (!shortTitle || !title || !zone) return;
+  const customZoneRaw = els.sceneCustomZone?.value.trim() || '';
+  let zone = els.sceneZoneSelect.value || 'general';
+  if (customZoneRaw) {
+    zone = slugify(customZoneRaw) || 'general';
+    state.zones[zone] = customZoneRaw;
+  }
+  const longDescription = els.sceneLongDesc?.value.trim() || '';
+  const altText = els.sceneAltText?.value.trim() || shortTitle;
+  if (!shortTitle || !title) {
+    setStatus('Completa título corto y título completo.');
+    return;
+  }
 
   if (state.sceneDialogMode === 'upload') {
-    await uploadPanoramaAndRegister({ shortTitle, title, zone });
+    await uploadPanoramaAndRegister({ shortTitle, title, zone, longDescription, altText });
     return;
   }
 
@@ -2187,6 +2261,8 @@ async function onSceneFormSubmit(event) {
       id: slugify(file),
       title,
       shortTitle,
+      longDescription,
+      altText,
       hotspots: [],
       order: state.scenes.length,
       imageUrl: null
@@ -2194,9 +2270,22 @@ async function onSceneFormSubmit(event) {
   } else {
     const scene = getSelectedScene();
     if (!scene) return;
+    if (els.panoramaUploadInput?.files?.[0]) {
+      await uploadPanoramaAndRegister({
+        shortTitle,
+        title,
+        zone,
+        longDescription,
+        altText,
+        existingFileKey: scene.file
+      });
+      return;
+    }
     scene.title = title;
     scene.shortTitle = shortTitle;
     scene.zone = zone;
+    scene.longDescription = longDescription;
+    scene.altText = altText;
   }
 
   state.graph.sceneMeta[file] = { title, shortTitle, zone };
@@ -2206,14 +2295,15 @@ async function onSceneFormSubmit(event) {
   renderSceneList();
   layoutNodes();
   renderGraph();
+  updateEmptyStateUi();
   els.sceneDialog.close();
   setStatus('Metadatos de escena actualizados. Recuerda guardar cambios.');
 }
 
-async function uploadPanoramaAndRegister({ shortTitle, title, zone }) {
+async function uploadPanoramaAndRegister({ shortTitle, title, zone, longDescription = '', altText = '', existingFileKey = null }) {
   const token = getSessionToken();
   if (!token) {
-    setStatus('Inicia sesión para subir panoramas a Convex.');
+    setStatus('Inicia sesión para subir imágenes.');
     return;
   }
   const file = els.panoramaUploadInput?.files?.[0];
@@ -2233,7 +2323,7 @@ async function uploadPanoramaAndRegister({ shortTitle, title, zone }) {
 
   const saveBtn = els.sceneFormSave;
   if (saveBtn) saveBtn.disabled = true;
-  setStatus('Subiendo panorama a Convex…');
+  setStatus('Subiendo panorama…');
   try {
     const uploadMeta = await convexFetch('mutation', 'media:generateUploadUrl', {
       token,
@@ -2251,9 +2341,9 @@ async function uploadPanoramaAndRegister({ shortTitle, title, zone }) {
     }
     const uploaded = await uploadRes.json();
     const storageId = uploaded.storageId;
-    if (!storageId) throw new Error('Convex no devolvió storageId');
+    if (!storageId) throw new Error('No se recibió identificador de archivo');
 
-    const stamped = `${Date.now()}-${file.name || 'panorama.jpg'}`;
+    const stamped = existingFileKey || `${Date.now()}-${file.name || 'panorama.jpg'}`;
     const result = await convexFetch('mutation', 'media:attachPanoramaToScene', {
       token,
       tourSlug: requireTourSlug(),
@@ -2275,6 +2365,8 @@ async function uploadPanoramaAndRegister({ shortTitle, title, zone }) {
         id: slugify(fileKey),
         title,
         shortTitle,
+        longDescription,
+        altText: altText || title,
         hotspots: [],
         order: state.scenes.length,
         imageUrl: result.imageUrl
@@ -2284,6 +2376,8 @@ async function uploadPanoramaAndRegister({ shortTitle, title, zone }) {
       scene.title = title;
       scene.shortTitle = shortTitle;
       scene.zone = zone;
+      scene.longDescription = longDescription;
+      scene.altText = altText || title;
       scene.imageUrl = result.imageUrl;
     }
     if (!state.availableFiles.includes(fileKey)) state.availableFiles.push(fileKey);
@@ -2296,6 +2390,7 @@ async function uploadPanoramaAndRegister({ shortTitle, title, zone }) {
     renderSceneList();
     layoutNodes();
     renderGraph();
+    updateEmptyStateUi();
     els.sceneDialog.close();
     await selectScene(fileKey);
     setStatus(`Panorama subido: ${fileKey}. Guarda cambios para sincronizar hotspots/conexiones.`);
@@ -2304,6 +2399,55 @@ async function uploadPanoramaAndRegister({ shortTitle, title, zone }) {
   } finally {
     if (saveBtn) saveBtn.disabled = false;
   }
+}
+
+async function deleteSelectedScene() {
+  if (!state.selectedFile) {
+    setStatus('Selecciona una escena primero.');
+    return;
+  }
+  const scene = getSelectedScene();
+  if (!scene) return;
+  const ok = await askConfirm(
+    'Eliminar escena',
+    `¿Eliminar «${scene.shortTitle || scene.file}» del borrador y sus enlaces? Debes pulsar “Guardar cambios” para aplicar en Convex.`
+  );
+  if (!ok) return;
+
+  const targetFile = scene.file;
+  state.scenes = state.scenes.filter((s) => s.file !== targetFile);
+  state.availableFiles = state.availableFiles.filter((f) => f !== targetFile);
+  if (!state.deletedFileKeys.includes(targetFile)) {
+    state.deletedFileKeys.push(targetFile);
+  }
+  delete state.graph.sceneMeta[targetFile];
+  delete state.graph.scenes[targetFile];
+  state.graph.connections = (state.graph.connections || []).filter(
+    (c) => c.from !== targetFile && c.to !== targetFile
+  );
+  state.scenes.forEach((other) => {
+    if (Array.isArray(other.hotspots)) {
+      other.hotspots = other.hotspots.filter((h) => h.targetFile !== targetFile);
+    }
+  });
+
+  state.selectedFile = null;
+  state.selectedHotspotId = null;
+  destroyViewer();
+  if (els.btnOpenSceneA11y) els.btnOpenSceneA11y.disabled = true;
+  if (els.editorBody) els.editorBody.hidden = true;
+  if (els.editorEmpty) els.editorEmpty.hidden = false;
+
+  markDirty();
+  fillTargets();
+  fillZones();
+  renderSceneList();
+  renderConnections();
+  layoutNodes();
+  renderGraph();
+  updateGraphStats();
+  updateEmptyStateUi();
+  setStatus(`Escena "${scene.shortTitle}" eliminada del borrador. Pulsa Guardar cambios.`);
 }
 
 /** Local draft only — never pushes to Convex (avoids accidental wipe on every edit). */
@@ -2316,22 +2460,13 @@ function persistGraphLocal() {
 }
 
 /**
- * @deprecated Prefer persistGraphLocal + explicit saveAllChanges.
- * Kept for import path that intentionally publishes after confirm.
- */
-function persistGraph() {
-  persistGraphLocal();
-  return syncGraphToConvex({});
-}
-
-/**
  * Push draft to Convex. Empty-connection wipe requires allowEmptyConfirmed or interactive confirm.
  * @param {{ allowEmptyConfirmed?: boolean }} opts
  */
 async function syncGraphToConvex(opts = {}) {
   const token = getSessionToken();
   if (!token) {
-    setStatus('Guardado local. Inicia sesión para sincronizar a Convex (compartido entre navegadores).');
+    setStatus('Guardado local. Inicia sesión para guardar cambios en el recorrido.');
     return null;
   }
 
@@ -2345,11 +2480,10 @@ async function syncGraphToConvex(opts = {}) {
     } else {
       const ok = await askConfirm(
         'Guardar sin conexiones',
-        'Vas a publicar 0 conexiones en Convex y el tour público perderá los hotspots de navegación. ' +
-          'Solo continúa si es intencional (p. ej. borrar todo el grafo). ¿Continuar?'
+        'Vas a guardar 0 conexiones y el recorrido perderá sus enlaces de navegación. ¿Continuar?'
       );
       if (!ok) {
-        setStatus('Guardado cancelado: se evita borrar el grafo en Convex.');
+        setStatus('Guardado cancelado para proteger las conexiones existentes.');
         return null;
       }
       allowEmptyConnections = true;
@@ -2362,11 +2496,11 @@ async function syncGraphToConvex(opts = {}) {
     shortTitle: s.shortTitle || s.title,
     zone: s.zone,
     order: typeof s.order === 'number' ? s.order : index,
-    imageUrl: s.imageUrl && /^https?:\/\//i.test(s.imageUrl)
+    imageUrl: s.imageUrl && (/^https?:\/\//i.test(s.imageUrl) || s.imageUrl.startsWith('/media/'))
       ? s.imageUrl
       : `${PANORAMA_BASE()}${s.file}`,
     altText: s.altText || s.title,
-    longDescription: s.longDescription,
+    ...(typeof s.longDescription === 'string' ? { longDescription: s.longDescription } : {}),
     ...(s.initialView && typeof s.initialView.yaw === 'number'
       ? {
           initialView: {
@@ -2382,12 +2516,14 @@ async function syncGraphToConvex(opts = {}) {
       title: h.title || h.id,
       yaw: Number(h.yaw) || 0,
       pitch: Number(h.pitch) || 0,
-      direction: h.direction,
-      targetFile: h.targetFile,
-      description: h.description,
-      weight: h.weight,
-      shortLabel: h.shortLabel,
-      altText: h.altText,
+      ...(typeof h.direction === 'string' ? { direction: h.direction } : {}),
+      ...(typeof h.targetFile === 'string' && h.targetFile ? { targetFile: h.targetFile } : {}),
+      ...(typeof h.description === 'string' ? { description: h.description } : {}),
+      ...(typeof h.weight === 'number' ? { weight: h.weight } : {}),
+      ...(typeof h.shortLabel === 'string' && h.shortLabel.trim()
+        ? { shortLabel: h.shortLabel.trim() }
+        : {}),
+      ...(typeof h.altText === 'string' && h.altText.trim() ? { altText: h.altText.trim() } : {}),
       ...(h.iconKey ? { iconKey: h.iconKey } : {}),
       ...(h.category ? { category: h.category } : {}),
       ...(h.animationPreset ? { animationPreset: h.animationPreset } : {}),
@@ -2399,11 +2535,11 @@ async function syncGraphToConvex(opts = {}) {
     id: c.id,
     from: c.from,
     to: c.to,
-    label: c.label,
-    yaw: c.yaw,
-    pitch: c.pitch,
-    direction: c.direction,
-    weight: c.weight
+    ...(typeof c.label === 'string' ? { label: c.label } : {}),
+    ...(typeof c.yaw === 'number' ? { yaw: c.yaw } : {}),
+    ...(typeof c.pitch === 'number' ? { pitch: c.pitch } : {}),
+    ...(typeof c.direction === 'string' ? { direction: c.direction } : {}),
+    ...(typeof c.weight === 'number' ? { weight: c.weight } : {})
   }));
 
   setSaveProgress(
@@ -2418,8 +2554,12 @@ async function syncGraphToConvex(opts = {}) {
     orgSlug: requireOrgSlugCw(),
     scenes: scenesPayload,
     connections,
+    ...(state.deletedFileKeys?.length ? { deletedFileKeys: state.deletedFileKeys.slice() } : {}),
     ...(allowEmptyConnections ? { allowEmptyConnections: true } : {})
   });
+  if (result) {
+    state.deletedFileKeys = [];
+  }
   return result;
 }
 
@@ -2553,15 +2693,6 @@ function updateDirtyUi(dirty) {
   }
 }
 
-function loadStoredGraph() {
-  try {
-    const raw = localStorage.getItem(storageKey());
-    return raw ? JSON.parse(raw) : null;
-  } catch {
-    return null;
-  }
-}
-
 function normalizeGraph(graph) {
   return {
     version: 1,
@@ -2570,28 +2701,6 @@ function normalizeGraph(graph) {
     scenes: graph?.scenes && typeof graph.scenes === 'object' ? graph.scenes : {},
     sceneMeta: graph?.sceneMeta && typeof graph.sceneMeta === 'object' ? graph.sceneMeta : {}
   };
-}
-
-/** Score for choosing between localStorage and static tour-graph.json. */
-function graphEdgeScore(graph) {
-  if (!graph || typeof graph !== 'object') return 0;
-  const conns = Array.isArray(graph.connections) ? graph.connections.length : 0;
-  const scenes =
-    graph.scenes && typeof graph.scenes === 'object' ? Object.keys(graph.scenes).length : 0;
-  return conns * 10 + scenes;
-}
-
-function pickRichestGraph(...candidates) {
-  let best = null;
-  let bestScore = -1;
-  for (const g of candidates) {
-    const score = graphEdgeScore(g);
-    if (score > bestScore) {
-      best = g;
-      bestScore = score;
-    }
-  }
-  return best || { version: 1, connections: [], scenes: {}, sceneMeta: {} };
 }
 
 function classifyDirection(yaw, pitch) {
@@ -2652,11 +2761,12 @@ async function fetchJson(url) {
 }
 
 function slugify(value) {
-  return String(value).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-}
-
-function cleanTitle(title) {
-  return String(title || '').replace(/^\d+\.\s*/, '');
+  return String(value || '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
 }
 
 function escapeHtml(value) {
@@ -2708,4 +2818,746 @@ function adminHotspotIconSvg(type) {
 
 function escapeAttr(value) {
   return escapeHtml(value).replaceAll("'", '&#39;');
+}
+
+/* ════════════════════════════════════════════════════════════════
+   Estudio de Audio, Voz Salomé (TTS), Grabación y Subtítulos WebVTT
+   ════════════════════════════════════════════════════════════════ */
+
+const studioState = {
+  target: null, // { kind: 'scene' | 'hotspot', fileKey, hotspotId? }
+  cues: [], // [{ start, end, text }]
+  focusedTimeField: null, // { idx, key: 'start' | 'end' }
+  pendingAudioBlob: null,
+  pendingAudioFilename: 'narracion.mp3',
+  previewObjectUrl: null,
+  clearNarration: false,
+  clearCaptions: false,
+  mediaRecorder: null,
+  recordChunks: [],
+  recordTimerId: null,
+  recordStartedAt: 0,
+  bound: false,
+};
+
+function studioEl(id) {
+  return document.getElementById(id);
+}
+
+function formatVttTs(seconds) {
+  const totalMs = Math.max(0, Math.round((Number(seconds) || 0) * 1000));
+  const h = Math.floor(totalMs / 3_600_000);
+  const m = Math.floor((totalMs % 3_600_000) / 60_000);
+  const s = Math.floor((totalMs % 60_000) / 1000);
+  const ms = totalMs % 1000;
+  return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}.${String(ms).padStart(3, '0')}`;
+}
+
+function buildVttFromCues(cues) {
+  const clean = (Array.isArray(cues) ? cues : []).filter((c) => c && String(c.text || '').trim());
+  if (clean.length === 0) return '';
+  const lines = ['WEBVTT', ''];
+  clean.forEach((c, idx) => {
+    const start = Math.max(0, Number(c.start) || 0);
+    const end = Math.max(start + 0.3, Number(c.end) || start + 2);
+    lines.push(String(idx + 1));
+    lines.push(`${formatVttTs(start)} --> ${formatVttTs(end)}`);
+    lines.push(String(c.text).trim());
+    lines.push('');
+  });
+  return lines.join('\n');
+}
+
+function parseVttAdmin(vttContent) {
+  if (!vttContent || typeof vttContent !== 'string') return [];
+  const cues = [];
+  const lines = vttContent.replace(/\r\n/g, '\n').split('\n');
+  const timeRegex = /(?:(\d{2}):)?(\d{2}):(\d{2})[.,](\d{3})\s*-->\s*(?:(\d{2}):)?(\d{2}):(\d{2})[.,](\d{3})/;
+  const parseTs = (h, m, s, ms) => (h ? parseInt(h, 10) : 0) * 3600 + parseInt(m, 10) * 60 + parseInt(s, 10) + parseInt(ms, 10) / 1000;
+
+  let curStart = null;
+  let curEnd = null;
+  let curLines = [];
+  for (let i = 0; i < lines.length; i += 1) {
+    const line = lines[i].trim();
+    if (line.startsWith('WEBVTT') || line.startsWith('NOTE')) continue;
+    const match = line.match(timeRegex);
+    if (match) {
+      if (curStart !== null && curLines.length) {
+        cues.push({ start: Number(curStart.toFixed(3)), end: Number(curEnd.toFixed(3)), text: curLines.join(' ').trim() });
+        curLines = [];
+      }
+      curStart = parseTs(match[1], match[2], match[3], match[4]);
+      curEnd = parseTs(match[5], match[6], match[7], match[8]);
+    } else if (curStart !== null) {
+      if (!line) {
+        if (curLines.length) {
+          cues.push({ start: Number(curStart.toFixed(3)), end: Number(curEnd.toFixed(3)), text: curLines.join(' ').trim() });
+          curStart = null;
+          curEnd = null;
+          curLines = [];
+        }
+      } else if (!(/^\d+$/.test(line) && i + 1 < lines.length && timeRegex.test(lines[i + 1]))) {
+        curLines.push(line);
+      }
+    }
+  }
+  if (curStart !== null && curLines.length) {
+    cues.push({ start: Number(curStart.toFixed(3)), end: Number(curEnd.toFixed(3)), text: curLines.join(' ').trim() });
+  }
+  return cues;
+}
+
+function setStudioStatus(text, isError = false) {
+  const el = studioEl('a11yStudioStatus');
+  if (!el) return;
+  el.textContent = text;
+  el.style.color = isError ? '#b91c1c' : '';
+}
+
+function releaseStudioPreviewUrl() {
+  if (studioState.previewObjectUrl) {
+    try {
+      URL.revokeObjectURL(studioState.previewObjectUrl);
+    } catch {
+      /* ignore */
+    }
+    studioState.previewObjectUrl = null;
+  }
+}
+
+function stopActiveRecording() {
+  if (studioState.recordTimerId) {
+    clearInterval(studioState.recordTimerId);
+    studioState.recordTimerId = null;
+  }
+  if (studioState.mediaRecorder && studioState.mediaRecorder.state !== 'inactive') {
+    try {
+      studioState.mediaRecorder.stop();
+    } catch {
+      /* ignore */
+    }
+  }
+}
+
+function syncRawVttTextarea() {
+  const rawEl = studioEl('a11yRawVtt');
+  if (rawEl) {
+    rawEl.value = buildVttFromCues(studioState.cues);
+  }
+}
+
+function updateStudioBadges(item) {
+  const wrap = studioEl('a11yStudioBadges');
+  if (!wrap) return;
+  const hasAudio = Boolean(studioState.pendingAudioBlob || (!studioState.clearNarration && item?.narration));
+  const hasCues = studioState.cues.some((c) => String(c.text || '').trim()) || (!studioState.clearCaptions && Boolean(item?.captionFile));
+  const hasSr = Boolean((studioEl('a11ySrSummary')?.value || item?.srSummary || '').trim());
+  const optional = Boolean(studioEl('a11yNarrationOptional')?.checked);
+
+  wrap.innerHTML = `
+    <span class="studio-badge ${hasAudio ? 'studio-badge--ok' : optional ? '' : 'studio-badge--warn'}">
+      ${hasAudio ? (studioState.pendingAudioBlob ? 'Audio listo' : 'Audio guardado') : (optional ? 'Audio opcional' : 'Sin audio')}
+    </span>
+    <span class="studio-badge ${hasCues ? 'studio-badge--ok' : 'studio-badge--warn'}">
+      ${hasCues ? `Subtítulos · ${studioState.cues.length} líneas` : 'Sin subtítulos'}
+    </span>
+    <span class="studio-badge ${hasSr ? 'studio-badge--ok' : ''}">
+      ${hasSr ? 'Resumen listo' : 'Sin resumen'}
+    </span>
+  `;
+}
+
+function updateFocusedTimeButton() {
+  const btn = studioEl('btnApplyPlayerTime');
+  if (!btn) return;
+  const ref = studioState.focusedTimeField;
+  if (!ref || !studioState.cues[ref.idx]) {
+    btn.disabled = true;
+    btn.textContent = 'Fijar tiempo actual';
+    return;
+  }
+  btn.disabled = false;
+  btn.textContent = `Fijar tiempo en #${ref.idx + 1} (${ref.key === 'start' ? 'inicio' : 'fin'})`;
+}
+
+function renderStudioCueRows() {
+  const listEl = studioEl('a11yCueList');
+  const countEl = studioEl('a11yCueCountHint');
+  if (!listEl) return;
+  const cues = studioState.cues;
+  if (countEl) {
+    countEl.textContent = `${cues.length} ${cues.length === 1 ? 'línea' : 'líneas'}`;
+  }
+  if (!cues || cues.length === 0) {
+    studioState.focusedTimeField = null;
+    updateFocusedTimeButton();
+    listEl.innerHTML = '<p class="hint" style="margin:0.35rem 0">Sin líneas de subtítulos.</p>';
+    syncRawVttTextarea();
+    return;
+  }
+  listEl.innerHTML = cues.map((cue, idx) => `
+    <div class="studio-cue-row" data-cue-index="${idx}">
+      <div class="studio-cue-top">
+        <span class="studio-cue-idx">#${idx + 1}</span>
+        <div class="studio-cue-time-wrap">
+          <span class="studio-cue-time-lbl">Inicio (s)</span>
+          <input type="number" step="0.1" min="0" data-cue-field="start" value="${Number(cue.start || 0).toFixed(1)}" aria-label="Inicio en segundos fila ${idx + 1}">
+        </div>
+        <div class="studio-cue-time-wrap">
+          <span class="studio-cue-time-lbl">Fin (s)</span>
+          <input type="number" step="0.1" min="0" data-cue-field="end" value="${Number(cue.end || 0).toFixed(1)}" aria-label="Fin en segundos fila ${idx + 1}">
+        </div>
+        <div class="studio-cue-actions">
+          <button type="button" class="studio-icon-btn" data-cue-seek="${idx}" title="Escuchar desde este segundo" aria-label="Escuchar fila ${idx + 1}">
+            <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+          </button>
+          <button type="button" class="studio-icon-btn studio-icon-btn--del" data-cue-del="${idx}" title="Eliminar línea" aria-label="Eliminar fila ${idx + 1}">
+            <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M18.3 5.71 12 12l6.3 6.29-1.41 1.42L10.59 13.4 4.29 19.71 2.88 18.3 9.17 12 2.88 5.71 4.29 4.29l6.3 6.3 6.29-6.3z"/></svg>
+          </button>
+        </div>
+      </div>
+      <textarea rows="2" data-cue-field="text" placeholder="Texto del subtítulo..." aria-label="Texto del subtítulo fila ${idx + 1}">${escapeHtml(cue.text || '')}</textarea>
+    </div>
+  `).join('');
+
+  listEl.querySelectorAll('.studio-cue-row').forEach((row) => {
+    const idx = Number(row.dataset.cueIndex);
+    row.querySelectorAll('[data-cue-field]').forEach((inp) => {
+      if (inp.dataset.cueField === 'start' || inp.dataset.cueField === 'end') {
+        inp.addEventListener('focus', () => {
+          studioState.focusedTimeField = { idx, key: inp.dataset.cueField };
+          updateFocusedTimeButton();
+        });
+      }
+      inp.addEventListener('input', () => {
+        const key = inp.dataset.cueField;
+        if (!studioState.cues[idx]) return;
+        studioState.cues[idx][key] = key === 'text' ? inp.value : Math.max(0, parseFloat(inp.value) || 0);
+        syncRawVttTextarea();
+        updateStudioBadges(getStudioTargetItem());
+      });
+    });
+    row.querySelector('[data-cue-seek]')?.addEventListener('click', () => {
+      const player = studioEl('a11yAudioPlayer');
+      if (player && studioState.cues[idx]) {
+        player.currentTime = Number(studioState.cues[idx].start) || 0;
+        void player.play().catch(() => {});
+      }
+    });
+    row.querySelector('[data-cue-del]')?.addEventListener('click', () => {
+      studioState.cues.splice(idx, 1);
+      if (studioState.focusedTimeField && studioState.focusedTimeField.idx >= studioState.cues.length) {
+        studioState.focusedTimeField = null;
+      }
+      renderStudioCueRows();
+      updateStudioBadges(getStudioTargetItem());
+    });
+  });
+
+  if (!studioState.focusedTimeField && studioState.cues.length > 0) {
+    studioState.focusedTimeField = { idx: 0, key: 'start' };
+  }
+  updateFocusedTimeButton();
+  syncRawVttTextarea();
+}
+
+function getStudioTargetItem() {
+  if (!studioState.target) return null;
+  const scene = state.scenes.find((s) => s.file === studioState.target.fileKey);
+  if (!scene) return null;
+  if (studioState.target.kind === 'scene') return scene;
+  return (scene.hotspots || []).find((h) => h.id === studioState.target.hotspotId) || null;
+}
+
+function buildAutoScriptForTarget() {
+  const t = studioState.target;
+  if (!t) return '';
+  const scene = state.scenes.find((s) => s.file === t.fileKey);
+  if (!scene) return '';
+  if (t.kind === 'hotspot') {
+    const hs = (scene.hotspots || []).find((h) => h.id === t.hotspotId);
+    if (!hs) return '';
+    return `${hs.title}. ${hs.description || ''}`.trim();
+  }
+  const zoneLabel = state.zones?.[scene.zone] || scene.zone || 'zona general';
+  const infoHotspots = (scene.hotspots || []).filter((h) => h.type === 'info' && h.title).slice(0, 4);
+  const parts = [
+    `Escena: ${scene.title}.`,
+    `Zona: ${zoneLabel}.`,
+    scene.longDescription ? scene.longDescription.trim() : `Estás en ${scene.shortTitle || scene.title}.`,
+  ];
+  if (infoHotspots.length > 0) {
+    parts.push(`Puntos de interés cercanos: ${infoHotspots.map((h) => h.title).join(', ')}.`);
+  }
+  const navTargets = (scene.hotspots || []).filter((h) => h.type === 'nav' && h.title).slice(0, 4);
+  if (navTargets.length > 0) {
+    parts.push(`Desde aquí puedes desplazarte hacia: ${navTargets.map((h) => h.title).join(', ')}.`);
+  }
+  return parts.join(' ');
+}
+
+function autoSyncScriptToCues() {
+  const script = (studioEl('a11yScriptInput')?.value || '').trim();
+  if (!script) {
+    setStudioStatus('Escribe primero el guion para sincronizar los subtítulos.', true);
+    return;
+  }
+  const player = studioEl('a11yAudioPlayer');
+  const sentences = script
+    .split(/(?<=[.!?])\s+|\n+/)
+    .map((s) => s.trim())
+    .filter(Boolean);
+  const wordsTotal = sentences.reduce((acc, s) => acc + s.split(/\s+/).length, 0) || 1;
+  const hasRealDur = player && Number.isFinite(player.duration) && player.duration > 0.5;
+  const totalDur = hasRealDur ? player.duration : Math.max(2.0, wordsTotal / 2.4);
+
+  const cues = [];
+  let cursor = 0;
+  sentences.forEach((sentence, idx) => {
+    const words = sentence.split(/\s+/).length;
+    const dur = idx === sentences.length - 1
+      ? Math.max(0.6, totalDur - cursor)
+      : Math.max(0.6, (words / wordsTotal) * totalDur);
+    cues.push({
+      start: Number(cursor.toFixed(2)),
+      end: Number((cursor + dur).toFixed(2)),
+      text: sentence,
+    });
+    cursor += dur;
+  });
+  studioState.cues = cues;
+  studioState.clearCaptions = false;
+  renderStudioCueRows();
+  updateStudioBadges(getStudioTargetItem());
+  setStudioStatus(
+    hasRealDur
+      ? `Sincronizadas ${cues.length} líneas con la duración real del audio (${totalDur.toFixed(1)}s).`
+      : `Estimadas ${cues.length} líneas por velocidad de lectura (${totalDur.toFixed(1)}s). Carga o genera el audio para ajustar con duración real.`
+  );
+}
+
+async function generateWithSalome() {
+  const scriptEl = studioEl('a11yScriptInput');
+  let text = (scriptEl?.value || '').trim();
+  if (!text) {
+    text = buildAutoScriptForTarget();
+    if (scriptEl) scriptEl.value = text;
+  }
+  if (!text) {
+    setStudioStatus('Escribe un guion antes de procesarlo con Salomé.', true);
+    return;
+  }
+  const btn = studioEl('btnRunSalomeTts');
+  const voice = studioEl('a11ySalomeVoice')?.value || 'es-CO-SalomeNeural';
+  const rate = studioEl('a11ySalomeRate')?.value || '-5%';
+  if (btn) btn.disabled = true;
+  setStudioStatus('Procesando guion con Salomé (es-CO-SalomeNeural)…');
+  try {
+    const resp = await fetch('/api/tts/salome', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text, voice, rate }),
+    });
+    const data = await resp.json();
+    if (!resp.ok || !data.ok || !data.audioBase64) {
+      throw new Error(data.error || `Error TTS (${resp.status})`);
+    }
+    const bin = window.atob(data.audioBase64);
+    const bytes = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i += 1) bytes[i] = bin.charCodeAt(i);
+    const blob = new Blob([bytes], { type: data.mimeType || 'audio/mpeg' });
+    setStudioPendingAudio(blob, `${slugify(studioState.target?.hotspotId || studioState.target?.fileKey || 'audio')}-salome.mp3`);
+    if (Array.isArray(data.cues) && data.cues.length > 0) {
+      studioState.cues = data.cues;
+      studioState.clearCaptions = false;
+      renderStudioCueRows();
+    }
+    updateStudioBadges(getStudioTargetItem());
+    setStudioStatus(`Salomé generó el MP3 (${(blob.size / 1024).toFixed(1)} KB) y ${studioState.cues.length} subtítulos VTT sincronizados. Pulsa Guardar para subir a Convex.`);
+  } catch (err) {
+    setStudioStatus(`No se pudo procesar con Salomé: ${err.message}`, true);
+  } finally {
+    if (btn) btn.disabled = false;
+  }
+}
+
+function setStudioPendingAudio(blob, filename) {
+  releaseStudioPreviewUrl();
+  studioState.pendingAudioBlob = blob;
+  studioState.pendingAudioFilename = filename || 'locucion.mp3';
+  studioState.clearNarration = false;
+  const url = URL.createObjectURL(blob);
+  studioState.previewObjectUrl = url;
+  const player = studioEl('a11yAudioPlayer');
+  if (player) {
+    player.src = url;
+    player.load();
+  }
+}
+
+async function uploadBlobToConvexStorage(blob, contentType) {
+  const token = getSessionToken();
+  if (!token) throw new Error('Sesión expirada');
+  const { uploadUrl } = await convexFetch('mutation', 'media:generateUploadUrl', {
+    token,
+    tourSlug: TOUR_SLUG(),
+    orgSlug: requireOrgSlugCw(),
+  });
+  const res = await fetch(uploadUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': contentType || blob.type || 'application/octet-stream' },
+    body: blob,
+  });
+  if (!res.ok) throw new Error(`Error subiendo archivo a Convex Storage (${res.status})`);
+  const data = await res.json();
+  if (!data?.storageId) throw new Error('Convex Storage no devolvió storageId');
+  return data.storageId;
+}
+
+async function saveA11yStudioToConvex() {
+  const token = getSessionToken();
+  const t = studioState.target;
+  if (!token || !t) return;
+  const saveBtn = studioEl('btnSaveA11yStudio');
+  if (saveBtn) saveBtn.disabled = true;
+
+  try {
+    // If hotspot is new/unsaved in draft, sync scene graph first so attachHotspotA11y finds the row.
+    if (t.kind === 'hotspot' && state.dirty) {
+      setStudioStatus('Guardando punto informativo…');
+      await saveAllChanges();
+    }
+
+    let narrationStorageId;
+    if (studioState.pendingAudioBlob) {
+      setStudioStatus('Subiendo audio…');
+      narrationStorageId = await uploadBlobToConvexStorage(
+        studioState.pendingAudioBlob,
+        studioState.pendingAudioBlob.type || 'audio/mpeg'
+      );
+    }
+
+    const vttText = buildVttFromCues(studioState.cues);
+    let captionStorageId;
+    if (vttText) {
+      setStudioStatus('Guardando subtítulos…');
+      captionStorageId = await uploadBlobToConvexStorage(
+        new Blob([vttText], { type: 'text/vtt;charset=utf-8' }),
+        'text/vtt;charset=utf-8'
+      );
+    }
+
+    const transcriptText = (studioEl('a11yScriptInput')?.value || '').trim();
+    let transcriptStorageId;
+    if (transcriptText) {
+      transcriptStorageId = await uploadBlobToConvexStorage(
+        new Blob([`${transcriptText}\n`], { type: 'text/plain;charset=utf-8' }),
+        'text/plain;charset=utf-8'
+      );
+    }
+
+    const srSummary = (studioEl('a11ySrSummary')?.value || '').trim();
+    const narrationOptional = Boolean(studioEl('a11yNarrationOptional')?.checked);
+
+    setStudioStatus('Guardando cambios…');
+    const args = {
+      token,
+      tourSlug: TOUR_SLUG(),
+      orgSlug: requireOrgSlugCw(),
+      srSummary,
+      narrationOptional,
+      ...(narrationStorageId ? { narrationStorageId } : {}),
+      ...(captionStorageId ? { captionStorageId } : {}),
+      ...(transcriptStorageId ? { transcriptStorageId } : {}),
+      ...(studioState.clearNarration ? { clearNarration: true } : {}),
+      ...(studioState.clearCaptions ? { clearCaption: true } : {}),
+    };
+
+    const result = t.kind === 'scene'
+      ? await convexFetch('mutation', 'media:attachSceneA11y', { ...args, fileKey: t.fileKey })
+      : await convexFetch('mutation', 'media:attachHotspotA11y', { ...args, hotspotClientKey: t.hotspotId });
+
+    const item = getStudioTargetItem();
+    if (item && result) {
+      item.srSummary = result.srSummary || '';
+      item.narration = result.narrationUrl || '';
+      item.narrationOptional = Boolean(result.narrationOptional);
+      item.transcript = result.transcriptUrl || '';
+      item.captionFile = result.captionUrl || '';
+      item.timingFile = result.timingUrl || '';
+    }
+    studioState.pendingAudioBlob = null;
+    studioState.clearNarration = false;
+    studioState.clearCaptions = false;
+
+    const scene = state.scenes.find((s) => s.file === t.fileKey);
+    if (scene) renderHotspotEditor(scene);
+    renderSceneList();
+    updateStudioBadges(item);
+    setStudioStatus('Cambios guardados.');
+    setStatus(`Audio y subtítulos guardados para ${t.kind === 'scene' ? scene?.shortTitle : item?.title}.`);
+  } catch (err) {
+    setStudioStatus(`Error al guardar: ${err.message}`, true);
+  } finally {
+    if (saveBtn) saveBtn.disabled = false;
+  }
+}
+
+async function openA11yStudio(target) {
+  const dlg = studioEl('a11yStudioDialog');
+  if (!dlg) return;
+  stopActiveRecording();
+  releaseStudioPreviewUrl();
+  studioState.target = target;
+  studioState.pendingAudioBlob = null;
+  studioState.clearNarration = false;
+  studioState.clearCaptions = false;
+  studioState.cues = [];
+  studioState.focusedTimeField = null;
+
+  const scene = state.scenes.find((s) => s.file === target.fileKey);
+  const item = getStudioTargetItem();
+  if (!scene || !item) return;
+
+  const targetTitleEl = studioEl('a11yStudioTargetTitle');
+  studioEl('a11yStudioTargetType').textContent = target.kind === 'scene'
+    ? 'Escena 360° · Audio y subtítulos'
+    : 'Hotspot informativo · Audio y subtítulos';
+  if (targetTitleEl) {
+    targetTitleEl.textContent = target.kind === 'scene'
+      ? scene.title
+      : `${item.title} — ${scene.shortTitle}`;
+    targetTitleEl.title = scene.file || '';
+  }
+  studioEl('a11ySrSummary').value = item.srSummary || '';
+  studioEl('a11yNarrationOptional').checked = Boolean(item.narrationOptional);
+  studioEl('a11yScriptInput').value = '';
+  studioEl('a11yRawVtt').value = '';
+  studioEl('a11yLiveCuePreview').textContent = 'Sin subtítulo activo.';
+
+  const player = studioEl('a11yAudioPlayer');
+  if (player) {
+    if (item.narration) {
+      player.src = item.narration;
+      player.load();
+    } else {
+      player.removeAttribute('src');
+      player.load();
+    }
+  }
+
+  renderStudioCueRows();
+  updateStudioBadges(item);
+  setStudioStatus('Cargando recursos…');
+  dlg.showModal();
+
+  // Hydrate existing transcript and WebVTT from stored URLs
+  try {
+    const [txtRes, vttRes] = await Promise.all([
+      item.transcript ? fetch(item.transcript).catch(() => null) : Promise.resolve(null),
+      item.captionFile ? fetch(item.captionFile).catch(() => null) : Promise.resolve(null),
+    ]);
+    if (txtRes && txtRes.ok) {
+      studioEl('a11yScriptInput').value = (await txtRes.text()).trim();
+    } else if (target.kind === 'hotspot' && item.description) {
+      studioEl('a11yScriptInput').value = `${item.title}. ${item.description}`.trim();
+    } else if (target.kind === 'scene' && scene.longDescription) {
+      studioEl('a11yScriptInput').value = scene.longDescription.trim();
+    }
+    if (vttRes && vttRes.ok) {
+      const vttText = await vttRes.text();
+      studioState.cues = parseVttAdmin(vttText);
+      renderStudioCueRows();
+    }
+    updateStudioBadges(item);
+    setStudioStatus('');
+  } catch {
+    setStudioStatus('No se pudieron cargar algunos archivos previos.');
+  }
+}
+
+function bindA11yStudioUi() {
+  if (studioState.bound) return;
+  const dlg = studioEl('a11yStudioDialog');
+  if (!dlg) return;
+  studioState.bound = true;
+
+  const closeStudio = () => {
+    stopActiveRecording();
+    const player = studioEl('a11yAudioPlayer');
+    if (player) player.pause();
+    releaseStudioPreviewUrl();
+    dlg.close();
+  };
+  studioEl('btnCloseA11yStudio')?.addEventListener('click', closeStudio);
+  studioEl('btnCancelA11yStudio')?.addEventListener('click', closeStudio);
+  dlg.addEventListener('close', () => {
+    stopActiveRecording();
+    const player = studioEl('a11yAudioPlayer');
+    if (player) player.pause();
+  });
+
+  // Tab switch
+  dlg.querySelectorAll('[data-audio-tab]').forEach((tabBtn) => {
+    tabBtn.addEventListener('click', () => {
+      const tab = tabBtn.dataset.audioTab;
+      dlg.querySelectorAll('[data-audio-tab]').forEach((b) => {
+        const active = b === tabBtn;
+        b.classList.toggle('studio-tab--active', active);
+        b.setAttribute('aria-selected', active ? 'true' : 'false');
+      });
+      dlg.querySelectorAll('[data-audio-panel]').forEach((panel) => {
+        panel.hidden = panel.dataset.audioPanel !== tab;
+      });
+    });
+  });
+
+  studioEl('btnAutoDraftScript')?.addEventListener('click', () => {
+    const draft = buildAutoScriptForTarget();
+    if (draft) {
+      studioEl('a11yScriptInput').value = draft;
+      if (!studioEl('a11ySrSummary').value.trim()) {
+        const scene = state.scenes.find((s) => s.file === studioState.target?.fileKey);
+        const item = getStudioTargetItem();
+        studioEl('a11ySrSummary').value = studioState.target?.kind === 'scene'
+          ? `${scene?.title || ''}. ${scene?.longDescription || ''}`.trim().slice(0, 140)
+          : `${item?.title || ''}. ${item?.description || ''}`.trim().slice(0, 140);
+      }
+      updateStudioBadges(getStudioTargetItem());
+      setStudioStatus('Guion descriptivo armado desde los datos actuales.');
+    }
+  });
+
+  studioEl('btnRunSalomeTts')?.addEventListener('click', () => void generateWithSalome());
+  studioEl('btnAutoSyncCues')?.addEventListener('click', autoSyncScriptToCues);
+  studioEl('btnApplyPlayerTime')?.addEventListener('click', () => {
+    const ref = studioState.focusedTimeField;
+    const player = studioEl('a11yAudioPlayer');
+    if (!ref || !studioState.cues[ref.idx] || !player) return;
+    const t = Number(player.currentTime.toFixed(1));
+    studioState.cues[ref.idx][ref.key] = t;
+    if (ref.key === 'start' && studioState.cues[ref.idx].end <= t) {
+      studioState.cues[ref.idx].end = Number((t + 2.5).toFixed(1));
+    }
+    renderStudioCueRows();
+  });
+  studioEl('btnSaveA11yStudio')?.addEventListener('click', () => void saveA11yStudioToConvex());
+
+  studioEl('btnAddCue')?.addEventListener('click', () => {
+    const last = studioState.cues[studioState.cues.length - 1];
+    const start = last ? Number(last.end) : 0;
+    studioState.cues.push({ start, end: Number((start + 3).toFixed(1)), text: '' });
+    studioState.clearCaptions = false;
+    renderStudioCueRows();
+    updateStudioBadges(getStudioTargetItem());
+  });
+
+  studioEl('btnClearA11yAudio')?.addEventListener('click', () => {
+    releaseStudioPreviewUrl();
+    studioState.pendingAudioBlob = null;
+    studioState.clearNarration = true;
+    const player = studioEl('a11yAudioPlayer');
+    if (player) {
+      player.pause();
+      player.removeAttribute('src');
+      player.load();
+    }
+    updateStudioBadges(getStudioTargetItem());
+    setStudioStatus('Audio marcado para quitar al guardar.');
+  });
+
+  studioEl('btnClearA11yCues')?.addEventListener('click', () => {
+    studioState.cues = [];
+    studioState.clearCaptions = true;
+    renderStudioCueRows();
+    updateStudioBadges(getStudioTargetItem());
+    setStudioStatus('Subtítulos limpios.');
+  });
+
+  studioEl('a11yRawVtt')?.addEventListener('change', (ev) => {
+    studioState.cues = parseVttAdmin(ev.target.value);
+    studioState.clearCaptions = studioState.cues.length === 0;
+    renderStudioCueRows();
+    updateStudioBadges(getStudioTargetItem());
+  });
+
+  studioEl('a11ySrSummary')?.addEventListener('input', () => updateStudioBadges(getStudioTargetItem()));
+  studioEl('a11yNarrationOptional')?.addEventListener('change', () => updateStudioBadges(getStudioTargetItem()));
+
+  // Audio upload input
+  studioEl('a11yAudioFileInput')?.addEventListener('change', (ev) => {
+    const file = ev.target.files?.[0];
+    if (!file) return;
+    setStudioPendingAudio(file, file.name);
+    updateStudioBadges(getStudioTargetItem());
+    setStudioStatus(`Audio cargado (${file.name}, ${(file.size / 1024).toFixed(1)} KB). Puedes sincronizar subtítulos y guardar en Convex.`);
+  });
+
+  // Mic recording
+  studioEl('btnRecStart')?.addEventListener('click', async () => {
+    const RecorderCtor = window.MediaRecorder;
+    if (!navigator.mediaDevices?.getUserMedia || typeof RecorderCtor === 'undefined') {
+      setStudioStatus('Tu navegador no soporta grabación de micrófono (MediaRecorder).', true);
+      return;
+    }
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const mime = RecorderCtor.isTypeSupported('audio/webm;codecs=opus')
+        ? 'audio/webm;codecs=opus'
+        : RecorderCtor.isTypeSupported('audio/webm')
+          ? 'audio/webm'
+          : '';
+      const rec = mime ? new RecorderCtor(stream, { mimeType: mime }) : new RecorderCtor(stream);
+      studioState.mediaRecorder = rec;
+      studioState.recordChunks = [];
+      rec.ondataavailable = (e) => {
+        if (e.data && e.data.size > 0) studioState.recordChunks.push(e.data);
+      };
+      rec.onstop = () => {
+        stream.getTracks().forEach((tr) => tr.stop());
+        if (studioState.recordTimerId) {
+          clearInterval(studioState.recordTimerId);
+          studioState.recordTimerId = null;
+        }
+        const blob = new Blob(studioState.recordChunks, { type: rec.mimeType || 'audio/webm' });
+        setStudioPendingAudio(blob, `grabacion-${Date.now()}.webm`);
+        studioEl('btnRecStart').disabled = false;
+        studioEl('btnRecStop').disabled = true;
+        updateStudioBadges(getStudioTargetItem());
+        setStudioStatus(`Grabación lista (${(blob.size / 1024).toFixed(1)} KB). Sincroniza subtítulos y guarda en Convex.`);
+      };
+      rec.start();
+      studioState.recordStartedAt = Date.now();
+      studioEl('btnRecStart').disabled = true;
+      studioEl('btnRecStop').disabled = false;
+      studioState.recordTimerId = setInterval(() => {
+        const sec = Math.floor((Date.now() - studioState.recordStartedAt) / 1000);
+        const mm = String(Math.floor(sec / 60)).padStart(2, '0');
+        const ss = String(sec % 60).padStart(2, '0');
+        const timerEl = studioEl('a11yRecTimer');
+        if (timerEl) timerEl.textContent = `${mm}:${ss}`;
+      }, 250);
+      setStudioStatus('Grabando micrófono… Pulsa Detener cuando termines.');
+    } catch (err) {
+      setStudioStatus(`No se pudo acceder al micrófono: ${err.message}`, true);
+    }
+  });
+
+  studioEl('btnRecStop')?.addEventListener('click', () => {
+    stopActiveRecording();
+  });
+
+  // Live cue sync preview in audio player
+  studioEl('a11yAudioPlayer')?.addEventListener('timeupdate', () => {
+    const player = studioEl('a11yAudioPlayer');
+    const preview = studioEl('a11yLiveCuePreview');
+    if (!player || !preview) return;
+    const ct = player.currentTime;
+    const activeIdx = studioState.cues.findIndex((c) => ct >= Number(c.start) && ct <= Number(c.end));
+    preview.textContent = activeIdx !== -1 ? studioState.cues[activeIdx].text : '…';
+    studioEl('a11yCueList')?.querySelectorAll('.studio-cue-row').forEach((row, idx) => {
+      row.classList.toggle('studio-cue-row--active', idx === activeIdx);
+    });
+  });
 }

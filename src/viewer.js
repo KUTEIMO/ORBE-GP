@@ -253,7 +253,7 @@ function initPointerNavigation(switchScene, getPreviousSceneId = () => null) {
 
   const stopRaf = () => {
     if (rafId != null) {
-      cancelAnimationFrame(rafId);
+      window.cancelAnimationFrame(rafId);
       rafId = null;
     }
   };

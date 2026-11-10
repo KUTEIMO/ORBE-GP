@@ -293,6 +293,11 @@ function initSedesAccordion() {
     });
 
     card.addEventListener("click", (e) => {
+      if (card.dataset.unpublished === "true") {
+        e.preventDefault();
+        activateCard(card);
+        return;
+      }
       // En desktop, si la tarjeta no esta activa, el primer click la expande
       if (window.innerWidth >= 900 && !card.classList.contains("is-active")) {
         e.preventDefault();
@@ -724,7 +729,7 @@ function initAmbient3D() {
 
   document.addEventListener("visibilitychange", () => {
     if (!document.hidden) {
-      cancelAnimationFrame(animationFrameId);
+      window.cancelAnimationFrame(animationFrameId);
       animationFrameId = requestAnimationFrame(render);
     }
   });

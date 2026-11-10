@@ -42,6 +42,17 @@ async function startApp() {
   requestAnimationFrame(() => requestAnimationFrame(paintClientBrand));
   hydrateHotspotOverrides(config.overrides || {});
 
+  if (config.isEmpty) {
+    renderEmptyTourState(config);
+    initAccessibilityControls(config);
+    applyInitialAccessibilityState();
+    setupShareDialog();
+    setupHelpAndInstructions(config);
+    setupAdminEntryPoints();
+    updateShareLink();
+    return;
+  }
+
   let viewerApi = null;
   viewerApi = initViewer(config, {
     onViewerReady: (api) => {
@@ -82,6 +93,12 @@ async function startApp() {
   setupShareDialog();
   setupHelpAndInstructions(config);
   setupAdminEntryPoints();
+  if (config.isDraftPreview) {
+    const headerTitleWrap = document.getElementById('sceneZone');
+    if (headerTitleWrap && !headerTitleWrap.textContent.includes('Borrador')) {
+      headerTitleWrap.textContent = `${headerTitleWrap.textContent} · Borrador privado (solo admin)`.replace(/^\s*·\s*/, '');
+    }
+  }
   updateNavigation(appState.currentSceneId);
   updateShareLink();
   const current = viewerApi.getCurrentScene()?.data;
@@ -123,16 +140,150 @@ function updateKeyboardInstructions(sceneData) {
 
 function handleFatalError(error) {
   console.error('Error crítico en la aplicación', error);
+  document.body.classList.remove('no-js');
+  const loader = document.getElementById('loadingOverlay');
+  if (loader) loader.style.display = 'none';
   const fallback = document.getElementById('noJsMessage');
   if (fallback) {
+    fallback.classList.remove('no-js-message');
     fallback.removeAttribute('hidden');
+    fallback.style.position = 'fixed';
+    fallback.style.inset = '0';
+    fallback.style.margin = 'auto';
+    fallback.style.height = 'fit-content';
+    fallback.style.zIndex = '2000';
     fallback.style.display = 'block';
-    fallback.innerHTML = `
-      <h2>Ocurrió un error al iniciar el tour</h2>
-      <p>${error.message}</p>
-      <p>Revisa el archivo README para más información o vuelve a intentarlo.</p>
-    `;
+    fallback.replaceChildren();
+    const h2 = document.createElement('h2');
+    h2.textContent = 'Recorrido no disponible en este momento';
+    const p = document.createElement('p');
+    p.textContent = error?.message || 'No se pudo cargar la configuración del recorrido.';
+    const actions = document.createElement('p');
+    actions.style.marginTop = '14px';
+    actions.style.display = 'flex';
+    actions.style.gap = '10px';
+    actions.style.justifyContent = 'center';
+    actions.style.flexWrap = 'wrap';
+    const homeLink = document.createElement('a');
+    homeLink.href = '/';
+    homeLink.textContent = 'Volver al portal';
+    homeLink.style.padding = '8px 14px';
+    homeLink.style.borderRadius = '8px';
+    homeLink.style.background = 'rgba(255,255,255,0.12)';
+    homeLink.style.color = '#ffffff';
+    homeLink.style.textDecoration = 'none';
+    const loginLink = document.createElement('a');
+    loginLink.href = '/plataforma/login.html';
+    loginLink.textContent = 'Iniciar sesión admin';
+    loginLink.style.padding = '8px 14px';
+    loginLink.style.borderRadius = '8px';
+    loginLink.style.background = 'var(--brand, #0a7a45)';
+    loginLink.style.color = 'var(--brand-ink, #ffffff)';
+    loginLink.style.textDecoration = 'none';
+    actions.append(homeLink, loginLink);
+    fallback.append(h2, p, actions);
   }
+}
+
+function renderEmptyTourState(config) {
+  document.body.classList.remove('no-js');
+  const titleText = config.tourTitle || config.branding?.name || 'Tour 360° en preparación';
+  const sceneTitleEl = document.getElementById('sceneTitle');
+  const sceneZoneEl = document.getElementById('sceneZone');
+  if (sceneTitleEl) sceneTitleEl.textContent = titleText;
+  if (sceneZoneEl) {
+    sceneZoneEl.textContent = config.isDraftPreview
+      ? 'Borrador privado (solo admin) · 0 escenas'
+      : 'En preparación · 0 escenas';
+  }
+
+  ['loadingOverlay', 'prevScene', 'nextScene', 'directionCue', 'hotspotList', 'menuToggle'].forEach((id) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.setAttribute('hidden', 'hidden');
+    el.style.display = 'none';
+    if (id === 'loadingOverlay') {
+      el.setAttribute('aria-hidden', 'true');
+    }
+  });
+
+  const viewerSection = document.getElementById('viewerSection');
+  if (!viewerSection) return;
+  let overlay = document.getElementById('tourEmptyState');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'tourEmptyState';
+    overlay.className = 'tour-empty-state';
+    overlay.setAttribute('role', 'region');
+    overlay.setAttribute('aria-label', 'Estado del recorrido virtual');
+    viewerSection.appendChild(overlay);
+  }
+
+  overlay.innerHTML = '';
+  const card = document.createElement('div');
+  card.className = 'tour-empty-card';
+
+  const head = document.createElement('div');
+  head.className = 'tour-empty-head';
+
+  const iconWrap = document.createElement('div');
+  iconWrap.className = 'tour-empty-icon';
+  iconWrap.setAttribute('aria-hidden', 'true');
+  iconWrap.innerHTML =
+    '<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" focusable="false"><path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm8-9h-3.17l-1.24-1.35A2 2 0 0 0 14.12 4H9.88a2 2 0 0 0-1.47.65L7.17 6H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2zm0 12H4V8h4.05l1.83-2h4.24l1.83 2H20v10z"/></svg>';
+
+  const titleGroup = document.createElement('div');
+  const eyebrow = document.createElement('p');
+  eyebrow.className = 'tour-empty-eyebrow';
+  eyebrow.textContent = config.branding?.name || config.organization?.name || 'Recorrido virtual 360°';
+
+  const heading = document.createElement('h2');
+  heading.className = 'tour-empty-title';
+  heading.textContent = titleText;
+
+  titleGroup.append(eyebrow, heading);
+  head.append(iconWrap, titleGroup);
+
+  const copy = document.createElement('p');
+  copy.className = 'tour-empty-copy';
+  copy.textContent =
+    'Este recorrido virtual ya está habilitado con la identidad de la sede y listo para recibir sus fotografías panorámicas 360° y puntos de interés.';
+
+  const actions = document.createElement('div');
+  actions.className = 'tour-empty-actions';
+
+  let canEditTour = false;
+  try {
+    const rawSession = localStorage.getItem('orbe360.session');
+    if (rawSession && rawSession.trim()) {
+      try {
+        const parsed = JSON.parse(rawSession);
+        const role = parsed?.role || parsed?.user?.role || '';
+        canEditTour = role !== 'superadmin';
+      } catch (_jsonErr) {
+        canEditTour = true;
+      }
+    }
+  } catch (_err) {
+    canEditTour = false;
+  }
+
+  if (canEditTour) {
+    const adminBtn = document.createElement('a');
+    adminBtn.className = 'tour-empty-btn tour-empty-btn--primary';
+    adminBtn.href = 'control-web/index.html';
+    adminBtn.textContent = 'Subir escenas en Control Web';
+    actions.appendChild(adminBtn);
+  }
+
+  const portalBtn = document.createElement('a');
+  portalBtn.className = 'tour-empty-btn tour-empty-btn--ghost';
+  portalBtn.href = '/';
+  portalBtn.textContent = 'Volver al portal';
+  actions.appendChild(portalBtn);
+
+  card.append(head, copy, actions);
+  overlay.appendChild(card);
 }
 
 function setupShareDialog() {

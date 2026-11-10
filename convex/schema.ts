@@ -134,6 +134,7 @@ export default defineSchema({
     clientKey: v.string(),
     type: v.union(v.literal("nav"), v.literal("info")),
     title: v.string(),
+    shortLabel: v.optional(v.string()),
     yaw: v.number(),
     pitch: v.number(),
     direction: v.optional(v.string()),

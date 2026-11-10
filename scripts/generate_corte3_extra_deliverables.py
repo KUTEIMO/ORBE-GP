@@ -198,8 +198,8 @@ def build_propuesta_mejora():
          "Algoritmo predictivo de precarga de imágenes equirrectangulares adyacentes en segundo plano con liberación activa de memoria WebGL en nodos no visibles.",
          "Eliminación total del retardo percibido (0ms latencia visual) y prevención de cierres forzados por fuga de RAM en móviles."),
         ("4. Arquitectura Multi-Campus Universitaria", 
-         "Extensión del motor de rutas para soportar selector de sedes (?sede=1 Sede Principal, ?sede=2 Biblioteca, ?sede=3 Salud) con carrusel elástico y orbes dinámicos.",
-         "Escalabilidad hacia un ecosistema institucional que integra las tres sedes de Unisimón Cúcuta en una sola plataforma."),
+         "Extensión del motor de rutas para soportar las 4 sedes de Unisimón Cúcuta: Sede 1 (Bloque A), Sede 2 (Bloques B, C y D — publicada), Sede 3 (Bloques E y F) y Sede 4 (Bloque G — borrador listo para captura), con carrusel elástico y orbes dinámicos.",
+         "Escalabilidad hacia un ecosistema institucional que integra las cuatro sedes de Unisimón Cúcuta en una sola plataforma."),
         ("5. Automatización de Pruebas ISO 29119 e ISO 25010", 
          "Diseño y ejecución de matriz formal de pruebas de caja negra, casos CRUD de hotspots y auditoría Lighthouse v2 automatizada.",
          "Aseguramiento de software: 98% en Accesibilidad, 92% en Rendimiento, 100% en Prácticas y 0 vulnerabilidades de seguridad.")
@@ -221,7 +221,7 @@ def build_propuesta_mejora():
     p = doc.add_paragraph()
     set_paragraph_text(p, "3. PLAN DE ACCIÓN Y COMPROMISOS HACIA EL PREVIO FINAL (24 DE NOVIEMBRE)", size_pt=11, bold=True, color=COLOR_NAVY)
     plan_txt = ("Para la entrega final del 30% (cierre definitivo del proyecto), el equipo culminará las siguientes actividades programadas en el Sprint 4 de Jira Cloud:\n"
-                "• Integración completa del mapa 360° interactivo de la Sede 3 (Ciencias de la Salud / Simulación Clínica).\n"
+                "• Carga de panoramas 360° e integración interactiva de la Sede 4 (Bloque G, ya habilitada en plataforma) junto con Sedes 1 y 3 (Bloques A, E y F).\n"
                 "• Ejecución de la suite completa de 80+ pruebas automatizadas en Playwright con reporte HTML consolidado.\n"
                 "• Firma formal y concertada del Acta de Aceptación del Cliente UAT con los patrocinadores institucionales.\n"
                 "• Consolidación final de la estimación de Puntos de Función y cálculo de varianza de cronograma (SPI) en GanttProject y Excel.")
@@ -251,11 +251,11 @@ En atención a las directrices de la docente para elevar la nota del Tercer Cort
 1. **Locución Humana Real (Inclusión Universal):** Reemplazo de voces robóticas TTS por locución de estudio institucional (Saraic Noemí León) y subtítulos WebVTT.
 2. **Panel de Diagnóstico WCAG 2.1 AA en Vivo:** Modal interactivo dentro del visor que audita en tiempo real ratio de contraste (8.2:1), navegación asistida y métricas de calidad ISO 25010.
 3. **Motor de Precarga Espacial Predictiva:** Algoritmo por grafo de adyacencia que precarga panoramas contiguos en segundo plano con 0ms de latencia percibida.
-4. **Arquitectura Multi-Sede Institucional:** Soporte dinámico para Sedes 1, 2 y 3 con carrusel elástico y orbes dinámicos.
+4. **Arquitectura Multi-Sede Institucional:** Soporte dinámico para las Sedes 1 (Bloque A), 2 (Bloques B, C y D), 3 (Bloques E y F) y 4 (Bloque G) con carrusel elástico y orbes dinámicos.
 5. **Aseguramiento de Calidad ISO 29119 e ISO 25010:** Matriz de pruebas CRUD, caja negra, caja blanca y auditoría Lighthouse v2 (98/100 en Accesibilidad).
 
 ## 3. COMPROMISOS HACIA EL PREVIO FINAL (24 DE NOVIEMBRE)
-- Despliegue de escenas 360° de la Sede 3 (Ciencias de la Salud).
+- Carga de escenas 360° de la Sede 4 (Bloque G) y Sedes 1 y 3 (Bloques A, E y F).
 - Ejecución de 80+ pruebas automáticas en Playwright.
 - Acta de Aceptación UAT firmada por el cliente institucional.
 """)
@@ -289,8 +289,8 @@ def build_guion_video():
                   "exigida por la docente. Se recomienda grabar utilizando OBS Studio, Microsoft Clipchamp o Loom, compartiendo la pantalla completa en resolución 1080p.\n\n"
                   "Recomendación para el estudiante: Tenga listas previamente 4 pestañas en su navegador antes de iniciar a grabar:\n"
                   "1. Pestaña 1: Tablero Jira Cloud (https://orbe-experience360.atlassian.net/jira/software/projects/KAN/boards)\n"
-                  "2. Pestaña 2: Landing Page local (http://localhost:8082/)\n"
-                  "3. Pestaña 3: Tour 360 local (http://localhost:8082/unisimoncucuta/experienciavirtual/)\n"
+                  "2. Pestaña 2: Landing Page local (http://127.0.0.1:8081/)\n"
+                  "3. Pestaña 3: Tour 360 local (http://127.0.0.1:8081/unisimoncucuta/experienciavirtual/)\n"
                   "4. Pestaña 4: Carpeta de Entregables IEEE 1058 en el Explorador de Archivos o OneDrive.")
     set_paragraph_text(p, guia_intro, size_pt=9.5, color=COLOR_DARK, align=WD_ALIGN_PARAGRAPH.JUSTIFY)
 
@@ -321,7 +321,7 @@ def build_guion_video():
          "\"A nivel de aseguramiento de calidad según la norma IEEE 1058 e ISO 29119, organizamos todas las carpetas técnicas: Matriz de Criterios de Aceptación con pruebas de caja negra y caja blanca, especificación formal de casos de prueba CRUD para hotspots, y nuestro informe de auditoría con Google Lighthouse alcanzando 98 sobre 100 en accesibilidad. Todo nuestro código fuente está sincronizado bidireccionalmente con GitHub mediante Atlassian Smart Commits.\"",
          "Mostrar carpeta de pruebas IEEE 829, reporte Lighthouse y commits KAN-55 a KAN-60 en GitHub."),
         ("2:20 - 3:00\n(40 seg)",
-         "\"Para el 15% restante que entregaremos el día del previo del 24 de noviembre, culminaremos la captura de la Sede de Salud y la suite automatizada en Playwright. Hemos radicado formalmente nuestro documento de Propuesta de Mejora Continua y el paquete ZIP en su carpeta de OneDrive antes de la fecha límite. Muchas gracias por su atención y quedamos atentos a sus observaciones.\"",
+         "\"Para el 15% restante que entregaremos el día del previo del 24 de noviembre, culminaremos la captura fotográfica de la Sede 4 (Bloque G) y la suite automatizada en Playwright. Hemos radicado formalmente nuestro documento de Propuesta de Mejora Continua y el paquete ZIP en su carpeta de OneDrive antes de la fecha límite. Muchas gracias por su atención y quedamos atentos a sus observaciones.\"",
          "Mostrar archivo ZIP y Acta UAT en la carpeta de OneDrive de la docente. Despedida.")
     ]
 
@@ -371,3 +371,4 @@ if __name__ == "__main__":
     build_propuesta_mejora()
     build_guion_video()
     print("All extra deliverables successfully generated.")
+

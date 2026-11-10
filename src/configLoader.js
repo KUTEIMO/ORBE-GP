@@ -56,29 +56,62 @@ export function resolveNarrationUrl(url) {
 }
 
 export async function loadConfig() {
-  const response = await fetch('config.json', {
-    headers: {
-      Accept: 'application/json'
-    }
-  });
-
-  if (!response.ok) {
-    throw new Error(`No se pudo cargar config.json (estado ${response.status})`);
-  }
-
-  const rawConfig = await response.json();
+  const convexUrl = (typeof window !== "undefined" && window.__CONVEX_URL__) || "";
   const orgSlug =
     typeof window !== "undefined" && window.__ORBE_ORG_SLUG__
       ? String(window.__ORBE_ORG_SLUG__).toLowerCase()
       : null;
-  const isPilotOrg = !orgSlug || orgSlug === "unisimoncucuta";
+  const tourSlug = resolveTourSlugFromBrowser();
 
-  // Biblioteca + a11y package are Unisimón campus assets — never apply to other tenants.
-  if (isPilotOrg) {
+  let rawConfig = { zones: {}, scenes: [], accessibleScenes: {}, sceneNames: {} };
+  try {
+    const response = await fetch('config.json', {
+      headers: { Accept: 'application/json' },
+      cache: 'no-store'
+    });
+    if (response.ok) {
+      const json = await response.json();
+      if (json && typeof json === 'object') {
+        rawConfig = convexUrl
+          ? {
+              basePath: json.basePath || '',
+              shortcuts: json.shortcuts || [],
+              zones: json.zones || {},
+              scenes: [],
+              accessibleScenes: {},
+              sceneNames: {}
+            }
+          : json;
+      }
+    } else if (!convexUrl) {
+      throw new Error(`No se pudo cargar config.json (estado ${response.status})`);
+    }
+  } catch (err) {
+    if (!convexUrl) throw err;
+  }
+
+  // Convex DB is the strict single source of truth whenever configured (no local fallbacks).
+  if (convexUrl) {
+    await mergeConvexTourGraph(rawConfig);
+    if (rawConfig.__tourSlugRejected || !rawConfig.__convexGraphLoaded) {
+      throw new Error(
+        `El tour "${rawConfig.__requestedTourSlug || tourSlug}" no está publicado o está en borrador privado (inicia sesión como administrador para previsualizarlo).`
+      );
+    }
+    const normalized = normalizeConfig(rawConfig, {});
+    validateConfig(normalized);
+    return normalized;
+  }
+
+  const isPilotTour =
+    (!orgSlug || orgSlug === "unisimoncucuta") &&
+    (!tourSlug ||
+      tourSlug === DEFAULT_TOUR_SLUG ||
+      tourSlug === "experienciavirtual");
+
+  if (isPilotTour) {
     await mergeBibliotecaAccessibleScenes(rawConfig);
   }
-  // Public priority: Convex published graph > static JSON fallback (offline/local).
-  // Draft (?draft=1) skips Convex and uses localStorage / tour-graph.json.
   await mergeConvexTourGraph(rawConfig);
   if (rawConfig.__tourSlugRejected) {
     throw new Error(
@@ -86,13 +119,11 @@ export async function loadConfig() {
     );
   }
   await mergeTourGraph(rawConfig);
-  // Offline / before Convex branding: static pilot file (client data, not motor defaults).
   await mergeTourBrandingFallback(rawConfig);
-  // A11y package last: preserves narration/transcript/srSummary across spatial merges.
-  if (isPilotOrg) {
+  if (isPilotTour) {
     await mergeA11yPackage(rawConfig);
   }
-  const externalOverrides = await loadExternalOverrides();
+  const externalOverrides = isPilotTour ? await loadExternalOverrides() : {};
   const normalized = normalizeConfig(rawConfig, externalOverrides);
   validateConfig(normalized);
   return normalized;
@@ -238,9 +269,6 @@ function applyHotspotA11yEntry(hotspot, hotspotId, entry) {
  * localStorage / draft path: skipped here; see mergeTourGraph.
  */
 async function mergeConvexTourGraph(rawConfig) {
-  const draftMode = typeof location !== "undefined" && /[?&]draft=1\b/.test(location.search);
-  if (draftMode) return;
-
   const convexUrl = (typeof window !== "undefined" && window.__CONVEX_URL__) || "";
   const slug = resolveTourSlugFromBrowser();
   const orgSlug =
@@ -267,10 +295,25 @@ async function mergeConvexTourGraph(rawConfig) {
     return;
   }
 
+  let sessionToken;
   try {
-    const graphArgs = orgSlug
-      ? { orgSlug, tourSlug: slug }
-      : { slug };
+    sessionToken =
+      typeof localStorage !== "undefined"
+        ? localStorage.getItem("orbe360.session")
+        : null;
+    if (sessionToken && sessionToken.trim().startsWith("{")) {
+      const parsed = JSON.parse(sessionToken);
+      sessionToken = parsed?.token || null;
+    }
+  } catch {
+    sessionToken = null;
+  }
+
+  try {
+    const graphArgs = {
+      ...(orgSlug ? { orgSlug, tourSlug: slug } : { slug }),
+      ...(sessionToken ? { token: sessionToken, now: Date.now() } : {}),
+    };
     const response = await fetch(`${String(convexUrl).replace(/\/$/, "")}/api/query`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -282,18 +325,21 @@ async function mergeConvexTourGraph(rawConfig) {
       cache: "no-store",
     });
     if (!response.ok) {
-      markRejectedIfForeignSlug(rawConfig, explicitUrlSlug);
+      rawConfig.__tourSlugRejected = true;
+      rawConfig.__requestedTourSlug = explicitUrlSlug || slug;
       return;
     }
     const payload = await response.json();
     const graph = payload?.value;
-    if (!graph || !Array.isArray(graph.scenes) || graph.scenes.length === 0) {
+    if (!graph || !Array.isArray(graph.scenes)) {
       // getTourGraph returns null for unpublished / missing — never invent another tour.
-      markRejectedIfForeignSlug(rawConfig, explicitUrlSlug);
+      rawConfig.__tourSlugRejected = true;
+      rawConfig.__requestedTourSlug = explicitUrlSlug || slug;
       return;
     }
 
     rawConfig.__convexGraphLoaded = true;
+    rawConfig.isDraftPreview = Boolean(graph.isDraftPreview);
     // Isolation: Convex published graph is the scene SoT for this org/tour.
     // Never keep static scenes from another tenant's shared config.json.
     const prevAccessible = rawConfig.accessibleScenes || {};
@@ -318,10 +364,22 @@ async function mergeConvexTourGraph(rawConfig) {
     if (graph.tour?.title) {
       rawConfig.tourTitle = graph.tour.title;
     }
+    if (graph.tour?.defaultSceneKey) {
+      rawConfig.defaultScene = graph.tour.defaultSceneKey;
+    }
     if (graph.organization) {
       rawConfig.organization = graph.organization;
     }
 
+    if (graph.scenes.length === 0) {
+      rawConfig.scenes = [];
+      rawConfig.accessibleScenes = {};
+      rawConfig.__tourEmpty = true;
+      rawConfig.__tenantSceneReplace = true;
+      return;
+    }
+
+    const usedSceneIds = new Set();
     graph.scenes.forEach((scene) => {
       const file = scene.fileKey;
       if (!knownFiles.has(file)) {
@@ -332,6 +390,18 @@ async function mergeConvexTourGraph(rawConfig) {
         knownFiles.add(file);
       }
       const current = prevAccessible[file] || {};
+      const audioSlugMatch =
+        typeof scene.narration === "string"
+          ? scene.narration.match(/\/assets\/audio\/scenes\/([a-z0-9-]+)\.mp3$/i)
+          : null;
+      const baseSceneId =
+        (audioSlugMatch ? audioSlugMatch[1].toLowerCase() : null) ||
+        current.id ||
+        slugify(scene.shortTitle || file);
+      const sceneId = usedSceneIds.has(baseSceneId)
+        ? slugify(file)
+        : baseSceneId;
+      usedSceneIds.add(sceneId);
       // Prefer Convex spatial graph; keep JSON a11y fields (narration/transcript/caption)
       // when Convex does not yet ship that package. Convex a11y URLs win when present.
       const convexHotspots = Array.isArray(scene.hotspots) ? scene.hotspots : null;
@@ -341,6 +411,7 @@ async function mergeConvexTourGraph(rawConfig) {
       const hotspots = convexHotspots != null ? convexHotspots : currentHotspots;
       nextAccessible[file] = {
         ...current,
+        id: sceneId,
         title: scene.title || current.title,
         shortTitle: scene.shortTitle || current.shortTitle,
         zone: scene.zone || current.zone,
@@ -649,7 +720,28 @@ function normalizeConfig(raw, externalOverrides = {}) {
   const convexAuthoritative = Boolean(raw.__convexGraphLoaded);
 
   const sceneEntries = Array.isArray(raw.scenes) ? raw.scenes : [];
+  const resolvedTourSlug = raw.tourSlug || resolveTourSlugFromBrowser();
   if (sceneEntries.length === 0) {
+    if (raw.__tourEmpty || raw.__tenantIsolated) {
+      return {
+        isEmpty: true,
+        isDraftPreview: Boolean(raw.isDraftPreview),
+        convexAuthoritative: Boolean(raw.__convexGraphLoaded),
+        basePath: raw.basePath || '',
+        defaultScene: null,
+        shortcuts: raw.shortcuts || [],
+        zones: raw.zones || {},
+        scenes: [],
+        overrides: externalOverrides,
+        branding: resolveClientBranding(
+          raw.branding && typeof raw.branding === 'object' ? raw.branding : null,
+          resolvedTourSlug
+        ),
+        tourTitle: raw.tourTitle || null,
+        organization: raw.organization || null,
+        tourSlug: resolvedTourSlug,
+      };
+    }
     throw new Error('La configuración debe incluir al menos una escena.');
   }
 
@@ -665,7 +757,7 @@ function normalizeConfig(raw, externalOverrides = {}) {
     const resolvedTitle = override.title || sceneNames[file] || file;
     const id = override.id || slugify(file);
     const zoneKey = override.zone || entry.zone || null;
-    const zoneLabel = zones[zoneKey] || zoneKey || 'Área general';
+    const zoneLabel = zones[zoneKey] || formatZoneLabel(zoneKey);
 
     const scene = {
       id,
@@ -780,6 +872,9 @@ function normalizeConfig(raw, externalOverrides = {}) {
 
   const tourSlug = raw.tourSlug || resolveTourSlugFromBrowser();
   return {
+    isEmpty: false,
+    isDraftPreview: Boolean(raw.isDraftPreview),
+    convexAuthoritative: Boolean(raw.__convexGraphLoaded),
     basePath: raw.basePath || '',
     defaultScene: defaultSceneId,
     shortcuts: defaultShortcuts,
@@ -989,6 +1084,13 @@ function resolveDefaultScene(defaultScene, fileToSceneId) {
   return null;
 }
 
+function formatZoneLabel(zoneKey) {
+  if (!zoneKey || typeof zoneKey !== 'string') return 'Área general';
+  const clean = zoneKey.replace(/[-_]+/g, ' ').trim();
+  if (!clean) return 'Área general';
+  return clean.charAt(0).toUpperCase() + clean.slice(1);
+}
+
 function slugify(value) {
   return (value || '')
     .toString()
@@ -999,7 +1101,7 @@ function slugify(value) {
 
 function cleanSceneTitle(title) {
   if (!title) return 'Escena';
-  return title.replace(/^\s*\d+[\.\-)]\s*/, '').trim();
+  return title.replace(/^\s*\d+[.\-)]\s*/, '').trim();
 }
 
 function createInfoHotspot({ sceneId, sceneTitle, zoneLabel, yaw, pitch }) {
@@ -1041,7 +1143,11 @@ function validateConfig(config) {
     throw new Error('La configuración normalizada no es válida.');
   }
 
-  if (!Array.isArray(config.scenes) || config.scenes.length === 0) {
+  if (!Array.isArray(config.scenes)) {
+    throw new Error('La configuración debe incluir un arreglo de escenas.');
+  }
+  if (config.scenes.length === 0) {
+    if (config.isEmpty) return;
     throw new Error('La configuración debe incluir al menos una escena.');
   }
 

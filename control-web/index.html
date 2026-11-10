@@ -45,24 +45,14 @@
       <span id="saveProgress" class="save-progress" role="status" aria-live="polite" hidden></span>
       <button type="button" id="btnImport" class="btn">Importar</button>
       <button type="button" id="btnExport" class="btn">Exportar JSON</button>
-      <a class="btn" href="/plataforma/login.html">Cuenta</a>
+      <span id="cwSessionChip" class="cw-session-chip" hidden></span>
+      <a class="btn" id="headerOrgAdminLink" href="#" hidden>Panel Org</a>
+      <a class="btn" id="headerAccountLink" href="/plataforma/login.html?switch=1">Cuenta</a>
       <a class="btn" href="/">Orbe360</a>
       <a class="btn" id="headerTourLink" href="../index.html" target="_blank" rel="noopener">Tour</a>
+      <button type="button" id="btnCwLogout" class="btn">Salir</button>
     </div>
   </header>
-
-  <details class="graph-safety-banner" aria-label="Protección del grafo">
-    <summary>Protección del grafo · editar → Guardar → verificar público → Exportar respaldo</summary>
-    <p class="safety-detail">
-      Regenerar el grafo espacial del campus <strong>sobrescribe el grafo curado</strong>
-      (~144 enlaces automáticos). Úsalo solo si quieres descartar el trabajo manual.
-      Exporta el JSON a diario como respaldo.
-    </p>
-    <details class="safety-tech">
-      <summary>Detalle técnico (operadores)</summary>
-      <p>Mutación Convex <code>tourAdmin:syncCampusSpatialGraph</code>. Evitar “Reset grafo campus” salvo reset consciente.</p>
-    </details>
-  </details>
 
   <main class="admin-layout">
     <aside class="panel panel--list" aria-labelledby="listTitle">
@@ -72,6 +62,7 @@
           <button type="button" id="btnAddScene" class="btn btn--small">Añadir</button>
           <button type="button" id="btnUploadPanorama" class="btn btn--small btn--accent">Subir panorama</button>
           <button type="button" id="btnEditSceneMeta" class="btn btn--small">Editar datos</button>
+          <button type="button" id="btnDeleteScene" class="btn btn--small btn--danger">Eliminar</button>
         </div>
       </div>
       <label class="field-label" for="zoneFilter">Zona</label>
@@ -119,7 +110,6 @@
       <div class="graph-tools" role="group" aria-label="Editar conexiones">
         <button type="button" id="btnPruneConnections" class="btn btn--sm">Quitar huérfanas</button>
         <button type="button" id="btnClearSceneConnections" class="btn btn--sm">Limpiar escena</button>
-        <button type="button" id="btnClearAllConnections" class="btn btn--sm btn--danger">Limpiar todas</button>
       </div>
       <ul id="connectionList" class="connection-list" aria-label="Enlaces creados"></ul>
     </section>
@@ -160,6 +150,9 @@
           <button type="button" id="btnSetFrontView" class="btn" disabled>
             Usar vista actual como Adelante
           </button>
+          <button type="button" id="btnOpenSceneA11y" class="btn" disabled>
+            Audio, Voz Salomé y Subtítulos
+          </button>
           <button type="button" id="btnDeleteSelected" class="btn" disabled>Quitar seleccionado</button>
           <p class="hint">1) Encuadra el frente del recorrido · 2) “Usar vista actual como Adelante” · 3) Toca Atrás/Izq/Der/Adelante · 4) Coloca o arrastra el punto · 5) Aplica y guarda</p>
           <p id="frontViewHint" class="hint front-view-hint" hidden>Vista principal (Adelante): yaw 0.00 · pitch 0.00</p>
@@ -192,20 +185,30 @@
     <form method="dialog" id="sceneForm">
       <h3 id="sceneDialogTitle">Escena</h3>
       <p id="sceneDialogHint" class="hint">Registra una escena ya presente en panoramas/ o edita sus datos.</p>
-      <label>Título corto <input name="shortTitle" required></label>
-      <label>Título completo <input name="title" required></label>
+      <label>Título corto (etiqueta) <input name="shortTitle" required placeholder="Ej. Hall Principal"></label>
+      <label>Título completo <input name="title" required placeholder="Ej. 1. Hall de Ingreso — Sede 4"></label>
       <label id="sceneFileLabel">Archivo panorama
         <select name="file" id="sceneFileSelect" required></select>
       </label>
-      <label id="sceneUploadLabel" hidden>Subir imagen equirectangular (JPG/PNG/WebP)
+      <label id="sceneUploadLabel" hidden>
+        <span id="sceneUploadText">Subir imagen equirectangular (JPG/PNG/WebP)</span>
         <input type="file" id="panoramaUploadInput" name="panoramaFile" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp">
       </label>
-      <label>Zona
-        <select name="zone" id="sceneZoneSelect" required></select>
+      <label>Zona existente
+        <select name="zone" id="sceneZoneSelect"></select>
+      </label>
+      <label>O nueva zona personalizada (opcional)
+        <input name="customZone" id="sceneCustomZone" placeholder="Ej. Simulación Clínica (sobrescribe la selección)">
+      </label>
+      <label>Descripción accesible / notas (opcional)
+        <textarea name="longDescription" id="sceneLongDesc" rows="2" placeholder="Describe qué se observa en esta escena 360°"></textarea>
+      </label>
+      <label>Texto alternativo (Alt Text, opcional)
+        <input name="altText" id="sceneAltText" placeholder="Texto breve para lectores de pantalla">
       </label>
       <div class="modal-actions">
         <button type="submit" class="btn btn--primary" value="save" id="sceneFormSave">Guardar</button>
-        <button type="submit" class="btn" value="cancel">Cancelar</button>
+        <button type="submit" class="btn" value="cancel" formnovalidate>Cancelar</button>
       </div>
     </form>
   </dialog>
@@ -219,6 +222,148 @@
         <button type="submit" class="btn" value="cancel">Cancelar</button>
       </div>
     </form>
+  </dialog>
+
+  <dialog id="a11yStudioDialog" class="modal modal--studio" aria-labelledby="a11yStudioTargetTitle">
+    <div class="studio-shell">
+      <header class="studio-head">
+        <div>
+          <p class="studio-eyebrow" id="a11yStudioTargetType">Escena 360° · Audio y subtítulos</p>
+          <h3 id="a11yStudioTargetTitle">—</h3>
+          <div class="studio-badges" id="a11yStudioBadges" aria-live="polite"></div>
+        </div>
+        <button type="button" class="btn" id="btnCloseA11yStudio" aria-label="Cerrar estudio de audio y subtítulos">Cerrar</button>
+      </header>
+
+      <div class="studio-grid">
+        <section class="studio-col" aria-label="Guion y generación de audio">
+          <div class="studio-section">
+            <h4 class="studio-section-title">1. Guion y descripción</h4>
+
+            <div class="studio-field">
+              <label for="a11ySrSummary">Resumen para lector de pantalla</label>
+              <input type="text" id="a11ySrSummary" maxlength="220" placeholder="Ej. Entrada principal con recepción y acceso con rampa.">
+            </div>
+
+            <div class="studio-field">
+              <div class="studio-field-head">
+                <label for="a11yScriptInput">Guion de locución</label>
+                <button type="button" class="btn btn--small" id="btnAutoDraftScript">Armar desde escena</button>
+              </div>
+              <textarea id="a11yScriptInput" rows="4" placeholder="Texto que escuchará el visitante."></textarea>
+            </div>
+
+            <label class="studio-check">
+              <input type="checkbox" id="a11yNarrationOptional">
+              <span>Narración opcional (escena de paso)</span>
+            </label>
+          </div>
+
+          <div class="studio-section">
+            <h4 class="studio-section-title">2. Fuente de audio</h4>
+
+            <div class="studio-block">
+              <div class="studio-tabs" role="tablist" aria-label="Origen del audio">
+                <button type="button" role="tab" aria-selected="true" class="studio-tab studio-tab--active" data-audio-tab="salome">
+                  <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path fill="currentColor" d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 0-.9.36-.98.85C16.52 14.2 14.47 16 12 16s-4.52-1.8-4.93-4.15a.998.998 0 0 0-.98-.85c-.61 0-1.09.54-1 1.14.49 3 2.89 5.35 5.91 5.78V21h2v-3.08c3.02-.43 5.42-2.78 5.91-5.78.1-.6-.39-1.14-1-1.14z"/></svg>
+                  Voz Salomé
+                </button>
+                <button type="button" role="tab" aria-selected="false" class="studio-tab" data-audio-tab="record">
+                  <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><circle fill="currentColor" cx="12" cy="12" r="6"/><circle fill="none" stroke="currentColor" stroke-width="2" cx="12" cy="12" r="9.5"/></svg>
+                  Micrófono
+                </button>
+                <button type="button" role="tab" aria-selected="false" class="studio-tab" data-audio-tab="upload">
+                  <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path fill="currentColor" d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"/></svg>
+                  Subir archivo
+                </button>
+              </div>
+
+              <div class="studio-tabpanel" data-audio-panel="salome">
+                <div class="studio-inline-row">
+                  <label>
+                    Voz
+                    <select id="a11ySalomeVoice">
+                      <option value="es-CO-SalomeNeural" selected>Salomé (es-CO · Mujer)</option>
+                      <option value="es-CO-GonzaloNeural">Gonzalo (es-CO · Hombre)</option>
+                    </select>
+                  </label>
+                  <label>
+                    Ritmo
+                    <select id="a11ySalomeRate">
+                      <option value="-10%">-10% (Pausado)</option>
+                      <option value="-5%" selected>-5% (Accesible)</option>
+                      <option value="0%">0% (Normal)</option>
+                      <option value="+5%">+5% (Ágil)</option>
+                    </select>
+                  </label>
+                </div>
+                <button type="button" class="btn btn--accent" id="btnRunSalomeTts">
+                  Generar audio con Salomé
+                </button>
+              </div>
+
+              <div class="studio-tabpanel" data-audio-panel="record" hidden>
+                <div class="studio-inline-row">
+                  <button type="button" class="btn btn--accent" id="btnRecStart">Iniciar grabación</button>
+                  <button type="button" class="btn btn--danger" id="btnRecStop" disabled>Detener</button>
+                  <span class="studio-timer" id="a11yRecTimer" aria-live="off">00:00</span>
+                </div>
+              </div>
+
+              <div class="studio-tabpanel" data-audio-panel="upload" hidden>
+                <label class="studio-upload-box">
+                  <span>Archivo de audio (.mp3, .wav, .ogg, .webm, .m4a)</span>
+                  <input type="file" id="a11yAudioFileInput" accept="audio/*,.mp3,.wav,.ogg,.webm,.m4a">
+                </label>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="studio-col" aria-label="Vista previa y subtítulos">
+          <div class="studio-section">
+            <div class="studio-field-head">
+              <h4 class="studio-section-title" style="margin:0">3. Vista previa de audio</h4>
+              <button type="button" class="btn btn--small" id="btnClearA11yAudio">Quitar audio</button>
+            </div>
+            <div class="studio-player-box">
+              <audio id="a11yAudioPlayer" controls preload="metadata"></audio>
+              <div class="studio-live-cue" id="a11yLiveCuePreview" aria-live="off">Sin subtítulo activo.</div>
+            </div>
+          </div>
+
+          <div class="studio-section">
+            <div class="studio-field-head">
+              <div>
+                <h4 class="studio-section-title" style="margin:0">4. Subtítulos</h4>
+                <span class="hint" id="a11yCueCountHint" style="margin:0">0 líneas</span>
+              </div>
+              <div class="studio-btn-group">
+                <button type="button" class="btn btn--small" id="btnApplyPlayerTime" title="Usa el segundo actual del reproductor en el campo de tiempo enfocado" disabled>Fijar tiempo actual</button>
+                <button type="button" class="btn btn--small" id="btnAutoSyncCues">Auto-sincronizar</button>
+                <button type="button" class="btn btn--small" id="btnAddCue">+ Línea</button>
+                <button type="button" class="btn btn--small" id="btnClearA11yCues">Limpiar</button>
+              </div>
+            </div>
+
+            <div id="a11yCueList" class="studio-cue-list" aria-label="Líneas de subtítulos"></div>
+
+            <details class="studio-raw-vtt">
+              <summary>Editar formato .vtt directamente</summary>
+              <textarea id="a11yRawVtt" rows="5" spellcheck="false" placeholder="WEBVTT&#10;&#10;00:00:00.000 --> 00:00:04.000&#10;Texto del subtítulo"></textarea>
+            </details>
+          </div>
+        </section>
+      </div>
+
+      <footer class="studio-foot">
+        <p class="status studio-status" id="a11yStudioStatus" role="status" aria-live="polite"></p>
+        <div class="modal-actions">
+          <button type="button" class="btn" id="btnCancelA11yStudio">Cancelar</button>
+          <button type="button" class="btn btn--primary" id="btnSaveA11yStudio">Guardar</button>
+        </div>
+      </footer>
+    </div>
   </dialog>
 
   <input type="file" id="importFile" accept="application/json,.json" hidden>

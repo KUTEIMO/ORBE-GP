@@ -19,7 +19,8 @@ export function clearSessionToken() {
  * Matches plataforma/login.html `?return=` (same-origin path only).
  */
 export function controlWebLoginUrl(
-  returnPath = `${location.pathname}${location.search}${location.hash}`
+  returnPath = `${location.pathname}${location.search}${location.hash}`,
+  { switchAccount = false } = {}
 ) {
   const path =
     returnPath.startsWith('/') &&
@@ -27,10 +28,13 @@ export function controlWebLoginUrl(
     !returnPath.includes('://')
       ? returnPath
       : '/';
-  if (path.includes('/plataforma/login')) {
-    return '/plataforma/login.html';
+  const qs = new URLSearchParams();
+  if (switchAccount) qs.set('switch', '1');
+  if (!path.includes('/plataforma/login')) {
+    qs.set('return', path);
   }
-  return `/plataforma/login.html?return=${encodeURIComponent(path)}`;
+  const q = qs.toString();
+  return `/plataforma/login.html${q ? `?${q}` : ''}`;
 }
 
 function setGateMessage(htmlOrText, asHtml = false) {
@@ -47,20 +51,43 @@ function paintDenied(orgSlug, tourSlug, reason) {
   const safeTour = String(tourSlug || '').replace(/[<>&"]/g, '');
   const detail =
     reason === 'tour_not_found'
-      ? 'Tour no encontrado o no publicado para edición.'
+      ? 'Tour no encontrado o no disponible para edición.'
       : reason === 'org_mismatch'
         ? 'El tour no pertenece a esa organización.'
         : 'Tu cuenta no tiene membresía de editor en esta organización.';
+  const switchHref = controlWebLoginUrl(undefined, { switchAccount: true });
   setGateMessage(
     `<h2>Acceso denegado</h2>
      <p>${detail}</p>
      <p class="cw-auth-gate__meta"><code>/${safeOrg}/${safeTour}/control-web/</code></p>
      <p class="cw-auth-gate__actions">
-       <a class="btn btn--primary" href="/plataforma/login.html">Cambiar de cuenta</a>
+       <a class="btn btn--primary" href="${switchHref}">Cambiar de cuenta</a>
+       <a class="btn" href="/plataforma/login.html">Ir a mi panel</a>
        <a class="btn" href="/">Orbe360</a>
      </p>`,
     true
   );
+}
+
+function paintConnectionError(orgSlug, tourSlug, errMsg) {
+  document.body.classList.add('cw-denied');
+  document.body.classList.remove('cw-locked', 'cw-authorized');
+  const safeOrg = String(orgSlug || '').replace(/[<>&"]/g, '');
+  const safeMsg = String(errMsg || 'Error de conexión con el servidor').replace(/[<>&"]/g, '');
+  setGateMessage(
+    `<h2>Sin conexión con el servidor</h2>
+     <p>No se pudo validar tu sesión en este momento. Tu sesión sigue guardada.</p>
+     <p class="cw-auth-gate__meta">${safeMsg}</p>
+     <p class="cw-auth-gate__actions">
+       <button type="button" class="btn btn--primary" id="cwRetryAuthBtn">Reintentar</button>
+       <a class="btn" href="${safeOrg ? `/${safeOrg}/org-admin.html` : '/plataforma/login.html'}">Volver al panel</a>
+       <a class="btn" href="/">Orbe360</a>
+     </p>`,
+    true
+  );
+  document.getElementById('cwRetryAuthBtn')?.addEventListener('click', () => {
+    location.reload();
+  });
 }
 
 /**
@@ -68,7 +95,7 @@ function paintDenied(orgSlug, tourSlug, reason) {
  * On failure: redirect to login or paint deny UI (never loads editor data).
  *
  * @param {{ orgSlug: string|null, tourSlug: string|null, convexFetch: Function }} opts
- * @returns {Promise<{ ok: true, tourId: string, title?: string } | { ok: false, reason?: string }>}
+ * @returns {Promise<{ ok: true, tourId: string, title?: string, orgSlug?: string, tourSlug?: string } | { ok: false, reason?: string }>}
  */
 export async function requireControlWebAccess({ orgSlug, tourSlug, convexFetch }) {
   document.body.classList.add('cw-locked');
@@ -107,7 +134,7 @@ export async function requireControlWebAccess({ orgSlug, tourSlug, convexFetch }
       }
       if (reason === 'superadmin_no_tour_edit') {
         setGateMessage('Superadmin no administra contenido de tours. Redirigiendo…');
-        location.replace('/plataforma/superadmin.html');
+        location.replace('/plataforma/superadmin.html?notice=superadmin_no_tour_edit');
         return { ok: false, reason };
       }
       paintDenied(orgSlug, tourSlug, reason);
@@ -132,23 +159,8 @@ export async function requireControlWebAccess({ orgSlug, tourSlug, convexFetch }
       orgSlug: access.orgSlug,
       tourSlug: access.tourSlug,
     };
-  } catch (_e) {
-    if (token && (token.startsWith('demo-') || token.includes('orgadmin'))) {
-      document.body.classList.remove('cw-locked', 'cw-denied');
-      document.body.classList.add('cw-authorized');
-      const gateEl = document.getElementById('cwAuthGate');
-      if (gateEl) gateEl.hidden = true;
-      return {
-        ok: true,
-        tourId: 'local-tour-unisimon',
-        title: 'Campus Cúcuta — Biblioteca Anita Consuegra',
-        orgSlug,
-        tourSlug,
-      };
-    }
-    clearSessionToken();
-    setGateMessage('Sesión inválida o error de red. Redirigiendo a login…');
-    location.replace(controlWebLoginUrl());
-    return { ok: false, reason: 'unauthenticated' };
+  } catch (err) {
+    paintConnectionError(orgSlug, tourSlug, err instanceof Error ? err.message : String(err));
+    return { ok: false, reason: 'network_error' };
   }
 }

@@ -372,6 +372,56 @@ body.marketing > .skip {
   border-color: rgba(56, 189, 248, 0.7);
   box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
 }
+.nav-session-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--orbe-ink);
+  background: rgba(2, 132, 199, 0.08);
+  border: 1px solid rgba(2, 132, 199, 0.24);
+  max-width: 15rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+[data-theme="dark"] .nav-session-chip {
+  color: #e2e8f0;
+  background: rgba(56, 189, 248, 0.14);
+  border-color: rgba(56, 189, 248, 0.35);
+}
+.btn--nav-ghost {
+  padding: 0.45rem 0.8rem;
+  font-size: 0.84rem;
+  font-weight: 600;
+  border-radius: 9px;
+  border: 1px solid rgba(15, 23, 42, 0.16);
+  background: transparent;
+  color: var(--orbe-ink);
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 180ms ease;
+}
+.btn--nav-ghost:hover,
+.btn--nav-ghost:focus-visible {
+  border-color: var(--orbe-accent);
+  color: var(--orbe-accent);
+}
+[data-theme="dark"] .btn--nav-ghost {
+  border-color: rgba(255, 255, 255, 0.22);
+  color: #f8fafc;
+}
+[data-theme="dark"] .btn--nav-ghost:hover,
+[data-theme="dark"] .btn--nav-ghost:focus-visible {
+  border-color: var(--orbe-signal);
+  color: var(--orbe-signal);
+}
+@media (max-width: 720px) {
+  .nav-session-chip { display: none; }
+}
 
 .btn {
   display: inline-flex;

@@ -1146,7 +1146,7 @@ async function main() {
     fail("Phase 6 slug routing checks", e.message);
   }
 
-  // Phase 7 — publish UI + multi-tour admin
+  // Phase 7 — publish UI + multi-tour admin (safe: no accidental overwrite buttons)
   try {
     const { text: orgAdmin } = await httpGet("/unisimoncucuta/org-admin.html");
     if (
@@ -1154,11 +1154,11 @@ async function main() {
         orgAdmin
       ) &&
       /evaluateTourFromDb/i.test(orgAdmin) &&
-      /syncA11yBtn|Sincronizar paquete/i.test(orgAdmin)
+      !/syncSpatialBtn|Reset grafo campus/i.test(orgAdmin)
     ) {
-      ok("org-admin cablea publish + checklist DB + sync");
+      ok("org-admin cablea publish + checklist DB (sin botones destructivos)");
     } else {
-      fail("org-admin sin UI publish/checklist/sync", orgAdmin.slice(0, 400));
+      fail("org-admin sin UI publish/checklist esperada", orgAdmin.slice(0, 400));
     }
   } catch (e) {
     fail("org-admin Phase 7 HTML", e.message);

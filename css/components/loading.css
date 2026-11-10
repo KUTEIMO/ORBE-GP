@@ -36,3 +36,110 @@
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+
+.tour-empty-state {
+  position: absolute;
+  inset: 0;
+  z-index: 650;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: radial-gradient(circle at 50% 25%, rgba(15, 23, 42, 0.72), rgba(7, 11, 18, 0.94));
+  color: #f8fafc;
+}
+
+.tour-empty-card {
+  width: 100%;
+  max-width: 520px;
+  padding: 28px 30px;
+  border-radius: 14px;
+  background: rgba(15, 23, 42, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-top: 3px solid var(--brand, #4b5563);
+  text-align: left;
+  display: grid;
+  gap: 14px;
+}
+
+.tour-empty-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tour-empty-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: var(--brand, #4b5563);
+  color: var(--brand-ink, #ffffff);
+}
+
+.tour-empty-eyebrow {
+  margin: 0;
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #cbd5e1;
+}
+
+.tour-empty-title {
+  margin: 2px 0 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.25;
+}
+
+.tour-empty-copy {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: #e2e8f0;
+}
+
+.tour-empty-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-top: 4px;
+}
+
+.tour-empty-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 18px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.tour-empty-btn--primary {
+  background: var(--brand, #4b5563);
+  color: var(--brand-ink, #ffffff);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.tour-empty-btn--ghost {
+  background: rgba(255, 255, 255, 0.08);
+  color: #f8fafc;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.tour-empty-btn:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
