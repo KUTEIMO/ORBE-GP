@@ -77,8 +77,8 @@ def build_project_charter():
     t4.rows[1].cells[0].text = (
         "[AVISO] ACUERDO FORMAL DE EVALUACIÓN — TERCER CORTE (30% DEL PROYECTO):\n"
         "Esta acta registra el acuerdo concertado entre la docente evaluadora Ing. Nataly Duque Páez y el equipo desarrollador de ORBE360 sobre la división del 30% asignado al proyecto final en el Tercer Corte:\n"
-        "1. AVANCE DEL 15% (Entrega: 11 de Noviembre de 2026): Avance formal del software, optimizaciones de rendimiento en el visor 360, locución humana universitaria real (Saraic Noemí León) integrada en escenas y hotspots, rediseño accesible de landing page y especificación de pruebas bajo estándares ISO/IEC/IEEE 29119 e ISO/IEC 25010.\n"
-        "2. CIERRE FINAL DEL 15% (Entrega Previo: 24 de Noviembre de 2026): Culminación del 100% del software ('todo el sogo'), ejecución y reporte de la suite integral de 80+ pruebas de software, expansión fotográfica a una segunda sede universitaria (Sede 1 / Sede 3) y entrega del Acta de Aceptación del Cliente UAT firmada."
+        "1. AVANCE DEL 15% (Entrega: 11 de Noviembre de 2026): Avance acumulado al 85% del software, Estudio de Audio en Control Web (Voz Salomé TTS + micrófono + WebVTT), locución humana real (Saraic Noemí León), flujos multi-rol persistentes en Convex, contraste dinámico WCAG (--brand-ink), rediseño UI/UX Soft Clay, habilitación en borrador de Sede 4 (Bloque G) y especificación del 50%+ de pruebas funcionales y no funcionales (ISO/IEC/IEEE 29119 e ISO/IEC 25010).\n"
+        "2. CIERRE FINAL DEL 15% (Entrega Previo: 24 de Noviembre de 2026): Culminación del 100% del software, ejecución y reporte del 100% de la suite de pruebas en Playwright, incorporación fotográfica de la Sede 4 (Bloque G) y Sedes 1 y 3 (Bloques A, E y F) y entrega del Acta de Aceptación del Cliente UAT firmada."
     )
     
     # Actualizar Table 5 (Desglose explícito de Alcance: 70%, 15% Avance, 15% Final)
@@ -86,20 +86,21 @@ def build_project_charter():
     t5.rows[1].cells[0].text = (
         "DESGLOSE ESTRUCTURADO DEL ALCANCE (100% TOTAL DEL PROYECTO):\n\n"
         "● FASE 1: 70% INICIAL (Sustentado y Aprobado en Segundo Corte - Octubre 2026):\n"
-        "  - Motor 360 Marzipano base integrado con proyección equirectangular WebGL.\n"
-        "  - Sistema de autenticación con control de acceso por roles (Superadmin, Org-Admin, Visitante) mediante Convex Auth.\n"
-        "  - Escenario piloto funcional de la Biblioteca y accesos principales.\n"
-        "  - Primeros 54 tickets gestionados y completados en Jira Cloud (KAN-1 a KAN-54).\n"
-        "  - Cronograma nivelado de 123 tareas en GanttProject y estimación formal de 400.84 PFA y 59.40 Persona-Mes.\n\n"
-        "● FASE 2: 15% AVANCE TERCER CORTE (Entrega Congelada al 11 de Noviembre de 2026):\n"
-        "  - Sustitución de voces sintéticas robóticas por locución humana real (grabada y producida por Saraic Noemí León) integrada canónicamente en scenes/ y hotspots/ bajo a11yPaths.js.\n"
-        "  - Optimización de rendimiento del visor 360: eliminación de fallos de inicialización con resolveInitialView, precarga por adyacencia espacial (preloadNeighbors) y reducción de latencia a 110 ms sin retardo.\n"
-        "  - Rediseño de la landing page SaaS accesible: acordeón interactivo de sedes (.sedes-accordion), fondo dinámico reactivo (.page-bg), tokens adaptables de modo claro/oscuro (WCAG 2.1 AA) y Bento Grid balanceado de 3 columnas.\n"
-        "  - Estructuración metodológica del banco de pruebas formales bajo normas ISO/IEC/IEEE 29119 (CRUD Caja Negra), pruebas estructurales de Caja Blanca (Complejidad Ciclomática de McCabe) y auditoría Google Lighthouse v2 bajo norma ISO/IEC 25010.\n\n"
-        "● FASE 3: 15% ENTREGA DEFINITIVA (Compromiso Previo Final - 24 de Noviembre de 2026):\n"
+        "  - Motor 360 Marzipano base integrado con proyección equirectangular WebGL (62 escenas, 43 hotspots).\n"
+        "  - Sistema de autenticación con control de acceso por roles (Superadmin, Org-Admin, Tour-Editor, Visitante) mediante Convex.\n"
+        "  - Escenario piloto funcional de Sede 2 (Bloques B, C y D — Biblioteca Anita Consuegra).\n"
+        "  - Primeros 54 tickets gestionados en Jira Cloud (KAN-1 a KAN-54).\n"
+        "  - Cronograma nivelado de 123 tareas con 257 predecesores en GanttProject y estimación formal de 400.84 PFA y 59.40 Persona-Mes.\n\n"
+        "● FASE 2: 15% AVANCE TERCER CORTE (Entrega Congelada al 11 de Noviembre de 2026 -> 85% Acumulado):\n"
+        "  - Locución humana real (Saraic Noemí León) y Estudio de Audio en Control Web (síntesis Voz Salomé es-CO, grabación en navegador y editor de subtítulos WebVTT).\n"
+        "  - Autenticación multi-rol estricta contra Convex sin mocks offline, aislamiento de rutas por rol y cálculo automático WCAG de contraste en visor (--brand-ink).\n"
+        "  - Rediseño UI/UX bajo arquitectura Orbe Soft Clay (#0284c7) separada de la marca blanca del cliente (TourBranding), sin botones destructivos sobre datos curados.\n"
+        "  - Reorganización real de las 4 sedes (Sede 1 Bloque A · Sede 2 Bloques B, C y D · Sede 3 Bloques E y F · Sede 4 Bloque G) con tour 'sede-4' habilitado en borrador.\n"
+        "  - Estructuración metodológica de pruebas (50%+ ejecutado/especificado): Matriz Caja Negra/Blanca, CRUD ISO/IEC/IEEE 29119 y Lighthouse v2 ISO/IEC 25010.\n\n"
+        "● FASE 3: 15% ENTREGA DEFINITIVA (Compromiso Previo Final - 24 de Noviembre de 2026 -> 100% Total):\n"
         "  - Ejecución al 100% de la matriz de pruebas funcionales y no funcionales automatizadas con Playwright.\n"
-        "  - Expansión de tomas fotográficas panorámicas 360° en una segunda sede universitaria (Sede 1 / Sede 3) conectadas desde el acordeón.\n"
-        "  - Despliegue en producción final con certificación de auditoría Lighthouse y firma definitiva del Acta de Aceptación UAT."
+        "  - Carga de fotografías panorámicas 360° de Sede 4 (Bloque G) y ampliación hacia Sedes 1 y 3 (Bloques A, E y F).\n"
+        "  - Despliegue en producción final, vídeo sustentatorio y firma definitiva del Acta de Aceptación UAT."
     )
     
     t5.rows[1].cells[1].text = (
@@ -192,8 +193,8 @@ def build_project_charter():
         "|  | Navegación sensorial completa sin requerir mouse            | | URL virtual unificada| |\n"
         "|  +-------------------------------------------------------------+ +--------------------+ |\n"
         "+-----------------------------------------------------------------------------------------+\n"
-        "|  ACORDEÓN DINÁMICO DE SEDES (INTERACCIÓN ELÁSTICA):                                     |\n"
-        "|  [ Sede 1: Bloques A-C ]  [ Sede 2: Biblioteca (ACTIVA - EXPANDIDA) ]  [ Sede 3: Salud ] |\n"
+        "|  ACORDEÓN DINÁMICO DE SEDES (UNISIMÓN CÚCUTA):                                         |\n"
+        "|  [ Sede 1: Bloque A ]  [ Sede 2: Bloques B, C y D (ACTIVA) ]  [ Sede 3: E y F ] [ Sede 4: G ] |\n"
         "|                           | Fotografía panorámica inmersiva          |                  |\n"
         "|                           | Vista del mural central y acceso          |                  |\n"
         "|                           | [ Explorar Campus Principal -> ]         |                  |\n"
@@ -228,11 +229,11 @@ def build_project_charter():
         "|                                                                                         |\n"
         "|                                     ( ^ Vista Techo 360° )                              |\n"
         "|                                                                                         |\n"
-        "|   < [Girar Izq]              ( [EN ENTREGA] Hotspot 1: Entrada Principal )        [Girar Der] >   |\n"
+        "|   < [Girar Izq]              ( [->] Hotspot 1: Entrada Principal )       [Girar Der] >   |\n"
         "|                              \"Haga clic o presione Enter para avanzar\"                  |\n"
         "|                                                                                         |\n"
-        "|              ( [INFO] Hotspot 2: Mostrador de Préstamo )                                     |\n"
-        "|              [[AUDIO] Reproduciendo voz: Saraic Noemí León (0:14 / 0:32)]                    |\n"
+        "|              ( [INFO] Hotspot 2: Mostrador de Préstamo )                                |\n"
+        "|              [Reproduciendo voz: Saraic Noemí León (0:14 / 0:32)]                       |\n"
         "|                                                                                         |\n"
         "|                                     ( v Vista Piso / Retorno )                          |\n"
         "+-----------------------------------------------------------------------------------------+\n"
@@ -283,9 +284,73 @@ def build_project_charter():
     r_box3.font.name = "Consolas"
     r_box3.font.size = Pt(7.5)
     r_box3.font.color.rgb = COLOR_DARK
+
+    # SECCIÓN 9: CORRECCIONES DADAS EN EL PRIMER CORTE
+    h_c1 = doc.add_paragraph()
+    h_c1.paragraph_format.space_before = Pt(18)
+    h_c1.paragraph_format.space_after = Pt(6)
+    r_c1 = h_c1.add_run("9. TRAZABILIDAD A LAS CORRECCIONES DADAS EN EL PRIMER CORTE")
+    r_c1.bold = True
+    r_c1.font.name = "Arial"
+    r_c1.font.size = Pt(12)
+    r_c1.font.color.rgb = COLOR_BLACK
+
+    p_c1 = doc.add_paragraph()
+    set_paragraph_text(p_c1, text=(
+        "En cumplimiento estricto de los requisitos del Tercer Corte, se documentan las correcciones señaladas por la "
+        "docente Ing. Nataly Duque Páez tras el Primer Corte y su resolución verificable en el proyecto:"
+    ))
+
+    corr_rows = [
+        ("Observación / Corrección del Primer Corte", "Solución Implementada y Evidencia Verificable"),
+        ("1. Confusión en duración COCOMO II (11.8 meses vs. 5 meses del semestre).",
+         "Aclarado matemáticamente en Charter y sustentación: 11.8 meses corresponde al tiempo nominal secuencial (T_dev); con equipo concurrente de 5 ingenieros sobre 59.40 Persona-Mes se ejecuta en el semestre (Agosto–Noviembre 2026)."),
+        ("2. Contradicción en presupuesto ($61.3M / $70M / $165M).",
+         "Unificado de forma consistente en $63.000.000 COP (5 ingenieros × 4.5 meses efectivos × $2.800.000 COP mensuales con carga prestacional)."),
+        ("3. Falta de desglose matemático en Puntos de Función (IFPUG).",
+         "Construida matriz IFPUG completa en Gestion de proyectos 222 nuevo.xlsx con 54 requerimientos (EI, EO, EQ, ILF, EIF) ponderados por los 14 GSC = 400.84 PFA (21.24 KLOC)."),
+        ("4. Cronograma sin antecesores y con sobrecarga de recursos (barras rojas).",
+         "Reestructurado GANTT_ORBE360_CORTE_3_AVANCE_15.gan con 123 tareas, 257 vínculos de precedencia (depend), red PERT explícita y 0% de barras rojas tras nivelación de 5 recursos."),
+        ("5. Ausencia de software funcional en 1er corte (solo documentación).",
+         "Consolidado el 70% funcional en Corte 2 y elevado al 85% acumulado en este avance 15%: motor 360° (62 escenas, 43 hotspots), locución humana + Estudio Salomé, auth Convex multi-rol y auditoría QA."),
+        ("6. Enfoque académico disperso ('investigación' en vez de Gestión de Proyectos).",
+         "Reencuadrado al PMBOK/IEEE 1058 delimitando alcance piloto vs. backlog (control de scope creep) y ubicando la accesibilidad WCAG 2.1 AA como requisito no funcional medible.")
+    ]
+    t_c1 = doc.add_table(rows=len(corr_rows), cols=2)
+    t_c1.alignment = WD_TABLE_ALIGNMENT.CENTER
+    for idx, (col_a, col_b) in enumerate(corr_rows):
+        row = t_c1.rows[idx]
+        is_head = (idx == 0)
+        set_paragraph_text(row.cells[0].paragraphs[0], col_a, size_pt=9, bold=True, color=COLOR_BLACK)
+        set_paragraph_text(row.cells[1].paragraphs[0], col_b, size_pt=9, bold=is_head, color=COLOR_BLACK if is_head else COLOR_DARK)
+        set_cell_background(row.cells[0], "E2E8F0" if is_head else "F8FAFC")
+        set_cell_background(row.cells[1], "E2E8F0" if is_head else "FFFFFF")
+        set_cell_margins(row.cells[0], 70, 70, 100, 100)
+        set_cell_margins(row.cells[1], 70, 70, 100, 100)
     
     doc.save(out_docx)
     print("Project Charter guardado en:", out_docx)
+
+    # Documento independiente dedicado a las Correcciones del Primer Corte (IEEE 1058 - 1_Inicio)
+    c1_docx = os.path.join(out_dir, "TRAZABILIDAD_CORRECCIONES_PRIMER_CORTE.docx")
+    doc_c1 = docx.Document()
+    p_c1t = doc_c1.add_paragraph()
+    set_paragraph_text(p_c1t, "ORBE360 — CORRECCIONES DEL PRIMER CORTE Y TRAZABILIDAD DE CUMPLIMIENTO", size_pt=13, bold=True, color=COLOR_BLACK, align=WD_ALIGN_PARAGRAPH.CENTER)
+    p_c1m = doc_c1.add_paragraph()
+    set_paragraph_text(p_c1m, "Universidad Simón Bolívar (Sede Cúcuta) · Gestión de Proyectos (2026-2) · Docente: Ing. Nataly Duque Páez\nCorte Evaluado: Tercer Corte (Avance 15% — 11 de Noviembre de 2026)", size_pt=9.5, italic=True, align=WD_ALIGN_PARAGRAPH.CENTER)
+    t_c1_doc = doc_c1.add_table(rows=len(corr_rows), cols=2)
+    t_c1_doc.alignment = WD_TABLE_ALIGNMENT.CENTER
+    for idx, (col_a, col_b) in enumerate(corr_rows):
+        row = t_c1_doc.rows[idx]
+        is_head = (idx == 0)
+        set_paragraph_text(row.cells[0].paragraphs[0], col_a, size_pt=9.5, bold=True, color=COLOR_BLACK)
+        set_paragraph_text(row.cells[1].paragraphs[0], col_b, size_pt=9.5, bold=is_head, color=COLOR_BLACK if is_head else COLOR_DARK)
+        set_cell_background(row.cells[0], "E2E8F0" if is_head else "F8FAFC")
+        set_cell_background(row.cells[1], "E2E8F0" if is_head else "FFFFFF")
+        set_cell_margins(row.cells[0], 80, 80, 110, 110)
+        set_cell_margins(row.cells[1], 80, 80, 110, 110)
+    doc_c1.save(c1_docx)
+    print("Trazabilidad Correcciones 1er Corte guardada en:", c1_docx)
 
 # ==========================================
 # 2. ACTA DE ACEPTACIÓN UAT
@@ -357,7 +422,7 @@ def build_uat_acceptance():
     # Table 4: Compromisos de Mejora
     t4 = doc.tables[4]
     t4.rows[1].cells[0].text = "01"
-    t4.rows[1].cells[1].text = "Expansión fotográfica 360° en una segunda sede universitaria (Sede 1 o Sede 3) para enlazar desde el acordeón."
+    t4.rows[1].cells[1].text = "Carga de fotografías 360° para la Sede 4 (Bloque G, ya creada en borrador privado) y extensión hacia Sedes 1 y 3 (Bloques A, E y F) desde el acordeón."
     t4.rows[1].cells[2].text = "Eduardo Soto / Jesús Avendaño"
     t4.rows[1].cells[3].text = "24 / 11 / 2026"
 
@@ -508,8 +573,8 @@ def build_functional_crud_tests():
             "op": "LEER / CONSULTAR (Read)",
             "prio": "Alta (Crítica)",
             "name": "Cargar escena panorámica equirectangular y consultar lista de destinos disponibles en menos de 1.5s.",
-            "pre": "Servidor web activo en http://localhost:8082. Escena 'biblioteca-principal' configurada en el grafo.",
-            "steps": "1. Navegar a http://localhost:8082/?scene=biblioteca-principal.\n2. Presionar Tab para recorrer los puntos de interés de la escena.\n3. Abrir el menú lateral de destinos (#sceneMenu).",
+            "pre": "Servidor web activo en http://127.0.0.1:8081 (y Convex en http://127.0.0.1:3210). Escena 'biblioteca-principal' configurada en el grafo.",
+            "steps": "1. Navegar a http://127.0.0.1:8081/unisimoncucuta/experienciavirtual/?scene=biblioteca-principal.\n2. Presionar Tab para recorrer los puntos de interés de la escena.\n3. Abrir el menú lateral de destinos (#sceneMenu).",
             "exp": "El visor renderiza la textura panorámica equirectangular en menos de 1.5s (HTTP 200 OK), precarga los nodos vecinos mediante preloadNeighbors y lista los hotspots con sus etiquetas ARIA.",
             "obs": "Carga completa en 1.1s a 60 FPS estables. resolveInitialView previno errores de cámara y los destinos son navegables 100% por teclado.",
             "est": "APROBADO (A)",
@@ -700,16 +765,16 @@ def build_jira_document():
     set_paragraph_text(p_t, text=(
         "El tablero Jira Cloud de ORBE360 ha incorporado los tickets correspondientes al avance del 15% (Sprint 3) "
         "y la planificación del 15% final hacia el cierre del previo (Sprint 4):\n\n"
-        "• SPRINT 3: AVANCE DEL 15% (04/11/2026 - 11/11/2026) — 100% COMPLETADO:\n"
-        "  - KAN-55: [Accesibilidad] Integración de locución humana real en audios de escenas y hotspots (Saraic Noemí León).\n"
-        "  - KAN-56: [Performance] Implementación de algoritmo de precarga por adyacencia espacial (preloadNeighbors).\n"
-        "  - KAN-57: [Frontend] Rediseño de landing page SaaS con acordeón elástico de sedes y orbes dinámicos.\n"
-        "  - KAN-58: [UI/UX] Normalización de tokens claro/oscuro y corrección de contraste WCAG 2.1 AA.\n"
-        "  - KAN-59: [QA] Especificación de casos de prueba CRUD bajo estándar ISO/IEC/IEEE 29119.\n"
+        "• SPRINT 3: AVANCE DEL 15% (04/11/2026 - 11/11/2026) — COMPLETADO (85% ACUMULADO):\n"
+        "  - KAN-55: [Accesibilidad] Locución humana real (Saraic Noemí León) + Estudio de Audio Salomé (TTS y micrófono) en Control Web.\n"
+        "  - KAN-56: [Performance] Algoritmo de precarga por adyacencia espacial (preloadNeighbors) y persistencia Convex sin fallbacks simulados.\n"
+        "  - KAN-57: [Frontend] Acordeón de Sedes 1–4 reales (Bloques A, B-C-D, E-F, G) y tour 'sede-4' habilitado en borrador.\n"
+        "  - KAN-58: [UI/UX] Contraste automático WCAG (--brand-ink), iconos SVG y rediseño Orbe Soft Clay en Org Admin y Control Web.\n"
+        "  - KAN-59: [QA] Especificación y ejecución inicial (50%+) de casos de prueba CRUD, authz (11/11) y QA (99/100) bajo ISO/IEC/IEEE 29119.\n"
         "  - KAN-60: [QA] Protocolo de auditoría de usabilidad y desempeño con Google Lighthouse v2 (ISO 25010).\n\n"
         "• SPRINT 4: CIERRE FINAL DEL 15% (12/11/2026 - 24/11/2026) — EN PROGRESO:\n"
-        "  - KAN-61: [Multi-Campus] Captura y procesamiento de fotografías 360° en una segunda sede universitaria.\n"
-        "  - KAN-62: [QA] Ejecución automatizada de la suite de 80+ pruebas en Playwright e informe de defectos.\n"
+        "  - KAN-61: [Multi-Campus] Carga de panoramas 360° en Sede 4 (Bloque G) y extensión hacia Sedes 1 y 3 (Bloques A, E y F).\n"
+        "  - KAN-62: [QA] Ejecución al 100% del banco completo de pruebas funcionales y no funcionales en Playwright e informe final.\n"
         "  - KAN-63: [Cierre] Despliegue en producción final y firma definitiva del Acta de Aceptación UAT."
     ))
 
@@ -737,12 +802,12 @@ def build_drive_links_document():
     t.alignment = WD_TABLE_ALIGNMENT.CENTER
     
     data = [
-        ("1. ENLACE OFICIAL AL DRIVE / ONEDRIVE DE LA DOCENTE", "https://unisimonedu-my.sharepoint.com/:f:/g/personal/nataly_duquep_unisimon_edu_co/IgAg3c5VF8G2TIOVUb4eRKfzAWbakYrcJk31GGgSgV0L8nE?e=iEbVog\n\nArchivo comprimido autónomo: ORBE-GP-Software-Avance-15.zip (288,581,458 bytes · 275.21 MB)\nSHA-256: 217109127FDB8B209FF6F3497C8CE67399A138BAE70088D0D3C7BAFB6457AF39"),
+        ("1. ENLACE OFICIAL AL DRIVE / ONEDRIVE DE LA DOCENTE", "https://unisimonedu-my.sharepoint.com/:f:/g/personal/nataly_duquep_unisimon_edu_co/IgAg3c5VF8G2TIOVUb4eRKfzAWbakYrcJk31GGgSgV0L8nE?e=iEbVog\n\nArchivo comprimido autónomo: ORBE-GP-Software-Avance-15.zip (288,831,652 bytes · 275.45 MB)\nSHA-256: 316A9D83E56FF9F196986AE2ED5FD81F78E98F5204F9B1EB53E9AD89AB02056B"),
         ("2. REPOSITORIO GITHUB OFICIAL DEL PROYECTO", "https://github.com/KUTEIMO/ORBE-GP (Entrega Curso · rama main)\nhttps://github.com/KUTEIMO/prototipo-360-v1-tested (Repositorio Maestro Producto)"),
-        ("3. ENLACE DEL DESPLIEGUE EN VIVO (WEB DEMO)", "http://127.0.0.1:8081/ (Entorno Local) · Convex Local: http://127.0.0.1:3210\nhttps://orbe360.preview.unisimon.edu.co (Despliegue Staging / Cloudflare)"),
-        ("4. TABLERO JIRA CLOUD (METODOLOGÍA ÁGIL)", "https://orbe360.atlassian.net (Proyecto: KANBAN PEVCI-ORBE360 - 60 Tickets Gestionados)"),
-        ("5. ENLACE DEL VIDEO EXPLICATIVO (AVANCE 15%)", "https://unisimonedu-my.sharepoint.com/personal/nataly_duquep_unisimon_edu_co/VIDEO_AVANCE_15_ORBE360.mp4\n\n(Video demo de 4 minutos demostrando la landing, el visor 360, los audios humanos de Saraic Noemí, flujos multi-rol Convex y el plan de pruebas)"),
-        ("6. INSTRUCCIONES DE EJECUCIÓN EN PC DOCENTE", "1. Descomprimir el archivo ZIP.\n2. Ejecutar 'npm install' (si falta node_modules) o abrir directamente 'INICIAR_PROYECTO.bat'.\n3. Iniciar 'npx convex dev' (127.0.0.1:3210) y 'npm start', luego abrir http://127.0.0.1:8081/")
+        ("3. DESPLIEGUE Y REVISIÓN DE LA APLICACIÓN", "Entorno Web Local Integrado: http://127.0.0.1:8081/ (Web) + http://127.0.0.1:3210 (Convex Backend)\nEjecución en 1 clic con INICIAR_PROYECTO.bat desde ORBE-GP/.\nOpción de enlace público temporal (Cloudflare Tunnel instalado): cloudflared tunnel --url http://127.0.0.1:8081"),
+        ("4. TABLERO JIRA CLOUD (METODOLOGÍA ÁGIL)", "https://orbe-experience360.atlassian.net/jira/software/projects/KAN/boards\nResumen Ejecutivo: https://orbe-experience360.atlassian.net/jira/software/projects/KAN/summary\n(Proyecto: TeamOrbe360 · Clave KAN)"),
+        ("5. VIDEO EXPLICATIVO DEL AVANCE (15%)", "Adjunto directamente en la carpeta de entrega en OneDrive (Video demostrativo del avance 15%: landing multi-sede, visor 360°, audio humano, Estudio Salomé y pruebas)."),
+        ("6. INSTRUCCIONES DE EJECUCIÓN EN PC DOCENTE", "1. Descomprimir ORBE-GP-Software-Avance-15.zip.\n2. Si falta node_modules, ejecutar 'npm install'.\n3. Abrir 'INICIAR_PROYECTO.bat' (o ejecutar 'npx convex dev' y luego 'npm start' en dos terminales) y abrir http://127.0.0.1:8081/")
     ]
     
     for idx, (label, val) in enumerate(data):
@@ -828,21 +893,31 @@ En atención a las directrices de la docente Ing. Nataly Duque Páez, el 30% del
    - Rediseño de landing page accesible con acordeón dinámico de sedes (`.sedes-accordion`), fondo ambiental (`.page-bg`), contraste WCAG AA en modo claro/oscuro y Bento Grid de 3 columnas.
    - Especificación formal de pruebas bajo normas ISO/IEC/IEEE 29119 (CRUD) e ISO/IEC 25010 (Lighthouse).
 2. **Segundo 15% (Cierre Definitivo al 24 de Noviembre de 2026 — Previo Final):**
-   - Culminación del 100% del software ('todo el sogo') desplegado en producción.
+   - Culminación del 100% del software desplegado.
    - Ejecución y certificación del 100% del banco de 80+ pruebas de software en Playwright.
-   - Expansión de fotografías 360° en una segunda sede universitaria (Sede 1 / Sede 3).
+   - Carga fotográfica 360° en Sede 4 (Bloque G) y extensión hacia Sedes 1 y 3 (Bloques A, E y F).
    - Entrega final del Acta de Aceptación del Cliente UAT firmada.
 
 ---
 
 ## 3. Desglose del Alcance (100% Total)
-* **70% Inicial (Segundo Corte — Aprobado):** Motor Marzipano WebGL, autenticación por roles en Convex, recorrido piloto de biblioteca, WBS de 123 tareas y 54 tickets Jira.
-* **15% Avance (Tercer Corte — 11 de Noviembre):** Locución humana real de Noemí, precarga espacial sin retardo, acordeón elástico de sedes, tokens claro/oscuro y diseño de pruebas.
-* **15% Final (Compromiso Previo — 24 de Noviembre):** Ejecución total de pruebas, nueva sede universitaria, despliegue 100% y acta UAT.
+* **70% Inicial (Segundo Corte — Aprobado):** Motor Marzipano WebGL, autenticación por roles en Convex, recorrido piloto de Sede 2 (Bloques B, C y D), WBS de 123 tareas (257 antecesores) y 54 tickets Jira.
+* **15% Avance (Tercer Corte — 11 de Noviembre -> 85% Acumulado):** Locución humana real de Saraic Noemí, Estudio de Audio Salomé en Control Web, auth multi-rol Convex sin mocks, precarga espacial, Sede 4 (Bloque G) en borrador, rediseño UI/UX Soft Clay y 50%+ de pruebas ISO 29119 / ISO 25010.
+* **15% Final (Compromiso Previo — 24 de Noviembre):** Ejecución total de pruebas, carga fotográfica multi-sede, despliegue 100% y acta UAT.
 
 ---
 
-## 4. Mockups y Arquitectura Visual de la Aplicación
+## 4. Trazabilidad a las Correcciones del Primer Corte
+1. **Duración COCOMO II vs. Semestre:** 11.8 meses nominales secuenciales cubiertos en 5 meses con 5 ingenieros concurrentes (59.40 Persona-Mes).
+2. **Presupuesto unificado:** consolidado en **$63.000.000 COP**.
+3. **Puntos de Función (IFPUG):** matriz de 54 RF/RNF y 14 GSC = **400.84 PFA** (`21.24 KLOC`).
+4. **Antecesores y Nivelación Gantt:** 123 tareas con 257 predecesores (`depend`), red PERT y 0% barras rojas de sobreasignación.
+5. **Avance real en software:** evolución de documentación (1er corte) -> 70% funcional (2do corte) -> **85% acumulado (Avance 15% Corte 3)**.
+6. **Reencuadre PM:** inclusión WCAG 2.1 AA tratada como NFR medible bajo alcance acotado piloto vs. backlog.
+
+---
+
+## 5. Mockups y Arquitectura Visual de la Aplicación
 ```text
 +-----------------------------------------------------------------------------------------+
 |  ORBE360  [Logo USB]            [Recorrido 360]   [Características]   [Sedes]   [ES/EN] [[CLARO]/[OSCURO]] |
@@ -853,8 +928,8 @@ En atención a las directrices de la docente Ing. Nataly Duque Páez, el 30% del
 |                                                                                         |
 |       [  [PLAY] Iniciar Recorrido Virtual  ]        [  [ADMIN] Panel de Administración  ]          |
 +-----------------------------------------------------------------------------------------+
-|  ACORDEÓN DINÁMICO DE SEDES:                                                            |
-|  [ Sede 1: Bloques A-C ]  [ Sede 2: Biblioteca (EXPANDIDA) ]  [ Sede 3: Ciencias Salud ] |
+|  ACORDEÓN DINÁMICO DE SEDES (UNISIMÓN CÚCUTA):                                         |
+|  [ Sede 1: Bloque A ]  [ Sede 2: Bloques B, C y D (ACTIVA) ]  [ Sede 3: E y F ] [ Sede 4: G ] |
 +-----------------------------------------------------------------------------------------+
 ```
 """)
@@ -905,13 +980,14 @@ En atención a las directrices de la docente Ing. Nataly Duque Páez, el 30% del
 ### 2. Repositorio Oficial en GitHub:
 * **URL:** `https://github.com/KUTEIMO/ORBE-GP`
 
-### 3. Despliegue en Vivo:
-* **Local Web:** `http://127.0.0.1:8081/`
+### 3. Despliegue y Revisión de la Aplicación:
+* **Local Web Integrado:** `http://127.0.0.1:8081/` (`npm start` o doble clic en `INICIAR_PROYECTO.bat`)
 * **Backend Convex Local:** `http://127.0.0.1:3210` (`npx convex dev`)
-* **Staging:** `https://orbe360.preview.unisimon.edu.co`
+* **Opción Túnel Público Temporal (Cloudflare):** `cloudflared tunnel --url http://127.0.0.1:8081`
 
 ### 4. Tablero Jira Cloud:
-* **URL:** `https://orbe360.atlassian.net` (Workspace: PEVCI-ORBE360)
+* **URL Tablero:** `https://orbe-experience360.atlassian.net/jira/software/projects/KAN/boards`
+* **Resumen Ejecutivo:** `https://orbe-experience360.atlassian.net/jira/software/projects/KAN/summary` (Proyecto: `TeamOrbe360` · Clave `KAN`)
 
 ---
 > [AVISO] **Nota de Integridad:** Se congela el paquete con fecha y hora verificable cumpliendo la directriz docente de no modificar archivos posterior al cierre del aula virtual.

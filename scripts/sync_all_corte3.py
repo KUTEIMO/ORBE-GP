@@ -135,7 +135,10 @@ copy_tree_filtered(GP_DIR, c3_sw_gp)
 # Copiar UNICAMENTE los entregables finales evaluables por la docente (cero .md, cero plantillas, cero .docx.txt)
 print("  -> Copiando unicamente entregables finales oficiales IEEE 1058 (sin .md ni guias internas)...")
 FINAL_DELIVERABLES = {
-    "1_Inicio_y_Project_Charter": ["ACTA_CONSTITUCION_PROJECT_CHARTER_CORTE3.docx"],
+    "1_Inicio_y_Project_Charter": [
+        "ACTA_CONSTITUCION_PROJECT_CHARTER_CORTE3.docx",
+        "TRAZABILIDAD_CORRECCIONES_PRIMER_CORTE.docx",
+    ],
     "2_Aceptacion_del_Cliente_UAT": ["ACTA_ACEPTACION_CLIENTE_UAT_ORBE360.docx"],
     "3_Gestion_Agil_Jira_Cloud": ["DOCUMENTO_ENLACE_JIRA_ORBE360_CORTE3.docx"],
     "4_Metricas_WBS_Gantt_y_PERT": ["GANTT_ORBE360_CORTE_3_AVANCE_15.gan", "Gestion de proyectos 222 nuevo.xlsx"],
@@ -271,6 +274,7 @@ ESTRUCTURA DE CARPETAS ORGANIZADAS BAJO LA NORMA IEEE 1058:
 02_Documentacion_y_Entregables_IEEE_1058/
    - 1_Inicio_y_Project_Charter/
      * ACTA_CONSTITUCION_PROJECT_CHARTER_CORTE3.docx
+     * TRAZABILIDAD_CORRECCIONES_PRIMER_CORTE.docx
    - 2_Aceptacion_del_Cliente_UAT/
      * ACTA_ACEPTACION_CLIENTE_UAT_ORBE360.docx
    - 3_Gestion_Agil_Jira_Cloud/

@@ -146,8 +146,8 @@ def build_propuesta_mejora():
     data = [
         ("Docente Evaluadora:", "Ing. Nataly Duque Páez"),
         ("Proyecto de Software:", "ORBE360 — Plataforma Web de Recorridos Virtuales 360° con Inclusión y Accesibilidad Universal"),
-        ("Líder General y Desarrollador:", "Eduardo José Soto Herrera (eduardo.soto@unisimon.edu.co)"),
-        ("Equipo de Ingeniería:", "Saraic Noemí León Jaimes, Ángel David Rueda Peña, Jhonatan Smith Celis Villamizar, Juan Diego Guerrero García")
+        ("Líder General y Desarrollador:", "Eduardo José Soto Herrera (e_soto2@unisimon.edu.co)"),
+        ("Equipo de Ingeniería:", "Saraic Noemí León Hernández (s_leon3@unisimon.edu.co), Kevin Eduardo García Moreno (k_garcia8@unisimon.edu.co), Sebastián David Omaña Villamizar (s_omana1@unisimon.edu.co), Jesús Omar Avendaño Avendaño (j_avendano4@unisimon.edu.co)")
     ]
     for r_idx, (k, v) in enumerate(data):
         row = table.rows[r_idx]
@@ -189,7 +189,7 @@ def build_propuesta_mejora():
 
     rows_data = [
         ("1. Locución Humana Real e Inclusión Universal", 
-         "Reemplazo total de motores de síntesis TTS artificial por grabaciones profesionales en estudio de la estudiante Saraic Noemí León Jaimes, vinculadas con subtítulos WebVTT sincronizados.",
+         "Reemplazo total de motores de síntesis TTS artificial por grabaciones profesionales de Saraic Noemí León Hernández, vinculadas con subtítulos WebVTT sincronizados y Estudio de Audio en Control Web.",
          "Cumplimiento estricto de WCAG 2.1 Criterio 1.2.1. Experiencia inclusiva cálida y representativa de Unisimón."),
         ("2. Panel Diagnóstico WCAG 2.1 AA en Vivo", 
          "Desarrollo de un modal interactivo en el visor que realiza una auditoría en tiempo real del ratio de contraste (8.2:1), navegación asistida por teclado, lectores ARIA y calidad ISO 25010.",
@@ -238,8 +238,8 @@ def build_propuesta_mejora():
 ### PROPUESTA TÉCNICA DE MEJORA CONTINUA Y VALOR AGREGADO — PROYECTO ORBE360
 
 **Docente Evaluadora:** Ing. Nataly Duque Páez  
-**Líder de Proyecto:** Eduardo José Soto Herrera  
-**Equipo:** Saraic Noemí León Jaimes, Ángel David Rueda Peña, Jhonatan Smith Celis Villamizar, Juan Diego Guerrero García  
+**Líder de Proyecto:** Eduardo José Soto Herrera (`e_soto2@unisimon.edu.co`)  
+**Equipo:** Saraic Noemí León Hernández, Kevin Eduardo García Moreno, Sebastián David Omaña Villamizar, Jesús Omar Avendaño Avendaño  
 **Fecha:** Noviembre de 2026  
 
 ---
