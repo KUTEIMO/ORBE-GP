@@ -11,9 +11,8 @@ ENTREGA_C3_ED = r"c:\Users\SOTO\APLICATIVOS\proyectos unisimon\ORBE360_ENTREGA_T
 ENTREGA_C2_70 = r"c:\Users\SOTO\APLICATIVOS\proyectos unisimon\ORBE360_ENTREGA_SEGUNDO_CORTE_70"
 ENTREGA_C2_ED = r"c:\Users\SOTO\APLICATIVOS\proyectos unisimon\ORBE360_ENTREGA_SEGUNDO_CORTE_EDICION"
 
-# En ORBE-GP (entrega curso / ZIP) solo va el software ejecutable y pruebas,
-# sin docs/*.md internos de desarrollo ni guias de agentes.
-SYNC_DIRS = ["src", "css", "plataforma", "control-web", "convex", "scripts", "media", "vendors", "tests"]
+# Sincronizar codigo fuente, pruebas y docs/ oficiales del proyecto hacia ORBE-GP
+SYNC_DIRS = ["src", "css", "plataforma", "control-web", "convex", "scripts", "media", "vendors", "docs", "tests"]
 SYNC_FILES = [
     "index.html",
     "package.json",
@@ -21,6 +20,7 @@ SYNC_FILES = [
     "orbe-config.js",
     "config.json",
     "convex.json",
+    "AGENTS.md",
     "eslint.config.mjs",
     "playwright.config.js",
     ".gitignore",
@@ -92,13 +92,7 @@ for f in SYNC_FILES:
     t = os.path.join(GP_DIR, f)
     if os.path.exists(s):
         shutil.copy2(s, t)
-
-# Retirar docs/ y AGENTS.md internos de ORBE-GP para mantener limpio el repo/ZIP de entrega
-shutil.rmtree(os.path.join(GP_DIR, "docs"), ignore_errors=True)
-agents_gp = os.path.join(GP_DIR, "AGENTS.md")
-if os.path.exists(agents_gp):
-    os.remove(agents_gp)
-print("  -> Archivos raiz copiados a ORBE-GP (sin docs/ ni guias internas).")
+print("  -> Archivos raiz y docs oficiales copiados a ORBE-GP.")
 
 # 2. Sincronizar copias de corte 2 (para prevenir drift en copias editables/GP)
 print("\n[2/5] Sincronizando mejoras comunes hacia carpetas de edicion y respaldo...")
@@ -125,13 +119,10 @@ c3_docs_dir = os.path.join(ENTREGA_C3_DIR, "02_Documentacion_y_Entregables_IEEE_
 c3_prop_old = os.path.join(ENTREGA_C3_DIR, "03_Propuesta_Mejora_Continua_y_Guion_Video")
 c3_prop_dir = os.path.join(ENTREGA_C3_DIR, "03_Propuesta_Mejora_Continua")
 
-# Limpiar carpetas documentales previas para evitar archivos huerfanos (.md, .txt crudos, plantillas, ZIP duplicado)
+# Limpiar carpetas documentales previas para evitar archivos huerfanos (.md de Word, .txt crudos, plantillas, ZIP duplicado)
 shutil.rmtree(c3_docs_dir, ignore_errors=True)
 shutil.rmtree(c3_prop_old, ignore_errors=True)
 shutil.rmtree(c3_prop_dir, ignore_errors=True)
-shutil.rmtree(os.path.join(c3_sw_gp, "docs"), ignore_errors=True)
-if os.path.exists(os.path.join(c3_sw_gp, "AGENTS.md")):
-    os.remove(os.path.join(c3_sw_gp, "AGENTS.md"))
 
 os.makedirs(c3_sw_gp, exist_ok=True)
 os.makedirs(c3_docs_dir, exist_ok=True)
