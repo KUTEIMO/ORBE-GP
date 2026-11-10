@@ -7,10 +7,13 @@ import hashlib
 ORBE_DIR = r"c:\Users\SOTO\APLICATIVOS\proyectos unisimon\ORBE"
 GP_DIR = r"c:\Users\SOTO\APLICATIVOS\proyectos unisimon\ORBE-GP"
 ENTREGA_C3_DIR = r"c:\Users\SOTO\APLICATIVOS\proyectos unisimon\ORBE360_ENTREGA_TERCER_CORTE_15"
+ENTREGA_C3_ED = r"c:\Users\SOTO\APLICATIVOS\proyectos unisimon\ORBE360_ENTREGA_TERCER_CORTE_EDICION"
 ENTREGA_C2_70 = r"c:\Users\SOTO\APLICATIVOS\proyectos unisimon\ORBE360_ENTREGA_SEGUNDO_CORTE_70"
 ENTREGA_C2_ED = r"c:\Users\SOTO\APLICATIVOS\proyectos unisimon\ORBE360_ENTREGA_SEGUNDO_CORTE_EDICION"
 
-SYNC_DIRS = ["src", "css", "plataforma", "control-web", "convex", "scripts", "media", "vendors", "docs", "tests"]
+# En ORBE-GP (entrega curso / ZIP) solo va el software ejecutable y pruebas,
+# sin docs/*.md internos de desarrollo ni guias de agentes.
+SYNC_DIRS = ["src", "css", "plataforma", "control-web", "convex", "scripts", "media", "vendors", "tests"]
 SYNC_FILES = [
     "index.html",
     "package.json",
@@ -18,7 +21,6 @@ SYNC_FILES = [
     "orbe-config.js",
     "config.json",
     "convex.json",
-    "AGENTS.md",
     "eslint.config.mjs",
     "playwright.config.js",
     ".gitignore",
@@ -90,7 +92,13 @@ for f in SYNC_FILES:
     t = os.path.join(GP_DIR, f)
     if os.path.exists(s):
         shutil.copy2(s, t)
-print("  -> Archivos raiz copiados a ORBE-GP.")
+
+# Retirar docs/ y AGENTS.md internos de ORBE-GP para mantener limpio el repo/ZIP de entrega
+shutil.rmtree(os.path.join(GP_DIR, "docs"), ignore_errors=True)
+agents_gp = os.path.join(GP_DIR, "AGENTS.md")
+if os.path.exists(agents_gp):
+    os.remove(agents_gp)
+print("  -> Archivos raiz copiados a ORBE-GP (sin docs/ ni guias internas).")
 
 # 2. Sincronizar copias de corte 2 (para prevenir drift en copias editables/GP)
 print("\n[2/5] Sincronizando mejoras comunes hacia carpetas de edicion y respaldo...")
@@ -109,36 +117,100 @@ for base_c2 in [ENTREGA_C2_70, ENTREGA_C2_ED]:
             if os.path.exists(s):
                 shutil.copy2(s, t)
 
-# 3. Crear y poblar carpeta de entrega oficial del Tercer Corte: ORBE360_ENTREGA_TERCER_CORTE_15
-print(f"\n[3/5] Construyendo carpeta maestra externa: {ENTREGA_C3_DIR}...")
+# 3. Construir entrega final LIMPIA para OneDrive (sin .md, sin guiones internos ni plantillas vacias)
+print(f"\n[3/5] Construyendo carpeta FINAL de entrega OneDrive: {ENTREGA_C3_DIR}...")
 c3_sw_dir = os.path.join(ENTREGA_C3_DIR, "01_Software_Desarrollado_Avance_15_Porciento")
 c3_sw_gp = os.path.join(c3_sw_dir, "ORBE-GP")
 c3_docs_dir = os.path.join(ENTREGA_C3_DIR, "02_Documentacion_y_Entregables_IEEE_1058")
-c3_prop_dir = os.path.join(ENTREGA_C3_DIR, "03_Propuesta_Mejora_Continua_y_Guion_Video")
+c3_prop_old = os.path.join(ENTREGA_C3_DIR, "03_Propuesta_Mejora_Continua_y_Guion_Video")
+c3_prop_dir = os.path.join(ENTREGA_C3_DIR, "03_Propuesta_Mejora_Continua")
+
+# Limpiar carpetas documentales previas para evitar archivos huerfanos (.md, .txt crudos, plantillas, ZIP duplicado)
+shutil.rmtree(c3_docs_dir, ignore_errors=True)
+shutil.rmtree(c3_prop_old, ignore_errors=True)
+shutil.rmtree(c3_prop_dir, ignore_errors=True)
+shutil.rmtree(os.path.join(c3_sw_gp, "docs"), ignore_errors=True)
+if os.path.exists(os.path.join(c3_sw_gp, "AGENTS.md")):
+    os.remove(os.path.join(c3_sw_gp, "AGENTS.md"))
 
 os.makedirs(c3_sw_gp, exist_ok=True)
 os.makedirs(c3_docs_dir, exist_ok=True)
 os.makedirs(c3_prop_dir, exist_ok=True)
 
-# Copiar codigo fuente a 01_Software_Desarrollado_Avance_15_Porciento/ORBE-GP
-print("  -> Copiando software funcional a carpeta descomprimida...")
+# Copiar codigo fuente limpio a 01_Software_Desarrollado_Avance_15_Porciento/ORBE-GP
+print("  -> Copiando software funcional limpio a carpeta descomprimida...")
 copy_tree_filtered(GP_DIR, c3_sw_gp)
 
-# Copiar documentacion IEEE 1058
-print("  -> Copiando entregables estructurados bajo IEEE 1058...")
-copy_tree_filtered(os.path.join(ORBE_DIR, "entregables-corte-3"), c3_docs_dir)
+# Copiar UNICAMENTE los entregables finales evaluables por la docente (cero .md, cero plantillas, cero .docx.txt)
+print("  -> Copiando unicamente entregables finales oficiales IEEE 1058 (sin .md ni guias internas)...")
+FINAL_DELIVERABLES = {
+    "1_Inicio_y_Project_Charter": ["ACTA_CONSTITUCION_PROJECT_CHARTER_CORTE3.docx"],
+    "2_Aceptacion_del_Cliente_UAT": ["ACTA_ACEPTACION_CLIENTE_UAT_ORBE360.docx"],
+    "3_Gestion_Agil_Jira_Cloud": ["DOCUMENTO_ENLACE_JIRA_ORBE360_CORTE3.docx"],
+    "4_Metricas_WBS_Gantt_y_PERT": ["GANTT_ORBE360_CORTE_3_AVANCE_15.gan", "Gestion de proyectos 222 nuevo.xlsx"],
+    "5_Aseguramiento_Calidad_y_Pruebas_Software_IEEE829": [
+        "1_Matriz_Criterios_Aceptacion_Pruebas_CajaNegra_CajaBlanca.docx",
+        "2_Especificacion_Casos_Prueba_Funcionales_CRUD_ISO29119.docx",
+        "3_Informe_Pruebas_Usabilidad_y_Lighthouse_ISO25010.docx",
+    ],
+    "6_Proyecto_Software_Avance_15_Porciento": ["ENLACES_OFICIALES_DRIVE_GITHUB_Y_DESPLIEGUE.docx"],
+}
+src_c3_root = os.path.join(ORBE_DIR, "entregables-corte-3")
+for subdir, filenames in FINAL_DELIVERABLES.items():
+    target_sub = os.path.join(c3_docs_dir, subdir)
+    os.makedirs(target_sub, exist_ok=True)
+    for fname in filenames:
+        s = os.path.join(src_c3_root, subdir, fname)
+        if os.path.exists(s):
+            shutil.copy2(s, os.path.join(target_sub, fname))
 
-# Copiar propuesta y guion a carpeta destacada
-print("  -> Copiando Propuesta de Mejora y Guión de Video...")
-for fname in [
-    "PROPUESTA_MEJORA_CONTINUA_Y_VALOR_AGREGADO_ORBE360.docx",
-    "PROPUESTA_MEJORA_CONTINUA_Y_VALOR_AGREGADO_ORBE360.md",
-    "GUIA_Y_GUION_GRABACION_VIDEO_DEMOSTRATIVO_CORTE3.docx",
-    "GUIA_Y_GUION_GRABACION_VIDEO_DEMOSTRATIVO_CORTE3.md"
+# Copiar SOLO el Word oficial de Propuesta de Mejora Continua a 03_Propuesta_Mejora_Continua/
+print("  -> Copiando Propuesta de Mejora Continua (.docx) sin guiones internos...")
+s_prop = os.path.join(src_c3_root, "PROPUESTA_MEJORA_CONTINUA_Y_VALOR_AGREGADO_ORBE360.docx")
+if os.path.exists(s_prop):
+    shutil.copy2(s_prop, os.path.join(c3_prop_dir, "PROPUESTA_MEJORA_CONTINUA_Y_VALOR_AGREGADO_ORBE360.docx"))
+
+# 3B. Construir carpeta EDITABLE separada (con todos los .md, guion de video, plantillas y docs tecnicos)
+print(f"\n[3B/5] Construyendo carpeta EDITABLE separada: {ENTREGA_C3_ED}...")
+ed_sw_gp = os.path.join(ENTREGA_C3_ED, "01_Software_Desarrollado_Avance_15_Porciento", "ORBE-GP")
+ed_docs_dir = os.path.join(ENTREGA_C3_ED, "02_Documentacion_y_Entregables_IEEE_1058")
+ed_guides_dir = os.path.join(ENTREGA_C3_ED, "03_Guias_Equipo_Plantillas_y_Edicion")
+
+shutil.rmtree(ed_docs_dir, ignore_errors=True)
+shutil.rmtree(ed_guides_dir, ignore_errors=True)
+os.makedirs(ed_sw_gp, exist_ok=True)
+os.makedirs(ed_docs_dir, exist_ok=True)
+os.makedirs(ed_guides_dir, exist_ok=True)
+
+copy_tree_filtered(GP_DIR, ed_sw_gp)
+copy_tree_filtered(os.path.join(ORBE_DIR, "docs"), os.path.join(ed_sw_gp, "docs"))
+if os.path.exists(os.path.join(ORBE_DIR, "AGENTS.md")):
+    shutil.copy2(os.path.join(ORBE_DIR, "AGENTS.md"), os.path.join(ed_sw_gp, "AGENTS.md"))
+
+for subdir in FINAL_DELIVERABLES.keys():
+    s_sub = os.path.join(src_c3_root, subdir)
+    t_sub = os.path.join(ed_docs_dir, subdir)
+    os.makedirs(t_sub, exist_ok=True)
+    if os.path.exists(s_sub):
+        for fname in os.listdir(s_sub):
+            if fname.endswith(".zip"):
+                continue
+            fpath = os.path.join(s_sub, fname)
+            if os.path.isfile(fpath):
+                shutil.copy2(fpath, os.path.join(t_sub, fname))
+
+for fname in os.listdir(src_c3_root):
+    fpath = os.path.join(src_c3_root, fname)
+    if os.path.isfile(fpath):
+        shutil.copy2(fpath, os.path.join(ed_guides_dir, fname))
+for doc_name in [
+    os.path.join("docs", "producto", "65-entregables-tercer-corte-avance-15.md"),
+    os.path.join("docs", "producto", "66-reglas-diseno-ui-ux-y-flujos-orbe360.md"),
+    "AGENTS.md",
 ]:
-    s = os.path.join(ORBE_DIR, "entregables-corte-3", fname)
-    if os.path.exists(s):
-        shutil.copy2(s, os.path.join(c3_prop_dir, fname))
+    s_doc = os.path.join(ORBE_DIR, doc_name)
+    if os.path.exists(s_doc):
+        shutil.copy2(s_doc, os.path.join(ed_guides_dir, os.path.basename(doc_name)))
 
 # Crear GUIA_Y_ENLACES_DEL_SOFTWARE.txt en 01_Software
 guia_txt = f"""================================================================================
@@ -152,12 +224,12 @@ CONTENIDO DE ESTA CARPETA:
    Codigo fuente completo con avance del 15% (85% acumulado):
    - 62 escenas 360 interactivas con Marzipano WebGL (Sede 2: Bloques B, C y D) y borrador preparado para Sede 4 (Bloque G).
    - 43 hotspots informativos con locucion accesible (Saraic Noemi Leon) y Estudio de Audio en Control Web (Voz Salome TTS, microfono y carga de audio).
-   - Subtitulos WebVTT sincronizados, contraste dinamico WCAG 2.1 AA (--brand-ink) y diagnostico de calidad.
-   - Autenticacion multi-rol contra Convex (127.0.0.1:3210), navegacion adaptativa por rol y rediseno UI/UX Soft Clay sin controles destructivos.
-   - Archivo ejecutable 'INICIAR_PROYECTO.bat' y documentacion tecnica (docs/producto/66-reglas-diseno-ui-ux-y-flujos-orbe360.md).
+   - Subtitulos WebVTT sincronizados, contraste dinamico WCAG 2.1 AA y diagnostico de calidad.
+   - Autenticacion multi-rol contra Convex (127.0.0.1:3210), navegacion adaptativa por rol y rediseno UI/UX Soft Clay.
+   - Archivo ejecutable 'INICIAR_PROYECTO.bat'.
 
 2. ORBE-GP-Software-Avance-15.zip (Archivo Comprimido):
-   Paquete ZIP autonomo para descarga o subida directa a OneDrive.
+   Paquete ZIP autonomo para descarga o ejecucion directa.
 
 --------------------------------------------------------------------------------
 ENLACES OFICIALES DEL PROYECTO:
@@ -190,7 +262,7 @@ Opcion 2 (Terminal):
 with open(os.path.join(c3_sw_dir, "GUIA_Y_ENLACES_DEL_SOFTWARE.txt"), "w", encoding="utf-8") as f:
     f.write(guia_txt)
 
-# Crear LEAME_PRIMERO_ENTREGA_CORTE_3.txt en la raiz de ENTREGA_C3_DIR
+# Crear LEEME_PRIMERO_ENTREGA_CORTE_3.txt en la raiz de ENTREGA_C3_DIR
 leame_raiz = f"""================================================================================
 PAQUETE MAESTRO DE ENTREGA — TERCER CORTE (AVANCE 15% PROYECTO FINAL)
 UNIVERSIDAD SIMON BOLIVAR — GESTION DE PROYECTOS (SEMESTRE 2026-2)
@@ -201,27 +273,29 @@ LIDER DE PROYECTO: EDUARDO JOSE SOTO HERRERA
 ESTRUCTURA DE CARPETAS ORGANIZADAS BAJO LA NORMA IEEE 1058:
 
 01_Software_Desarrollado_Avance_15_Porciento/
-   - ORBE-GP/ (Carpeta completa del codigo fuente)
+   - ORBE-GP/ (Carpeta completa del codigo fuente funcional)
    - ORBE-GP-Software-Avance-15.zip (Paquete comprimido autonomo)
    - GUIA_Y_ENLACES_DEL_SOFTWARE.txt
 
 02_Documentacion_y_Entregables_IEEE_1058/
    - 1_Inicio_y_Project_Charter/
-     (Acta Constitucion con definicion 70% vs 15% vs 15% y Mockups 8.1 a 8.3)
+     * ACTA_CONSTITUCION_PROJECT_CHARTER_CORTE3.docx
    - 2_Aceptacion_del_Cliente_UAT/
-     (Acta de Aceptacion del Cliente UAT evaluada en 5 modulos)
+     * ACTA_ACEPTACION_CLIENTE_UAT_ORBE360.docx
    - 3_Gestion_Agil_Jira_Cloud/
-     (Informe tecnico con enlaces y tickets KAN-1 al KAN-63 en Sprints 1 a 4)
+     * DOCUMENTO_ENLACE_JIRA_ORBE360_CORTE3.docx
    - 4_Metricas_WBS_Gantt_y_PERT/
-     (GanttProject .gan con antecesores y recursos + Excel Puntos de Funcion y PERT)
+     * GANTT_ORBE360_CORTE_3_AVANCE_15.gan
+     * Gestion de proyectos 222 nuevo.xlsx
    - 5_Aseguramiento_Calidad_y_Pruebas_Software_IEEE829/
-     (1. Matriz Caja Negra/Blanca, 2. Casos Prueba CRUD ISO 29119, 3. Informe Lighthouse ISO 25010)
+     * 1_Matriz_Criterios_Aceptacion_Pruebas_CajaNegra_CajaBlanca.docx
+     * 2_Especificacion_Casos_Prueba_Funcionales_CRUD_ISO29119.docx
+     * 3_Informe_Pruebas_Usabilidad_y_Lighthouse_ISO25010.docx
    - 6_Proyecto_Software_Avance_15_Porciento/
-     (Documento con enlaces oficiales Drive, GitHub, Despliegue y Checksum)
+     * ENLACES_OFICIALES_DRIVE_GITHUB_Y_DESPLIEGUE.docx
 
-03_Propuesta_Mejora_Continua_y_Guion_Video/
-   - PROPUESTA_MEJORA_CONTINUA_Y_VALOR_AGREGADO_ORBE360.docx (y .md)
-   - GUIA_Y_GUION_GRABACION_VIDEO_DEMOSTRATIVO_CORTE3.docx (y .md)
+03_Propuesta_Mejora_Continua/
+   - PROPUESTA_MEJORA_CONTINUA_Y_VALOR_AGREGADO_ORBE360.docx
 
 --------------------------------------------------------------------------------
 ENLACE ONEDRIVE DOCENTE:
