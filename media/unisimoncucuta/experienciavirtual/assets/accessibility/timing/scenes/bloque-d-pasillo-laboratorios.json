@@ -1,0 +1,21 @@
+{
+  "voice": "es-CO-SalomeNeural",
+  "rate": "-5%",
+  "cues": [
+    {
+      "start": 0.1,
+      "end": 4.716,
+      "text": "Recorres el pasillo exterior curvo entre los laboratorios del Bloque D. A"
+    },
+    {
+      "start": 4.716,
+      "end": 9.331,
+      "text": "un costado se observa el ventanal panorámico del módulo clínico y adelante"
+    },
+    {
+      "start": 9.331,
+      "end": 12.024,
+      "text": "continúa el acceso al laboratorio de morfofisiología."
+    }
+  ]
+}

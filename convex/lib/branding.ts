@@ -1,6 +1,7 @@
 import { v } from "convex/values";
 import type { MutationCtx, QueryCtx } from "../_generated/server";
 import type { Doc, Id } from "../_generated/dataModel";
+import { assertSafePublicUrl } from "./urlSafety";
 
 /** Public / API shape shared by graph + branding modules. */
 export const brandingPublicValidator = v.object({
@@ -172,7 +173,9 @@ export async function upsertBrandingDoc(
     organizationId: args.organizationId,
     clientName: args.branding.clientName.trim(),
     clientShortName: args.branding.clientShortName?.trim() || undefined,
-    logoUrl: args.branding.logoUrl?.trim() || undefined,
+    logoUrl: args.branding.logoUrl?.trim()
+      ? assertSafePublicUrl(args.branding.logoUrl, "logoUrl")
+      : undefined,
     primaryColor: assertCssHex(args.branding.primaryColor, "primaryColor"),
     primaryStrong: args.branding.primaryStrong
       ? assertCssHex(args.branding.primaryStrong, "primaryStrong")
@@ -183,7 +186,9 @@ export async function upsertBrandingDoc(
     metaTitle: args.branding.metaTitle.trim(),
     metaDescription: args.branding.metaDescription.trim(),
     showPoweredByOrbe360: args.branding.showPoweredByOrbe360,
-    fallbackImageUrl: args.branding.fallbackImageUrl?.trim() || undefined,
+    fallbackImageUrl: args.branding.fallbackImageUrl?.trim()
+      ? assertSafePublicUrl(args.branding.fallbackImageUrl, "fallbackImageUrl")
+      : undefined,
     headerTitle: args.branding.headerTitle?.trim() || undefined,
     updatedAt: now,
   };

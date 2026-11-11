@@ -2,7 +2,6 @@
  * Colores institucionales del cliente llegan vía TourBranding → CSS variables.
  * No hardcodear identidad Unisimón/PEVCI aquí. */
 
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap');
 /* Escalas compartidas (espacio, radios, elevación, movimiento). Sin color de marca. */
 @import url('./design-tokens.css');
 
@@ -72,8 +71,8 @@ html {
 
 body {
   background:
-    radial-gradient(1200px 600px at 10% -10%, rgba(45, 106, 79, 0.18), transparent 55%),
-    radial-gradient(900px 500px at 90% 0%, rgba(58, 134, 255, 0.1), transparent 50%),
+    radial-gradient(1200px 600px at 10% -10%, var(--brand-ghost, rgba(75, 85, 99, 0.18)), transparent 55%),
+    radial-gradient(900px 500px at 90% 0%, rgba(148, 163, 184, 0.08), transparent 50%),
     #050807;
   color: var(--text);
   /* dvh: la barra de direcciones del navegador móvil no debe recortar el visor. */

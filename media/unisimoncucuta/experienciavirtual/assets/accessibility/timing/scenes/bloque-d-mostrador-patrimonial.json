@@ -1,0 +1,21 @@
+{
+  "voice": "es-CO-SalomeNeural",
+  "rate": "-5%",
+  "cues": [
+    {
+      "start": 0.1,
+      "end": 4.613,
+      "text": "Desde el módulo de atención de madera clara se aprecia toda la"
+    },
+    {
+      "start": 4.613,
+      "end": 9.127,
+      "text": "amplitud del Salón Patrimonial del Bloque D, sus arcos blancos y los"
+    },
+    {
+      "start": 9.127,
+      "end": 9.879,
+      "text": "pasillos laterales."
+    }
+  ]
+}

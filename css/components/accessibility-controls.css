@@ -54,7 +54,7 @@
 }
 
 .toolbar-group--switch input[type="checkbox"]:checked {
-  background: var(--brand, #2d6a4f);
+  background: var(--brand, #4b5563);
   border-color: rgba(255, 255, 255, 0.85);
 }
 
@@ -84,13 +84,15 @@
 }
 
 .toolbar-button[aria-pressed="true"] {
-  background: var(--brand, #2d6a4f);
+  background: var(--brand, #4b5563);
+  color: var(--brand-ink, #ffffff);
   border-color: rgba(255, 255, 255, 0.7);
   font-weight: 600;
 }
 
 .toolbar-button:hover {
-  background: var(--brand-soft, rgba(10, 122, 69, 0.85));
+  background: var(--brand-soft, rgba(75, 85, 99, 0.85));
+  color: var(--brand-ink, #ffffff);
   border-color: rgba(255, 255, 255, 0.35);
 }
 
@@ -161,7 +163,7 @@
   font-weight: 600;
   padding: 0.65rem 0.9rem;
   border-radius: var(--radius-md, 14px);
-  background: var(--brand, #2d6a4f);
+  background: var(--brand, #4b5563);
   border: 1px solid rgba(255, 255, 255, 0.24);
   color: var(--brand-ink, #ffffff);
   cursor: pointer;
@@ -174,6 +176,7 @@
 
 .play-scene-audio-btn.toolbar-button--active {
   background: var(--brand-strong, #1f2937);
+  color: var(--brand-strong-ink, var(--brand-ink, #ffffff));
   border-color: rgba(255, 255, 255, 0.65);
 }
 
@@ -252,7 +255,7 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--brand, #2d6a4f);
+  background: var(--brand, #4b5563);
 }
 
 .scene-caption-close {
@@ -366,7 +369,7 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--brand, #2d6a4f);
+  background: var(--brand, #4b5563);
 }
 
 .wcag-audit-dialog__subtitle {
@@ -487,8 +490,8 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
-  color: var(--brand, #2d6a4f);
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
   display: grid;
   place-items: center;
 }
@@ -516,8 +519,8 @@
 }
 
 .wcag-primary-button {
-  background: var(--brand, #2d6a4f);
-  color: #ffffff;
+  background: var(--brand, #4b5563);
+  color: var(--brand-ink, #ffffff);
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: var(--orbe-rad-sm, 8px);
   padding: 0.55rem 1.35rem;
@@ -525,11 +528,12 @@
   font-size: 0.86rem;
   font-weight: 500;
   cursor: pointer;
-  transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease, color 0.15s ease;
 }
 
 .wcag-primary-button:hover {
-  background: var(--brand-soft, rgba(45, 106, 79, 0.88));
+  background: var(--brand-soft, rgba(75, 85, 99, 0.88));
+  color: var(--brand-ink, #ffffff);
   border-color: rgba(255, 255, 255, 0.35);
   transform: translateY(-1px);
 }

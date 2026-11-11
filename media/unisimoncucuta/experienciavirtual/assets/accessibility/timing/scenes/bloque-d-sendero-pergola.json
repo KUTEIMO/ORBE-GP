@@ -1,0 +1,21 @@
+{
+  "voice": "es-CO-SalomeNeural",
+  "rate": "-5%",
+  "cues": [
+    {
+      "start": 0.1,
+      "end": 4.447,
+      "text": "Caminas por el sendero bajo la pérgola metálica del jardín del Bloque"
+    },
+    {
+      "start": 4.447,
+      "end": 8.793,
+      "text": "D, que rodea el módulo de laboratorios hacia la zona verde de"
+    },
+    {
+      "start": 8.793,
+      "end": 9.155,
+      "text": "descanso."
+    }
+  ]
+}

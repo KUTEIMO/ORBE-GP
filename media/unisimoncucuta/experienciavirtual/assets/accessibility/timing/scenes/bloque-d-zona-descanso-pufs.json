@@ -1,0 +1,21 @@
+{
+  "voice": "es-CO-SalomeNeural",
+  "rate": "-5%",
+  "cues": [
+    {
+      "start": 0.1,
+      "end": 3.71,
+      "text": "Te encuentras en la zona de descanso de transición del Bloque D."
+    },
+    {
+      "start": 3.71,
+      "end": 7.32,
+      "text": "A la izquierda puedes ingresar por el arco hacia el salón patrimonial"
+    },
+    {
+      "start": 7.32,
+      "end": 10.629,
+      "text": "y a la derecha se encuentra el corredor hacia los baños."
+    }
+  ]
+}

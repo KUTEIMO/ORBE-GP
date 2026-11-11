@@ -1,9 +1,14 @@
-import { getSetting, appState } from './state.js';
-import { dismissOpenLayers, trapFocusWithin } from './uiLayers.js';
+import { getSetting } from './state.js';
+import {
+  dismissOpenLayers,
+  registerHotspotPanelReset,
+  trapFocusWithin,
+} from './uiLayers.js';
 import { registerMediaSessionStop } from './mediaSession.js';
 import { resolveNarrationUrl } from './configLoader.js';
 import { pauseSceneNarration } from './sceneAudio.js';
 import { parseVtt } from './vttParser.js';
+import { sanitizeSafeAssetUrl } from './tourBranding.js';
 
 let lastFocusedElement = null;
 let currentHotspot = null;
@@ -29,6 +34,15 @@ export function initHotspotPanel() {
 
   registerMediaSessionStop(() => {
     forceStop();
+  });
+
+  registerHotspotPanelReset(({ restoreFocus } = {}) => {
+    forceStop();
+    hideCaptions();
+    currentHotspotCues = [];
+    if (restoreFocus && lastFocusedElement instanceof HTMLElement) {
+      lastFocusedElement.focus();
+    }
   });
 
   if (closeButton) {
@@ -108,9 +122,10 @@ export function forceStop() {
   stopSpeech();
 }
 
-export async function openHotspotPanel(sceneData, hotspotData, { focusPanel = false, autoNarration = true } = {}) {
+export async function openHotspotPanel(sceneData, hotspotData, { focusPanel = false, autoNarration } = {}) {
   currentScene = sceneData;
   currentHotspot = hotspotData;
+  currentHotspotCues = [];
   forceStop();
   try {
     pauseSceneNarration();
@@ -134,20 +149,23 @@ export async function openHotspotPanel(sceneData, hotspotData, { focusPanel = fa
     });
   }
 
-  // Reproducir narración del hotspot inmediatamente
-  const wantAuto = autoNarration ?? (getSetting('autoNarration') || appState?.accessibleMode || true);
+  // Respetar preferencias de narración automática y modo accesible.
+  const wantAuto =
+    autoNarration !== undefined
+      ? Boolean(autoNarration)
+      : Boolean(getSetting('autoNarration') || getSetting('accessibleMode'));
   if (wantAuto) {
     const ready = await waitForNarrationReady(1200);
     if (ready) {
       await playAudio();
     } else {
-      // Síntesis de voz directa si el archivo tarda o no está disponible
       startSpeechFallback({ asPrimaryAudio: false });
     }
   }
 
-  // Mostrar subtítulos inmediatamente al abrir el hotspot
-  await showCaptions();
+  if (getSetting('autoCaptions') || getSetting('accessibleMode')) {
+    await showCaptions();
+  }
 }
 
 /**
@@ -157,9 +175,7 @@ export async function openHotspotPanel(sceneData, hotspotData, { focusPanel = fa
 function waitForNarrationReady(timeoutMs = 1200) {
   return new Promise((resolve) => {
     const audio = audioElement();
-    const narration = resolveNarrationUrl(
-      currentHotspot?.narration || currentScene?.narration
-    );
+    const narration = resolveNarrationUrl(currentHotspot?.narration);
     if (!narration || !audio) {
       resolve(false);
       return;
@@ -191,12 +207,13 @@ export function closePanel(restoreFocus = false) {
 
   forceStop();
   hideCaptions();
+  currentHotspotCues = [];
   panelElement.setAttribute('hidden', 'hidden');
   panelElement.setAttribute('aria-hidden', 'true');
   panelElement.classList.remove('hotspot-panel--open');
   dismissOpenLayers();
 
-  if (restoreFocus && lastFocusedElement) {
+  if (restoreFocus && lastFocusedElement instanceof HTMLElement) {
     lastFocusedElement.focus();
   }
 }
@@ -206,8 +223,9 @@ function updatePanelContent(sceneData, hotspotData) {
     summary().textContent =
       hotspotData.srSummary ||
       hotspotData.description ||
-      sceneData.srSummary ||
-      sceneData.longDescription;
+      sceneData?.srSummary ||
+      sceneData?.longDescription ||
+      '';
   }
 
   const captions = captionContainer();
@@ -222,9 +240,9 @@ function updatePanelContent(sceneData, hotspotData) {
   }
 
   if (transcriptLink()) {
-    const transcript = hotspotData.transcript || sceneData.transcript;
-    if (transcript) {
-      transcriptLink().href = transcript;
+    const safeTranscript = sanitizeSafeAssetUrl(hotspotData.transcript);
+    if (safeTranscript) {
+      transcriptLink().href = safeTranscript;
       transcriptLink().removeAttribute('aria-disabled');
     } else {
       transcriptLink().removeAttribute('href');
@@ -233,7 +251,7 @@ function updatePanelContent(sceneData, hotspotData) {
   }
 
   const audio = audioElement();
-  const narration = resolveNarrationUrl(hotspotData.narration || sceneData.narration);
+  const narration = resolveNarrationUrl(hotspotData.narration);
   hasRealNarration = false;
   setAudioControlsEnabled(false);
 
@@ -243,8 +261,8 @@ function updatePanelContent(sceneData, hotspotData) {
     audio.onerror = null;
     if (narration) {
       audio.src = narration;
-      audio.setAttribute('data-caption', hotspotData.captionFile || sceneData.captionFile || '');
-      const timingRef = hotspotData.timingFile || sceneData.timingFile || '';
+      audio.setAttribute('data-caption', hotspotData.captionFile || '');
+      const timingRef = hotspotData.timingFile || '';
       if (timingRef) audio.setAttribute('data-timing', timingRef);
       else audio.removeAttribute('data-timing');
       setAudioStatus('Comprobando archivo de audiodescripción…');
@@ -374,7 +392,8 @@ async function showCaptions() {
   const toggleButton = document.getElementById('toggleCaptions');
   if (!container) return;
 
-  const captionFile = currentHotspot?.captionFile || (currentHotspot?.narration ? null : currentScene?.captionFile);
+  currentHotspotCues = [];
+  const captionFile = currentHotspot?.captionFile || null;
   if (!captionFile) {
     container.textContent = 'No hay subtítulos disponibles para este recurso.';
     container.dataset.visible = 'true';

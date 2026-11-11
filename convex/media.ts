@@ -8,6 +8,8 @@ import {
   findOrganizationBySlug,
   normalizeSlug,
 } from "./lib/tourResolve";
+import { assertStorageFileMeta } from "./lib/urlSafety";
+import { writeAuditLog } from "./audit";
 
 const MAX_FILE_KEY_LEN = 180;
 
@@ -48,11 +50,12 @@ async function resolveTourForMedia(
       "organizationId u orgSlug requerido (media no resuelve por slug global)"
     );
   }
+  const orgId = organizationId;
 
   const tour = await ctx.db
     .query("tours")
     .withIndex("by_org_and_slug", (q) =>
-      q.eq("organizationId", organizationId!).eq("slug", tourSlug)
+      q.eq("organizationId", orgId).eq("slug", tourSlug)
     )
     .unique();
   if (!tour) throw new Error("Tour no encontrado en esta organización");
@@ -122,6 +125,9 @@ export const attachPanoramaToScene = mutation({
     title: v.optional(v.string()),
     shortTitle: v.optional(v.string()),
     zone: v.optional(v.string()),
+    sede: v.optional(v.string()),
+    altText: v.optional(v.string()),
+    longDescription: v.optional(v.string()),
     organizationId: v.optional(v.id("organizations")),
     orgSlug: v.optional(v.string()),
   },
@@ -144,6 +150,7 @@ export const attachPanoramaToScene = mutation({
       throw new Error("No autorizado");
     }
 
+    await assertStorageFileMeta(ctx, args.storageId, "image");
     const fileKey = sanitizeFileKey(args.fileKey);
     const objectKey = buildPanoramaObjectKey(
       tour.organizationId,
@@ -163,7 +170,14 @@ export const attachPanoramaToScene = mutation({
     const now = Date.now();
     const title = args.title || existing?.title || fileKey;
     const shortTitle = args.shortTitle || existing?.shortTitle || title;
-    const zone = args.zone || existing?.zone;
+    const zone = args.zone !== undefined ? args.zone : existing?.zone;
+    const sede = args.sede !== undefined ? args.sede : existing?.sede;
+    const altText =
+      args.altText !== undefined ? args.altText : existing?.altText || title;
+    const longDescription =
+      args.longDescription !== undefined
+        ? args.longDescription
+        : existing?.longDescription;
     let sceneId;
     if (existing) {
       // Never allow cross-tenant scene patch: existing must already belong to this tour/org.
@@ -176,17 +190,21 @@ export const attachPanoramaToScene = mutation({
         title,
         shortTitle,
         zone,
-        altText: title,
+        sede,
+        altText,
+        longDescription,
         updatedAt: now,
       });
       sceneId = existing._id;
     } else {
-      const order = (
-        await ctx.db
-          .query("scenes")
-          .withIndex("by_tour", (q) => q.eq("tourId", tour._id))
-          .collect()
-      ).length;
+      const allScenes = await ctx.db
+        .query("scenes")
+        .withIndex("by_tour_and_file", (q) => q.eq("tourId", tour._id))
+        .collect();
+      const maxOrder = allScenes.reduce(
+        (m, s) => (s.order > m ? s.order : m),
+        -1
+      );
       sceneId = await ctx.db.insert("scenes", {
         tourId: tour._id,
         organizationId: tour.organizationId,
@@ -194,10 +212,12 @@ export const attachPanoramaToScene = mutation({
         title,
         shortTitle,
         zone,
-        order,
+        sede,
+        order: maxOrder + 1,
         imageUrl,
         storageId: args.storageId,
-        altText: title,
+        altText,
+        longDescription,
         createdAt: now,
         updatedAt: now,
       });
@@ -215,6 +235,14 @@ export const attachPanoramaToScene = mutation({
     });
 
     await ctx.db.patch(tour._id, { updatedAt: now });
+    await writeAuditLog(ctx, {
+      user,
+      organizationId: tour.organizationId,
+      tourId: tour._id,
+      action: "media:attachPanorama",
+      target: fileKey,
+      detail: title,
+    });
     return {
       sceneId,
       fileKey,
@@ -269,26 +297,37 @@ export const attachSceneA11y = mutation({
       .unique();
     if (!scene) throw new Error(`Escena no encontrada: ${args.fileKey}`);
 
+    if (args.narrationStorageId) {
+      await assertStorageFileMeta(ctx, args.narrationStorageId, "audio");
+    }
+    if (args.captionStorageId) {
+      await assertStorageFileMeta(ctx, args.captionStorageId, "text");
+    }
+    if (args.transcriptStorageId) {
+      await assertStorageFileMeta(ctx, args.transcriptStorageId, "text");
+    }
+    if (args.timingStorageId) {
+      await assertStorageFileMeta(ctx, args.timingStorageId, "text");
+    }
+
     const now = Date.now();
     const narrationUrl = args.clearNarration
       ? undefined
       : args.narrationStorageId
         ? (await ctx.storage.getUrl(args.narrationStorageId)) ?? undefined
         : scene.narrationUrl;
-    const captionUrl = args.clearCaption
-      ? undefined
-      : args.captionStorageId
-        ? (await ctx.storage.getUrl(args.captionStorageId)) ?? undefined
+    const captionUrl = args.captionStorageId
+      ? (await ctx.storage.getUrl(args.captionStorageId)) ?? undefined
+      : args.clearCaption
+        ? undefined
         : scene.captionUrl;
-    const transcriptUrl = args.clearCaption
-      ? undefined
-      : args.transcriptStorageId
-        ? (await ctx.storage.getUrl(args.transcriptStorageId)) ?? undefined
-        : scene.transcriptUrl;
-    const timingUrl = args.clearCaption
-      ? undefined
-      : args.timingStorageId
-        ? (await ctx.storage.getUrl(args.timingStorageId)) ?? undefined
+    const transcriptUrl = args.transcriptStorageId
+      ? (await ctx.storage.getUrl(args.transcriptStorageId)) ?? undefined
+      : scene.transcriptUrl;
+    const timingUrl = args.timingStorageId
+      ? (await ctx.storage.getUrl(args.timingStorageId)) ?? undefined
+      : args.clearCaption
+        ? undefined
         : scene.timingUrl;
     const srSummary =
       typeof args.srSummary === "string"
@@ -396,26 +435,37 @@ export const attachHotspotA11y = mutation({
       );
     }
 
+    if (args.narrationStorageId) {
+      await assertStorageFileMeta(ctx, args.narrationStorageId, "audio");
+    }
+    if (args.captionStorageId) {
+      await assertStorageFileMeta(ctx, args.captionStorageId, "text");
+    }
+    if (args.transcriptStorageId) {
+      await assertStorageFileMeta(ctx, args.transcriptStorageId, "text");
+    }
+    if (args.timingStorageId) {
+      await assertStorageFileMeta(ctx, args.timingStorageId, "text");
+    }
+
     const now = Date.now();
     const narrationUrl = args.clearNarration
       ? undefined
       : args.narrationStorageId
         ? (await ctx.storage.getUrl(args.narrationStorageId)) ?? undefined
         : hotspot.narrationUrl;
-    const captionUrl = args.clearCaption
-      ? undefined
-      : args.captionStorageId
-        ? (await ctx.storage.getUrl(args.captionStorageId)) ?? undefined
+    const captionUrl = args.captionStorageId
+      ? (await ctx.storage.getUrl(args.captionStorageId)) ?? undefined
+      : args.clearCaption
+        ? undefined
         : hotspot.captionUrl;
-    const transcriptUrl = args.clearCaption
-      ? undefined
-      : args.transcriptStorageId
-        ? (await ctx.storage.getUrl(args.transcriptStorageId)) ?? undefined
-        : hotspot.transcriptUrl;
-    const timingUrl = args.clearCaption
-      ? undefined
-      : args.timingStorageId
-        ? (await ctx.storage.getUrl(args.timingStorageId)) ?? undefined
+    const transcriptUrl = args.transcriptStorageId
+      ? (await ctx.storage.getUrl(args.transcriptStorageId)) ?? undefined
+      : hotspot.transcriptUrl;
+    const timingUrl = args.timingStorageId
+      ? (await ctx.storage.getUrl(args.timingStorageId)) ?? undefined
+      : args.clearCaption
+        ? undefined
         : hotspot.timingUrl;
     const srSummary =
       typeof args.srSummary === "string"
@@ -460,8 +510,28 @@ export const attachHotspotA11y = mutation({
         createdAt: now,
       });
     }
+    if (args.transcriptStorageId && transcriptUrl) {
+      await ctx.db.insert("assets", {
+        organizationId: tour.organizationId,
+        tourId: tour._id,
+        kind: "transcript",
+        label: `${hotspot.title} (TXT)`,
+        url: transcriptUrl,
+        storageId: args.transcriptStorageId,
+        objectKey: `orgs/${tour.organizationId}/tours/${tour._id}/assets/hotspots/${hotspot.clientKey}.txt`,
+        createdAt: now,
+      });
+    }
 
     await ctx.db.patch(tour._id, { updatedAt: now });
+    await writeAuditLog(ctx, {
+      user,
+      organizationId: tour.organizationId,
+      tourId: tour._id,
+      action: "media:attachHotspotA11y",
+      target: hotspot.clientKey,
+      detail: hotspot.title,
+    });
     return {
       srSummary,
       narrationUrl,

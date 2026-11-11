@@ -1,0 +1,26 @@
+{
+  "voice": "es-CO-SalomeNeural",
+  "rate": "-5%",
+  "cues": [
+    {
+      "start": 0.1,
+      "end": 5.516,
+      "text": "Bienvenido a la Sede 4, Bloque G, de la Universidad Simón Bolívar"
+    },
+    {
+      "start": 5.516,
+      "end": 6.418,
+      "text": "en Cúcuta."
+    },
+    {
+      "start": 6.368,
+      "end": 11.795,
+      "text": "Su ingreso esquinero cuenta con punto de vigilancia, andén podotáctil amarillo y"
+    },
+    {
+      "start": 11.795,
+      "end": 14.961,
+      "text": "acceso hacia laboratorios y aulas de posgrado."
+    }
+  ]
+}

@@ -3,14 +3,14 @@
  * Defaults: unisimoncucuta / experienciavirtual (P0 public path slugs).
  */
 (function applyOrbeConfig() {
-  const fromStorage =
-    typeof localStorage !== "undefined"
-      ? localStorage.getItem("orbe360.convexUrl")
-      : null;
-
   const isLoopback =
     typeof location !== "undefined" &&
     (location.hostname === "127.0.0.1" || location.hostname === "localhost");
+
+  const fromStorage =
+    isLoopback && typeof localStorage !== "undefined"
+      ? localStorage.getItem("orbe360.convexUrl")
+      : null;
 
   window.__CONVEX_URL__ =
     window.__CONVEX_URL__ ||

@@ -625,8 +625,9 @@ code {
   align-items: center;
   gap: 0.55rem;
   padding: 0.75rem 0.9rem;
-  background: var(--preview-primary, #0a7a45);
-  border-bottom: 3px solid var(--preview-strong, #086638);
+  background: var(--preview-primary, #4b5563);
+  color: var(--preview-ink, #ffffff);
+  border-bottom: 3px solid var(--preview-strong, #374151);
 }
 .brand-preview__mark {
   width: 1.75rem;

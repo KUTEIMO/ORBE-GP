@@ -23,6 +23,8 @@ import {
   hotspotIconKeyValidator,
   pickHotspotVisual,
 } from "./lib/hotspotVisual";
+import { assertSafePublicUrl, sanitizeOptionalSafeUrl } from "./lib/urlSafety";
+import { writeAuditLog } from "./audit";
 
 /**
  * Client gate for Control Web / tour admin tooling.
@@ -124,6 +126,8 @@ const scenePatchValidator = v.object({
   title: v.string(),
   shortTitle: v.string(),
   zone: v.optional(v.string()),
+  sede: v.optional(v.string()),
+  speaker: v.optional(v.string()),
   order: v.number(),
   imageUrl: v.string(),
   altText: v.string(),
@@ -190,12 +194,12 @@ export const getAdminSnapshot = query({
 
     const scenes = await ctx.db
       .query("scenes")
-      .withIndex("by_tour", (q) => q.eq("tourId", tour._id))
+      .withIndex("by_tour_and_file", (q) => q.eq("tourId", tour._id))
       .collect();
 
     const allHotspots = await ctx.db
       .query("hotspots")
-      .withIndex("by_tour", (q) => q.eq("tourId", tour._id))
+      .withIndex("by_client_key", (q) => q.eq("tourId", tour._id))
       .collect();
     const hotspotsByScene = new Map<string, typeof allHotspots>();
     for (const h of allHotspots) {
@@ -244,6 +248,8 @@ export const getAdminSnapshot = query({
         title?: string;
         shortTitle?: string;
         zone?: string;
+        sede?: string;
+        speaker?: string;
         imageUrl?: string;
         altText?: string;
         longDescription?: string;
@@ -261,18 +267,26 @@ export const getAdminSnapshot = query({
     for (const scene of scenes) {
       const stored = hotspotsByScene.get(String(scene._id)) ?? [];
       const info = stored.filter((h) => h.type !== "nav");
-      const navByTarget = new Map(
-        stored
-          .filter((h) => h.type === "nav" && h.targetFileKey)
-          .map((h) => [h.targetFileKey as string, h])
-      );
+      const navPool = stored.filter((h) => h.type === "nav");
+      const usedNavIds = new Set<string>();
       const edges = edgesByFrom.get(scene.fileKey) || [];
       const nav =
         connections.length > 0
           ? edges.map((c) => {
               const to = sceneById.get(c.toSceneId);
               const toFile = to?.fileKey || "";
-              const match = toFile ? navByTarget.get(toFile) : undefined;
+              const match =
+                (c.hotspotId
+                  ? navPool.find(
+                      (h) =>
+                        String(h._id) === String(c.hotspotId) ||
+                        h.clientKey === String(c.hotspotId)
+                    )
+                  : undefined) ||
+                navPool.find(
+                  (h) => !usedNavIds.has(h.clientKey) && h.targetFileKey === toFile
+                );
+              if (match) usedNavIds.add(match.clientKey);
               return {
                 id: match?.clientKey || `conn-${scene.fileKey}-${toFile}`,
                 type: "nav" as const,
@@ -287,26 +301,26 @@ export const getAdminSnapshot = query({
                 ...pickHotspotVisual(match || {}),
               };
             })
-          : stored
-              .filter((h) => h.type === "nav")
-              .map((h) => ({
-                id: h.clientKey,
-                type: "nav" as const,
-                title: h.title,
-                shortLabel: h.shortLabel,
-                yaw: h.yaw,
-                pitch: h.pitch,
-                direction: h.direction,
-                targetFile: h.targetFileKey,
-                description: h.description,
-                weight: h.weight,
-                ...pickHotspotVisual(h),
-              }));
+          : navPool.map((h) => ({
+              id: h.clientKey,
+              type: "nav" as const,
+              title: h.title,
+              shortLabel: h.shortLabel,
+              yaw: h.yaw,
+              pitch: h.pitch,
+              direction: h.direction,
+              targetFile: h.targetFileKey,
+              description: h.description,
+              weight: h.weight,
+              ...pickHotspotVisual(h),
+            }));
 
       sceneMap[scene.fileKey] = {
         title: scene.title,
         shortTitle: scene.shortTitle,
         zone: scene.zone,
+        sede: scene.sede,
+        speaker: scene.speaker,
         imageUrl: scene.imageUrl,
         altText: scene.altText,
         longDescription: scene.longDescription,
@@ -466,12 +480,20 @@ export const saveTourSnapshot = mutation({
             .collect();
           for (const h of hs) await ctx.db.delete(h._id);
           await ctx.db.delete(sc._id);
+          if (sc.storageId) {
+            try {
+              await ctx.storage.delete(sc.storageId);
+            } catch {
+              /* ignore if already removed or referenced elsewhere */
+            }
+          }
         }
       }
     }
 
     // Upsert scenes
     for (const patch of args.scenes) {
+      const safeImageUrl = assertSafePublicUrl(patch.imageUrl, "imageUrl");
       const existing = await ctx.db
         .query("scenes")
         .withIndex("by_tour_and_file", (q) =>
@@ -483,9 +505,9 @@ export const saveTourSnapshot = mutation({
       if (existing) {
         // No pisar URL de File Storage ni /media/{org}/{tour}/… con ruta relativa legacy.
         const patchLooksLocal =
-          !/^https?:\/\//i.test(patch.imageUrl) &&
-          !patch.imageUrl.startsWith("/media/") &&
-          (patch.imageUrl.includes("panoramas/") || patch.imageUrl.startsWith("../"));
+          !/^https?:\/\//i.test(safeImageUrl) &&
+          !safeImageUrl.startsWith("/media/") &&
+          (safeImageUrl.includes("panoramas/") || safeImageUrl.startsWith("../"));
         const keepStored =
           Boolean(existing.storageId) &&
           (/^https?:\/\//i.test(existing.imageUrl) ||
@@ -496,8 +518,10 @@ export const saveTourSnapshot = mutation({
           title: patch.title,
           shortTitle: patch.shortTitle,
           zone: patch.zone,
+          ...(patch.sede !== undefined ? { sede: patch.sede } : {}),
+          ...(patch.speaker !== undefined ? { speaker: patch.speaker } : {}),
           order: patch.order,
-          imageUrl: keepStored ? existing.imageUrl : patch.imageUrl,
+          imageUrl: keepStored ? existing.imageUrl : safeImageUrl,
           altText: patch.altText,
           longDescription: patch.longDescription,
           ...(patch.initialView ? { initialView: patch.initialView } : {}),
@@ -512,8 +536,10 @@ export const saveTourSnapshot = mutation({
           title: patch.title,
           shortTitle: patch.shortTitle,
           zone: patch.zone,
+          ...(patch.sede !== undefined ? { sede: patch.sede } : {}),
+          ...(patch.speaker !== undefined ? { speaker: patch.speaker } : {}),
           order: patch.order,
-          imageUrl: patch.imageUrl,
+          imageUrl: safeImageUrl,
           altText: patch.altText,
           longDescription: patch.longDescription,
           ...(patch.initialView ? { initialView: patch.initialView } : {}),
@@ -553,14 +579,8 @@ export const saveTourSnapshot = mutation({
       for (const h of oldHs) await ctx.db.delete(h._id);
 
       const infoHotspots = patch.hotspots.filter((h) => h.type !== "nav");
-      const navByTarget = new Map(
-        patch.hotspots
-          .filter((h) => h.type === "nav" && h.targetFile)
-          .map((h) => [h.targetFile as string, h])
-      );
-      const navById = new Map(
-        patch.hotspots.filter((h) => h.type === "nav").map((h) => [h.id, h])
-      );
+      const navPool = patch.hotspots.filter((h) => h.type === "nav");
+      const claimedNavIds = new Set<string>();
       const edges = args.connections.filter((c) => c.from === patch.fileKey);
 
       // Connections array is SoT for nav edges on save (graph panel deletes win).
@@ -570,9 +590,14 @@ export const saveTourSnapshot = mutation({
               ...infoHotspots,
               ...edges.map((edge) => {
                 const existing =
-                  (edge.id ? navById.get(edge.id) : undefined) ||
-                  navByTarget.get(edge.to);
+                  (edge.id
+                    ? navPool.find((h) => !claimedNavIds.has(h.id) && h.id === edge.id)
+                    : undefined) ||
+                  navPool.find(
+                    (h) => !claimedNavIds.has(h.id) && h.targetFile === edge.to
+                  );
                 if (existing) {
+                  claimedNavIds.add(existing.id);
                   return {
                     ...existing,
                     type: "nav" as const,
@@ -612,6 +637,12 @@ export const saveTourSnapshot = mutation({
       for (const h of hotspotsToWrite) {
         const a11y = a11yByKey.get(h.id) || {};
         const visual = pickHotspotVisual(h);
+        const hRecord = h as {
+          narration?: string;
+          transcript?: string;
+          captionFile?: string;
+          timingFile?: string;
+        };
         await ctx.db.insert("hotspots", {
           tourId: tour._id,
           sceneId,
@@ -627,6 +658,18 @@ export const saveTourSnapshot = mutation({
           weight: h.weight,
           ...visual,
           ...a11y,
+          ...(sanitizeOptionalSafeUrl(hRecord.narration)
+            ? { narrationUrl: sanitizeOptionalSafeUrl(hRecord.narration) }
+            : {}),
+          ...(sanitizeOptionalSafeUrl(hRecord.transcript)
+            ? { transcriptUrl: sanitizeOptionalSafeUrl(hRecord.transcript) }
+            : {}),
+          ...(sanitizeOptionalSafeUrl(hRecord.captionFile)
+            ? { captionUrl: sanitizeOptionalSafeUrl(hRecord.captionFile) }
+            : {}),
+          ...(sanitizeOptionalSafeUrl(hRecord.timingFile)
+            ? { timingUrl: sanitizeOptionalSafeUrl(hRecord.timingFile) }
+            : {}),
           createdAt: now,
           updatedAt: now,
         });
@@ -642,7 +685,7 @@ export const saveTourSnapshot = mutation({
       );
       const allScenes = await ctx.db
         .query("scenes")
-        .withIndex("by_tour", (q) => q.eq("tourId", tour._id))
+        .withIndex("by_tour_and_file", (q) => q.eq("tourId", tour._id))
         .collect();
       for (const scene of allScenes) {
         if (fileToSceneId.has(scene.fileKey)) continue;
@@ -661,7 +704,7 @@ export const saveTourSnapshot = mutation({
     // Resolve targetSceneId for nav hotspots
     const allHotspots = await ctx.db
       .query("hotspots")
-      .withIndex("by_tour", (q) => q.eq("tourId", tour._id))
+      .withIndex("by_client_key", (q) => q.eq("tourId", tour._id))
       .collect();
     for (const h of allHotspots) {
       if (h.type === "nav" && h.targetFileKey) {
@@ -696,6 +739,14 @@ export const saveTourSnapshot = mutation({
     await ctx.db.patch(tour._id, { updatedAt: now });
 
     const hotspotCount = args.scenes.reduce((n, s) => n + s.hotspots.length, 0);
+    await writeAuditLog(ctx, {
+      user,
+      organizationId: tour.organizationId,
+      tourId: tour._id,
+      action: "tour:saveSnapshot",
+      target: tour.slug,
+      detail: `${args.scenes.length} escenas · ${hotspotCount} hotspots · ${connectionsSaved} conexiones`,
+    });
     return {
       scenesSaved: args.scenes.length,
       hotspotsSaved: hotspotCount,
@@ -773,7 +824,10 @@ export const syncCampusSpatialGraph = mutation({
 
 /** Metadata for admin/QA: expected spatial embed sizes. */
 export const getCampusSpatialPackageMeta = query({
-  args: {},
+  args: {
+    token: v.string(),
+    now: v.optional(v.number()),
+  },
   returns: v.object({
     tourSlug: v.string(),
     sceneCount: v.number(),
@@ -781,12 +835,14 @@ export const getCampusSpatialPackageMeta = query({
     navCount: v.number(),
     connectionCount: v.number(),
   }),
-  handler: () =>
-    Promise.resolve({
+  handler: async (ctx, args) => {
+    await requireUser(ctx, args.token, args.now);
+    return {
       tourSlug: CAMPUS_SPATIAL_TOUR_SLUG,
       sceneCount: CAMPUS_SPATIAL_SCENE_COUNT,
       hotspotCount: CAMPUS_SPATIAL_HOTSPOT_COUNT,
       navCount: CAMPUS_SPATIAL_NAV_COUNT,
       connectionCount: CAMPUS_SPATIAL_CONNECTION_COUNT,
-    }),
+    };
+  },
 });

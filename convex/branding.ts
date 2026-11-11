@@ -1,6 +1,11 @@
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
-import { requireUser, userCanEditTour } from "./lib/authHelpers";
+import {
+  requireUser,
+  userCanEditTour,
+  userIsOrgAdmin,
+} from "./lib/authHelpers";
+import { writeAuditLog } from "./audit";
 import {
   brandingPublicValidator,
   brandingLooksLikeOrbePlatform,
@@ -126,8 +131,10 @@ export const saveBranding = mutation({
       slug: args.slug,
     });
     if (!tour) throw new Error("Tour no encontrado");
-    if (!(await userCanEditTour(ctx, user, tour._id))) {
-      throw new Error("No autorizado para editar branding de este tour");
+    if (!(await userIsOrgAdmin(ctx, user, tour._id))) {
+      throw new Error(
+        "Solo el administrador de organización puede editar el branding de este tour"
+      );
     }
 
     const branding: BrandingPublic = args.branding;
@@ -142,10 +149,20 @@ export const saveBranding = mutation({
     }
     assertNotOrbePlatformChrome(branding, org.slug);
 
-    return await upsertBrandingDoc(ctx, {
+    const id = await upsertBrandingDoc(ctx, {
       tourId: tour._id,
       organizationId: tour.organizationId,
       branding,
     });
+    await writeAuditLog(ctx, {
+      user,
+      actorRole: "orgAdmin",
+      organizationId: tour.organizationId,
+      tourId: tour._id,
+      action: "branding:save",
+      target: tour.slug,
+      detail: `${branding.clientName} (${branding.primaryColor})`,
+    });
+    return id;
   },
 });

@@ -1,0 +1,16 @@
+{
+  "voice": "es-CO-SalomeNeural",
+  "rate": "-5%",
+  "cues": [
+    {
+      "start": 0.1,
+      "end": 6.418,
+      "text": "Laboratorio Multidisciplinario de Ciencias de la Salud II, dotado para prácticas formativas"
+    },
+    {
+      "start": 6.418,
+      "end": 9.05,
+      "text": "interdisciplinarias en el Bloque D."
+    }
+  ]
+}

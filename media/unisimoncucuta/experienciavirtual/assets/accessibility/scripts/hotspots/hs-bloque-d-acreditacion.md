@@ -1,0 +1,7 @@
+# Acreditación Institucional en Alta Calidad
+
+- Voz: s-CO-SalomeNeural
+
+## Guion de audiodescripción
+
+Punto destacado: pendón oficial de Acreditación Institucional en Alta Calidad de la Universidad Simón Bolívar, ubicado junto a la tarima de eventos del Bloque D.

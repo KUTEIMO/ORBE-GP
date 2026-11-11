@@ -8,8 +8,9 @@ import {
   requireUser,
   verifyPassword,
 } from "./lib/authHelpers";
+import { writeAuditLog } from "./audit";
 
-const SESSION_MS = 1000 * 60 * 60 * 24 * 14; // 14 días
+const SESSION_MS = 1000 * 60 * 60 * 24 * 7; // 7 días
 const LOGIN_WINDOW_MS = 1000 * 60 * 15; // 15 min
 const LOGIN_MAX_ATTEMPTS = 8;
 
@@ -178,7 +179,7 @@ export const me = query({
 
     const memberships = await ctx.db
       .query("memberships")
-      .withIndex("by_user", (q) => q.eq("userId", user._id))
+      .withIndex("by_user_and_org", (q) => q.eq("userId", user._id))
       .collect();
 
     const detailed = [];
@@ -215,7 +216,7 @@ export const createAdminUser = mutation({
   },
   returns: v.id("platformUsers"),
   handler: async (ctx, args) => {
-    await requireSuperadmin(ctx, args.token);
+    const actor = await requireSuperadmin(ctx, args.token);
     const email = args.email.trim().toLowerCase();
     if (args.password.length < 10) {
       throw new Error("La contraseña debe tener al menos 10 caracteres");
@@ -246,6 +247,15 @@ export const createAdminUser = mutation({
       createdAt: Date.now(),
     });
 
+    await writeAuditLog(ctx, {
+      user: actor,
+      actorRole: "superadmin",
+      organizationId: args.organizationId,
+      action: "auth:createAdminUser",
+      target: email,
+      detail: `Rol: ${args.role}`,
+    });
+
     return userId;
   },
 });
@@ -274,6 +284,246 @@ export const listUsers = query({
       isSuperadmin: u.isSuperadmin,
       active: u.active,
     }));
+  },
+});
+
+export const listUsersDetailed = query({
+  args: {
+    token: v.string(),
+    now: v.optional(v.number()),
+  },
+  returns: v.array(
+    v.object({
+      id: v.id("platformUsers"),
+      email: v.string(),
+      name: v.string(),
+      isSuperadmin: v.boolean(),
+      active: v.boolean(),
+      memberships: v.array(
+        v.object({
+          membershipId: v.id("memberships"),
+          organizationId: v.id("organizations"),
+          orgSlug: v.string(),
+          orgName: v.string(),
+          role: v.union(v.literal("orgAdmin"), v.literal("tourEditor")),
+        })
+      ),
+    })
+  ),
+  handler: async (ctx, args) => {
+    await requireSuperadmin(ctx, args.token, args.now);
+    const users = await ctx.db.query("platformUsers").collect();
+    const out = [];
+    for (const u of users) {
+      const ms = await ctx.db
+        .query("memberships")
+        .withIndex("by_user_and_org", (q) => q.eq("userId", u._id))
+        .collect();
+      const detailed = [];
+      for (const m of ms) {
+        const org = await ctx.db.get(m.organizationId);
+        if (!org) continue;
+        detailed.push({
+          membershipId: m._id,
+          organizationId: org._id,
+          orgSlug: org.slug,
+          orgName: org.name,
+          role: m.role,
+        });
+      }
+      out.push({
+        id: u._id,
+        email: u.email,
+        name: u.name,
+        isSuperadmin: u.isSuperadmin,
+        active: u.active,
+        memberships: detailed,
+      });
+    }
+    return out;
+  },
+});
+
+export const setUserActive = mutation({
+  args: {
+    token: v.string(),
+    userId: v.id("platformUsers"),
+    active: v.boolean(),
+  },
+  returns: v.null(),
+  handler: async (ctx, args) => {
+    const actor = await requireSuperadmin(ctx, args.token);
+    if (actor._id === args.userId && !args.active) {
+      throw new Error("No puedes desactivar tu propia cuenta activa");
+    }
+    const target = await ctx.db.get(args.userId);
+    if (!target) throw new Error("Usuario no encontrado");
+    await ctx.db.patch(args.userId, { active: args.active });
+    if (!args.active) {
+      const sessions = await ctx.db
+        .query("sessions")
+        .withIndex("by_user", (q) => q.eq("userId", args.userId))
+        .collect();
+      for (const s of sessions) await ctx.db.delete(s._id);
+    }
+    await writeAuditLog(ctx, {
+      user: actor,
+      actorRole: "superadmin",
+      action: args.active ? "auth:activateUser" : "auth:deactivateUser",
+      target: target.email,
+    });
+    return null;
+  },
+});
+
+export const setUserRole = mutation({
+  args: {
+    token: v.string(),
+    membershipId: v.id("memberships"),
+    role: v.union(v.literal("orgAdmin"), v.literal("tourEditor")),
+  },
+  returns: v.null(),
+  handler: async (ctx, args) => {
+    const actor = await requireSuperadmin(ctx, args.token);
+    const membership = await ctx.db.get(args.membershipId);
+    if (!membership) throw new Error("Membresía no encontrada");
+    const targetUser = await ctx.db.get(membership.userId);
+    await ctx.db.patch(args.membershipId, { role: args.role });
+    await writeAuditLog(ctx, {
+      user: actor,
+      actorRole: "superadmin",
+      organizationId: membership.organizationId,
+      action: "auth:setUserRole",
+      target: targetUser?.email || String(membership.userId),
+      detail: `Rol -> ${args.role}`,
+    });
+    return null;
+  },
+});
+
+export const resetUserPassword = mutation({
+  args: {
+    token: v.string(),
+    userId: v.id("platformUsers"),
+    newPassword: v.string(),
+  },
+  returns: v.null(),
+  handler: async (ctx, args) => {
+    const actor = await requireSuperadmin(ctx, args.token);
+    if (args.newPassword.length < 10) {
+      throw new Error("La contraseña debe tener al menos 10 caracteres");
+    }
+    const target = await ctx.db.get(args.userId);
+    if (!target) throw new Error("Usuario no encontrado");
+    const salt = randomToken().slice(0, 16);
+    const passwordHash = await hashPassword(args.newPassword, salt);
+    await ctx.db.patch(args.userId, { passwordHash, passwordSalt: salt });
+    const sessions = await ctx.db
+      .query("sessions")
+      .withIndex("by_user", (q) => q.eq("userId", args.userId))
+      .collect();
+    for (const s of sessions) await ctx.db.delete(s._id);
+    await writeAuditLog(ctx, {
+      user: actor,
+      actorRole: "superadmin",
+      action: "auth:resetUserPassword",
+      target: target.email,
+    });
+    return null;
+  },
+});
+
+export const changePassword = mutation({
+  args: {
+    token: v.string(),
+    currentPassword: v.string(),
+    newPassword: v.string(),
+  },
+  returns: v.null(),
+  handler: async (ctx, args) => {
+    const user = await requireUser(ctx, args.token);
+    if (args.newPassword.length < 10) {
+      throw new Error("La nueva contraseña debe tener al menos 10 caracteres");
+    }
+    const check = await verifyPassword(
+      args.currentPassword,
+      user.passwordSalt,
+      user.passwordHash
+    );
+    if (!check.ok) {
+      throw new Error("La contraseña actual no es correcta");
+    }
+    const salt = randomToken().slice(0, 16);
+    const passwordHash = await hashPassword(args.newPassword, salt);
+    await ctx.db.patch(user._id, { passwordHash, passwordSalt: salt });
+    // Revoke other live sessions for hygiene; keep the active token alive.
+    const sessions = await ctx.db
+      .query("sessions")
+      .withIndex("by_user", (q) => q.eq("userId", user._id))
+      .collect();
+    for (const s of sessions) {
+      if (s.token !== args.token) await ctx.db.delete(s._id);
+    }
+    await writeAuditLog(ctx, {
+      user,
+      action: "auth:changePassword",
+      target: user.email,
+    });
+    return null;
+  },
+});
+
+export const updateProfile = mutation({
+  args: {
+    token: v.string(),
+    name: v.string(),
+  },
+  returns: v.string(),
+  handler: async (ctx, args) => {
+    const user = await requireUser(ctx, args.token);
+    const cleanName = args.name.trim();
+    if (cleanName.length < 2) {
+      throw new Error("El nombre debe tener al menos 2 caracteres");
+    }
+    await ctx.db.patch(user._id, { name: cleanName });
+    await writeAuditLog(ctx, {
+      user,
+      action: "auth:updateProfile",
+      target: user.email,
+      detail: cleanName,
+    });
+    return cleanName;
+  },
+});
+
+export const revokeAllUserSessions = mutation({
+  args: {
+    token: v.string(),
+    userId: v.optional(v.id("platformUsers")),
+  },
+  returns: v.number(),
+  handler: async (ctx, args) => {
+    const actor = await requireUser(ctx, args.token);
+    const targetId = args.userId ?? actor._id;
+    if (targetId !== actor._id && !actor.isSuperadmin) {
+      throw new Error("No autorizado para cerrar sesiones de otro usuario");
+    }
+    const sessions = await ctx.db
+      .query("sessions")
+      .withIndex("by_user", (q) => q.eq("userId", targetId))
+      .collect();
+    let count = 0;
+    for (const s of sessions) {
+      await ctx.db.delete(s._id);
+      count += 1;
+    }
+    await writeAuditLog(ctx, {
+      user: actor,
+      action: "auth:revokeSessions",
+      target: String(targetId),
+      detail: `${count} sesión(es) revocadas`,
+    });
+    return count;
   },
 });
 

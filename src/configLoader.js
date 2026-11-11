@@ -26,6 +26,15 @@ const PLACEHOLDER_AUDIO_MARKERS = [
 const A11Y_PACKAGE_URL =
   '/media/unisimoncucuta/experienciavirtual/assets/accessibility/a11y-package.json';
 
+const DEFAULT_SHORTCUTS = [
+  'Flechas ← →: rotar horizontalmente',
+  'Flechas ↑ ↓: inclinar la vista',
+  '+ / - : acercar y alejar',
+  'Q / E: inclinar verticalmente',
+  'M: activar o pausar audio guía',
+  'Tab: navegar entre controles y hotspots'
+];
+
 const FALLBACK_LONG_DESC_PREFIX = 'Vista 360° del recorrido virtual';
 const DEFAULT_INFO_ICON = 'ⓘ';
 const FALLBACK_POSITIONS = [
@@ -63,31 +72,26 @@ export async function loadConfig() {
       : null;
   const tourSlug = resolveTourSlugFromBrowser();
 
-  let rawConfig = { zones: {}, scenes: [], accessibleScenes: {}, sceneNames: {} };
-  try {
+  let rawConfig = {
+    basePath: '',
+    shortcuts: DEFAULT_SHORTCUTS,
+    zones: {},
+    scenes: [],
+    accessibleScenes: {},
+    sceneNames: {},
+  };
+  if (!convexUrl) {
     const response = await fetch('config.json', {
       headers: { Accept: 'application/json' },
       cache: 'no-store'
     });
-    if (response.ok) {
-      const json = await response.json();
-      if (json && typeof json === 'object') {
-        rawConfig = convexUrl
-          ? {
-              basePath: json.basePath || '',
-              shortcuts: json.shortcuts || [],
-              zones: json.zones || {},
-              scenes: [],
-              accessibleScenes: {},
-              sceneNames: {}
-            }
-          : json;
-      }
-    } else if (!convexUrl) {
+    if (!response.ok) {
       throw new Error(`No se pudo cargar config.json (estado ${response.status})`);
     }
-  } catch (err) {
-    if (!convexUrl) throw err;
+    const json = await response.json();
+    if (json && typeof json === 'object') {
+      rawConfig = json;
+    }
   }
 
   // Convex DB is the strict single source of truth whenever configured (no local fallbacks).
@@ -415,6 +419,8 @@ async function mergeConvexTourGraph(rawConfig) {
         title: scene.title || current.title,
         shortTitle: scene.shortTitle || current.shortTitle,
         zone: scene.zone || current.zone,
+        sede: scene.sede ?? current.sede ?? null,
+        speaker: scene.speaker ?? current.speaker ?? null,
         altText: scene.altText || current.altText,
         longDescription: scene.longDescription || current.longDescription,
         srSummary: scene.srSummary || current.srSummary,
@@ -460,43 +466,6 @@ async function mergeConvexTourGraph(rawConfig) {
     console.warn("No se pudo cargar grafo desde Convex", error);
     markRejectedIfForeignSlug(rawConfig, explicitUrlSlug);
   }
-}
-
-/**
- * Merge static spatial hotspots with Convex a11y-bearing hotspots (by id).
- * Used only when Convex published graph has zero nav for a scene.
- */
-function mergeHotspotsPreferSpatial(staticHotspots, convexHotspots) {
-  const byId = new Map();
-  for (const h of staticHotspots) {
-    if (h?.id) byId.set(h.id, { ...h });
-  }
-  for (const h of convexHotspots) {
-    if (!h?.id) continue;
-    const existing = byId.get(h.id);
-    if (existing) {
-      byId.set(h.id, {
-        ...existing,
-        ...h,
-        yaw: typeof existing.yaw === "number" ? existing.yaw : h.yaw,
-        pitch: typeof existing.pitch === "number" ? existing.pitch : h.pitch,
-        targetFile: existing.targetFile || h.targetFile,
-        type: existing.type || h.type,
-        narration: h.narration || existing.narration,
-        narrationOptional:
-          typeof h.narrationOptional === "boolean"
-            ? h.narrationOptional
-            : existing.narrationOptional,
-        transcript: h.transcript || existing.transcript,
-        captionFile: h.captionFile || existing.captionFile,
-        timingFile: h.timingFile || existing.timingFile,
-        srSummary: h.srSummary || existing.srSummary,
-      });
-    } else {
-      byId.set(h.id, { ...h });
-    }
-  }
-  return Array.from(byId.values());
 }
 
 /**
@@ -748,7 +717,10 @@ function normalizeConfig(raw, externalOverrides = {}) {
   const accessibleOverrides = raw.accessibleScenes || {};
   const sceneNames = raw.sceneNames || {};
   const zones = raw.zones || {};
-  const defaultShortcuts = raw.shortcuts || [];
+  const defaultShortcuts =
+    Array.isArray(raw.shortcuts) && raw.shortcuts.length > 0
+      ? raw.shortcuts
+      : DEFAULT_SHORTCUTS;
   const rawHotspots = raw.hotspots || {};
 
   const temporaryScenes = sceneEntries.map((entry, index) => {
@@ -765,6 +737,8 @@ function normalizeConfig(raw, externalOverrides = {}) {
       title: resolvedTitle,
       shortTitle: override.shortTitle || cleanSceneTitle(resolvedTitle),
       zone: zoneKey,
+      sede: override.sede ?? entry.sede ?? null,
+      speaker: override.speaker ?? entry.speaker ?? null,
       order: typeof override.order === 'number' ? override.order : index,
       imageUrl: override.imageUrl || null,
       altText: override.altText || cleanSceneTitle(resolvedTitle),
@@ -1042,7 +1016,7 @@ function resolveHotspotTargets(scene, fileToSceneId) {
   });
 }
 
-function buildNavigationHotspots(scene, links, fileToSceneId) {
+function buildNavigationHotspots(scene, links, _fileToSceneId) {
   if (!Array.isArray(links) || links.length === 0) {
     return [];
   }

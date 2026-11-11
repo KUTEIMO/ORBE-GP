@@ -1,0 +1,21 @@
+{
+  "voice": "es-CO-SalomeNeural",
+  "rate": "-5%",
+  "cues": [
+    {
+      "start": 0.1,
+      "end": 4.83,
+      "text": "Estás en el acceso exterior de la Sede 1, Bloque A, de"
+    },
+    {
+      "start": 4.83,
+      "end": 7.195,
+      "text": "la Universidad Simón Bolívar en Cúcuta."
+    },
+    {
+      "start": 7.145,
+      "end": 15.171,
+      "text": "Este bloque concentra los procesos administrativos, admisiones, registro y atención al estudiante."
+    }
+  ]
+}

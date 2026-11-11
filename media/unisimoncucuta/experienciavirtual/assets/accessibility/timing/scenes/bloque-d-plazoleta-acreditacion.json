@@ -1,0 +1,26 @@
+{
+  "voice": "es-CO-SalomeNeural",
+  "rate": "-5%",
+  "cues": [
+    {
+      "start": 0.1,
+      "end": 4.432,
+      "text": "Estás en la plazoleta cubierta del Bloque D de la Sede 2."
+    },
+    {
+      "start": 4.382,
+      "end": 9.577,
+      "text": "Este espacio cuenta con cubierta amplia, sillas para eventos académicos, una tarima"
+    },
+    {
+      "start": 9.577,
+      "end": 14.772,
+      "text": "al costado derecho junto al pendón de Acreditación Institucional en Alta Calidad"
+    },
+    {
+      "start": 14.772,
+      "end": 17.803,
+      "text": "y acceso directo hacia el edificio D."
+    }
+  ]
+}

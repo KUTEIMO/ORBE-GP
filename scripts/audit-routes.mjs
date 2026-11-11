@@ -6,7 +6,7 @@ import fs from "fs";
 import path from "path";
 
 const root = process.cwd();
-const skipDirs = new Set(["node_modules", "vendors", ".git", "playwright-report", "test-results"]);
+const skipDirs = new Set(["node_modules", "dist", "vendors", ".git", "playwright-report", "test-results"]);
 
 function walk(dir, acc = []) {
   for (const ent of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -24,7 +24,10 @@ const re = /\b(?:href|src)=["']([^"'#]+)["']/gi;
 
 for (const file of files) {
   if (file.includes(`${path.sep}scripts${path.sep}`)) continue;
-  const text = fs.readFileSync(file, "utf8");
+  let text = fs.readFileSync(file, "utf8");
+  if (file.endsWith(".md")) {
+    text = text.replace(/```[\s\S]*?```/g, "").replace(/`[^`]+`/g, "");
+  }
   const dir = path.dirname(file);
   let m;
   while ((m = re.exec(text))) {

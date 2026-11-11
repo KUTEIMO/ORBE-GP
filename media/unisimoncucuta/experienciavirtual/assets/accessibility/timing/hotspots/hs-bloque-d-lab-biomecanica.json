@@ -1,0 +1,16 @@
+{
+  "voice": "es-CO-SalomeNeural",
+  "rate": "-5%",
+  "cues": [
+    {
+      "start": 0.1,
+      "end": 4.365,
+      "text": "Laboratorio de Análisis del Movimiento y Biomecánica."
+    },
+    {
+      "start": 4.315,
+      "end": 10.355,
+      "text": "Aquí se desarrollan prácticas de evaluación funcional, postura y movimiento corporal."
+    }
+  ]
+}

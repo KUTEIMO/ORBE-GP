@@ -1,0 +1,16 @@
+{
+  "voice": "es-CO-SalomeNeural",
+  "rate": "-5%",
+  "cues": [
+    {
+      "start": 0.1,
+      "end": 4.799,
+      "text": "El acceso exterior de Sede 3 integra franja guía podotáctil en el"
+    },
+    {
+      "start": 4.799,
+      "end": 9.497,
+      "text": "andén y rampa en la entrada principal para facilitar el desplazamiento seguro."
+    }
+  ]
+}

@@ -6,7 +6,9 @@ import {
   requireUser,
   userBelongsToOrg,
   userCanEditTour,
+  userIsOrgAdmin,
 } from "./lib/authHelpers";
+import { writeAuditLog } from "./audit";
 import { defaultBrandingForTour, upsertBrandingDoc } from "./lib/branding";
 import { isUrlSafeSlug, normalizeSlug } from "./lib/tourResolve";
 
@@ -34,7 +36,7 @@ export const listOrganizations = query({
     const mapOrg = async (o: Doc<"organizations">) => {
       const tours = await ctx.db
         .query("tours")
-        .withIndex("by_org", (q) => q.eq("organizationId", o._id))
+        .withIndex("by_org_and_slug", (q) => q.eq("organizationId", o._id))
         .collect();
       return {
         id: o._id,
@@ -57,7 +59,7 @@ export const listOrganizations = query({
 
     const memberships = await ctx.db
       .query("memberships")
-      .withIndex("by_user", (q) => q.eq("userId", user._id))
+      .withIndex("by_user_and_org", (q) => q.eq("userId", user._id))
       .collect();
     const result = [];
     for (const m of memberships) {
@@ -81,7 +83,7 @@ export const createOrganization = mutation({
   },
   returns: v.id("organizations"),
   handler: async (ctx, args) => {
-    await requireSuperadmin(ctx, args.token);
+    const actor = await requireSuperadmin(ctx, args.token);
     const slug = normalizeSlug(args.slug);
     if (!isUrlSafeSlug(slug)) {
       throw new Error(
@@ -99,13 +101,22 @@ export const createOrganization = mutation({
         ? undefined
         : Math.max(0, Math.floor(args.maxTours));
 
-    return await ctx.db.insert("organizations", {
+    const orgId = await ctx.db.insert("organizations", {
       name: args.name.trim(),
       slug,
       description: args.description,
       ...(maxTours !== undefined ? { maxTours } : {}),
       createdAt: Date.now(),
     });
+    await writeAuditLog(ctx, {
+      user: actor,
+      actorRole: "superadmin",
+      organizationId: orgId,
+      action: "org:create",
+      target: slug,
+      detail: args.name.trim(),
+    });
+    return orgId;
   },
 });
 
@@ -118,7 +129,7 @@ export const setOrganizationMaxTours = mutation({
   },
   returns: v.null(),
   handler: async (ctx, args) => {
-    await requireSuperadmin(ctx, args.token);
+    const actor = await requireSuperadmin(ctx, args.token);
     const org = await ctx.db.get(args.organizationId);
     if (!org) throw new Error("Organización no encontrada");
     if (args.maxTours === null) {
@@ -128,6 +139,14 @@ export const setOrganizationMaxTours = mutation({
         maxTours: Math.max(0, Math.floor(args.maxTours)),
       });
     }
+    await writeAuditLog(ctx, {
+      user: actor,
+      actorRole: "superadmin",
+      organizationId: args.organizationId,
+      action: "org:setMaxTours",
+      target: org.slug,
+      detail: args.maxTours === null ? "ilimitado" : String(args.maxTours),
+    });
     return null;
   },
 });
@@ -179,43 +198,49 @@ export const listTours = query({
       slug: v.string(),
       title: v.string(),
       published: v.boolean(),
+      archived: v.boolean(),
     })
   ),
   handler: async (ctx, args) => {
     const user = await requireUser(ctx, args.token, args.now);
+    const targetOrgId = args.organizationId;
 
-    if (args.organizationId) {
-      const allowed = await userBelongsToOrg(ctx, user, args.organizationId);
+    if (targetOrgId) {
+      const allowed = await userBelongsToOrg(ctx, user, targetOrgId);
       if (!allowed) {
         throw new Error("No autorizado para esta organización");
       }
     }
 
     let tours;
-    if (args.organizationId) {
+    if (targetOrgId) {
       tours = await ctx.db
         .query("tours")
-        .withIndex("by_org", (q) => q.eq("organizationId", args.organizationId!))
+        .withIndex("by_org_and_slug", (q) =>
+          q.eq("organizationId", targetOrgId)
+        )
         .collect();
     } else if (user.isSuperadmin) {
       tours = await ctx.db.query("tours").collect();
     } else {
       const memberships = await ctx.db
         .query("memberships")
-        .withIndex("by_user", (q) => q.eq("userId", user._id))
+        .withIndex("by_user_and_org", (q) => q.eq("userId", user._id))
         .collect();
       tours = [];
       for (const m of memberships) {
         const orgTours = await ctx.db
           .query("tours")
-          .withIndex("by_org", (q) => q.eq("organizationId", m.organizationId))
+          .withIndex("by_org_and_slug", (q) =>
+            q.eq("organizationId", m.organizationId)
+          )
           .collect();
         tours.push(...orgTours);
       }
     }
 
     if (args.publishedOnly) {
-      tours = tours.filter((t) => t.published);
+      tours = tours.filter((t) => t.published && !t.archived);
     }
 
     const result = [];
@@ -229,6 +254,7 @@ export const listTours = query({
         slug: t.slug,
         title: t.title,
         published: t.published,
+        archived: Boolean(t.archived),
       });
     }
     return result;
@@ -281,7 +307,9 @@ export const createTour = mutation({
     if (typeof org.maxTours === "number") {
       const existingTours = await ctx.db
         .query("tours")
-        .withIndex("by_org", (q) => q.eq("organizationId", args.organizationId))
+        .withIndex("by_org_and_slug", (q) =>
+          q.eq("organizationId", args.organizationId)
+        )
         .collect();
       if (existingTours.length >= org.maxTours) {
         throw new Error(
@@ -313,6 +341,16 @@ export const createTour = mutation({
       branding: defaultBrandingForTour(title),
     });
 
+    await writeAuditLog(ctx, {
+      user,
+      actorRole: user.isSuperadmin ? "superadmin" : "orgAdmin",
+      organizationId: args.organizationId,
+      tourId,
+      action: "tour:create",
+      target: `${org.slug}/${slug}`,
+      detail: title,
+    });
+
     return tourId;
   },
 });
@@ -340,15 +378,62 @@ export const updateTourTitle = mutation({
   returns: v.string(),
   handler: async (ctx, args) => {
     const user = await requireUser(ctx, args.token);
-    if (!(await userCanEditTour(ctx, user, args.tourId))) {
-      throw new Error("No autorizado para actualizar este tour");
+    if (!(await userIsOrgAdmin(ctx, user, args.tourId))) {
+      throw new Error(
+        "Solo el administrador de organización puede renombrar este tour"
+      );
     }
+    const tour = await ctx.db.get(args.tourId);
+    if (!tour) throw new Error("Tour no encontrado");
     const clean = args.title.trim();
     if (!clean) throw new Error("Título requerido");
     await ctx.db.patch(args.tourId, {
       title: clean,
       updatedAt: Date.now(),
     });
+    await writeAuditLog(ctx, {
+      user,
+      actorRole: "orgAdmin",
+      organizationId: tour.organizationId,
+      tourId: tour._id,
+      action: "tour:rename",
+      target: tour.slug,
+      detail: clean,
+    });
     return clean;
+  },
+});
+
+export const setTourArchived = mutation({
+  args: {
+    token: v.string(),
+    tourId: v.id("tours"),
+    archived: v.boolean(),
+  },
+  returns: v.object({ archived: v.boolean(), published: v.boolean() }),
+  handler: async (ctx, args) => {
+    const user = await requireUser(ctx, args.token);
+    if (!(await userIsOrgAdmin(ctx, user, args.tourId))) {
+      throw new Error(
+        "Solo el administrador de organización puede archivar o restaurar este tour"
+      );
+    }
+    const tour = await ctx.db.get(args.tourId);
+    if (!tour) throw new Error("Tour no encontrado");
+    const nextPublished = args.archived ? false : tour.published;
+    await ctx.db.patch(args.tourId, {
+      archived: args.archived,
+      published: nextPublished,
+      updatedAt: Date.now(),
+    });
+    await writeAuditLog(ctx, {
+      user,
+      actorRole: "orgAdmin",
+      organizationId: tour.organizationId,
+      tourId: tour._id,
+      action: args.archived ? "tour:archive" : "tour:restore",
+      target: tour.slug,
+    });
+    return { archived: args.archived, published: nextPublished };
   },
 });

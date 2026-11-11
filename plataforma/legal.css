@@ -1,8 +1,8 @@
 /**
- * Orbe360 — legal pages + cookie consent banner.
- * Cache-bust with marketing.css: ?v=20260929e
+ * Orbe360 — legal pages + local storage notice banner.
+ * Cache-bust with portal.css: ?v=20261111g
  */
-@import url("/plataforma/tokens.css");
+@import url("/plataforma/tokens.css?v=20261111g");
 
 * { box-sizing: border-box; }
 
@@ -17,7 +17,7 @@ body.legal-page {
   font-size: 1rem;
 }
 
-body.legal-page.has-cookie-banner {
+body.legal-page.has-storage-notice {
   padding-bottom: 7rem;
 }
 
@@ -175,8 +175,8 @@ body.legal-page.has-cookie-banner {
 }
 .legal-foot a:hover { color: var(--orbe-accent-deep); }
 
-/* —— Cookie banner —— */
-.cookie-banner {
+/* —— Storage notice banner —— */
+.storage-notice {
   position: fixed;
   inset: auto 0 0 0;
   z-index: 200;
@@ -185,7 +185,7 @@ body.legal-page.has-cookie-banner {
   border-top: 1px solid var(--orbe-line);
   box-shadow: 0 -8px 32px rgba(16, 24, 40, 0.12);
 }
-.cookie-banner__inner {
+.storage-notice__inner {
   max-width: var(--orbe-container);
   margin: 0 auto;
   display: flex;
@@ -193,33 +193,33 @@ body.legal-page.has-cookie-banner {
   align-items: center;
   gap: 1rem 1.5rem;
 }
-.cookie-banner__title {
+.storage-notice__title {
   font-family: "Syne", var(--orbe-display), system-ui, sans-serif;
   font-weight: 700;
   font-size: 0.95rem;
   margin: 0;
   flex: 1 1 12rem;
 }
-.cookie-banner__body {
+.storage-notice__body {
   margin: 0;
   font-size: 0.88rem;
   color: var(--orbe-muted);
   flex: 2 1 16rem;
   line-height: 1.45;
 }
-.cookie-banner__actions {
+.storage-notice__actions {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem 0.75rem;
   align-items: center;
 }
-.cookie-banner__link {
+.storage-notice__link {
   font-size: 0.88rem;
   font-weight: 600;
   color: var(--orbe-accent-deep);
   text-decoration: none;
 }
-.cookie-banner__link:hover { text-decoration: underline; }
+.storage-notice__link:hover { text-decoration: underline; }
 
 .btn {
   display: inline-flex;
@@ -277,7 +277,7 @@ body.legal-page.has-cookie-banner {
 
 [data-theme="dark"] body.legal-page,
 [data-theme="dark"] .legal-nav,
-[data-theme="dark"] .cookie-banner {
+[data-theme="dark"] .storage-notice {
   background: var(--orbe-night);
   color: #e8edf4;
 }

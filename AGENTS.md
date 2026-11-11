@@ -12,3 +12,17 @@ Guidance for coding agents working in this repository.
 8. Before freezing a state, tag it and snapshot it; never `reset --hard` / `clean -fd` / `push --force`. Procedure: [docs/VERSION-ESTABLE-2026-09-29.md](docs/VERSION-ESTABLE-2026-09-29.md).
 9. Docs map: [docs/README.md](docs/README.md).
 10. Follow [docs/producto/66-reglas-diseno-ui-ux-y-flujos-orbe360.md](docs/producto/66-reglas-diseno-ui-ux-y-flujos-orbe360.md) for all new UI components/views: enforce the 5-category content policy, Orbe Soft Clay (`#0284c7`) vs client white-label (`TourBranding`) isolation, SVG icons (no emojis), mutually exclusive role/session states, single-scroll modals without repeated per-row buttons, no destructive DB reset actions in admin UI, and verify live in local Chrome before syncing mirrors or GitHub.
+
+<!-- convex-ai-start -->
+
+This project uses [Convex](https://convex.dev) as its backend.
+
+When working on Convex code, **always read
+`convex/_generated/ai/guidelines.md` first** for important guidelines on
+how to correctly use Convex APIs and patterns. The file contains rules that
+override what you may have learned about Convex from training data.
+
+Convex agent skills for common tasks can be installed by running
+`npx convex ai-files install`.
+
+<!-- convex-ai-end -->

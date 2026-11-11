@@ -1,0 +1,21 @@
+{
+  "voice": "es-CO-SalomeNeural",
+  "rate": "-5%",
+  "cues": [
+    {
+      "start": 0.1,
+      "end": 5.451,
+      "text": "Zona de esparcimiento estudiantil con mesa de tenis de mesa e información"
+    },
+    {
+      "start": 5.451,
+      "end": 10.801,
+      "text": "institucional sobre becas ICETEX, Fundación Carolina y admisiones de la Universidad Simón"
+    },
+    {
+      "start": 10.801,
+      "end": 11.247,
+      "text": "Bolívar."
+    }
+  ]
+}

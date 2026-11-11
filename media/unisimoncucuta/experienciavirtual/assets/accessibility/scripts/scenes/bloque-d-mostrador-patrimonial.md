@@ -1,0 +1,7 @@
+# Bloque D — Módulo de atención y vista general del salón
+
+- Voz: s-CO-SalomeNeural
+
+## Guion de audiodescripción
+
+Desde el módulo de atención de madera clara se aprecia toda la amplitud del Salón Patrimonial del Bloque D, sus arcos blancos y los pasillos laterales.

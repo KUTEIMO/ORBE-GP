@@ -1,0 +1,26 @@
+{
+  "voice": "es-CO-SalomeNeural",
+  "rate": "-5%",
+  "cues": [
+    {
+      "start": 0.1,
+      "end": 5.41,
+      "text": "Recorres el corredor lateral este junto al módulo de recepción del Salón"
+    },
+    {
+      "start": 5.41,
+      "end": 5.853,
+      "text": "Patrimonial."
+    },
+    {
+      "start": 5.803,
+      "end": 10.81,
+      "text": "Aquí encuentras asientos de espera, pufs de descanso y acceso al pasillo"
+    },
+    {
+      "start": 10.81,
+      "end": 11.645,
+      "text": "de baños."
+    }
+  ]
+}

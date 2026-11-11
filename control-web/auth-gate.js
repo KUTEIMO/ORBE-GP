@@ -22,12 +22,23 @@ export function controlWebLoginUrl(
   returnPath = `${location.pathname}${location.search}${location.hash}`,
   { switchAccount = false } = {}
 ) {
-  const path =
+  let path = '/';
+  if (
+    typeof returnPath === 'string' &&
     returnPath.startsWith('/') &&
     !returnPath.startsWith('//') &&
+    !returnPath.includes('\\') &&
     !returnPath.includes('://')
-      ? returnPath
-      : '/';
+  ) {
+    try {
+      const parsed = new URL(returnPath, location.origin);
+      if (parsed.origin === location.origin) {
+        path = `${parsed.pathname}${parsed.search}${parsed.hash}`;
+      }
+    } catch {
+      path = '/';
+    }
+  }
   const qs = new URLSearchParams();
   if (switchAccount) qs.set('switch', '1');
   if (!path.includes('/plataforma/login')) {

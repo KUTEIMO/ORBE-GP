@@ -1,0 +1,21 @@
+{
+  "voice": "es-CO-SalomeNeural",
+  "rate": "-5%",
+  "cues": [
+    {
+      "start": 0.1,
+      "end": 5.609,
+      "text": "Entrada principal al Bloque D. Desde este corredor accedes a la zona"
+    },
+    {
+      "start": 5.609,
+      "end": 11.117,
+      "text": "de casilleros, laboratorios de fisioterapia y morfofisiología, y al salón patrimonial de"
+    },
+    {
+      "start": 11.117,
+      "end": 11.576,
+      "text": "arcos."
+    }
+  ]
+}

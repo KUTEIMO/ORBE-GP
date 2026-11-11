@@ -137,12 +137,25 @@ export async function requireSuperadmin(
 }
 
 /**
- * Tour content editing (Control Web, branding, a11y publish, spatial sync).
+ * Tour content editing (Control Web, spatial sync, media).
  * Superadmin is platform ops only — create orgs/tours and assign users —
  * and must NOT edit tour content day-to-day. Requires org membership
- * (orgAdmin or tourEditor) — **any** user with a membership row, including
- * accounts created later via auth:createAdminUser. No email allowlists.
+ * (orgAdmin or tourEditor) — any user with a membership row.
  */
+export async function getMembershipForOrg(
+  ctx: QueryCtx | MutationCtx,
+  user: Doc<"platformUsers">,
+  organizationId: Id<"organizations">
+): Promise<Doc<"memberships"> | null> {
+  if (user.isSuperadmin) return null;
+  return await ctx.db
+    .query("memberships")
+    .withIndex("by_user_and_org", (q) =>
+      q.eq("userId", user._id).eq("organizationId", organizationId)
+    )
+    .unique();
+}
+
 export async function userCanEditTour(
   ctx: QueryCtx | MutationCtx,
   user: Doc<"platformUsers">,
@@ -151,14 +164,24 @@ export async function userCanEditTour(
   if (user.isSuperadmin) return false;
   const tour = await ctx.db.get(tourId);
   if (!tour) return false;
-  const membership = await ctx.db
-    .query("memberships")
-    .withIndex("by_user_and_org", (q) =>
-      q.eq("userId", user._id).eq("organizationId", tour.organizationId)
-    )
-    .unique();
-  // Any membership role (orgAdmin | tourEditor) grants tour edit for that org.
+  const membership = await getMembershipForOrg(ctx, user, tour.organizationId);
   return Boolean(membership);
+}
+
+/**
+ * Organization governance actions (branding, publish/unpublish, title/archive).
+ * Restricted exclusively to `orgAdmin` (never `superadmin` and never `tourEditor`).
+ */
+export async function userIsOrgAdmin(
+  ctx: QueryCtx | MutationCtx,
+  user: Doc<"platformUsers">,
+  tourId: Id<"tours">
+): Promise<boolean> {
+  if (user.isSuperadmin) return false;
+  const tour = await ctx.db.get(tourId);
+  if (!tour) return false;
+  const membership = await getMembershipForOrg(ctx, user, tour.organizationId);
+  return membership?.role === "orgAdmin";
 }
 
 /** Alias used by admin tooling docs — same as requireUser. */

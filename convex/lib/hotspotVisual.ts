@@ -1,4 +1,5 @@
 import { v } from "convex/values";
+import { assertOptionalCssHex } from "./urlSafety";
 
 /** Shared P1 visual fields — optional; legacy nav|info tours stay valid. */
 export const hotspotIconKeyValidator = v.optional(
@@ -69,6 +70,7 @@ export function pickHotspotVisual(
   if (h.iconKey) out.iconKey = h.iconKey;
   if (h.category) out.category = h.category;
   if (h.animationPreset) out.animationPreset = h.animationPreset;
-  if (h.accentColor) out.accentColor = h.accentColor;
+  const safeHex = assertOptionalCssHex(h.accentColor, "accentColor");
+  if (safeHex) out.accentColor = safeHex;
   return out;
 }

@@ -18,9 +18,79 @@ export function initMenu(config, viewerApi) {
     list.appendChild(groupItem);
   });
 
+  setupMenuSearch();
   setupMenuToggle();
   setupMenuKeyboard();
   initSceneMenuState();
+}
+
+function normalizeSearchText(str) {
+  return String(str || '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim();
+}
+
+function setupMenuSearch() {
+  const input = document.getElementById('sceneSearchInput');
+  const list = document.getElementById('sceneGroupList');
+  const emptyEl = document.getElementById('sceneSearchEmpty');
+  if (!input || !list) return;
+
+  input.addEventListener('input', () => {
+    const q = normalizeSearchText(input.value);
+    const groups = Array.from(list.querySelectorAll('.scene-group'));
+    let totalVisible = 0;
+
+    groups.forEach((group) => {
+      const header = group.querySelector('.scene-group__header');
+      const sublist = group.querySelector('.scene-sublist');
+      const toggle = group.querySelector('.scene-group__toggle');
+      const zoneName = normalizeSearchText(
+        group.querySelector('.scene-group__name')?.textContent || ''
+      );
+      const zoneMatches = q !== '' && zoneName.includes(q);
+      const items = Array.from(group.querySelectorAll('.scene-sublist__item'));
+
+      let groupMatchCount = 0;
+      items.forEach((item) => {
+        const btn = item.querySelector('.scene-button');
+        const label = normalizeSearchText(btn?.textContent || '');
+        const match = q === '' || zoneMatches || label.includes(q);
+        item.hidden = !match;
+        if (match) {
+          groupMatchCount += 1;
+          totalVisible += 1;
+        }
+      });
+
+      if (q === '') {
+        group.hidden = false;
+        const wasExpanded = group.dataset.preSearchExpanded === 'true';
+        if (header && sublist) {
+          header.setAttribute('aria-expanded', String(wasExpanded));
+          sublist.hidden = !wasExpanded;
+          if (toggle) toggle.textContent = wasExpanded ? '−' : '+';
+        }
+        delete group.dataset.preSearchExpanded;
+      } else {
+        if (!('preSearchExpanded' in group.dataset) && header) {
+          group.dataset.preSearchExpanded = header.getAttribute('aria-expanded') === 'true' ? 'true' : 'false';
+        }
+        group.hidden = groupMatchCount === 0;
+        if (groupMatchCount > 0 && header && sublist) {
+          header.setAttribute('aria-expanded', 'true');
+          sublist.hidden = false;
+          if (toggle) toggle.textContent = '−';
+        }
+      }
+    });
+
+    if (emptyEl) {
+      emptyEl.hidden = q === '' || totalVisible > 0;
+    }
+  });
 }
 
 function groupScenes(scenes) {

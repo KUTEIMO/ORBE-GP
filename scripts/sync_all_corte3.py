@@ -200,6 +200,7 @@ for fname in os.listdir(src_c3_root):
 for doc_name in [
     os.path.join("docs", "producto", "65-entregables-tercer-corte-avance-15.md"),
     os.path.join("docs", "producto", "66-reglas-diseno-ui-ux-y-flujos-orbe360.md"),
+    os.path.join("docs", "producto", "67-plan-despliegue-seguro-produccion.md"),
     "AGENTS.md",
 ]:
     s_doc = os.path.join(ORBE_DIR, doc_name)

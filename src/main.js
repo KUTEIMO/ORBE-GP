@@ -10,12 +10,17 @@ import { initFallback } from './fallback.js';
 import { initHotspotPanel, openHotspotPanel } from './hotspotPanel.js';
 import { initKeyboardControls } from './keyboardControls.js';
 import { initNavigation, updateNavigation } from './navigation.js';
-import { appState, selectors } from './state.js';
+import { appState } from './state.js';
 import { focusFirstHotspot } from './hotspotManager.js';
 import { initHotspotEditing, hydrateHotspotOverrides } from './hotspotEditing.js';
 import { bindGlobalUiGuards, openExclusive, openSceneMenu } from './uiLayers.js';
 import { stopActiveMedia } from './mediaSession.js';
-import { DEFAULT_TOUR_SLUG } from './tourSlug.js';
+import {
+  DEFAULT_TOUR_SLUG,
+  controlWebHref,
+  resolveOrgSlugFromBrowser,
+  resolveTourSlugFromBrowser,
+} from './tourSlug.js';
 import { initSceneAudio, playSceneNarration, stopSceneNarration, isAudioGuideActive } from './sceneAudio.js';
 
 // Early paint: public tour paths use neutral gray until Convex TourBranding.
@@ -43,17 +48,20 @@ async function startApp() {
   hydrateHotspotOverrides(config.overrides || {});
 
   if (config.isEmpty) {
+    ['audioGuideToggle', 'shareButton', 'wcagAuditToggle', 'helpToggle'].forEach((id) => {
+      const btn = document.getElementById(id);
+      if (btn) btn.hidden = true;
+    });
     renderEmptyTourState(config);
     initAccessibilityControls(config);
     applyInitialAccessibilityState();
-    setupShareDialog();
-    setupHelpAndInstructions(config);
-    setupAdminEntryPoints();
-    updateShareLink();
+    setupAdminEntryPoints(config);
     return;
   }
 
   let viewerApi = null;
+  let initialSceneRecorded = false;
+  recordTourUsageMetric(config, 'view');
   viewerApi = initViewer(config, {
     onViewerReady: (api) => {
       initKeyboardControls(api);
@@ -74,6 +82,10 @@ async function startApp() {
       if (viewerApi) {
         updateSceneDestinations(sceneData, viewerApi);
       }
+      if (initialSceneRecorded) {
+        recordTourUsageMetric(config, 'scene');
+      }
+      initialSceneRecorded = true;
       if (appState.settings.autoNarration || appState.settings.accessibleMode || isAudioGuideActive()) {
         playSceneNarration(sceneData);
       } else {
@@ -81,6 +93,7 @@ async function startApp() {
       }
     },
     onHotspotOpen: (sceneData, hotspotData, options) => {
+      recordTourUsageMetric(config, 'hotspot');
       openExclusive('hotspot');
       openHotspotPanel(sceneData, hotspotData, options);
     }
@@ -92,7 +105,7 @@ async function startApp() {
   applyInitialAccessibilityState();
   setupShareDialog();
   setupHelpAndInstructions(config);
-  setupAdminEntryPoints();
+  setupAdminEntryPoints(config);
   if (config.isDraftPreview) {
     const headerTitleWrap = document.getElementById('sceneZone');
     if (headerTitleWrap && !headerTitleWrap.textContent.includes('Borrador')) {
@@ -252,29 +265,20 @@ function renderEmptyTourState(config) {
   const actions = document.createElement('div');
   actions.className = 'tour-empty-actions';
 
-  let canEditTour = false;
-  try {
-    const rawSession = localStorage.getItem('orbe360.session');
-    if (rawSession && rawSession.trim()) {
-      try {
-        const parsed = JSON.parse(rawSession);
-        const role = parsed?.role || parsed?.user?.role || '';
-        canEditTour = role !== 'superadmin';
-      } catch (_jsonErr) {
-        canEditTour = true;
-      }
-    }
-  } catch (_err) {
-    canEditTour = false;
-  }
+  const adminBtn = document.createElement('a');
+  adminBtn.className = 'tour-empty-btn tour-empty-btn--primary';
+  adminBtn.href = buildControlWebTarget(config);
+  adminBtn.textContent = 'Subir escenas en Control Web';
+  adminBtn.hidden = true;
+  actions.appendChild(adminBtn);
 
-  if (canEditTour) {
-    const adminBtn = document.createElement('a');
-    adminBtn.className = 'tour-empty-btn tour-empty-btn--primary';
-    adminBtn.href = 'control-web/index.html';
-    adminBtn.textContent = 'Subir escenas en Control Web';
-    actions.appendChild(adminBtn);
-  }
+  resolveTourEditorAccess(config).then((allowed) => {
+    if (allowed) {
+      adminBtn.hidden = false;
+    } else {
+      adminBtn.remove();
+    }
+  });
 
   const portalBtn = document.createElement('a');
   portalBtn.className = 'tour-empty-btn tour-empty-btn--ghost';
@@ -419,23 +423,110 @@ function setupHelpAndInstructions(config) {
   });
 }
 
+function readStoredSession() {
+  try {
+    const raw = localStorage.getItem('orbe360.session');
+    if (!raw || !raw.trim()) return { token: null, role: '' };
+    const trimmed = raw.trim();
+    if (trimmed.startsWith('{')) {
+      const parsed = JSON.parse(trimmed);
+      return {
+        token: typeof parsed?.token === 'string' ? parsed.token.trim() : null,
+        role: String(parsed?.role || parsed?.user?.role || ''),
+      };
+    }
+    return { token: trimmed, role: '' };
+  } catch {
+    return { token: null, role: '' };
+  }
+}
+
+function buildControlWebTarget(config) {
+  const orgSlug = config?.organization?.slug || resolveOrgSlugFromBrowser();
+  const tourSlug = config?.tourSlug || resolveTourSlugFromBrowser();
+  return controlWebHref({ orgSlug, tourSlug });
+}
+
+async function resolveTourEditorAccess(config) {
+  if (document.documentElement.classList.contains('embed-mode')) return false;
+  const session = readStoredSession();
+  if (!session.token) return false;
+  const convexUrl = (typeof window !== 'undefined' && window.__CONVEX_URL__) || '';
+  if (!convexUrl) {
+    return Boolean(session.role && session.role !== 'superadmin');
+  }
+  try {
+    const orgSlug = config?.organization?.slug || resolveOrgSlugFromBrowser();
+    const tourSlug = config?.tourSlug || resolveTourSlugFromBrowser();
+    const res = await fetch(`${String(convexUrl).replace(/\/$/, '')}/api/query`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        path: 'tourAdmin:assertTourEditorAccess',
+        args: { token: session.token, orgSlug, tourSlug, now: Date.now() },
+        format: 'json',
+      }),
+      cache: 'no-store',
+    });
+    if (!res.ok) return false;
+    const payload = await res.json();
+    return Boolean(payload?.value?.ok);
+  } catch {
+    return false;
+  }
+}
+
+function recordTourUsageMetric(config, event) {
+  try {
+    if (!config || config.isEmpty || config.isDraftPreview) return;
+    if (document.documentElement.classList.contains('embed-mode')) return;
+    const convexUrl = (typeof window !== 'undefined' && window.__CONVEX_URL__) || '';
+    if (!convexUrl) return;
+    const orgSlug = config.organization?.slug || resolveOrgSlugFromBrowser();
+    const tourSlug = config.tourSlug || resolveTourSlugFromBrowser();
+    if (!orgSlug || !tourSlug) return;
+    fetch(`${String(convexUrl).replace(/\/$/, '')}/api/mutation`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        path: 'audit:recordTourEvent',
+        args: {
+          orgSlug,
+          tourSlug,
+          event,
+        },
+        format: 'json',
+      }),
+      keepalive: true,
+    }).catch(() => {});
+  } catch {
+    /* métricas no bloqueantes */
+  }
+}
+
 /**
- * Engranaje → solo visible con sesión admin (evita fuga Control Web al visitante).
- * ORB → landing plataforma.
+ * Engranaje -> solo visible tras validar sesión autorizada de edición (superadmin excluido).
  */
-function setupAdminEntryPoints() {
+function setupAdminEntryPoints(config) {
   const adminLink = document.getElementById('adminLink');
   const platformLink = document.getElementById('platformLink');
-  const session = localStorage.getItem('orbe360.session');
 
   if (adminLink) {
-    if (session) {
-      adminLink.hidden = false;
-      adminLink.removeAttribute('hidden');
-      adminLink.setAttribute('href', 'control-web/index.html');
-      adminLink.setAttribute('aria-label', 'Abrir panel de administración del tour');
-    } else {
+    const session = readStoredSession();
+    if (!session.token || document.documentElement.classList.contains('embed-mode')) {
       adminLink.remove();
+    } else {
+      const targetHref = buildControlWebTarget(config);
+      resolveTourEditorAccess(config).then((allowed) => {
+        if (!allowed) {
+          adminLink.remove();
+          return;
+        }
+        adminLink.hidden = false;
+        adminLink.removeAttribute('hidden');
+        adminLink.setAttribute('href', targetHref);
+        adminLink.setAttribute('aria-label', 'Abrir panel de administración del tour');
+      });
     }
   }
 

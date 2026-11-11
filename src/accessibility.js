@@ -1,6 +1,7 @@
 import { appState, updateSetting, getSetting } from './state.js';
 import { dismissOpenLayers, openExclusive, trapFocusWithin } from './uiLayers.js';
 import { playSceneNarration, stopSceneNarration } from './sceneAudio.js';
+import { contrastInkForHex, contrastRatio } from './tourBranding.js';
 
 const FONT_STEP = 0.1;
 const FONT_MIN = 0.8;
@@ -325,6 +326,105 @@ function setupHelpDialog(config) {
   return open;
 }
 
+function populateWcagAuditDialog(dialog, config) {
+  if (!dialog) return;
+  const scenes = Array.isArray(config?.scenes) ? config.scenes : [];
+  const totalScenes = scenes.length;
+  const scenesWithAlt = scenes.filter((s) => Boolean(s.altText || s.longDescription)).length;
+  const scenesWithAudio = scenes.filter((s) => Boolean(s.narration)).length;
+  const scenesWithCaptions = scenes.filter((s) => Boolean(s.captionFile)).length;
+  const allHotspots = scenes.flatMap((s) => (Array.isArray(s.hotspots) ? s.hotspots : []));
+  const infoHotspots = allHotspots.filter((h) => h.type !== 'nav');
+
+  const primaryHex =
+    (config?.branding?.primaryColor && String(config.branding.primaryColor)) ||
+    document.documentElement.style.getPropertyValue('--brand').trim() ||
+    '#4b5563';
+  const inkHex = contrastInkForHex(primaryHex);
+  const ratio = contrastRatio(primaryHex, inkHex);
+
+  const badge = document.getElementById('wcagTourBadge');
+  if (badge) {
+    badge.textContent = ratio >= 4.5 ? 'Contraste AA activo' : 'Revisar contraste';
+  }
+  const subtitle = document.getElementById('wcagAuditSubtitle');
+  if (subtitle) {
+    const clientLabel = config?.branding?.clientName || config?.tourTitle || 'Recorrido 360°';
+    subtitle.textContent = `Resumen dinámico sobre los recursos cargados en "${clientLabel}".`;
+  }
+
+  const statScenes = document.getElementById('wcagStatScenes');
+  const statScenesCap = document.getElementById('wcagStatScenesCaption');
+  if (statScenes) statScenes.textContent = String(totalScenes);
+  if (statScenesCap) {
+    statScenesCap.textContent = totalScenes > 0
+      ? `${scenesWithAlt} de ${totalScenes} con descripción alternativa`
+      : 'Sin escenas cargadas aún';
+  }
+
+  const statAudio = document.getElementById('wcagStatAudio');
+  const statAudioCap = document.getElementById('wcagStatAudioCaption');
+  if (statAudio) {
+    statAudio.textContent = totalScenes > 0 ? `${scenesWithAudio} / ${totalScenes}` : '0';
+  }
+  if (statAudioCap) {
+    statAudioCap.textContent = `${scenesWithCaptions} con subtítulos WebVTT · ${infoHotspots.length} puntos info`;
+  }
+
+  const statContrast = document.getElementById('wcagStatContrast');
+  const statContrastCap = document.getElementById('wcagStatContrastCaption');
+  if (statContrast) statContrast.textContent = `${ratio.toFixed(1)} : 1`;
+  if (statContrastCap) {
+    statContrastCap.textContent = `Texto ${inkHex} sobre marca ${primaryHex.toLowerCase()}`;
+  }
+
+  const statControls = document.getElementById('wcagStatControls');
+  const statControlsCap = document.getElementById('wcagStatControlsCaption');
+  if (statControls) {
+    statControls.textContent = getSetting('accessibleMode') ? 'Modo activo' : 'Disponible';
+  }
+  if (statControlsCap) {
+    statControlsCap.textContent = `Escala texto ${Math.round((getSetting('textScale') || 1) * 100)}% · Alto contraste ${getSetting('highContrast') ? 'Sí' : 'No'}`;
+  }
+
+  const checksList = document.getElementById('wcagChecksList');
+  if (checksList) {
+    checksList.replaceChildren();
+    const checkSvg = '<svg viewBox="0 0 20 20" width="14" height="14" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>';
+    const rows = [
+      {
+        title: 'Controles de teclado y foco visible:',
+        detail: 'Navegación por escena, buscador lateral, hotspots en lista accesible y atajos M / Tab / Escape.',
+      },
+      {
+        title: 'Subtítulos y audiodescripción:',
+        detail: scenesWithCaptions > 0
+          ? `${scenesWithCaptions} escenas disponen de pista WebVTT sincronizada y síntesis de voz de respaldo.`
+          : 'Síntesis de voz del navegador disponible como respaldo cuando no hay pista de audio cargada.',
+      },
+      {
+        title: 'Aislamiento visual del recorrido:',
+        detail: `Paleta aplicada desde la configuración activa (${primaryHex.toLowerCase()}) con tinta calculada (${inkHex}).`,
+      },
+    ];
+    rows.forEach((row) => {
+      const li = document.createElement('li');
+      li.className = 'wcag-check-item';
+      const iconSpan = document.createElement('span');
+      iconSpan.className = 'wcag-check-icon';
+      iconSpan.setAttribute('aria-hidden', 'true');
+      iconSpan.innerHTML = checkSvg;
+      const textDiv = document.createElement('div');
+      textDiv.className = 'wcag-check-text';
+      const strongEl = document.createElement('strong');
+      strongEl.textContent = row.title;
+      textDiv.append(strongEl, document.createTextNode(` ${row.detail}`));
+      li.append(iconSpan, textDiv);
+      checksList.appendChild(li);
+    });
+  }
+}
+
 function setupWcagAuditDialog() {
   const toggleBtn = document.getElementById('wcagAuditToggle');
   const dialog = document.getElementById('wcagAuditDialog');
@@ -332,8 +432,10 @@ function setupWcagAuditDialog() {
   if (!toggleBtn || !dialog) return;
 
   const closeBtns = dialog.querySelectorAll('[data-close-dialog], #closeWcagAuditDialog');
+  populateWcagAuditDialog(dialog, storedConfig);
 
   toggleBtn.addEventListener('click', () => {
+    populateWcagAuditDialog(dialog, storedConfig || appState.config);
     dialog.showModal();
     const primaryBtn = dialog.querySelector('.wcag-primary-button, [data-close-dialog]');
     requestAnimationFrame(() => {

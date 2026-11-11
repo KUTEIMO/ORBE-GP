@@ -1,0 +1,21 @@
+{
+  "voice": "es-CO-SalomeNeural",
+  "rate": "-5%",
+  "cues": [
+    {
+      "start": 0.1,
+      "end": 4.538,
+      "text": "Has llegado a la zona de descanso en gravilla del Bloque D,"
+    },
+    {
+      "start": 4.538,
+      "end": 8.977,
+      "text": "resguardada bajo una pérgola cubierta de vegetación y equipada con pufs y"
+    },
+    {
+      "start": 8.977,
+      "end": 10.826,
+      "text": "sillas para la comunidad estudiantil."
+    }
+  ]
+}

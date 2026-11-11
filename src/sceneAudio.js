@@ -3,17 +3,17 @@
  * Gestiona la reproducción de audiodescripciones MP3 de escenas y puntos de interés,
  * con fallback honesto a Web Speech API (síntesis de voz) y atajo de teclado 'M'.
  */
-import { appState, getSetting, updateSetting } from './state.js';
+import { appState } from './state.js';
 import { sceneAudioPath, sceneCaptionPath } from './a11yPaths.js';
 import { parseVtt } from './vttParser.js';
 
 let sceneAudioEl = null;
-let currentPlayingSceneId = null;
 let isAudioActive = false;
 let speechUtterance = null;
 let liveAnnounceTimer = null;
 let viewerApiRef = null;
 let sceneCues = [];
+let captionLoadSeq = 0;
 let isCaptionDismissedByUser = false;
 
 function getAudioElement() {
@@ -100,7 +100,7 @@ function getCurrentSceneData() {
   return null;
 }
 
-async function loadSceneCaptions(target) {
+async function loadSceneCaptions(target, seq) {
   sceneCues = [];
   const sceneId = target.id;
   const strictDb = Boolean(appState.config?.convexAuthoritative);
@@ -109,8 +109,10 @@ async function loadSceneCaptions(target) {
 
   try {
     const res = await fetch(captionUrl);
+    if (seq !== captionLoadSeq) return;
     if (res.ok) {
       const vttText = await res.text();
+      if (seq !== captionLoadSeq) return;
       sceneCues = parseVtt(vttText);
       if (sceneCues.length > 0 && isAudioActive && !isCaptionDismissedByUser) {
         updateSceneCaptionText(sceneCues[0].text);
@@ -122,14 +124,15 @@ async function loadSceneCaptions(target) {
   }
 }
 
-export async function playSceneNarration(sceneData, options = {}) {
+export async function playSceneNarration(sceneData, _options = {}) {
   const target = sceneData || getCurrentSceneData();
   if (!target) return;
 
   const audio = getAudioElement();
   const sceneId = target.id;
-  currentPlayingSceneId = sceneId;
+  const seq = ++captionLoadSeq;
   isCaptionDismissedByUser = false;
+  sceneCues = [];
 
   const strictDb = Boolean(appState.config?.convexAuthoritative);
   const audioUrl = target.narration || (!strictDb ? sceneAudioPath(sceneId) : null);
@@ -142,15 +145,15 @@ export async function playSceneNarration(sceneData, options = {}) {
   updateAudioUiState(true, target.title);
 
   if (!audioUrl) {
-    loadSceneCaptions(target);
     fallbackSpeechNarration(target);
+    loadSceneCaptions(target, seq);
     return;
   }
 
   audio.src = audioUrl;
 
   // Cargar y activar subtítulos sincronizados
-  loadSceneCaptions(target);
+  loadSceneCaptions(target, seq);
 
   try {
     await audio.play();
@@ -181,6 +184,8 @@ export function pauseSceneNarration() {
 }
 
 export function stopSceneNarration() {
+  captionLoadSeq += 1;
+  sceneCues = [];
   const audio = getAudioElement();
   if (audio) {
     audio.pause();

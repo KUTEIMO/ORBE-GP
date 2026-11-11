@@ -66,9 +66,9 @@ export async function applySpatialPackageToTour(
   if (!tour) throw new Error("Tour no encontrado");
 
   const now = Date.now();
-  let scenes = await ctx.db
+  const scenes = await ctx.db
     .query("scenes")
-    .withIndex("by_tour", (q) => q.eq("tourId", tourId))
+    .withIndex("by_tour_and_file", (q) => q.eq("tourId", tourId))
     .collect();
   const byFileKey = new Map(scenes.map((s) => [s.fileKey, s]));
 
@@ -146,6 +146,7 @@ export async function applySpatialPackageToTour(
 
     for (const h of oldHs) await ctx.db.delete(h._id);
 
+    const sceneIdForInsert = scene._id;
     const insertHotspot = async (
       h: SpatialHotspot | { id: string; type: "nav" | "info"; title: string; yaw: number; pitch: number; description?: string; targetFile?: string; direction?: string; weight?: number },
       a11y?: A11ySnap
@@ -155,7 +156,7 @@ export async function applySpatialPackageToTour(
       if (h.type === "nav") navHotspots += 1;
       await ctx.db.insert("hotspots", {
         tourId,
-        sceneId: scene!._id,
+        sceneId: sceneIdForInsert,
         clientKey: h.id,
         type: h.type,
         title: h.title,
@@ -209,7 +210,7 @@ export async function applySpatialPackageToTour(
   // Resolve targetSceneId for nav hotspots
   const allHotspots = await ctx.db
     .query("hotspots")
-    .withIndex("by_tour", (q) => q.eq("tourId", tourId))
+    .withIndex("by_client_key", (q) => q.eq("tourId", tourId))
     .collect();
   for (const h of allHotspots) {
     if (h.type === "nav" && h.targetFileKey) {

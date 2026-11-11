@@ -1,0 +1,21 @@
+{
+  "voice": "es-CO-SalomeNeural",
+  "rate": "-5%",
+  "cues": [
+    {
+      "start": 0.1,
+      "end": 5.708,
+      "text": "Estás en el corredor curvo de casilleros junto al Laboratorio de Morfofisiología."
+    },
+    {
+      "start": 5.658,
+      "end": 9.641,
+      "text": "Al frente está el módulo de almacenamiento y a la derecha una"
+    },
+    {
+      "start": 9.641,
+      "end": 12.96,
+      "text": "zona de descanso con pufs que conduce al salón patrimonial."
+    }
+  ]
+}

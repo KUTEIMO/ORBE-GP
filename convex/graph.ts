@@ -12,6 +12,7 @@ import {
   hotspotVisualReturnFields,
   pickHotspotVisual,
 } from "./lib/hotspotVisual";
+import { sanitizeOptionalSafeUrl } from "./lib/urlSafety";
 
 /**
  * Public TourBranding — Orbe platform accents stripped for any tour (not piloto-only).
@@ -86,6 +87,8 @@ export const getTourGraph = query({
           title: v.string(),
           shortTitle: v.string(),
           zone: v.optional(v.string()),
+          sede: v.optional(v.string()),
+          speaker: v.optional(v.string()),
           order: v.number(),
           imageUrl: v.string(),
           altText: v.string(),
@@ -145,7 +148,7 @@ export const getTourGraph = query({
       tourSlug,
       slug: args.slug,
     });
-    if (!tour) return null;
+    if (!tour || tour.archived) return null;
     let isDraftPreview = false;
     if (!tour.published) {
       if (!args.token) return null;
@@ -164,14 +167,14 @@ export const getTourGraph = query({
 
     const scenes = await ctx.db
       .query("scenes")
-      .withIndex("by_tour", (q) => q.eq("tourId", tour._id))
+      .withIndex("by_tour_and_file", (q) => q.eq("tourId", tour._id))
       .collect();
 
     const sceneById = new Map(scenes.map((s) => [s._id, s]));
 
     const allHotspots = await ctx.db
       .query("hotspots")
-      .withIndex("by_tour", (q) => q.eq("tourId", tour._id))
+      .withIndex("by_client_key", (q) => q.eq("tourId", tour._id))
       .collect();
     const hotspotsByScene = new Map<string, typeof allHotspots>();
     for (const h of allHotspots) {
@@ -202,42 +205,44 @@ export const getTourGraph = query({
     for (const scene of scenes.sort((a, b) => a.order - b.order)) {
       const stored = hotspotsByScene.get(String(scene._id)) ?? [];
       const infoHotspots = stored.filter((h) => h.type !== "nav");
-      const navByTarget = new Map(
-        stored
-          .filter((h) => h.type === "nav" && h.targetFileKey)
-          .map((h) => [h.targetFileKey as string, h])
-      );
+      const navPool = stored.filter((h) => h.type === "nav");
+      const usedNavIds = new Set<string>();
       const edges = edgesByFrom.get(scene.fileKey) || [];
 
       const navHotspots =
         connections.length > 0
           ? edges.map((c) => {
-            const to = sceneById.get(c.toSceneId);
-            const toFile = to?.fileKey || "";
-            const match = toFile ? navByTarget.get(toFile) : undefined;
-            return {
-              id: match?.clientKey || `conn-${scene.fileKey}-${toFile}`,
-              type: "nav" as const,
-              title: match?.title || c.label || "Ir a escena",
-              shortLabel: match?.shortLabel,
-              yaw: match?.yaw ?? 0,
-              pitch: match?.pitch ?? -0.05,
-              direction: match?.direction || c.direction,
-              targetFile: toFile || undefined,
-              description: match?.description || c.label,
-              srSummary: match?.srSummary,
-              narration: match?.narrationUrl,
-              narrationOptional: match?.narrationOptional,
-              transcript: match?.transcriptUrl,
-              captionFile: match?.captionUrl,
-              timingFile: match?.timingUrl,
-              weight: match?.weight,
-              ...pickHotspotVisual(match || {}),
-            };
-          })
-          : stored
-            .filter((h) => h.type === "nav")
-            .map((h) => ({
+              const to = sceneById.get(c.toSceneId);
+              const toFile = to?.fileKey || "";
+              const match =
+                (c.hotspotId
+                  ? navPool.find((h) => String(h._id) === String(c.hotspotId) || h.clientKey === String(c.hotspotId))
+                  : undefined) ||
+                navPool.find(
+                  (h) => !usedNavIds.has(h.clientKey) && h.targetFileKey === toFile
+                );
+              if (match) usedNavIds.add(match.clientKey);
+              return {
+                id: match?.clientKey || `conn-${scene.fileKey}-${toFile}`,
+                type: "nav" as const,
+                title: match?.title || c.label || "Ir a escena",
+                shortLabel: match?.shortLabel,
+                yaw: match?.yaw ?? 0,
+                pitch: match?.pitch ?? -0.05,
+                direction: match?.direction || c.direction,
+                targetFile: toFile || undefined,
+                description: match?.description || c.label,
+                srSummary: match?.srSummary,
+                narration: sanitizeOptionalSafeUrl(match?.narrationUrl),
+                narrationOptional: match?.narrationOptional,
+                transcript: sanitizeOptionalSafeUrl(match?.transcriptUrl),
+                captionFile: sanitizeOptionalSafeUrl(match?.captionUrl),
+                timingFile: sanitizeOptionalSafeUrl(match?.timingUrl),
+                weight: match?.weight,
+                ...pickHotspotVisual(match || {}),
+              };
+            })
+          : navPool.map((h) => ({
               id: h.clientKey,
               type: h.type,
               title: h.title,
@@ -248,11 +253,11 @@ export const getTourGraph = query({
               targetFile: h.targetFileKey,
               description: h.description,
               srSummary: h.srSummary,
-              narration: h.narrationUrl,
+              narration: sanitizeOptionalSafeUrl(h.narrationUrl),
               narrationOptional: h.narrationOptional,
-              transcript: h.transcriptUrl,
-              captionFile: h.captionUrl,
-              timingFile: h.timingUrl,
+              transcript: sanitizeOptionalSafeUrl(h.transcriptUrl),
+              captionFile: sanitizeOptionalSafeUrl(h.captionUrl),
+              timingFile: sanitizeOptionalSafeUrl(h.timingUrl),
               weight: h.weight,
               ...pickHotspotVisual(h),
             }));
@@ -269,11 +274,11 @@ export const getTourGraph = query({
           targetFile: h.targetFileKey,
           description: h.description,
           srSummary: h.srSummary,
-          narration: h.narrationUrl,
+          narration: sanitizeOptionalSafeUrl(h.narrationUrl),
           narrationOptional: h.narrationOptional,
-          transcript: h.transcriptUrl,
-          captionFile: h.captionUrl,
-          timingFile: h.timingUrl,
+          transcript: sanitizeOptionalSafeUrl(h.transcriptUrl),
+          captionFile: sanitizeOptionalSafeUrl(h.captionUrl),
+          timingFile: sanitizeOptionalSafeUrl(h.timingUrl),
           weight: h.weight,
           ...pickHotspotVisual(h),
         })),
@@ -286,16 +291,18 @@ export const getTourGraph = query({
         title: scene.title,
         shortTitle: scene.shortTitle,
         zone: scene.zone,
+        sede: scene.sede,
+        speaker: scene.speaker,
         order: scene.order,
-        imageUrl: scene.imageUrl,
+        imageUrl: sanitizeOptionalSafeUrl(scene.imageUrl) || scene.imageUrl,
         altText: scene.altText,
         longDescription: scene.longDescription,
         srSummary: scene.srSummary,
-        narration: scene.narrationUrl,
+        narration: sanitizeOptionalSafeUrl(scene.narrationUrl),
         narrationOptional: scene.narrationOptional,
-        transcript: scene.transcriptUrl,
-        captionFile: scene.captionUrl,
-        timingFile: scene.timingUrl,
+        transcript: sanitizeOptionalSafeUrl(scene.transcriptUrl),
+        captionFile: sanitizeOptionalSafeUrl(scene.captionUrl),
+        timingFile: sanitizeOptionalSafeUrl(scene.timingUrl),
         initialView: scene.initialView,
         hotspots,
       });
@@ -354,7 +361,7 @@ export const resolvePublicTour = query({
       orgSlug: args.orgSlug,
       tourSlug: args.tourSlug,
     });
-    if (!tour || !tour.published) return null;
+    if (!tour || !tour.published || tour.archived) return null;
     const org = await ctx.db.get(tour.organizationId);
     if (!org) return null;
     return {
@@ -390,6 +397,7 @@ export const listPublishedDemos = query({
       .collect();
     const demos = [];
     for (const t of tours) {
+      if (t.archived) continue;
       const org = await ctx.db.get(t.organizationId);
       const brandDoc = await getBrandingByTourId(ctx, t._id);
       const branding = sanitizePublicBranding(

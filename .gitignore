@@ -22,6 +22,7 @@ orbe-config.local.js
 .convex/
 test-results/
 backups/
+dist/
 _restos_exras_bloqueados/
 # Release ZIP bundles exceed GitHub's 100 MB limit (shared via OneDrive)
 entregables-corte-*/**/*.zip

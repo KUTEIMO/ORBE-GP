@@ -27,7 +27,7 @@
   align-items: center;
   gap: 0.75rem;
   padding: 0.85rem 0.95rem;
-  background: rgba(10, 122, 69, 0.14);
+  background: color-mix(in srgb, var(--brand, #4b5563) 18%, rgba(255, 255, 255, 0.03));
   border: none;
   color: rgba(255, 255, 255, 0.95);
   cursor: pointer;
@@ -45,20 +45,19 @@
 }
 
 .scene-group__header:hover {
-  background: rgba(10, 122, 69, 0.28);
+  background: var(--brand-ghost, rgba(75, 85, 99, 0.28));
 }
 
-/* Antes: `outline: none` + cambio de fondo. Un fondo verde translúcido sobre
-   chrome oscuro no es un indicador de foco perceptible (WCAG 2.4.7 / 2.4.11). */
+/* Indicador de foco perceptible sobre chrome oscuro (WCAG 2.4.7 / 2.4.11). */
 .scene-group__header:focus-visible {
-  background: rgba(10, 122, 69, 0.28);
+  background: var(--brand-ghost, rgba(75, 85, 99, 0.28));
   outline: 3px solid #fff;
   outline-offset: -3px;
 }
 
 .scene-group__toggle {
   font-size: 1.1rem;
-  color: #8dffc0;
+  color: #e5e7eb;
   flex-shrink: 0;
 }
 
@@ -100,14 +99,14 @@
 }
 
 .scene-button:hover {
-  background: rgba(10, 122, 69, 0.22);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: var(--brand-ghost, rgba(75, 85, 99, 0.24));
+  border-color: rgba(255, 255, 255, 0.24);
   transform: translateX(2px);
 }
 
 .scene-button:focus-visible {
-  background: rgba(10, 122, 69, 0.22);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: var(--brand-ghost, rgba(75, 85, 99, 0.24));
+  border-color: rgba(255, 255, 255, 0.24);
   outline: 3px solid #fff;
   outline-offset: -3px;
 }

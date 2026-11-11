@@ -1,0 +1,26 @@
+{
+  "voice": "es-CO-SalomeNeural",
+  "rate": "-5%",
+  "cues": [
+    {
+      "start": 0.1,
+      "end": 4.332,
+      "text": "Te encuentras frente al acceso cubierto del Bloque D. A la izquierda"
+    },
+    {
+      "start": 4.332,
+      "end": 8.563,
+      "text": "está la entrada principal identificada con el aviso Bloque D, y al"
+    },
+    {
+      "start": 8.563,
+      "end": 12.795,
+      "text": "frente se extiende la cancha múltiple techada con tableros de baloncesto y"
+    },
+    {
+      "start": 12.795,
+      "end": 13.853,
+      "text": "zona para bicicletas."
+    }
+  ]
+}

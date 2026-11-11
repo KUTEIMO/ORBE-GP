@@ -1,11 +1,11 @@
 import { announceHotspot } from './announcer.js';
-import { appState, getSetting, selectors } from './state.js';
+import { appState, selectors } from './state.js';
 import { getOverridesForScene, isEditMode, saveOverride } from './hotspotEditing.js';
 import { hotspotIconHtml, hotspotCategoryMeta } from './hotspotIcons.js';
+import { resolveOrgSlugFromBrowser, resolveTourSlugFromBrowser } from './tourSlug.js';
 
 const ACTIVE_CLASS = 'hotspot--active';
 
-let activeHotspotId = null;
 let hotspotControls = [];
 let dragState = null;
 let activeContainer = null;
@@ -36,7 +36,6 @@ export function clearHotspots() {
   }
 
   hotspotControls = [];
-  activeHotspotId = null;
   activeContainer = null;
 }
 
@@ -80,7 +79,6 @@ export function focusFirstHotspot() {
 }
 
 export function setActiveHotspot(hotspotId) {
-  activeHotspotId = hotspotId;
   document.querySelectorAll('.hotspot').forEach((element) => {
     if (element.dataset.hotspotId === hotspotId) {
       element.classList.add(ACTIVE_CLASS);
@@ -164,13 +162,13 @@ function createHotspotButton({ sceneData, hotspot, onOpenHotspot, onNavigateScen
       const thumb = document.createElement('img');
       thumb.className = 'hotspot-preview__thumb';
       const org =
-        typeof window !== 'undefined' && window.__ORBE_ORG_SLUG__
+        (typeof window !== 'undefined' && window.__ORBE_ORG_SLUG__
           ? String(window.__ORBE_ORG_SLUG__).toLowerCase()
-          : 'unisimoncucuta';
+          : '') || resolveOrgSlugFromBrowser();
       const tour =
-        typeof window !== 'undefined' && window.__ORBE_TOUR_SLUG__
+        (typeof window !== 'undefined' && window.__ORBE_TOUR_SLUG__
           ? String(window.__ORBE_TOUR_SLUG__).toLowerCase()
-          : 'experienciavirtual';
+          : '') || resolveTourSlugFromBrowser();
       thumb.src =
         targetScene.imageUrl &&
         (/^https?:\/\//i.test(targetScene.imageUrl) ||
@@ -220,12 +218,16 @@ function createHotspotButton({ sceneData, hotspot, onOpenHotspot, onNavigateScen
     if (typeof onOpenHotspot === 'function') {
       announceHotspot(`Hotspot abierto: ${hotspot.title}`);
       onOpenHotspot(sceneData, hotspot, {
-        autoNarration: true,
         focusPanel: true
       });
     }
   };
 
+  button.addEventListener('pointerdown', (event) => {
+    if (!isEditMode()) {
+      event.stopPropagation();
+    }
+  });
   button.addEventListener('click', (event) => {
     event.preventDefault();
     event.stopPropagation();

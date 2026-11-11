@@ -1,7 +1,7 @@
 /**
  * Orbe360 legal pages — theme + ES/EN toggle (shared with marketing).
  */
-import { getLang, setLang } from "./marketing-i18n.js";
+import { getLang, setLang } from "./portal-i18n.js?v=20261111g";
 
 const THEME_KEY = "orbe_theme";
 

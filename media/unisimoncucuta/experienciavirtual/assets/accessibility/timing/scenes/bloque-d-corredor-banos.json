@@ -1,0 +1,21 @@
+{
+  "voice": "es-CO-SalomeNeural",
+  "rate": "-5%",
+  "cues": [
+    {
+      "start": 0.1,
+      "end": 4.566,
+      "text": "Este corredor lateral da acceso a los baños del Bloque D, debidamente"
+    },
+    {
+      "start": 4.566,
+      "end": 9.031,
+      "text": "señalizados a la derecha, y comunica de vuelta con el Salón Patrimonial"
+    },
+    {
+      "start": 9.031,
+      "end": 10.892,
+      "text": "y la zona de pufs."
+    }
+  ]
+}

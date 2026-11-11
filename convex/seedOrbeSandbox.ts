@@ -49,9 +49,16 @@ const SANDBOX_SCENES = [
  * Requires superadmin session. Assets: run `node scripts/seed-orbe-sandbox.mjs`
  * (copies panoramas then calls this mutation).
  */
+function sandboxEnvGet(name: string): string | undefined {
+  const proc = (globalThis as { process?: { env?: Record<string, string | undefined> } })
+    .process;
+  return proc?.env?.[name];
+}
+
 export const seedOrbeSandbox = mutation({
   args: {
     token: v.string(),
+    adminPassword: v.optional(v.string()),
   },
   returns: v.object({
     organizationId: v.id("organizations"),
@@ -68,37 +75,39 @@ export const seedOrbeSandbox = mutation({
     const now = Date.now();
 
     let createdOrg = false;
-    let org = await ctx.db
+    const existingOrg = await ctx.db
       .query("organizations")
       .withIndex("by_slug", (q) => q.eq("slug", ORG_SLUG))
       .unique();
-    if (!org) {
-      const organizationId = await ctx.db.insert("organizations", {
+    let orgId: Id<"organizations">;
+    if (!existingOrg) {
+      orgId = await ctx.db.insert("organizations", {
         name: "Orbe360",
         slug: ORG_SLUG,
         description:
           "Organización first-party de Orbe360 para el espacio de pruebas del editor.",
         createdAt: now,
       });
-      org = (await ctx.db.get(organizationId))!;
       createdOrg = true;
     } else {
-      await ctx.db.patch(org._id, {
+      orgId = existingOrg._id;
+      await ctx.db.patch(orgId, {
         description:
           "Organización first-party de Orbe360 para el espacio de pruebas del editor.",
       });
     }
 
     let createdTour = false;
-    let tour = await ctx.db
+    const existingTour = await ctx.db
       .query("tours")
       .withIndex("by_org_and_slug", (q) =>
-        q.eq("organizationId", org!._id).eq("slug", TOUR_SLUG)
+        q.eq("organizationId", orgId).eq("slug", TOUR_SLUG)
       )
       .unique();
-    if (!tour) {
-      const tourId = await ctx.db.insert("tours", {
-        organizationId: org._id,
+    let tourId: Id<"tours">;
+    if (!existingTour) {
+      tourId = await ctx.db.insert("tours", {
+        organizationId: orgId,
         slug: TOUR_SLUG,
         title: "Espacio de pruebas Orbe",
         shortTitle: "Pruebas",
@@ -113,10 +122,10 @@ export const seedOrbeSandbox = mutation({
         createdAt: now,
         updatedAt: now,
       });
-      tour = (await ctx.db.get(tourId))!;
       createdTour = true;
     } else {
-      await ctx.db.patch(tour._id, {
+      tourId = existingTour._id;
+      await ctx.db.patch(tourId, {
         title: "Espacio de pruebas Orbe",
         shortTitle: "Pruebas",
         published: true,
@@ -126,20 +135,30 @@ export const seedOrbeSandbox = mutation({
     }
 
     await upsertBrandingDoc(ctx, {
-      tourId: tour._id,
-      organizationId: org._id,
+      tourId,
+      organizationId: orgId,
       branding: ORBE_SANDBOX_BRANDING,
     });
 
     const adminEmail = "admin@orbe.local";
-    let admin = await ctx.db
+    const existingAdmin = await ctx.db
       .query("platformUsers")
       .withIndex("by_email", (q) => q.eq("email", adminEmail))
       .unique();
-    if (!admin) {
+    let adminId: Id<"platformUsers">;
+    if (!existingAdmin) {
+      const configuredPass =
+        args.adminPassword ||
+        sandboxEnvGet("SEED_SANDBOX_PASSWORD") ||
+        (sandboxEnvGet("ALLOW_OPEN_SEED") === "1" ? "OrbeSandbox2026!" : undefined);
+      if (!configuredPass || configuredPass.length < 10) {
+        throw new Error(
+          "Falta SEED_SANDBOX_PASSWORD (mínimo 10 caracteres) para crear admin@orbe.local."
+        );
+      }
       const salt = randomToken().slice(0, 16);
-      const passwordHash = await hashPassword("OrbeSandbox2026!", salt);
-      const userId = await ctx.db.insert("platformUsers", {
+      const passwordHash = await hashPassword(configuredPass, salt);
+      adminId = await ctx.db.insert("platformUsers", {
         email: adminEmail,
         name: "Admin Orbe",
         passwordHash,
@@ -148,18 +167,19 @@ export const seedOrbeSandbox = mutation({
         active: true,
         createdAt: now,
       });
-      admin = (await ctx.db.get(userId))!;
+    } else {
+      adminId = existingAdmin._id;
     }
     const membership = await ctx.db
       .query("memberships")
       .withIndex("by_user_and_org", (q) =>
-        q.eq("userId", admin!._id).eq("organizationId", org!._id)
+        q.eq("userId", adminId).eq("organizationId", orgId)
       )
       .unique();
     if (!membership) {
       await ctx.db.insert("memberships", {
-        userId: admin._id,
-        organizationId: org._id,
+        userId: adminId,
+        organizationId: orgId,
         role: "orgAdmin",
         createdAt: now,
       });
@@ -168,12 +188,13 @@ export const seedOrbeSandbox = mutation({
     const fileToSceneId = new Map<string, Id<"scenes">>();
     let scenesUpserted = 0;
     for (let i = 0; i < SANDBOX_SCENES.length; i++) {
-      const spec = SANDBOX_SCENES[i]!;
+      const spec = SANDBOX_SCENES[i];
+      if (!spec) continue;
       const imageUrl = `${MEDIA_PREFIX}/${spec.fileKey}`;
       const existing = await ctx.db
         .query("scenes")
         .withIndex("by_tour_and_file", (q) =>
-          q.eq("tourId", tour!._id).eq("fileKey", spec.fileKey)
+          q.eq("tourId", tourId).eq("fileKey", spec.fileKey)
         )
         .unique();
       let sceneId: Id<"scenes">;
@@ -190,8 +211,8 @@ export const seedOrbeSandbox = mutation({
         sceneId = existing._id;
       } else {
         sceneId = await ctx.db.insert("scenes", {
-          tourId: tour._id,
-          organizationId: org._id,
+          tourId,
+          organizationId: orgId,
           fileKey: spec.fileKey,
           title: spec.title,
           shortTitle: spec.shortTitle,
@@ -217,7 +238,7 @@ export const seedOrbeSandbox = mutation({
     // Tiny sample nav: Entrada → Hall → Pasillo (not full campus graph).
     const oldConns = await ctx.db
       .query("connections")
-      .withIndex("by_tour", (q) => q.eq("tourId", tour._id))
+      .withIndex("by_tour", (q) => q.eq("tourId", tourId))
       .collect();
     for (const c of oldConns) await ctx.db.delete(c._id);
 
@@ -244,11 +265,12 @@ export const seedOrbeSandbox = mutation({
       ];
 
     for (const edge of edges) {
-      const fromId = fileToSceneId.get(edge.from)!;
-      const toId = fileToSceneId.get(edge.to)!;
+      const fromId = fileToSceneId.get(edge.from);
+      const toId = fileToSceneId.get(edge.to);
+      if (!fromId || !toId) continue;
       const navKey = `sandbox-nav-${edge.from}-${edge.to}`;
       await ctx.db.insert("hotspots", {
-        tourId: tour._id,
+        tourId,
         sceneId: fromId,
         clientKey: navKey,
         type: "nav",
@@ -264,7 +286,7 @@ export const seedOrbeSandbox = mutation({
         updatedAt: now,
       });
       await ctx.db.insert("connections", {
-        tourId: tour._id,
+        tourId,
         fromSceneId: fromId,
         toSceneId: toId,
         direction: "forward",
@@ -274,7 +296,7 @@ export const seedOrbeSandbox = mutation({
     }
 
     // Demo info pins with P1 visuals on entrada (user can edit in Control Web).
-    const entradaId = fileToSceneId.get(SANDBOX_SCENES[0].fileKey)!;
+    const entradaId = fileToSceneId.get(SANDBOX_SCENES[0].fileKey);
     const demos = [
       {
         clientKey: "sandbox-info-bath",
@@ -304,27 +326,29 @@ export const seedOrbeSandbox = mutation({
         animationPreset: "none" as const,
       },
     ];
-    for (const d of demos) {
-      await ctx.db.insert("hotspots", {
-        tourId: tour._id,
-        sceneId: entradaId,
-        clientKey: d.clientKey,
-        type: "info",
-        title: d.title,
-        yaw: d.yaw,
-        pitch: d.pitch,
-        description: `${d.title}. Editable en Control Web.`,
-        iconKey: d.iconKey,
-        category: d.category,
-        animationPreset: d.animationPreset,
-        createdAt: now,
-        updatedAt: now,
-      });
+    if (entradaId) {
+      for (const d of demos) {
+        await ctx.db.insert("hotspots", {
+          tourId,
+          sceneId: entradaId,
+          clientKey: d.clientKey,
+          type: "info",
+          title: d.title,
+          yaw: d.yaw,
+          pitch: d.pitch,
+          description: `${d.title}. Editable en Control Web.`,
+          iconKey: d.iconKey,
+          category: d.category,
+          animationPreset: d.animationPreset,
+          createdAt: now,
+          updatedAt: now,
+        });
+      }
     }
 
     return {
-      organizationId: org._id,
-      tourId: tour._id,
+      organizationId: orgId,
+      tourId,
       orgSlug: ORG_SLUG,
       tourSlug: TOUR_SLUG,
       scenesUpserted,

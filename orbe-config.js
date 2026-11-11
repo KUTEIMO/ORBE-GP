@@ -13,14 +13,14 @@
  * 4. Local piloto defaults: unisimoncucuta / experienciavirtual
  */
 (function applyOrbeConfig() {
-  const fromStorage =
-    typeof localStorage !== "undefined"
-      ? localStorage.getItem("orbe360.convexUrl")
-      : null;
-
   const isLoopback =
     typeof location !== "undefined" &&
     (location.hostname === "127.0.0.1" || location.hostname === "localhost");
+
+  const fromStorage =
+    isLoopback && typeof localStorage !== "undefined"
+      ? localStorage.getItem("orbe360.convexUrl")
+      : null;
 
   window.__CONVEX_URL__ =
     window.__CONVEX_URL__ ||
@@ -45,6 +45,11 @@
     docs: 1,
     scripts: 1,
     reports: 1,
+    backups: 1,
+    "playwright-report": 1,
+    "test-results": 1,
+    dist: 1,
+    deploy: 1,
     node_modules: 1,
     convex: 1,
   };
@@ -95,8 +100,17 @@
       ? canonOrg(window.__ORBE_ORG_SLUG__.trim().toLowerCase())
       : null;
 
+  const isBareControlWeb =
+    typeof location !== "undefined" &&
+    /^\/control-web(\/|$)/i.test(location.pathname || "");
+
   window.__ORBE_TOUR_SLUG__ =
-    (pathCtx && pathCtx.tour) || fromUrl || fromInjectTour || DEFAULT_TOUR;
+    (pathCtx && pathCtx.tour) ||
+    fromUrl ||
+    fromInjectTour ||
+    (isBareControlWeb ? "" : DEFAULT_TOUR);
   window.__ORBE_ORG_SLUG__ =
-    (pathCtx && pathCtx.org) || fromInjectOrg || DEFAULT_ORG;
+    (pathCtx && pathCtx.org) ||
+    fromInjectOrg ||
+    (isBareControlWeb ? "" : DEFAULT_ORG);
 })();

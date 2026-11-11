@@ -1,0 +1,21 @@
+{
+  "voice": "es-CO-SalomeNeural",
+  "rate": "-5%",
+  "cues": [
+    {
+      "start": 0.1,
+      "end": 4.794,
+      "text": "Te encuentras frente al Laboratorio de Morfofisiología del Bloque D. A la"
+    },
+    {
+      "start": 4.794,
+      "end": 9.489,
+      "text": "derecha del acceso acristalado continúa el corredor con casilleros estudiantiles y las"
+    },
+    {
+      "start": 9.489,
+      "end": 11.445,
+      "text": "escaleras hacia el área cultural."
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "voice": "es-CO-SalomeNeural",
+  "rate": "-5%",
+  "cues": [
+    {
+      "start": 0.1,
+      "end": 4.489,
+      "text": "Desde esta esquina exterior de la Sede 2 puedes orientarte hacia la"
+    },
+    {
+      "start": 4.489,
+      "end": 8.879,
+      "text": "Sede 3, cuyo aviso verde se distingue cruzando la avenida al fondo."
+    }
+  ]
+}

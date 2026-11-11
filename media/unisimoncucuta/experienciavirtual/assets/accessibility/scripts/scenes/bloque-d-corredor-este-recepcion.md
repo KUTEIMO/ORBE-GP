@@ -1,0 +1,7 @@
+# Bloque D — Corredor lateral este y recepción
+
+- Voz: s-CO-SalomeNeural
+
+## Guion de audiodescripción
+
+Recorres el corredor lateral este junto al módulo de recepción del Salón Patrimonial. Aquí encuentras asientos de espera, pufs de descanso y acceso al pasillo de baños.

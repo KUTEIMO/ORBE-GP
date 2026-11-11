@@ -24,9 +24,15 @@
 .nav-arrow:hover,
 .nav-arrow:focus-visible {
   opacity: 1;
-  background: rgba(10, 122, 69, 0.9);
+  background: var(--brand-soft, rgba(75, 85, 99, 0.9));
+  color: var(--brand-ink, #ffffff);
   border-color: rgba(255, 255, 255, 0.45);
   outline: none;
+}
+
+.nav-arrow svg {
+  fill: currentColor;
+  display: block;
 }
 
 .nav-prev { left: 0.85rem; }

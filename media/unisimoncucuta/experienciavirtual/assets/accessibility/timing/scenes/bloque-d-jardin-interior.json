@@ -1,0 +1,21 @@
+{
+  "voice": "es-CO-SalomeNeural",
+  "rate": "-5%",
+  "cues": [
+    {
+      "start": 0.1,
+      "end": 5.035,
+      "text": "Estás en el jardín interior empedrado del Bloque D, rodeado de vegetación"
+    },
+    {
+      "start": 5.035,
+      "end": 9.971,
+      "text": "tropical y conectado directamente con la galería patrimonial y los laboratorios de"
+    },
+    {
+      "start": 9.971,
+      "end": 11.616,
+      "text": "ciencias de la salud."
+    }
+  ]
+}

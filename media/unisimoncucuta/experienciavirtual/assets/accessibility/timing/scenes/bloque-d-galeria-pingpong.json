@@ -1,0 +1,21 @@
+{
+  "voice": "es-CO-SalomeNeural",
+  "rate": "-5%",
+  "cues": [
+    {
+      "start": 0.1,
+      "end": 4.702,
+      "text": "Esta es el área recreativa de la galería del Bloque D. Cuenta"
+    },
+    {
+      "start": 4.702,
+      "end": 9.305,
+      "text": "con mesa de tenis de mesa, pufs de descanso, información de becas"
+    },
+    {
+      "start": 9.305,
+      "end": 13.524,
+      "text": "ICETEX y Fundación Carolina, y el pendón Vive la Experiencia Unisimón."
+    }
+  ]
+}

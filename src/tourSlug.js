@@ -34,6 +34,7 @@ const RESERVED_ROOT = new Set([
   "src",
   "css",
   "assets",
+  "media",
   "panoramas",
   "vendors",
   "tests",
@@ -42,6 +43,11 @@ const RESERVED_ROOT = new Set([
   "reports",
   "node_modules",
   "convex",
+  "backups",
+  "playwright-report",
+  "test-results",
+  "dist",
+  "deploy",
 ]);
 
 /** Legacy / alternate tour slugs → canonical DB tour slug */

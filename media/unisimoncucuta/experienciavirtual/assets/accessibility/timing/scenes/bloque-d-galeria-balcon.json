@@ -1,0 +1,21 @@
+{
+  "voice": "es-CO-SalomeNeural",
+  "rate": "-5%",
+  "cues": [
+    {
+      "start": 0.1,
+      "end": 4.576,
+      "text": "Sales a la galería abierta del Bloque D con piso hexagonal ocre."
+    },
+    {
+      "start": 4.526,
+      "end": 9.905,
+      "text": "Desde esta terraza techada tienes acceso al jardín interior empedrado y vistas"
+    },
+    {
+      "start": 9.905,
+      "end": 11.25,
+      "text": "al sector recreativo."
+    }
+  ]
+}

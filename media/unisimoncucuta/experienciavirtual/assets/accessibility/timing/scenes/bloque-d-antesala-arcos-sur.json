@@ -1,0 +1,21 @@
+{
+  "voice": "es-CO-SalomeNeural",
+  "rate": "-5%",
+  "cues": [
+    {
+      "start": 0.1,
+      "end": 5.026,
+      "text": "Ingresas a la antesala del salón patrimonial del Bloque D, distinguida por"
+    },
+    {
+      "start": 5.026,
+      "end": 8.721,
+      "text": "su piso hidráulico beige y techumbre curva en madera."
+    },
+    {
+      "start": 8.671,
+      "end": 12.276,
+      "text": "Desde aquí accedes al salón central de arcos."
+    }
+  ]
+}

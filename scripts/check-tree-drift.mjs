@@ -35,6 +35,7 @@ const SKIP_DIRS = new Set([
   "test-results",
   "playwright-report",
   "coverage",
+  "dist",
   "_restos_exras_bloqueados",
 ]);
 

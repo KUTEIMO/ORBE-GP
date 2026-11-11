@@ -1,0 +1,21 @@
+{
+  "voice": "es-CO-SalomeNeural",
+  "rate": "-5%",
+  "cues": [
+    {
+      "start": 0.1,
+      "end": 4.398,
+      "text": "Ingresas al corredor curvo de casilleros del Bloque D. Aquí se ubican"
+    },
+    {
+      "start": 4.398,
+      "end": 8.695,
+      "text": "los módulos de almacenamiento para estudiantes y las bancas de espera que"
+    },
+    {
+      "start": 8.695,
+      "end": 11.918,
+      "text": "conectan la plazoleta deportiva con la zona de laboratorios."
+    }
+  ]
+}

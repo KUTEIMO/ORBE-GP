@@ -130,20 +130,60 @@ function hexToRgba(hex, alpha) {
 }
 
 /**
- * WCAG 2.1 relative luminance -> pick dark or light ink with >= 4.5:1 contrast.
- * @param {string} hex
- * @returns {string}
+ * Reject javascript:/data:text/html and other unsafe URLs from logo / fallback media.
+ * @param {unknown} raw
+ * @returns {string | null}
  */
-function contrastInkForHex(hex) {
+export function sanitizeSafeAssetUrl(raw) {
+  if (typeof raw !== "string") return null;
+  const s = raw.trim();
+  if (!s) return null;
+  if (/^(javascript|vbscript):/i.test(s) || /^data:text\//i.test(s)) return null;
+  if (s.startsWith("//")) return null;
+  if (s.startsWith("/")) return s;
+  try {
+    const parsed = new URL(s);
+    if (parsed.protocol === "https:" || parsed.protocol === "http:") {
+      return parsed.href;
+    }
+  } catch {
+    return null;
+  }
+  return null;
+}
+
+function relativeLuminance(hex) {
   const { r, g, b } = parseHexRgb(hex);
   const toLin = (c) => {
     const s = c / 255;
     return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
   };
-  const lum = 0.2126 * toLin(r) + 0.7152 * toLin(g) + 0.0722 * toLin(b);
-  // Threshold ~0.36 favors white text on institutional greens (#0a7a45 has lum ~0.14)
-  // and dark ink on bright yellow/cyan/light pastels.
-  return lum > 0.36 ? "#09110d" : "#ffffff";
+  return 0.2126 * toLin(r) + 0.7152 * toLin(g) + 0.0722 * toLin(b);
+}
+
+/**
+ * WCAG 2.1 contrast ratio between two hex colors (1 .. 21).
+ * @param {string} hexA
+ * @param {string} hexB
+ * @returns {number}
+ */
+export function contrastRatio(hexA, hexB) {
+  const l1 = relativeLuminance(hexA);
+  const l2 = relativeLuminance(hexB);
+  const bright = Math.max(l1, l2);
+  const dark = Math.min(l1, l2);
+  return (bright + 0.05) / (dark + 0.05);
+}
+
+/**
+ * WCAG 2.1 relative luminance -> pick dark or light ink with >= 4.5:1 contrast.
+ * @param {string} hex
+ * @returns {string}
+ */
+export function contrastInkForHex(hex) {
+  const lum = relativeLuminance(hex);
+  // Exact WCAG crossover where #09110d has higher contrast than #ffffff is ~0.179.
+  return lum > 0.179 ? "#09110d" : "#ffffff";
 }
 
 function ensureMetaDescription(content) {
@@ -188,6 +228,9 @@ export function applyTourBranding(branding, opts = {}) {
   root.style.setProperty("--brand", primary);
   root.style.setProperty("--brand-strong", strong);
   root.style.setProperty("--brand-ink", contrastInkForHex(primary));
+  root.style.setProperty("--brand-strong-ink", contrastInkForHex(strong));
+  root.style.setProperty("--hotspot-ink", "#ffffff");
+  root.style.setProperty("--hotspot-icon-ink", contrastInkForHex(primary));
   root.style.setProperty("--brand-soft", hexToRgba(primary, 0.88));
   root.style.setProperty("--brand-ghost", hexToRgba(primary, 0.22));
   root.style.setProperty("--accent", accent);
@@ -210,12 +253,15 @@ export function applyTourBranding(branding, opts = {}) {
     ensureMetaDescription(resolved.metaDescription);
   }
 
+  const safeLogoUrl = sanitizeSafeAssetUrl(resolved.logoUrl);
+  const safeFallbackImgUrl = sanitizeSafeAssetUrl(resolved.fallbackImageUrl);
+
   const clientBrand = document.getElementById("tourClientBrand");
   if (clientBrand) {
     clientBrand.replaceChildren();
-    if (resolved.logoUrl) {
+    if (safeLogoUrl) {
       const img = document.createElement("img");
-      img.src = resolved.logoUrl;
+      img.src = safeLogoUrl;
       img.alt = resolved.clientShortName || resolved.clientName || "Logo del tour";
       img.className = "tour-client-brand__logo";
       clientBrand.appendChild(img);
@@ -231,7 +277,7 @@ export function applyTourBranding(branding, opts = {}) {
       label.textContent = nameText;
       clientBrand.appendChild(label);
     }
-    const hasClient = Boolean(nameText || resolved.logoUrl);
+    const hasClient = Boolean(nameText || safeLogoUrl);
     clientBrand.hidden = !hasClient;
     clientBrand.removeAttribute("hidden");
     if (!hasClient) clientBrand.setAttribute("hidden", "");
@@ -257,10 +303,10 @@ export function applyTourBranding(branding, opts = {}) {
     platformLink.setAttribute("title", "Powered by Orbe360");
   }
 
-  if (resolved.fallbackImageUrl) {
+  if (safeFallbackImgUrl) {
     const liveFallback = document.querySelector("#noJsMessage img");
     if (liveFallback instanceof HTMLImageElement) {
-      liveFallback.src = resolved.fallbackImageUrl;
+      liveFallback.src = safeFallbackImgUrl;
     }
   }
 

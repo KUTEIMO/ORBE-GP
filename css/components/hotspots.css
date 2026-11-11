@@ -5,8 +5,8 @@
  * Este archivo solo define apariencia, tamaño y animación: nunca desplaza el ancla.
  * Movimiento vía tokens de css/design-tokens.css (reduced-motion global). */
 .hotspot {
-  --hotspot-ink: #fff;
-  --hotspot-accent: var(--brand, #2d6a4f);
+  --hotspot-ink: #ffffff;
+  --hotspot-accent: var(--brand, #4b5563);
   /* Halo derivado del acento: sirve para cualquier branding de cliente. */
   --hotspot-halo: color-mix(in srgb, var(--hotspot-accent) 55%, transparent);
   position: relative;
@@ -22,6 +22,7 @@
   align-items: center;
   justify-content: center;
   -webkit-tap-highlight-color: transparent;
+  touch-action: none;
   overflow: visible;
   color: var(--hotspot-accent);
 }
@@ -182,12 +183,12 @@
 .hotspot--active .hotspot__icon,
 .hotspot--selected .hotspot__icon {
   background: var(--hotspot-accent);
-  color: #fff;
+  color: var(--hotspot-icon-ink, #ffffff);
   box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--hotspot-accent);
 }
 
 .hotspot--nav {
-  --hotspot-accent: var(--brand, #2d6a4f);
+  --hotspot-accent: var(--brand, #4b5563);
 }
 
 .hotspot--nav .hotspot__icon {
@@ -220,7 +221,8 @@
 
 .hotspot-inline-button:hover,
 .hotspot-inline-button:focus-visible {
-  background: var(--brand-soft, rgba(45, 106, 79, 0.88));
+  background: var(--brand-soft, rgba(75, 85, 99, 0.88));
+  color: var(--brand-ink, #ffffff);
   border-color: rgba(255, 255, 255, 0.5);
   outline: none;
   transform: translateY(-1px);
@@ -234,7 +236,7 @@ body.theme-high-contrast .hotspot__chip {
 body.theme-high-contrast .hotspot__icon {
   background: #fff;
   color: #000;
-  box-shadow: 0 0 0 3px #fff, 0 0 0 6px var(--brand, #2d6a4f);
+  box-shadow: 0 0 0 3px #fff, 0 0 0 6px var(--brand, #4b5563);
 }
 
 body.hotspot-edit-mode .hotspot__chip {

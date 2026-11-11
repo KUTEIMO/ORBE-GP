@@ -86,12 +86,12 @@ export async function findTourByOrgAndSlug(
     return null;
   }
 
-  // Legacy: global by_slug (canonical then legacy)
+  // Legacy: global by_slug (canonical then legacy) — .first() prevents crash if two orgs share a slug
   for (const slug of Array.from(new Set([tourSlug, legacyTour, LEGACY_TOUR_SLUG]))) {
     const tour = await ctx.db
       .query("tours")
       .withIndex("by_slug", (q) => q.eq("slug", slug))
-      .unique();
+      .first();
     if (tour) return tour;
   }
   return null;

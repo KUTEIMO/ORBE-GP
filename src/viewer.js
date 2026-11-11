@@ -546,11 +546,15 @@ function resolveInitialScene(config, fallbackId) {
     }
     const sedeParam = url.searchParams.get('sede');
     if (sedeParam && Array.isArray(config.scenes)) {
-      const sedeTarget = config.scenes.find((s) => 
-        String(s.sede) === String(sedeParam) || 
-        s.id.includes(`sede-${sedeParam}`) || 
-        s.id.includes(`sede${sedeParam}`)
-      );
+      const needle = String(sedeParam).trim().toLowerCase();
+      const sedeTarget = config.scenes.find((s) => {
+        if (s.sede && String(s.sede).trim().toLowerCase() === needle) return true;
+        if (s.zone && String(s.zone).toLowerCase().includes(`sede-${needle}`)) return true;
+        const sid = String(s.id || '').toLowerCase();
+        if (sid.includes(`sede-${needle}`) || sid.includes(`sede${needle}`)) return true;
+        const title = String(s.title || '').toLowerCase();
+        return title.includes(`sede ${needle}`);
+      });
       if (sedeTarget) return sedeTarget.id;
     }
     return fallbackId;

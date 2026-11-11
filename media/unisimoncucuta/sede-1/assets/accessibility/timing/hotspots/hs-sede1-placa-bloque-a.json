@@ -1,0 +1,16 @@
+{
+  "voice": "es-CO-SalomeNeural",
+  "rate": "-5%",
+  "cues": [
+    {
+      "start": 0.1,
+      "end": 5.312,
+      "text": "Placa de identificación Bloque A en el acceso principal de Sede 1,"
+    },
+    {
+      "start": 5.312,
+      "end": 8.787,
+      "text": "punto de atención administrativa y financiera para estudiantes."
+    }
+  ]
+}

@@ -4,7 +4,9 @@ test.describe('Orbe360 smoke — routing P0', () => {
   test('raíz es marketing Orbe360 (no viewer)', async ({ page }) => {
     await page.goto('/');
     await expect(page.locator('body')).toBeVisible();
-    await expect(page.getByRole('heading', { name: /La plataforma para tours 360 de tu empresa/i })).toBeVisible();
+    await expect(
+      page.getByRole('heading', { level: 1, name: /experiencias 360/i })
+    ).toBeVisible();
     await expect(page.locator('#panorama')).toHaveCount(0);
   });
 
@@ -19,17 +21,27 @@ test.describe('Orbe360 smoke — routing P0', () => {
 
     await page.goto('/plataforma/index.html');
     await expect(page).toHaveURL(/\/$/);
-    await expect(page.getByRole('heading', { name: /La plataforma para tours 360 de tu empresa/i })).toBeVisible();
+    await expect(
+      page.getByRole('heading', { level: 1, name: /experiencias 360/i })
+    ).toBeVisible();
   });
 
-  test('raíz / carga CSS de marketing (200)', async ({ page, request }) => {
+  test('raíz / carga CSS de portal (200) y tolera bloqueo de aviso', async ({ page, request }) => {
     await page.goto('/');
-    const cssHref = await page.locator('link[rel="stylesheet"][href*="marketing.css"]').getAttribute('href');
-    expect(cssHref).toBe('/plataforma/marketing.css');
-    const res = await request.get('/plataforma/marketing.css');
+    const cssHref = await page.locator('link[rel="stylesheet"][href*="portal.css"]').getAttribute('href');
+    expect(cssHref).toMatch(/^\/plataforma\/portal\.css(?:\?.*)?$/);
+    const res = await request.get('/plataforma/portal.css');
     expect(res.status()).toBe(200);
     const tokens = await request.get('/plataforma/tokens.css');
     expect(tokens.status()).toBe(200);
+
+    await page.route('**/*portal-notice*', (route) => route.abort('blockedbyclient'));
+    await page.reload();
+    await expect(
+      page.getByRole('heading', { level: 1, name: /experiencias 360/i })
+    ).toBeVisible();
+    await expect(page.locator('#navAuthLink')).toHaveText(/Acceder/);
+    await page.unroute('**/*portal-notice*');
   });
 
   test('marketing anidado bajo tenant redirige a /', async ({ page, baseURL }) => {
@@ -44,7 +56,7 @@ test.describe('Orbe360 smoke — routing P0', () => {
     expect(loc).not.toMatch(/unisimoncucuta|plataforma/i);
   });
 
-  test('landing pública no filtra roles internos ni CTA admin', async ({ page }) => {
+  test('landing pública no filtra roles internos ni borradores privados', async ({ page }) => {
     await page.goto('/');
     const body = await page.locator('body').innerText();
     expect(body).not.toMatch(/Superadmin/i);
@@ -52,15 +64,13 @@ test.describe('Orbe360 smoke — routing P0', () => {
     expect(body).not.toMatch(/por ahora hay una demo/i);
     expect(body).not.toMatch(/Entrar al panel/i);
     expect(body).not.toMatch(/Acceso administrador/i);
-    expect(body).not.toMatch(/Acceso administración/i);
-    // Acceso solo en footer, no en nav principal / hero
-    await expect(page.locator('.public-nav a[href*="login"]')).toHaveCount(0);
-    await expect(page.locator('.hero a[href*="login"]')).toHaveCount(0);
-    await expect(page.locator('.cta-band a[href*="login"]')).toHaveCount(0);
+    expect(body).not.toMatch(/Borrador privado/i);
+    await expect(page.locator('#navAuthLink')).toBeVisible();
     await expect(page.locator('.site-foot a[href*="login"]')).toHaveCount(1);
-    await expect(page.getByText(/Cliente · Universidad Simón Bolívar/i)).toBeVisible();
+    await expect(page.locator('#tours-title')).toContainText(/Universidad Simón Bolívar/i);
     await expect(page.locator('.category-strip .category')).toHaveCount(0);
-    await expect(page.locator('.use-cases')).toBeVisible();
+    await expect(page.locator('.solutions-grid .sol-card')).toHaveCount(4);
+    await expect(page.locator('#sedesAccordion .sede-card')).toHaveCount(4);
   });
 
   test('control-web sin sesión redirige a login', async ({ page }) => {
@@ -193,9 +203,9 @@ test.describe('Orbe360 smoke — routing P0', () => {
     expect(resolved).toBe('experienciavirtual');
   });
 
-  test('landing CTA usa path canónico', async ({ page }) => {
+  test('landing card de Sede 2 usa path canónico', async ({ page }) => {
     await page.goto('/');
-    const cta = page.locator('#demoCta');
+    const cta = page.locator('#sedesAccordion [data-sede-card="sede-2"]');
     await expect(cta).toBeVisible();
     const href = await cta.getAttribute('href');
     expect(href).toMatch(/\/unisimoncucuta\/experienciavirtual\/?/);
@@ -244,7 +254,7 @@ test.describe('Orbe360 smoke — routing P0', () => {
     expect(res.headers()['location']).toBe('/unisimoncucuta/org-admin.html');
   });
 
-  test('superadmin es dashboard con KPIs y seed avanzado', async ({ page, baseURL }) => {
+  test('superadmin es dashboard con KPIs, usuarios, bitácora y sin seed destructivo', async ({ page, baseURL }) => {
     const res = await page.request.get(`${baseURL}/plataforma/superadmin.html`);
     expect(res.status()).toBe(200);
     const html = await res.text();
@@ -252,7 +262,9 @@ test.describe('Orbe360 smoke — routing P0', () => {
     expect(html).toMatch(/kpiRow|kpiOrgs/);
     expect(html).toMatch(/getPlatformStats|kpi-row/);
     expect(html).toMatch(/orgMaxTours|maxTours/);
-    expect(html).toMatch(/Avanzado — seed/);
+    expect(html).toMatch(/listUsersDetailed/);
+    expect(html).toMatch(/audit:listAuditLogs/);
+    expect(html).not.toMatch(/seedBtn|Avanzado — seed/);
     expect(html).not.toMatch(/Panel Superadmin/);
   });
 

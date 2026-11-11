@@ -1,0 +1,21 @@
+{
+  "voice": "es-CO-SalomeNeural",
+  "rate": "-5%",
+  "cues": [
+    {
+      "start": 0.1,
+      "end": 4.482,
+      "text": "Estás frente al Laboratorio de Análisis del Movimiento y Biomecánica en el"
+    },
+    {
+      "start": 4.482,
+      "end": 8.865,
+      "text": "Bloque D. A tu izquierda cuentas con una rampa accesible con pasamanos"
+    },
+    {
+      "start": 8.865,
+      "end": 13.247,
+      "text": "y por el costado derecho continúa el recorrido hacia los demás laboratorios."
+    }
+  ]
+}

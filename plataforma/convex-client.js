@@ -9,7 +9,14 @@ const STORAGE_TOKEN = "orbe360.session";
 
 export function getConvexUrl() {
   const fromWindow = typeof window !== "undefined" ? window.__CONVEX_URL__ : "";
-  return (fromWindow || localStorage.getItem("orbe360.convexUrl") || "").replace(/\/$/, "");
+  const isLoopback =
+    typeof location !== "undefined" &&
+    (location.hostname === "127.0.0.1" || location.hostname === "localhost");
+  const fromStorage =
+    isLoopback && typeof localStorage !== "undefined"
+      ? localStorage.getItem("orbe360.convexUrl")
+      : "";
+  return (fromWindow || fromStorage || "").replace(/\/$/, "");
 }
 
 export function getToken() {
@@ -29,7 +36,7 @@ async function convexFetch(kind, path, args) {
   const base = getConvexUrl();
   if (!base) {
     throw new Error(
-      "URL de Convex no configurada (__CONVEX_URL__ vacío). Verifica plataforma/config.js."
+      "Servicio de datos no disponible en este entorno. Contacta al administrador de la plataforma."
     );
   }
   let response;

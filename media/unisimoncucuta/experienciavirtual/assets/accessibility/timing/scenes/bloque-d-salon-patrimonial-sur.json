@@ -1,0 +1,21 @@
+{
+  "voice": "es-CO-SalomeNeural",
+  "rate": "-5%",
+  "cues": [
+    {
+      "start": 0.1,
+      "end": 5.248,
+      "text": "Estás en el Salón Patrimonial de Arcos del Bloque D, un espacio"
+    },
+    {
+      "start": 5.248,
+      "end": 10.397,
+      "text": "amplio de techo abovedado en madera y piso hidráulico tradicional utilizado para"
+    },
+    {
+      "start": 10.397,
+      "end": 12.971,
+      "text": "estudio, prácticas corporales y encuentros culturales."
+    }
+  ]
+}

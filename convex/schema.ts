@@ -34,7 +34,6 @@ export default defineSchema({
     role: v.union(v.literal("orgAdmin"), v.literal("tourEditor")),
     createdAt: v.number(),
   })
-    .index("by_user", ["userId"])
     .index("by_org", ["organizationId"])
     .index("by_user_and_org", ["userId", "organizationId"]),
 
@@ -60,6 +59,7 @@ export default defineSchema({
     title: v.string(),
     shortTitle: v.optional(v.string()),
     published: v.boolean(),
+    archived: v.optional(v.boolean()),
     defaultSceneKey: v.optional(v.string()),
     accessibilityProfile: v.optional(
       v.object({
@@ -86,7 +86,6 @@ export default defineSchema({
     updatedAt: v.number(),
   })
     .index("by_slug", ["slug"])
-    .index("by_org", ["organizationId"])
     .index("by_org_and_slug", ["organizationId", "slug"])
     .index("by_published", ["published"]),
 
@@ -97,6 +96,8 @@ export default defineSchema({
     title: v.string(),
     shortTitle: v.string(),
     zone: v.optional(v.string()),
+    sede: v.optional(v.string()),
+    speaker: v.optional(v.string()),
     order: v.number(),
     imageUrl: v.string(),
     altText: v.string(),
@@ -124,9 +125,7 @@ export default defineSchema({
     storageId: v.optional(v.id("_storage")),
     createdAt: v.number(),
     updatedAt: v.number(),
-  })
-    .index("by_tour", ["tourId"])
-    .index("by_tour_and_file", ["tourId", "fileKey"]),
+  }).index("by_tour_and_file", ["tourId", "fileKey"]),
 
   hotspots: defineTable({
     tourId: v.id("tours"),
@@ -183,7 +182,6 @@ export default defineSchema({
     updatedAt: v.number(),
   })
     .index("by_scene", ["sceneId"])
-    .index("by_tour", ["tourId"])
     .index("by_client_key", ["tourId", "clientKey"]),
 
   connections: defineTable({
@@ -244,4 +242,33 @@ export default defineSchema({
   })
     .index("by_tour", ["tourId"])
     .index("by_org", ["organizationId"]),
+
+  /** Append-only audit trail for organization/tour/admin actions (RF-38 / RNF-23). */
+  auditLogs: defineTable({
+    organizationId: v.optional(v.id("organizations")),
+    tourId: v.optional(v.id("tours")),
+    actorUserId: v.id("platformUsers"),
+    actorEmail: v.string(),
+    actorRole: v.string(),
+    action: v.string(),
+    target: v.optional(v.string()),
+    detail: v.optional(v.string()),
+    createdAt: v.number(),
+  })
+    .index("by_org_time", ["organizationId", "createdAt"])
+    .index("by_tour_time", ["tourId", "createdAt"])
+    .index("by_time", ["createdAt"]),
+
+  /** First-party privacy-preserving usage counters (no PII, RF-15 / RF-36). */
+  tourMetrics: defineTable({
+    organizationId: v.id("organizations"),
+    tourId: v.id("tours"),
+    dateKey: v.string(),
+    views: v.number(),
+    sceneChanges: v.number(),
+    hotspotOpens: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_tour_and_date", ["tourId", "dateKey"])
+    .index("by_org_and_date", ["organizationId", "dateKey"]),
 });

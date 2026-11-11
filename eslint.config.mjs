@@ -6,6 +6,7 @@ export default [
   {
     ignores: [
       "node_modules/**",
+      "dist/**",
       "media/**",
       "backups/**",
       "vendors/**",
@@ -51,9 +52,9 @@ export default [
     },
   },
 
-  // Node tooling (build scripts, dev server).
+  // Node tooling (build scripts, dev server, unit tests).
   {
-    files: ["scripts/**/*.mjs", "*.mjs", "audit-runner.js", "playwright.config.js"],
+    files: ["scripts/**/*.mjs", "tests/**/*.mjs", "*.mjs", "audit-runner.js", "playwright.config.js"],
     languageOptions: {
       ecmaVersion: 2023,
       sourceType: "module",
@@ -81,7 +82,7 @@ export default [
       },
     },
     rules: {
-      "no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+      "no-unused-vars": ["warn", { argsIgnorePattern: "^_", caughtErrorsIgnorePattern: "^_" }],
     },
   },
 
@@ -146,7 +147,7 @@ export default [
       },
     },
     rules: {
-      "no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+      "no-unused-vars": ["warn", { argsIgnorePattern: "^_", caughtErrorsIgnorePattern: "^_" }],
       "no-empty": ["warn", { allowEmptyCatch: true }],
     },
   },

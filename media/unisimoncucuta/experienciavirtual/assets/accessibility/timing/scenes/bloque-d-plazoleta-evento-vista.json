@@ -1,0 +1,21 @@
+{
+  "voice": "es-CO-SalomeNeural",
+  "rate": "-5%",
+  "cues": [
+    {
+      "start": 0.1,
+      "end": 4.084,
+      "text": "Continuamos por la plazoleta cubierta del Bloque D. Hacia el fondo se"
+    },
+    {
+      "start": 4.084,
+      "end": 8.067,
+      "text": "observa la cancha deportiva techada y a la izquierda el corredor de"
+    },
+    {
+      "start": 8.067,
+      "end": 9.063,
+      "text": "entrada al edificio."
+    }
+  ]
+}

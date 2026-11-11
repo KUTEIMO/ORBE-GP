@@ -7,8 +7,9 @@
   <meta name="description" content="Cookies y almacenamiento local usados por Orbe360. Sin analítica de terceros en el código actual.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/plataforma/legal.css?v=20260929e">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet"></noscript>
+  <link rel="stylesheet" href="/plataforma/legal.css?v=20261111g">
   <script>
     (function () {
       var t = localStorage.getItem("orbe_theme");
@@ -33,58 +34,56 @@
   <main class="legal-main">
     <div data-lang-block="es">
       <h1>Política de cookies y almacenamiento local</h1>
-      <p class="legal-meta">Última actualización: 29 de septiembre de 2026</p>
-      <p class="legal-disclaimer">Documento informativo para la demo académica. Describe lo que el código de Orbe360 usa <strong>hoy</strong>, auditado en el repositorio.</p>
+      <p class="legal-meta">Última actualización: noviembre de 2026</p>
+      <p class="legal-disclaimer">Documento informativo sobre el uso real de almacenamiento local y sesiones en Orbe360.</p>
 
       <h2>¿Usamos cookies HTTP?</h2>
-      <p>La aplicación Orbe360 <strong>no establece cookies propias</strong> en el código actual. La autenticación usa un token en <code>localStorage</code> (<code>orbe360.session</code>), no una cookie HttpOnly.</p>
-      <p>Al acceder por un túnel Cloudflare (<code>*.trycloudflare.com</code>), el proveedor puede establecer cookies técnicas propias de su infraestructura; Orbe360 no las controla.</p>
+      <p>La aplicación Orbe360 <strong>no establece cookies publicitarias ni cookies HTTP propias de seguimiento</strong>. La autenticación de administradores utiliza un token de sesión en <code>localStorage</code> (<code>orbe360.session</code>).</p>
+      <p>El proveedor de alojamiento o red HTTPS puede incorporar cabeceras o cookies técnicas estrictamente necesarias para el enrutamiento y la protección contra ataques.</p>
 
       <h2>Almacenamiento local (localStorage)</h2>
-      <p>Estos valores se guardan en tu navegador en el origen del sitio:</p>
+      <p>Estos valores se guardan en tu navegador bajo el origen del sitio:</p>
       <div class="legal-table-wrap">
         <table class="legal-table">
           <thead>
             <tr><th>Clave</th><th>Tipo</th><th>Duración</th><th>Finalidad</th><th>Esencial</th></tr>
           </thead>
           <tbody>
-            <tr><td><code>orbe_theme</code></td><td>localStorage</td><td>Hasta borrar</td><td>Tema claro/oscuro (landing, legal)</td><td>No*</td></tr>
+            <tr><td><code>orbe_theme</code></td><td>localStorage</td><td>Hasta borrar</td><td>Tema claro/oscuro (portal y políticas)</td><td>No*</td></tr>
             <tr><td><code>orbe_lang</code></td><td>localStorage</td><td>Hasta borrar</td><td>Idioma ES/EN</td><td>No*</td></tr>
             <tr><td><code>orbe_cookie_consent</code></td><td>localStorage</td><td>Hasta borrar</td><td>Registro de tu elección en el banner</td><td>Sí</td></tr>
-            <tr><td><code>orbe360.session</code></td><td>localStorage</td><td>~14 días (servidor)</td><td>Token de sesión tras login</td><td>Sí (si usas cuenta)</td></tr>
-            <tr><td><code>orbe360.convexUrl</code></td><td>localStorage</td><td>Hasta borrar</td><td>Override dev de URL Convex (solo desarrollo)</td><td>No</td></tr>
-            <tr><td><code>tour.accessibilityPrefs</code></td><td>localStorage</td><td>Hasta borrar</td><td>Preferencias a11y del visor 360</td><td>No*</td></tr>
-            <tr><td><code>tour.graph.v1</code> (+ variantes por org/tour)</td><td>localStorage</td><td>Hasta borrar</td><td>Borrador de grafo en modo <code>?draft=1</code> o Control Web</td><td>No</td></tr>
-            <tr><td><code>tour.hotspotOverrides</code></td><td>localStorage</td><td>Hasta borrar</td><td>Ajustes locales de hotspots (editor)</td><td>No</td></tr>
+            <tr><td><code>orbe360.session</code></td><td>localStorage</td><td>7 días (servidor)</td><td>Token de sesión tras login de administrador</td><td>Sí (si usas cuenta)</td></tr>
+            <tr><td><code>tour.accessibilityPrefs</code></td><td>localStorage</td><td>Hasta borrar</td><td>Preferencias de accesibilidad del visor 360°</td><td>No*</td></tr>
+            <tr><td><code>tour.graph.v1</code> (+ variantes por org/tour)</td><td>localStorage</td><td>Hasta borrar</td><td>Borrador de edición en Control Web</td><td>No</td></tr>
+            <tr><td><code>tour.hotspotOverrides</code></td><td>localStorage</td><td>Hasta borrar</td><td>Ajustes locales de posición en modo edición</td><td>No</td></tr>
           </tbody>
         </table>
       </div>
-      <p><small>* Esenciales para la funcionalidad que elegiste (preferencias UX), no para el funcionamiento mínimo de una página estática.</small></p>
+      <p><small>* Necesarias únicamente para recordar las preferencias de experiencia que selecciones.</small></p>
 
       <h2>sessionStorage</h2>
-      <p>El código del visor y Control Web no persiste datos en <code>sessionStorage</code> de forma habitual en el piloto auditado. Si cambia en futuras versiones, esta tabla se actualizará.</p>
+      <p>El visor público y los paneles de administración no almacenan datos persistentes en <code>sessionStorage</code>.</p>
 
       <h2>Analítica y marketing</h2>
-      <p><strong>No hay</strong> Google Analytics, Meta Pixel, Mixpanel ni scripts similares en el repositorio Orbe360 al 29/09/2026. Por tanto, no hay cookies de analítica que bloquear más allá del aviso informativo.</p>
+      <p><strong>No utilizamos</strong> cookies de terceros ni píxeles de seguimiento publicitario. La plataforma registra únicamente conteos agregados anónimos de uso (vistas, cambios de escena e interacciones) sin cookies ni datos personales.</p>
 
       <h2>Terceros al cargar páginas</h2>
       <ul>
-        <li><strong>Google Fonts</strong> — puede registrar IP y referrer al descargar fuentes.</li>
-        <li><strong>Convex</strong> — peticiones API con metadatos HTTP estándar.</li>
+        <li><strong>Google Fonts</strong> — entrega tipográfica de la interfaz.</li>
+        <li><strong>Infraestructura en la nube</strong> — consulta del grafo de recorridos, multimedia y autenticación.</li>
       </ul>
 
       <h2>Gestionar preferencias</h2>
-      <p>Puedes borrar todo el almacenamiento del sitio desde la configuración del navegador. El banner de cookies en la landing guarda tu elección en <code>orbe_cookie_consent</code>. Botones: <strong>Aceptar</strong> (registra consentimiento) y <strong>Solo esenciales</strong> (equivalente hoy, porque no cargamos scripts no esenciales).</p>
+      <p>Puedes borrar el almacenamiento del sitio desde la configuración de tu navegador. El banner de cookies guarda tu elección en <code>orbe_cookie_consent</code>.</p>
     </div>
 
     <div data-lang-block="en" hidden>
       <h1>Cookie & local storage policy</h1>
-      <p class="legal-meta">Last updated: September 29, 2026</p>
-      <p class="legal-disclaimer">Informational document for the academic demo. Describes what Orbe360 code <strong>actually uses today</strong>, audited in the repository.</p>
+      <p class="legal-meta">Last updated: November 2026</p>
+      <p class="legal-disclaimer">Informational notice covering local storage and session handling in Orbe360.</p>
 
       <h2>Do we use HTTP cookies?</h2>
-      <p>Orbe360 <strong>does not set its own cookies</strong> in current code. Authentication uses a <code>localStorage</code> token (<code>orbe360.session</code>), not an HttpOnly cookie.</p>
-      <p>When accessing via a Cloudflare tunnel (<code>*.trycloudflare.com</code>), the provider may set its own technical cookies; Orbe360 does not control them.</p>
+      <p>Orbe360 <strong>does not set advertising or third-party tracking cookies</strong>. Administrator sign-in uses a session token stored in <code>localStorage</code> (<code>orbe360.session</code>).</p>
 
       <h2>Local storage (localStorage)</h2>
       <div class="legal-table-wrap">
@@ -96,20 +95,19 @@
             <tr><td><code>orbe_theme</code></td><td>localStorage</td><td>Until cleared</td><td>Light/dark theme</td><td>No*</td></tr>
             <tr><td><code>orbe_lang</code></td><td>localStorage</td><td>Until cleared</td><td>ES/EN language</td><td>No*</td></tr>
             <tr><td><code>orbe_cookie_consent</code></td><td>localStorage</td><td>Until cleared</td><td>Your banner choice</td><td>Yes</td></tr>
-            <tr><td><code>orbe360.session</code></td><td>localStorage</td><td>~14 days (server)</td><td>Session token after sign-in</td><td>Yes (if using account)</td></tr>
-            <tr><td><code>orbe360.convexUrl</code></td><td>localStorage</td><td>Until cleared</td><td>Dev Convex URL override</td><td>No</td></tr>
-            <tr><td><code>tour.accessibilityPrefs</code></td><td>localStorage</td><td>Until cleared</td><td>360 viewer a11y prefs</td><td>No*</td></tr>
-            <tr><td><code>tour.graph.v1</code> (+ org/tour variants)</td><td>localStorage</td><td>Until cleared</td><td>Draft graph (<code>?draft=1</code> / Control Web)</td><td>No</td></tr>
-            <tr><td><code>tour.hotspotOverrides</code></td><td>localStorage</td><td>Until cleared</td><td>Local hotspot editor overrides</td><td>No</td></tr>
+            <tr><td><code>orbe360.session</code></td><td>localStorage</td><td>7 days (server)</td><td>Session token after administrator sign-in</td><td>Yes (if using account)</td></tr>
+            <tr><td><code>tour.accessibilityPrefs</code></td><td>localStorage</td><td>Until cleared</td><td>360 viewer accessibility preferences</td><td>No*</td></tr>
+            <tr><td><code>tour.graph.v1</code> (+ org/tour variants)</td><td>localStorage</td><td>Until cleared</td><td>Draft edits in Control Web</td><td>No</td></tr>
+            <tr><td><code>tour.hotspotOverrides</code></td><td>localStorage</td><td>Until cleared</td><td>Local editor hotspot position overrides</td><td>No</td></tr>
           </tbody>
         </table>
       </div>
 
       <h2>Analytics & marketing</h2>
-      <p><strong>None</strong> — no Google Analytics, Meta Pixel, Mixpanel, or similar in the Orbe360 repo as of 2026-09-29.</p>
+      <p><strong>No third-party trackers</strong> or behavioral ads are used. The platform records only aggregated, anonymous usage counters without personal data.</p>
 
       <h2>Manage preferences</h2>
-      <p>Clear site storage in browser settings. The landing banner stores your choice in <code>orbe_cookie_consent</code>. <strong>Accept</strong> and <strong>Essential only</strong> behave the same today because no non-essential scripts are loaded.</p>
+      <p>You can clear site storage in browser settings at any time. Your banner choice is saved in <code>orbe_cookie_consent</code>.</p>
     </div>
   </main>
 
@@ -122,13 +120,14 @@
       <a href="/plataforma/terminos.html">Términos</a>
       <a href="/">Inicio</a>
     </nav>
-    <p>ORBE360 · Documento informativo — demo académica</p>
+    <p>ORBE360 · Plataforma de recorridos virtuales accesibles</p>
   </footer>
 
-  <script src="/plataforma/legal-shell.js?v=20260929e" type="module"></script>
+  <script src="/plataforma/legal-shell.js?v=20261111g" type="module"></script>
   <script type="module">
-    import { initCookieConsent } from "/plataforma/cookie-consent.js?v=20260929e";
-    initCookieConsent();
+    import("/plataforma/portal-notice.js?v=20261111g")
+      .then((m) => m.initStorageNotice())
+      .catch(() => {});
   </script>
 </body>
 </html>

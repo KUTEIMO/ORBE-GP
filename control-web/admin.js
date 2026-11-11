@@ -250,7 +250,9 @@ async function init() {
   }
   state.authorized = true;
 
-  const staticCfg = await fetchJson('../config.json').catch(() => ({}));
+  const staticCfg = CONVEX_URL()
+    ? {}
+    : await fetchJson('/config.json').catch(() => ({}));
   state.config = staticCfg;
   state.zones = { ...DEFAULT_ZONES, ...(staticCfg.zones || {}) };
   state.availableFiles = [];
@@ -438,6 +440,8 @@ async function pullConvexSnapshot() {
     const scene = {
       file,
       zone: patch.zone || 'general',
+      sede: patch.sede || '',
+      speaker: patch.speaker || '',
       id: slugify(file),
       title: patch.title || file,
       shortTitle: patch.shortTitle || patch.title || file,
@@ -690,7 +694,7 @@ function setWorkMode(mode) {
   updateCompassHighlight();
   setStatus(
     mode === 'view'
-      ? 'Modo ver: toca los puntos verdes (nav) para cambiar de escena y probar el recorrido.'
+      ? 'Modo ver: toca los puntos de navegación para cambiar de escena y probar el recorrido.'
       : mode === 'scenes'
         ? 'Modo escenas: añade o edita metadatos. Eliminar pide confirmación.'
         : 'Modo hotspots: conecta con el formulario o arrastra nodo→nodo; luego Guardar cambios.'
@@ -713,7 +717,7 @@ function fillZones() {
 
 function fillTargets() {
   els.targetSelect.innerHTML = state.scenes.map((s) =>
-    `<option value="${s.file}">${escapeHtml(s.shortTitle)}</option>`
+    `<option value="${escapeAttr(s.file)}">${escapeHtml(s.shortTitle)}</option>`
   ).join('');
   fillConnectSelects();
 }
@@ -1003,7 +1007,7 @@ async function navigateViaHotspot(hotspot) {
   }
   setStatus(`Navegando a ${target.shortTitle}…`);
   await selectScene(hotspot.targetFile);
-  setStatus(`Vista previa: ${target.shortTitle}. Sigue tocando puntos verdes para recorrer el tour.`);
+  setStatus(`Vista previa: ${target.shortTitle}. Sigue tocando puntos de navegación para recorrer el tour.`);
 }
 
 function enableHotspotDrag(el, control, hotspot, scene) {
@@ -1331,12 +1335,13 @@ function renderHotspotEditor(scene) {
       )
       .join('');
     const a11yTags = h.type !== 'nav'
-      ? `${h.narration ? ' · audio OK' : ''}${h.captionFile ? ' · VTT OK' : ''}`
+      ? `${h.narration ? ' · Audio listo' : ''}${h.captionFile ? ' · Subtítulos' : ''}`
       : '';
+    const resolvedDir = h.direction || classifyLookingDirection(h.yaw || 0, h.pitch || 0, scene);
     return `
     <li class="hotspot-admin-item${state.selectedHotspotId === h.id ? ' hotspot-admin-item--selected' : ''}" data-index="${index}" data-id="${escapeAttr(h.id)}">
       <strong>${escapeHtml(h.title || h.id)}</strong>
-      <div class="meta">${h.type || 'info'} · ${iconKey} · ${category} · ${anim} · ${h.direction || classifyLookingDirection(h.yaw || 0, h.pitch || 0, scene)} · yaw ${(h.yaw || 0).toFixed(2)} · pitch ${(h.pitch || 0).toFixed(2)}${a11yTags}</div>
+      <div class="meta">${escapeHtml(h.type || 'info')} · ${escapeHtml(iconKey)} · ${escapeHtml(category)} · ${escapeHtml(anim)} · ${escapeHtml(resolvedDir)} · yaw ${(h.yaw || 0).toFixed(2)} · pitch ${(h.pitch || 0).toFixed(2)}${a11yTags}</div>
       <div class="row">
         <input data-field="title" title="Título completo" placeholder="Título del hotspot" value="${escapeAttr(h.title || '')}" ${canEdit ? '' : 'disabled'}>
         <input data-field="shortLabel" title="Etiqueta corta en el chip 360°" placeholder="Etiqueta corta (chip)" value="${escapeAttr(h.shortLabel || '')}" ${canEdit ? '' : 'disabled'}>
@@ -1352,11 +1357,11 @@ function renderHotspotEditor(scene) {
         </select>
         <select data-field="direction" ${canEdit ? '' : 'disabled'}>
           ${Object.entries(DIRECTION_PRESETS).map(([key, val]) =>
-            `<option value="${key}" ${(h.direction || classifyLookingDirection(h.yaw || 0, h.pitch || 0, scene)) === key ? 'selected' : ''}>${val.label}</option>`
+            `<option value="${escapeAttr(key)}" ${resolvedDir === key ? 'selected' : ''}>${escapeHtml(val.label)}</option>`
           ).join('')}
         </select>
         <select data-field="targetFile" ${canEdit && h.type === 'nav' ? '' : 'disabled'}>
-          ${state.scenes.map((s) => `<option value="${s.file}" ${s.file === (h.targetFile || '') ? 'selected' : ''}>${escapeHtml(s.shortTitle)}</option>`).join('')}
+          ${state.scenes.map((s) => `<option value="${escapeAttr(s.file)}" ${s.file === (h.targetFile || '') ? 'selected' : ''}>${escapeHtml(s.shortTitle)}</option>`).join('')}
         </select>
         <button type="button" data-action="look" ${state.view ? '' : 'disabled'}>Mirar</button>
         ${h.type !== 'nav' ? `<button type="button" data-action="a11y" ${state.authorized ? '' : 'disabled'}>Audio / VTT</button>` : ''}
@@ -1478,31 +1483,16 @@ function applySelectedSceneToGraph() {
 async function saveAllChanges() {
   if (state.saving) {
     setStatus('Ya hay un guardado en curso…');
-    return;
+    return false;
   }
   if (!state.authorized || !getSessionToken()) {
     setStatus('Sesión de editor requerida para guardar.');
-    return;
+    return false;
   }
 
-  const scene = getSelectedScene();
-  if (scene && state.workMode === 'hotspots') {
-    syncScenePatch(scene);
-    state.graph.connections = (state.graph.connections || []).filter(
-      (c) => c.from !== scene.file
-    );
-    scene.hotspots.filter((h) => h.type === 'nav' && h.targetFile).forEach((h) => {
-      state.graph.connections.push({
-        id: h.id,
-        from: scene.file,
-        to: h.targetFile,
-        label: h.title,
-        yaw: h.yaw,
-        pitch: h.pitch,
-        direction: h.direction || classifyLookingDirection(h.yaw || 0, h.pitch || 0, scene),
-        weight: h.weight || directionWeight(h.direction || 'forward')
-      });
-    });
+  // Reconcile nav hotspots from ALL edited scenes so switching scenes doesn't lose changes.
+  if (state.workMode === 'hotspots') {
+    rebuildConnectionsFromHotspots();
   }
 
   const sceneCount = state.scenes.length;
@@ -1517,7 +1507,7 @@ async function saveAllChanges() {
     );
     if (!ok) {
       setStatus('Guardado cancelado para proteger las conexiones existentes.');
-      return;
+      return false;
     }
   } else if (sceneCount >= LARGE_TOUR_SCENE_THRESHOLD && delta >= 20) {
     const ok = await askConfirm(
@@ -1526,7 +1516,7 @@ async function saveAllChanges() {
     );
     if (!ok) {
       setStatus('Guardado cancelado.');
-      return;
+      return false;
     }
   }
 
@@ -1546,7 +1536,7 @@ async function saveAllChanges() {
     if (!result) {
       updateDirtyUi(true);
       setSaveProgress('');
-      return;
+      return false;
     }
     state.lastSyncedConnectionCount = result.connectionsSaved ?? connCount;
     state.deletedFileKeys = [];
@@ -1557,10 +1547,12 @@ async function saveAllChanges() {
       `${result.connectionsSaved} conexiones.`;
     setStatus(msg);
     announceToast(msg);
+    return true;
   } catch (error) {
     updateDirtyUi(true);
     setSaveProgress('');
     setStatus(`Error al guardar: ${error.message}`);
+    return false;
   } finally {
     state.saving = false;
     updateDirtyUi(state.dirty);
@@ -1995,19 +1987,20 @@ function syncNavHotspotsToConnections() {
 
   state.scenes.forEach((scene) => {
     const info = (scene.hotspots || []).filter((h) => h.type !== 'nav');
-    const navByTarget = new Map(
-      (scene.hotspots || [])
-        .filter((h) => h.type === 'nav' && h.targetFile)
-        .map((h) => [h.targetFile, h])
-    );
-    const navById = new Map(
-      (scene.hotspots || []).filter((h) => h.type === 'nav').map((h) => [h.id, h])
-    );
+    const existingNavs = (scene.hotspots || []).filter((h) => h.type === 'nav');
+    const usedIds = new Set();
     const edges = byFrom.get(scene.file) || [];
-    const nav = edges.map((edge) => {
-      const existing = (edge.id && navById.get(edge.id)) || navByTarget.get(edge.to);
+    const nav = edges.map((edge, idx) => {
+      const byId = edge.id
+        ? existingNavs.find((h) => h.id === edge.id && !usedIds.has(h.id))
+        : null;
+      const byTarget = !byId
+        ? existingNavs.find((h) => h.targetFile === edge.to && !usedIds.has(h.id))
+        : null;
+      const existing = byId || byTarget;
       const toScene = state.scenes.find((s) => s.file === edge.to);
       if (existing) {
+        if (existing.id) usedIds.add(existing.id);
         return {
           ...existing,
           type: 'nav',
@@ -2019,8 +2012,10 @@ function syncNavHotspotsToConnections() {
           weight: edge.weight || existing.weight
         };
       }
+      const nextId = edge.id || `conn-${Date.now().toString(36)}-${idx}-${edge.to}`;
+      usedIds.add(nextId);
       return {
-        id: edge.id || `conn-${Date.now().toString(36)}-${edge.to}`,
+        id: nextId,
         type: 'nav',
         title: edge.label || `Ir a ${toScene?.shortTitle || 'escena'}`,
         yaw: Number(edge.yaw) || 0,
@@ -2114,7 +2109,7 @@ function renderConnections() {
     const hasReturn = state.graph.connections.some((other) => other.from === c.to && other.to === c.from);
     const focused = state.selectedFile && (c.from === state.selectedFile || c.to === state.selectedFile);
     return `<li class="connection-item ${focused ? 'connection-item--focus' : ''}" data-index="${index}" data-from="${escapeAttr(c.from)}" data-to="${escapeAttr(c.to)}">
-      <span>${escapeHtml(from)} ${hasReturn ? '↔' : '→'} ${escapeHtml(to)} <em>(${DIRECTION_PRESETS[dir]?.label || dir})</em></span>
+      <span>${escapeHtml(from)} ${hasReturn ? '↔' : '→'} ${escapeHtml(to)} <em>(${escapeHtml(DIRECTION_PRESETS[dir]?.label || dir)})</em></span>
       <span class="row-actions">
         ${hasReturn ? `<button type="button" data-action="remove-pair" ${canEdit ? '' : 'disabled'} aria-label="Quitar ida y vuelta entre ${escapeAttr(from)} y ${escapeAttr(to)}">Quitar ↔</button>` : ''}
         <button type="button" data-action="remove" ${canEdit ? '' : 'disabled'} aria-label="Quitar enlace de ${escapeAttr(from)} a ${escapeAttr(to)}">Quitar</button>
@@ -2182,13 +2177,15 @@ function openSceneDialog(mode) {
       ? state.availableFiles.filter((f) => !used.has(f))
       : state.availableFiles;
     if (mode === 'add' && files.length === 0) {
-      setStatus('No hay panoramas sin registrar en config.json. Usa “Subir panorama” para añadir nuevos.');
+      setStatus('No hay panoramas sin registrar. Usa “Subir panorama” para añadir nuevos.');
       return;
     }
     els.sceneFileSelect.innerHTML = files.map((f) => `<option value="${escapeAttr(f)}">${escapeHtml(f)}</option>`).join('');
   }
 
   fillZones();
+  const sceneSedeEl = document.getElementById('sceneSede');
+  const sceneSpeakerEl = document.getElementById('sceneSpeaker');
   const scene = getSelectedScene();
   if (isEdit && scene) {
     els.sceneForm.shortTitle.value = scene.shortTitle || '';
@@ -2198,6 +2195,8 @@ function openSceneDialog(mode) {
       els.sceneZoneSelect.value = scene.zone;
     }
     if (els.sceneCustomZone) els.sceneCustomZone.value = '';
+    if (sceneSedeEl) sceneSedeEl.value = scene.sede || '';
+    if (sceneSpeakerEl) sceneSpeakerEl.value = scene.speaker || '';
     if (els.sceneLongDesc) els.sceneLongDesc.value = scene.longDescription || '';
     if (els.sceneAltText) els.sceneAltText.value = scene.altText || '';
   } else {
@@ -2214,6 +2213,8 @@ function openSceneDialog(mode) {
     els.sceneForm.shortTitle.value = '';
     els.sceneForm.title.value = '';
     if (els.sceneCustomZone) els.sceneCustomZone.value = '';
+    if (sceneSedeEl) sceneSedeEl.value = '';
+    if (sceneSpeakerEl) sceneSpeakerEl.value = '';
     if (els.sceneLongDesc) els.sceneLongDesc.value = '';
     if (els.sceneAltText) els.sceneAltText.value = '';
   }
@@ -2235,6 +2236,8 @@ async function onSceneFormSubmit(event) {
     zone = slugify(customZoneRaw) || 'general';
     state.zones[zone] = customZoneRaw;
   }
+  const sede = document.getElementById('sceneSede')?.value.trim() || '';
+  const speaker = document.getElementById('sceneSpeaker')?.value.trim() || '';
   const longDescription = els.sceneLongDesc?.value.trim() || '';
   const altText = els.sceneAltText?.value.trim() || shortTitle;
   if (!shortTitle || !title) {
@@ -2243,7 +2246,7 @@ async function onSceneFormSubmit(event) {
   }
 
   if (state.sceneDialogMode === 'upload') {
-    await uploadPanoramaAndRegister({ shortTitle, title, zone, longDescription, altText });
+    await uploadPanoramaAndRegister({ shortTitle, title, zone, sede, speaker, longDescription, altText });
     return;
   }
 
@@ -2258,6 +2261,8 @@ async function onSceneFormSubmit(event) {
     state.scenes.push({
       file,
       zone,
+      sede,
+      speaker,
       id: slugify(file),
       title,
       shortTitle,
@@ -2275,6 +2280,8 @@ async function onSceneFormSubmit(event) {
         shortTitle,
         title,
         zone,
+        sede,
+        speaker,
         longDescription,
         altText,
         existingFileKey: scene.file
@@ -2284,6 +2291,8 @@ async function onSceneFormSubmit(event) {
     scene.title = title;
     scene.shortTitle = shortTitle;
     scene.zone = zone;
+    scene.sede = sede;
+    scene.speaker = speaker;
     scene.longDescription = longDescription;
     scene.altText = altText;
   }
@@ -2300,7 +2309,16 @@ async function onSceneFormSubmit(event) {
   setStatus('Metadatos de escena actualizados. Recuerda guardar cambios.');
 }
 
-async function uploadPanoramaAndRegister({ shortTitle, title, zone, longDescription = '', altText = '', existingFileKey = null }) {
+async function uploadPanoramaAndRegister({
+  shortTitle,
+  title,
+  zone,
+  sede = '',
+  speaker = '',
+  longDescription = '',
+  altText = '',
+  existingFileKey = null,
+}) {
   const token = getSessionToken();
   if (!token) {
     setStatus('Inicia sesión para subir imágenes.');
@@ -2316,8 +2334,8 @@ async function uploadPanoramaAndRegister({ shortTitle, title, zone, longDescript
     setStatus('Formato no soportado. Usa JPG, PNG o WebP.');
     return;
   }
-  if (file.size > 40 * 1024 * 1024) {
-    setStatus('Archivo demasiado grande (máx. ~40 MB).');
+  if (file.size > 25 * 1024 * 1024) {
+    setStatus('Archivo demasiado grande (máx. 25 MB).');
     return;
   }
 
@@ -2353,6 +2371,9 @@ async function uploadPanoramaAndRegister({ shortTitle, title, zone, longDescript
       title,
       shortTitle,
       zone,
+      ...(sede ? { sede } : {}),
+      ...(altText ? { altText } : {}),
+      ...(longDescription ? { longDescription } : {}),
       organizationId: uploadMeta?.organizationId
     });
 
@@ -2362,6 +2383,8 @@ async function uploadPanoramaAndRegister({ shortTitle, title, zone, longDescript
       scene = {
         file: fileKey,
         zone,
+        sede,
+        speaker,
         id: slugify(fileKey),
         title,
         shortTitle,
@@ -2376,6 +2399,8 @@ async function uploadPanoramaAndRegister({ shortTitle, title, zone, longDescript
       scene.title = title;
       scene.shortTitle = shortTitle;
       scene.zone = zone;
+      scene.sede = sede;
+      scene.speaker = speaker;
       scene.longDescription = longDescription;
       scene.altText = altText || title;
       scene.imageUrl = result.imageUrl;
@@ -2410,7 +2435,7 @@ async function deleteSelectedScene() {
   if (!scene) return;
   const ok = await askConfirm(
     'Eliminar escena',
-    `¿Eliminar «${scene.shortTitle || scene.file}» del borrador y sus enlaces? Debes pulsar “Guardar cambios” para aplicar en Convex.`
+    `¿Eliminar «${scene.shortTitle || scene.file}» del borrador y sus enlaces? Pulsa “Guardar cambios” para aplicarlo al tour.`
   );
   if (!ok) return;
 
@@ -2495,6 +2520,8 @@ async function syncGraphToConvex(opts = {}) {
     title: s.title,
     shortTitle: s.shortTitle || s.title,
     zone: s.zone,
+    ...(typeof s.sede === 'string' && s.sede.trim() ? { sede: s.sede.trim() } : {}),
+    ...(typeof s.speaker === 'string' && s.speaker.trim() ? { speaker: s.speaker.trim() } : {}),
     order: typeof s.order === 'number' ? s.order : index,
     imageUrl: s.imageUrl && (/^https?:\/\//i.test(s.imageUrl) || s.imageUrl.startsWith('/media/'))
       ? s.imageUrl
@@ -2544,8 +2571,8 @@ async function syncGraphToConvex(opts = {}) {
 
   setSaveProgress(
     state.scenes.length >= LARGE_TOUR_SCENE_THRESHOLD
-      ? `Enviando ${scenesPayload.length} escenas / ${connections.length} conexiones a Convex…`
-      : 'Enviando a Convex…'
+      ? `Guardando ${scenesPayload.length} escenas / ${connections.length} conexiones…`
+      : 'Guardando cambios en la base de datos…'
   );
 
   const result = await convexFetch('mutation', 'tourAdmin:saveTourSnapshot', {
@@ -2588,13 +2615,13 @@ function exportGraph() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'tour-graph.json';
+  a.download = `respaldo-${TOUR_SLUG() || 'recorrido'}.json`;
   a.click();
   URL.revokeObjectURL(url);
   setStatus(
     state.dirty
-      ? 'Descargado tour-graph.json (borrador local). Aún hay cambios sin publicar en Convex.'
-      : 'Descargado tour-graph.json (backup). La fuente viva es Convex si hay sesión.'
+      ? 'Respaldo JSON descargado (borrador local). Recuerda pulsar Guardar cambios.'
+      : 'Respaldo JSON descargado.'
   );
 }
 
@@ -2602,10 +2629,10 @@ async function importGraph(event) {
   const file = event.target.files?.[0];
   if (!file) return;
   const ok = await askConfirm(
-    'Importar grafo',
+    'Importar respaldo',
     state.dirty
-      ? 'Hay cambios sin guardar. Importar reemplaza el grafo local (y Convex si hay sesión). ¿Continuar?'
-      : 'Importar reemplaza el grafo actual con el JSON. Si hay sesión, se guarda en Convex. ¿Continuar?'
+      ? 'Hay cambios sin guardar. Importar cargará este respaldo en tu borrador local. ¿Continuar?'
+      : 'Importar cargará este respaldo en tu borrador local para revisarlo antes de guardar. ¿Continuar?'
   );
   if (!ok) {
     event.target.value = '';
@@ -2635,25 +2662,8 @@ async function importGraph(event) {
 
     persistGraphLocal();
     fillConnectSelects();
-    const token = getSessionToken();
-    if (token) {
-      setSaveProgress('Importando y publicando en Convex…');
-      const result = await syncGraphToConvex({});
-      if (result) {
-        state.lastSyncedConnectionCount = result.connectionsSaved;
-        updateDirtyUi(false);
-        setStatus(
-          `Grafo importado y guardado en Convex (${result.connectionsSaved} conexiones).`
-        );
-      } else {
-        markDirty();
-        setStatus('Grafo importado en local; publicación en Convex cancelada o fallida.');
-      }
-      setSaveProgress('');
-    } else {
-      markDirty();
-      setStatus('Grafo importado en local. Inicia sesión y pulsa Guardar para publicarlo en Convex.');
-    }
+    markDirty();
+    setStatus('Respaldo cargado en el borrador local. Revisa las conexiones y pulsa Guardar cambios.');
     renderSceneList();
     renderConnections();
     layoutNodes();
@@ -2837,6 +2847,7 @@ const studioState = {
   recordChunks: [],
   recordTimerId: null,
   recordStartedAt: 0,
+  discardRecording: false,
   bound: false,
 };
 
@@ -2926,7 +2937,10 @@ function releaseStudioPreviewUrl() {
   }
 }
 
-function stopActiveRecording() {
+function stopActiveRecording({ discard = false } = {}) {
+  if (discard) {
+    studioState.discardRecording = true;
+  }
   if (studioState.recordTimerId) {
     clearInterval(studioState.recordTimerId);
     studioState.recordTimerId = null;
@@ -3152,13 +3166,21 @@ async function generateWithSalome() {
   const voice = studioEl('a11ySalomeVoice')?.value || 'es-CO-SalomeNeural';
   const rate = studioEl('a11ySalomeRate')?.value || '-5%';
   if (btn) btn.disabled = true;
-  setStudioStatus('Procesando guion con Salomé (es-CO-SalomeNeural)…');
+  setStudioStatus('Generando locución con Salomé…');
   try {
     const resp = await fetch('/api/tts/salome', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text, voice, rate }),
     });
+    const ct = resp.headers.get('content-type') || '';
+    if (!ct.includes('application/json')) {
+      throw new Error(
+        resp.status === 404 || resp.status === 405
+          ? 'La síntesis local no está disponible en este entorno estático. Usa la pestaña Micrófono o Subir archivo.'
+          : `Respuesta inesperada del servicio de voz (HTTP ${resp.status}).`
+      );
+    }
     const data = await resp.json();
     if (!resp.ok || !data.ok || !data.audioBase64) {
       throw new Error(data.error || `Error TTS (${resp.status})`);
@@ -3174,9 +3196,9 @@ async function generateWithSalome() {
       renderStudioCueRows();
     }
     updateStudioBadges(getStudioTargetItem());
-    setStudioStatus(`Salomé generó el MP3 (${(blob.size / 1024).toFixed(1)} KB) y ${studioState.cues.length} subtítulos VTT sincronizados. Pulsa Guardar para subir a Convex.`);
+    setStudioStatus(`Locución generada (${(blob.size / 1024).toFixed(1)} KB) con ${studioState.cues.length} subtítulos sincronizados. Pulsa Guardar.`);
   } catch (err) {
-    setStudioStatus(`No se pudo procesar con Salomé: ${err.message}`, true);
+    setStudioStatus(`No se pudo generar el audio automático: ${err.message}`, true);
   } finally {
     if (btn) btn.disabled = false;
   }
@@ -3209,9 +3231,9 @@ async function uploadBlobToConvexStorage(blob, contentType) {
     headers: { 'Content-Type': contentType || blob.type || 'application/octet-stream' },
     body: blob,
   });
-  if (!res.ok) throw new Error(`Error subiendo archivo a Convex Storage (${res.status})`);
+  if (!res.ok) throw new Error(`Error al subir el archivo al servidor (${res.status})`);
   const data = await res.json();
-  if (!data?.storageId) throw new Error('Convex Storage no devolvió storageId');
+  if (!data?.storageId) throw new Error('El servidor no confirmó la recepción del archivo');
   return data.storageId;
 }
 
@@ -3226,7 +3248,10 @@ async function saveA11yStudioToConvex() {
     // If hotspot is new/unsaved in draft, sync scene graph first so attachHotspotA11y finds the row.
     if (t.kind === 'hotspot' && state.dirty) {
       setStudioStatus('Guardando punto informativo…');
-      await saveAllChanges();
+      const saved = await saveAllChanges();
+      if (!saved) {
+        throw new Error('Primero guarda los cambios del borrador antes de adjuntar audio al hotspot.');
+      }
     }
 
     let narrationStorageId;
@@ -3384,7 +3409,7 @@ function bindA11yStudioUi() {
   studioState.bound = true;
 
   const closeStudio = () => {
-    stopActiveRecording();
+    stopActiveRecording({ discard: true });
     const player = studioEl('a11yAudioPlayer');
     if (player) player.pause();
     releaseStudioPreviewUrl();
@@ -3393,7 +3418,7 @@ function bindA11yStudioUi() {
   studioEl('btnCloseA11yStudio')?.addEventListener('click', closeStudio);
   studioEl('btnCancelA11yStudio')?.addEventListener('click', closeStudio);
   dlg.addEventListener('close', () => {
-    stopActiveRecording();
+    stopActiveRecording({ discard: true });
     const player = studioEl('a11yAudioPlayer');
     if (player) player.pause();
   });
@@ -3476,10 +3501,24 @@ function bindA11yStudioUi() {
   });
 
   studioEl('a11yRawVtt')?.addEventListener('change', (ev) => {
-    studioState.cues = parseVttAdmin(ev.target.value);
-    studioState.clearCaptions = studioState.cues.length === 0;
+    const rawText = String(ev.target.value || '').trim();
+    if (!rawText) {
+      studioState.cues = [];
+      studioState.clearCaptions = true;
+      renderStudioCueRows();
+      updateStudioBadges(getStudioTargetItem());
+      return;
+    }
+    const parsed = parseVttAdmin(rawText);
+    if (parsed.length === 0) {
+      setStudioStatus('Formato WebVTT inválido. Usa marcas como 00:00:00.000 --> 00:00:04.000; se conservaron tus subtítulos anteriores.', true);
+      return;
+    }
+    studioState.cues = parsed;
+    studioState.clearCaptions = false;
     renderStudioCueRows();
     updateStudioBadges(getStudioTargetItem());
+    setStudioStatus(`Subtítulos actualizados (${parsed.length} líneas).`);
   });
 
   studioEl('a11ySrSummary')?.addEventListener('input', () => updateStudioBadges(getStudioTargetItem()));
@@ -3489,9 +3528,14 @@ function bindA11yStudioUi() {
   studioEl('a11yAudioFileInput')?.addEventListener('change', (ev) => {
     const file = ev.target.files?.[0];
     if (!file) return;
+    if (file.size > 30 * 1024 * 1024) {
+      setStudioStatus('El archivo de audio supera el máximo permitido de 30 MB.', true);
+      ev.target.value = '';
+      return;
+    }
     setStudioPendingAudio(file, file.name);
     updateStudioBadges(getStudioTargetItem());
-    setStudioStatus(`Audio cargado (${file.name}, ${(file.size / 1024).toFixed(1)} KB). Puedes sincronizar subtítulos y guardar en Convex.`);
+    setStudioStatus(`Audio cargado (${file.name}, ${(file.size / 1024).toFixed(1)} KB). Sincroniza subtítulos y pulsa Guardar.`);
   });
 
   // Mic recording
@@ -3502,6 +3546,7 @@ function bindA11yStudioUi() {
       return;
     }
     try {
+      studioState.discardRecording = false;
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const mime = RecorderCtor.isTypeSupported('audio/webm;codecs=opus')
         ? 'audio/webm;codecs=opus'
@@ -3520,12 +3565,16 @@ function bindA11yStudioUi() {
           clearInterval(studioState.recordTimerId);
           studioState.recordTimerId = null;
         }
-        const blob = new Blob(studioState.recordChunks, { type: rec.mimeType || 'audio/webm' });
-        setStudioPendingAudio(blob, `grabacion-${Date.now()}.webm`);
         studioEl('btnRecStart').disabled = false;
         studioEl('btnRecStop').disabled = true;
+        if (studioState.discardRecording) {
+          studioState.recordChunks = [];
+          return;
+        }
+        const blob = new Blob(studioState.recordChunks, { type: rec.mimeType || 'audio/webm' });
+        setStudioPendingAudio(blob, `grabacion-${Date.now()}.webm`);
         updateStudioBadges(getStudioTargetItem());
-        setStudioStatus(`Grabación lista (${(blob.size / 1024).toFixed(1)} KB). Sincroniza subtítulos y guarda en Convex.`);
+        setStudioStatus(`Grabación lista (${(blob.size / 1024).toFixed(1)} KB). Sincroniza subtítulos y pulsa Guardar.`);
       };
       rec.start();
       studioState.recordStartedAt = Date.now();

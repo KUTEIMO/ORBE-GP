@@ -1,0 +1,21 @@
+{
+  "voice": "es-CO-SalomeNeural",
+  "rate": "-5%",
+  "cues": [
+    {
+      "start": 0.1,
+      "end": 5.305,
+      "text": "Punto destacado: pendón oficial de Acreditación Institucional en Alta Calidad de la"
+    },
+    {
+      "start": 5.305,
+      "end": 10.511,
+      "text": "Universidad Simón Bolívar, ubicado junto a la tarima de eventos del Bloque"
+    },
+    {
+      "start": 10.511,
+      "end": 10.945,
+      "text": "D."
+    }
+  ]
+}

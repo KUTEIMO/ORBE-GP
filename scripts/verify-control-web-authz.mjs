@@ -110,10 +110,9 @@ async function main() {
   }
 
   // Seed Unisimón → orbe deny
-  let uniToken = null;
   try {
     const uni = await login("admin@unisimon.local", "UnisimonAdmin2026!");
-    uniToken = uni.token;
+    const uniToken = uni.token;
     const cross = await assertAccess(uniToken, "orbe", "sandbox");
     if (cross?.ok === false) {
       ok("Unisimón admin denied on orbe/sandbox", cross.reason);
@@ -202,19 +201,76 @@ async function main() {
     } catch {
       ok("getAdminSnapshot rejects third user on Unisimón");
     }
+
+    // tourEditor cannot publish/archive/rename or overwrite org branding
+    const orbeTours = await convex("query", "organizations:listTours", {
+      token: third.token,
+      organizationId: orbeOrg.id,
+      now: Date.now(),
+    });
+    const sandboxTour = orbeTours.find((t) => t.slug === "sandbox");
+    if (sandboxTour) {
+      try {
+        await convex("mutation", "accessibilityPublish:setTourPublished", {
+          token: third.token,
+          tourId: sandboxTour.id,
+          published: false,
+        });
+        fail("tourEditor must not publish/unpublish tours");
+      } catch {
+        ok("tourEditor denied on accessibilityPublish:setTourPublished");
+      }
+      try {
+        await convex("mutation", "organizations:updateTourTitle", {
+          token: third.token,
+          tourId: sandboxTour.id,
+          title: "Hack Title",
+        });
+        fail("tourEditor must not rename tours");
+      } catch {
+        ok("tourEditor denied on organizations:updateTourTitle");
+      }
+      try {
+        await convex("mutation", "organizations:setTourArchived", {
+          token: third.token,
+          tourId: sandboxTour.id,
+          archived: true,
+        });
+        fail("tourEditor must not archive tours");
+      } catch {
+        ok("tourEditor denied on organizations:setTourArchived");
+      }
+    }
+
+    try {
+      await convex("mutation", "branding:saveBranding", {
+        token: third.token,
+        slug: "sandbox",
+        orgSlug: "orbe",
+        branding: {
+          clientName: "Orbe Hack",
+          primaryColor: "#4b5563",
+          metaTitle: "Hack",
+          metaDescription: "Hack",
+          showPoweredByOrbe360: true,
+        },
+      });
+      fail("tourEditor must not modify branding");
+    } catch {
+      ok("tourEditor denied on branding:saveBranding");
+    }
   } catch (e) {
     fail("Third-user membership path", e.message);
   } finally {
-    // Deactivate third user if create succeeded (no wipe of tours)
     if (superToken && thirdUserId) {
       try {
-        // Best-effort: no public deactivate — leave inactive via patch only if available.
-        // Users stay in DB but email is unique QA; document for cleanup.
-        console.log(
-          `(note) Third QA user left in DB: ${THIRD_EMAIL} id=${thirdUserId} — deactivate via superadmin if needed`
-        );
-      } catch (_e) {
-        /* ignore */
+        await convex("mutation", "cleanupQa:cleanupQaArtifacts", {
+          token: superToken,
+          dryRun: false,
+        });
+        ok("Cleaned up disposable QA third-user artifacts");
+      } catch (cleanupErr) {
+        console.warn("Cleanup note:", cleanupErr?.message || cleanupErr);
       }
     }
   }

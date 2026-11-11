@@ -1,0 +1,26 @@
+{
+  "voice": "es-CO-SalomeNeural",
+  "rate": "-5%",
+  "cues": [
+    {
+      "start": 0.1,
+      "end": 4.69,
+      "text": "Bienvenido a la Sede 3 de la Universidad Simón Bolívar, correspondiente a"
+    },
+    {
+      "start": 4.69,
+      "end": 6.603,
+      "text": "los Bloques E y F."
+    },
+    {
+      "start": 6.553,
+      "end": 12.035,
+      "text": "El acceso principal cuenta con andén con franja podotáctil amarilla y rampa"
+    },
+    {
+      "start": 12.035,
+      "end": 14.776,
+      "text": "hacia las dependencias jurídicas y académicas."
+    }
+  ]
+}

@@ -2,7 +2,12 @@ import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 import type { Id } from "./_generated/dataModel";
 import type { MutationCtx, QueryCtx } from "./_generated/server";
-import { requireUser, userCanEditTour } from "./lib/authHelpers";
+import {
+  requireUser,
+  userCanEditTour,
+  userIsOrgAdmin,
+} from "./lib/authHelpers";
+import { writeAuditLog } from "./audit";
 import {
   evaluateAccessibilityPublishChecklist,
   type SceneA11yInput,
@@ -120,13 +125,14 @@ async function buildPackageScenesFromDb(
   ctx: DbCtx,
   tourId: Id<"tours">
 ): Promise<SceneA11yInput[]> {
+  const tour = await ctx.db.get(tourId);
   const scenes = await ctx.db
     .query("scenes")
-    .withIndex("by_tour", (q) => q.eq("tourId", tourId))
+    .withIndex("by_tour_and_file", (q) => q.eq("tourId", tourId))
     .collect();
   const allHotspots = await ctx.db
     .query("hotspots")
-    .withIndex("by_tour", (q) => q.eq("tourId", tourId))
+    .withIndex("by_client_key", (q) => q.eq("tourId", tourId))
     .collect();
 
   const byScene = new Map<string, typeof allHotspots>();
@@ -137,7 +143,10 @@ async function buildPackageScenesFromDb(
     else byScene.set(key, [h]);
   }
 
-  const tracked = scenes.filter(sceneHasA11yTracking);
+  // Piloto maintains legacy partial tracking scope after spatial sync;
+  // all new client tours (e.g. sede-4) must validate 100% of scenes.
+  const isPilot = tour?.slug === PILOT_A11Y_TOUR_SLUG;
+  const tracked = isPilot ? scenes.filter(sceneHasA11yTracking) : scenes;
 
   return tracked.map((scene) => {
     const hotspots = byScene.get(String(scene._id)) ?? [];
@@ -204,13 +213,34 @@ async function persistChecklistSnapshot(
  */
 export const evaluatePackage = query({
   args: {
+    token: v.string(),
     scenes: v.array(sceneA11yValidator),
     requireCaptions: v.optional(v.boolean()),
+    now: v.optional(v.number()),
   },
   returns: checklistResultValidator,
-  handler: async (_ctx, args) => {
+  handler: async (ctx, args) => {
+    await requireUser(ctx, args.token, args.now);
+    const normalizedScenes: SceneA11yInput[] = args.scenes.map((s) => ({
+      id: s.id,
+      title: s.title,
+      srSummary: s.srSummary,
+      narration: s.narration,
+      transcript: s.transcript,
+      captionFile: s.captionFile,
+      narrationOptional: s.narrationOptional,
+      hotspots: s.hotspots?.map((h) => ({
+        id: h.id,
+        type: h.type,
+        title: h.title,
+        narration: h.narration,
+        transcript: h.transcript,
+        captionFile: h.captionFile,
+        narrationOptional: h.narrationOptional,
+      })),
+    }));
     const result = evaluateAccessibilityPublishChecklist({
-      scenes: args.scenes as SceneA11yInput[],
+      scenes: normalizedScenes,
       requireCaptions: args.requireCaptions,
     });
     return { ...result, checkedAt: 0 };
@@ -260,9 +290,26 @@ export const saveChecklistSnapshot = mutation({
       throw new Error("No autorizado para este tour");
     }
 
-    const scenesInput =
+    const scenesInput: SceneA11yInput[] =
       args.scenes && args.scenes.length > 0
-        ? (args.scenes as SceneA11yInput[])
+        ? args.scenes.map((s) => ({
+            id: s.id,
+            title: s.title,
+            srSummary: s.srSummary,
+            narration: s.narration,
+            transcript: s.transcript,
+            captionFile: s.captionFile,
+            narrationOptional: s.narrationOptional,
+            hotspots: s.hotspots?.map((h) => ({
+              id: h.id,
+              type: h.type,
+              title: h.title,
+              narration: h.narration,
+              transcript: h.transcript,
+              captionFile: h.captionFile,
+              narrationOptional: h.narrationOptional,
+            })),
+          }))
         : await buildPackageScenesFromDb(ctx, args.tourId);
 
     const result = evaluateAccessibilityPublishChecklist({
@@ -301,7 +348,7 @@ export const importA11yPackage = mutation({
     const tour = await ctx.db.get(args.tourId);
     if (!tour) throw new Error("Tour no encontrado");
 
-    const pkg = args.package as A11yPackagePayload;
+    const pkg: A11yPackagePayload = args.package;
     if (pkg.tourSlug && pkg.tourSlug !== tour.slug) {
       throw new Error(
         `Paquete tourSlug "${pkg.tourSlug}" no coincide con tour "${tour.slug}"`
@@ -404,22 +451,29 @@ export const syncPilotA11yPackage = mutation({
 
 /** Metadata for admin/docs: expected full-campus embed sizes. */
 export const getCampusA11yPackageMeta = query({
-  args: {},
+  args: {
+    token: v.string(),
+    now: v.optional(v.number()),
+  },
   returns: v.object({
     tourSlug: v.string(),
     sceneCount: v.number(),
     hotspotCount: v.number(),
   }),
-  handler: async () => ({
-    tourSlug: PILOT_A11Y_TOUR_SLUG,
-    sceneCount: FULL_CAMPUS_A11Y_SCENE_COUNT,
-    hotspotCount: FULL_CAMPUS_A11Y_HOTSPOT_COUNT,
-  }),
+  handler: async (ctx, args) => {
+    await requireUser(ctx, args.token, args.now);
+    return {
+      tourSlug: PILOT_A11Y_TOUR_SLUG,
+      sceneCount: FULL_CAMPUS_A11Y_SCENE_COUNT,
+      hotspotCount: FULL_CAMPUS_A11Y_HOTSPOT_COUNT,
+    };
+  },
 });
 
 /**
  * Publish / unpublish tour. Accessible claim always evaluates Convex DB fields
  * (never static package alone). forcePublish = spatial publish without a11y claim pass.
+ * Restricted strictly to `orgAdmin` (tourEditor cannot publish/unpublish).
  */
 export const setTourPublished = mutation({
   args: {
@@ -443,12 +497,17 @@ export const setTourPublished = mutation({
   }),
   handler: async (ctx, args) => {
     const user = await requireUser(ctx, args.token);
-    if (!(await userCanEditTour(ctx, user, args.tourId))) {
-      throw new Error("No autorizado para este tour");
+    if (!(await userIsOrgAdmin(ctx, user, args.tourId))) {
+      throw new Error(
+        "Solo el administrador de organización puede publicar o despublicar tours"
+      );
     }
 
     const tour = await ctx.db.get(args.tourId);
     if (!tour) throw new Error("Tour no encontrado");
+    if (args.published && tour.archived) {
+      throw new Error("Restaura el tour archivado antes de publicarlo");
+    }
 
     let checklist: {
       ready: boolean;
@@ -484,6 +543,15 @@ export const setTourPublished = mutation({
     await ctx.db.patch(args.tourId, {
       published: args.published,
       updatedAt: now,
+    });
+    await writeAuditLog(ctx, {
+      user,
+      actorRole: "orgAdmin",
+      organizationId: tour.organizationId,
+      tourId: tour._id,
+      action: args.published ? "tour:publish" : "tour:unpublish",
+      target: tour.slug,
+      detail: args.forcePublish ? "Forzado sin bloqueo a11y" : undefined,
     });
 
     return { published: args.published, checklist };

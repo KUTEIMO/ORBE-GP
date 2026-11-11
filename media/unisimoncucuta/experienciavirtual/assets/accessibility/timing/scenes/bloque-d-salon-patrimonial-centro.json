@@ -1,0 +1,21 @@
+{
+  "voice": "es-CO-SalomeNeural",
+  "rate": "-5%",
+  "cues": [
+    {
+      "start": 0.1,
+      "end": 4.116,
+      "text": "Avanzas por el sector central del Salón Patrimonial."
+    },
+    {
+      "start": 4.066,
+      "end": 8.465,
+      "text": "Desde este punto puedes cruzar hacia el corredor de baños, salir a"
+    },
+    {
+      "start": 8.465,
+      "end": 12.132,
+      "text": "la galería del jardín o continuar hacia el área norte."
+    }
+  ]
+}

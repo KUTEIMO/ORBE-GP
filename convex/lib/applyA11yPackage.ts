@@ -27,7 +27,7 @@ function nonEmpty(s: string | undefined | null): string | undefined {
 function titleFromKey(sceneKey: string): string {
   return sceneKey
     .split("-")
-    .map((w) => (w ? w[0]!.toUpperCase() + w.slice(1) : w))
+    .map((w) => (w ? w.charAt(0).toUpperCase() + w.slice(1) : w))
     .join(" ");
 }
 
@@ -41,13 +41,13 @@ export async function applyA11yPackageToTour(
   const tour = await ctx.db.get(tourId);
   if (!tour) throw new Error("Tour no encontrado");
 
-  let scenes = await ctx.db
+  const scenes = await ctx.db
     .query("scenes")
-    .withIndex("by_tour", (q) => q.eq("tourId", tourId))
+    .withIndex("by_tour_and_file", (q) => q.eq("tourId", tourId))
     .collect();
   let hotspots = await ctx.db
     .query("hotspots")
-    .withIndex("by_tour", (q) => q.eq("tourId", tourId))
+    .withIndex("by_client_key", (q) => q.eq("tourId", tourId))
     .collect();
 
   const byFileKey = new Map(scenes.map((s) => [s.fileKey, s]));
@@ -144,7 +144,7 @@ export async function applyA11yPackageToTour(
   // Refresh hotspot map after scene creates
   hotspots = await ctx.db
     .query("hotspots")
-    .withIndex("by_tour", (q) => q.eq("tourId", tourId))
+    .withIndex("by_client_key", (q) => q.eq("tourId", tourId))
     .collect();
   byClientKey.clear();
   for (const h of hotspots) byClientKey.set(h.clientKey, h);

@@ -1,0 +1,16 @@
+{
+  "voice": "es-CO-SalomeNeural",
+  "rate": "-5%",
+  "cues": [
+    {
+      "start": 0.1,
+      "end": 5.207,
+      "text": "Panel institucional de la Oficina de Egresados de la Universidad Simón Bolívar,"
+    },
+    {
+      "start": 5.207,
+      "end": 9.037,
+      "text": "ubicado junto al módulo de atención del salón patrimonial."
+    }
+  ]
+}

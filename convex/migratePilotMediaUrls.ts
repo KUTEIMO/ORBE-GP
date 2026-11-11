@@ -82,11 +82,11 @@ export const migratePilotMediaUrls = mutation({
 
     const scenes = await ctx.db
       .query("scenes")
-      .withIndex("by_tour", (q) => q.eq("tourId", tour._id))
+      .withIndex("by_tour_and_file", (q) => q.eq("tourId", tour._id))
       .collect();
     const hotspots = await ctx.db
       .query("hotspots")
-      .withIndex("by_tour", (q) => q.eq("tourId", tour._id))
+      .withIndex("by_client_key", (q) => q.eq("tourId", tour._id))
       .collect();
     const connections = await ctx.db
       .query("connections")

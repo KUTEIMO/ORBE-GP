@@ -1,9 +1,9 @@
 @echo off
 chcp 65001 >nul
-title ORBE360 - Despliegue Local (Gestión de Proyectos Unisimón)
+title ORBE360 - Despliegue Local (Desarrollo Multi-Tenant)
 echo ===============================================================================
-echo  ORBE360 (PEVCI) — Recorrido Virtual 360 Institucional (70%% Evaluado)
-echo  Universidad Simón Bolívar — Gestión de Proyectos (Ing. Nataly Duque Páez)
+echo  ORBE360 — Plataforma Multi-Tenant de Recorridos Virtuales 360° Accesibles
+echo  Entorno de Desarrollo Local (Convex + Servidor Web Virtual)
 echo ===============================================================================
 echo.
 
@@ -15,12 +15,18 @@ if %errorlevel% neq 0 (
     set "PATH=%PATH%;C:\Program Files\nodejs"
 )
 
+if not exist "node_modules\" (
+    echo [*] Instalando dependencias del proyecto ^(primera ejecucion^)...
+    call npm install
+)
+
 echo [*] Verificando backend Convex local en 127.0.0.1:3210...
 powershell -NoProfile -Command "try { Invoke-WebRequest -UseBasicParsing -Uri 'http://127.0.0.1:3210/version' -TimeoutSec 2 | Out-Null; exit 0 } catch { exit 1 }"
 if %errorlevel% neq 0 (
     echo [*] Iniciando servidor Convex local en ventana aparte...
-    start "ORBE360 - Convex Dev" cmd /c "npx convex dev"
-    timeout /t 4 /nobreak >nul
+    echo [i] Si es tu primera ejecucion en este equipo, revisa la nueva ventana por si Convex requiere iniciar sesion y ejecuta despues el seed inicial indicado en README.md.
+    start "ORBE360 - Convex Dev" cmd /k "npx convex dev"
+    timeout /t 5 /nobreak >nul
 )
 
 echo [*] Abriendo el navegador en http://127.0.0.1:8081/...

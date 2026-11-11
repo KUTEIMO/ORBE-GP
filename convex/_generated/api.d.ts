@@ -9,6 +9,7 @@
  */
 
 import type * as accessibilityPublish from "../accessibilityPublish.js";
+import type * as audit from "../audit.js";
 import type * as auth from "../auth.js";
 import type * as branding from "../branding.js";
 import type * as cleanupQa from "../cleanupQa.js";
@@ -22,6 +23,7 @@ import type * as lib_campusSpatialPackage from "../lib/campusSpatialPackage.js";
 import type * as lib_hotspotVisual from "../lib/hotspotVisual.js";
 import type * as lib_pilotA11yPackage from "../lib/pilotA11yPackage.js";
 import type * as lib_tourResolve from "../lib/tourResolve.js";
+import type * as lib_urlSafety from "../lib/urlSafety.js";
 import type * as media from "../media.js";
 import type * as migratePilotMediaUrls from "../migratePilotMediaUrls.js";
 import type * as organizations from "../organizations.js";
@@ -37,6 +39,7 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   accessibilityPublish: typeof accessibilityPublish;
+  audit: typeof audit;
   auth: typeof auth;
   branding: typeof branding;
   cleanupQa: typeof cleanupQa;
@@ -50,6 +53,7 @@ declare const fullApi: ApiFromModules<{
   "lib/hotspotVisual": typeof lib_hotspotVisual;
   "lib/pilotA11yPackage": typeof lib_pilotA11yPackage;
   "lib/tourResolve": typeof lib_tourResolve;
+  "lib/urlSafety": typeof lib_urlSafety;
   media: typeof media;
   migratePilotMediaUrls: typeof migratePilotMediaUrls;
   organizations: typeof organizations;

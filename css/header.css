@@ -131,7 +131,7 @@
 
 .menu-toggle:hover {
   background: var(--brand-strong);
-  color: var(--brand-ink, #ffffff);
+  color: var(--brand-strong-ink, var(--brand-ink, #ffffff));
   transform: translateY(-1px);
 }
 
@@ -204,5 +204,11 @@
   border-color: rgba(255, 255, 255, 0.75) !important;
   color: var(--brand-ink, #ffffff) !important;
   box-shadow: 0 4px 14px var(--brand-ghost, rgba(0, 0, 0, 0.35));
+}
+
+html.embed-mode #adminLink,
+html.embed-mode #platformLink,
+html.embed-mode #poweredByOrbe {
+  display: none !important;
 }
 

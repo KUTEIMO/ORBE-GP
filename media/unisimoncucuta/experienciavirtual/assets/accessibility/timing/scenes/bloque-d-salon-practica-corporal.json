@@ -1,0 +1,21 @@
+{
+  "voice": "es-CO-SalomeNeural",
+  "rate": "-5%",
+  "cues": [
+    {
+      "start": 0.1,
+      "end": 4.553,
+      "text": "Te encuentras en el ala norte del Salón Patrimonial del Bloque D,"
+    },
+    {
+      "start": 4.553,
+      "end": 9.005,
+      "text": "donde también se realizan prácticas con tapetes y actividades de bienestar junto"
+    },
+    {
+      "start": 9.005,
+      "end": 11.603,
+      "text": "al backing de la Oficina de Egresados."
+    }
+  ]
+}

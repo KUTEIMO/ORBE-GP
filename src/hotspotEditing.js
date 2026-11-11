@@ -117,7 +117,6 @@ function persistOverrides() {
 }
 
 function enableEditEnvironment() {
-  const sceneEntry = window.appState?.scenes?.get(window.appState.currentSceneId);
   const viewer = window.appState?.viewer;
   stageElement = viewer?.stage?.domElement ? viewer.stage().domElement() : null;
   if (stageElement) {

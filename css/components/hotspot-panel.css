@@ -64,7 +64,7 @@
 .audio-control {
   flex: 1;
   background: var(--brand, #4b5563);
-  color: #fff;
+  color: var(--brand-ink, #ffffff);
   border: none;
   border-radius: 10px;
   padding: 0.5rem;
@@ -87,12 +87,8 @@
   border: 1px solid rgba(255, 255, 255, 0.12);
   padding: 0.85rem;
   border-radius: var(--orbe-rad-md, 12px);
-  max-height: 9.5rem;
-  overflow-y: auto;
   display: none;
   margin-top: 0.5rem;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
 }
 
 .caption-container[data-visible="true"] {
@@ -101,7 +97,7 @@
 
 .caption-live-box {
   background: rgba(255, 255, 255, 0.06);
-  border-left: 3px solid var(--brand, #2d6a4f);
+  border-left: 3px solid var(--brand, #4b5563);
   padding: 0.45rem 0.65rem;
   border-radius: 6px;
   margin-bottom: 0.5rem;
@@ -253,17 +249,20 @@
 
 .audio-control:hover {
   background: var(--brand, #4b5563);
+  color: var(--brand-ink, #ffffff);
   border-color: rgba(255, 255, 255, 0.4);
   transform: translateY(var(--orbe-lift, -1px));
 }
 
 .audio-control[data-audio-action="play"] {
   background: var(--brand, #4b5563);
+  color: var(--brand-ink, #ffffff);
   border-color: var(--brand-strong, #1f2937);
 }
 
 .audio-control[data-audio-action="play"]:hover {
   background: var(--brand-strong, #1f2937);
+  color: var(--brand-strong-ink, var(--brand-ink, #ffffff));
 }
 
 .audio-control:active {

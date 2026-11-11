@@ -73,12 +73,12 @@
 /* Hover sobre hotspot clickable: acento de marca + un poco más grande */
 .direction-cue.direction-cue--over-hotspot {
   --cue-size: 58px;
-  --cue-disc: color-mix(in srgb, var(--brand, #0a7a45) 42%, rgba(6, 10, 8, 0.88));
-  --cue-ring: #eafff2;
-  --cue-halo: color-mix(in srgb, var(--brand, #0a7a45) 48%, transparent);
-  --cue-arrow: #f7fff9;
+  --cue-disc: color-mix(in srgb, var(--brand, #4b5563) 42%, rgba(6, 10, 8, 0.88));
+  --cue-ring: #ffffff;
+  --cue-halo: color-mix(in srgb, var(--brand, #4b5563) 48%, transparent);
+  --cue-arrow: #ffffff;
   filter:
-    drop-shadow(0 0 10px color-mix(in srgb, var(--brand, #0a7a45) 55%, transparent))
+    drop-shadow(0 0 10px color-mix(in srgb, var(--brand, #4b5563) 55%, transparent))
     drop-shadow(0 3px 8px rgba(0, 0, 0, 0.5));
 }
 

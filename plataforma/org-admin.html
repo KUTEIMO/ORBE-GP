@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Admin de organización — Orbe360</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%230284c7'/%3E%3Ccircle cx='16' cy='16' r='6' fill='none' stroke='%23fff' stroke-width='2.5'/%3E%3C/svg%3E">
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/plataforma/admin-shell.css">
 </head>
@@ -36,7 +37,9 @@
       <button type="button" role="tab" id="tab-tours" aria-controls="panel-tours" aria-selected="true" data-tab="tours">Tours</button>
       <button type="button" role="tab" id="tab-branding" aria-controls="panel-branding" aria-selected="false" data-tab="branding">Branding</button>
       <button type="button" role="tab" id="tab-publish" aria-controls="panel-publish" aria-selected="false" data-tab="publish">Publicación</button>
+      <button type="button" role="tab" id="tab-metrics" aria-controls="panel-metrics" aria-selected="false" data-tab="metrics">Métricas y bitácora</button>
       <button type="button" role="tab" id="tab-access" aria-controls="panel-access" aria-selected="false" data-tab="access">Accesos</button>
+      <button type="button" role="tab" id="tab-account" aria-controls="panel-account" aria-selected="false" data-tab="account">Mi cuenta</button>
     </div>
 
     <div class="active-tour-bar" id="activeTourBar" hidden>
@@ -47,9 +50,26 @@
     <section class="card tab-panel" id="panel-tours" role="tabpanel" aria-labelledby="tab-tours">
       <div class="page-head" style="margin-bottom:0.5rem">
         <h2 style="margin:0">Tours de la organización</h2>
+        <label class="hint" style="display:inline-flex;align-items:center;gap:0.4rem;margin:0;cursor:pointer">
+          <input type="checkbox" id="showArchivedToggle">
+          Mostrar archivados
+        </label>
       </div>
       <div id="toursList">Cargando tours…</div>
       <p class="status" id="toursStatus" role="status"></p>
+
+      <div class="card" id="tourManageBar" style="margin-top:1rem;padding:0.9rem" hidden>
+        <h3 style="margin:0 0 0.5rem;font-size:0.95rem">Administración del tour seleccionado</h3>
+        <form id="renameTourForm" class="cta-row" style="align-items:flex-end;gap:0.65rem;flex-wrap:wrap">
+          <div class="field" style="flex:1 1 16rem;margin:0">
+            <label for="renameTourInput">Título visible</label>
+            <input id="renameTourInput" required minlength="2" maxlength="120">
+          </div>
+          <button type="submit" class="btn btn--primary" id="renameTourBtn">Renombrar tour</button>
+          <button type="button" class="btn btn--ghost" id="archiveTourBtn">Archivar</button>
+        </form>
+        <p class="status" id="tourManageStatus" role="status"></p>
+      </div>
 
       <details class="card ops-panel" id="createTourDetails" style="margin-top:1.25rem">
         <summary>Crear nuevo tour</summary>
@@ -105,22 +125,22 @@
           <div class="field">
             <label for="primaryColor">Color primario</label>
             <div class="color-field">
-              <input id="primaryColor" name="primaryColor" placeholder="#0a7a45" required>
-              <input type="color" id="primaryColorPick" value="#0a7a45" aria-label="Elegir primario">
+              <input id="primaryColor" name="primaryColor" placeholder="#4b5563" required>
+              <input type="color" id="primaryColorPick" value="#4b5563" aria-label="Elegir primario">
             </div>
           </div>
           <div class="field">
             <label for="primaryStrong">Primario fuerte</label>
             <div class="color-field">
-              <input id="primaryStrong" name="primaryStrong" placeholder="#086638">
-              <input type="color" id="primaryStrongPick" value="#086638" aria-label="Elegir fuerte">
+              <input id="primaryStrong" name="primaryStrong" placeholder="#1f2937">
+              <input type="color" id="primaryStrongPick" value="#1f2937" aria-label="Elegir fuerte">
             </div>
           </div>
           <div class="field">
             <label for="accentColor">Acento / secundario</label>
             <div class="color-field">
-              <input id="accentColor" name="accentColor" placeholder="#1d9bf0">
-              <input type="color" id="accentColorPick" value="#1d9bf0" aria-label="Elegir acento">
+              <input id="accentColor" name="accentColor" placeholder="#64748b">
+              <input type="color" id="accentColorPick" value="#64748b" aria-label="Elegir acento">
             </div>
           </div>
           <div class="field">
@@ -192,13 +212,74 @@
       </div>
     </section>
 
+    <section class="card tab-panel" id="panel-metrics" role="tabpanel" aria-labelledby="tab-metrics" hidden>
+      <div class="page-head" style="margin-bottom:0.75rem">
+        <div>
+          <h2 style="margin:0">Métricas y bitácora</h2>
+          <p class="hint" id="metricsScopeLabel" style="margin:0.2rem 0 0">Conteos anónimos de visitas y registro administrativo de la organización.</p>
+        </div>
+        <div class="cta-row" style="margin:0">
+          <button type="button" class="btn btn--ghost" id="refreshMetricsBtn">Actualizar</button>
+          <button type="button" class="btn btn--primary" id="exportMetricsCsvBtn">Exportar CSV</button>
+        </div>
+      </div>
+
+      <div class="kpi-row" aria-live="polite">
+        <div class="kpi"><div class="kpi__value" id="metricViews">—</div><div class="kpi__label">Vistas públicas</div></div>
+        <div class="kpi"><div class="kpi__value" id="metricScenes">—</div><div class="kpi__label">Cambios de escena</div></div>
+        <div class="kpi"><div class="kpi__value" id="metricHotspots">—</div><div class="kpi__label">Hotspots abiertos</div></div>
+      </div>
+
+      <div id="metricsDaysWrap" style="margin-top:1rem">Cargando métricas…</div>
+      <h3 style="margin:1.35rem 0 0.5rem">Bitácora de actividad</h3>
+      <div id="orgAuditList">Cargando bitácora…</div>
+    </section>
+
     <section class="card tab-panel" id="panel-access" role="tabpanel" aria-labelledby="tab-access" hidden>
       <h2>Accesos</h2>
       <div class="cta-row">
         <a class="btn btn--primary" id="ctaControlWeb" href="#">Control Web</a>
         <a class="btn btn--ghost" id="ctaPublicTour" href="#">Tour público</a>
-        <a class="btn btn--ghost" id="navPublicTour" href="#" hidden>Ver tour público</a>
-        <a class="btn btn--ghost" id="navControlWeb" href="#" hidden>Control Web</a>
+      </div>
+    </section>
+
+    <section class="card tab-panel" id="panel-account" role="tabpanel" aria-labelledby="tab-account" hidden>
+      <h2>Mi cuenta</h2>
+      <div class="section-grid">
+        <form id="profileForm" class="card" style="padding:1rem">
+          <h3 style="margin-top:0">Perfil</h3>
+          <div class="field">
+            <label for="profileEmail">Correo</label>
+            <input id="profileEmail" readonly disabled>
+          </div>
+          <div class="field">
+            <label for="profileName">Nombre visible</label>
+            <input id="profileName" required minlength="2" maxlength="100">
+          </div>
+          <button type="submit" class="btn btn--primary">Guardar nombre</button>
+          <p class="status" id="profileStatus" role="status"></p>
+        </form>
+
+        <form id="passwordForm" class="card" style="padding:1rem">
+          <h3 style="margin-top:0">Cambiar contraseña</h3>
+          <div class="field">
+            <label for="currentPassword">Contraseña actual</label>
+            <input id="currentPassword" type="password" required autocomplete="current-password">
+          </div>
+          <div class="field">
+            <label for="newPassword">Nueva contraseña (mín. 10 caracteres)</label>
+            <input id="newPassword" type="password" required minlength="10" autocomplete="new-password">
+          </div>
+          <div class="field">
+            <label for="confirmPassword">Confirmar nueva contraseña</label>
+            <input id="confirmPassword" type="password" required minlength="10" autocomplete="new-password">
+          </div>
+          <div class="cta-row">
+            <button type="submit" class="btn btn--primary">Actualizar contraseña</button>
+            <button type="button" class="btn btn--ghost" id="revokeSessionsBtn">Cerrar todas mis sesiones</button>
+          </div>
+          <p class="status" id="passwordStatus" role="status"></p>
+        </form>
       </div>
     </section>
   </main>
@@ -206,6 +287,7 @@
   <script src="/plataforma/config.js"></script>
   <script type="module">
     import { apiMutation, apiQuery, getToken, clearToken, fetchMe } from "/plataforma/convex-client.js";
+    import { contrastInkForHex } from "/src/tourBranding.js";
     import {
       publicTourHref,
       controlWebHref,
@@ -214,9 +296,13 @@
       DEFAULT_TOUR_SLUG,
     } from "/src/tourSlug.js";
 
+    (async function bootOrgAdmin() {
     const token = getToken();
     const loginBackUrl = `/plataforma/login.html?return=${encodeURIComponent(location.pathname + location.search)}`;
-    if (!token) location.href = loginBackUrl;
+    if (!token) {
+      location.replace(loginBackUrl);
+      return;
+    }
 
     const navAccountLink = document.getElementById("navAccountLink");
     if (navAccountLink) {
@@ -228,7 +314,7 @@
       me = await fetchMe(token);
     } catch (connErr) {
       const who = document.getElementById("whoami");
-      who.textContent = connErr?.message || "Sin conexión con Convex.";
+      who.textContent = connErr?.message || "Sin conexión con el servidor.";
       who.classList.add("error");
       const retry = document.createElement("button");
       retry.type = "button";
@@ -237,15 +323,17 @@
       retry.textContent = "Reintentar conexión";
       retry.addEventListener("click", () => location.reload());
       who.after(retry);
-      throw connErr;
+      return;
     }
     if (!me) {
       clearToken();
-      location.href = loginBackUrl;
+      location.replace(loginBackUrl);
+      return;
     }
 
-    if (me?.isSuperadmin) {
-      location.href = "/plataforma/superadmin.html?notice=use_org_admin_account";
+    if (me.isSuperadmin) {
+      location.replace("/plataforma/superadmin.html?notice=use_org_admin_account");
+      return;
     }
 
     /** @type {Array<{ id: string, name: string, slug: string, maxTours?: number|null, tourCount?: number }>} */
@@ -272,19 +360,33 @@
       );
     }
 
+    function isOrgAdminRole() {
+      const m = getActiveMembership();
+      return m?.role === "orgAdmin";
+    }
+
     function refreshWhoami() {
       if (!me) return;
       const m = getActiveMembership();
-      const roleText = m?.role === "tourEditor" ? "Editor de tour" : "Administrador de organización";
+      const canAdminOrg = m?.role === "orgAdmin";
+      const roleText = canAdminOrg ? "Administrador de organización" : "Editor de tour";
       document.getElementById("whoami").textContent =
         `Sesión: ${me.name} (${me.email}) · ${roleText}`;
       const createDetails = document.getElementById("createTourDetails");
-      if (createDetails) {
-        createDetails.hidden = m?.role === "tourEditor";
-      }
+      if (createDetails) createDetails.hidden = !canAdminOrg;
+      const tabBranding = document.getElementById("tab-branding");
+      const tabPublish = document.getElementById("tab-publish");
+      const manageBar = document.getElementById("tourManageBar");
+      if (tabBranding) tabBranding.hidden = !canAdminOrg;
+      if (tabPublish) tabPublish.hidden = !canAdminOrg;
+      if (manageBar) manageBar.hidden = !canAdminOrg || !getActiveTour();
     }
     if (me && !me.isSuperadmin) {
       refreshWhoami();
+      const emailInput = document.getElementById("profileEmail");
+      const nameInput = document.getElementById("profileName");
+      if (emailInput) emailInput.value = me.email || "";
+      if (nameInput) nameInput.value = me.name || "";
     }
 
     const statusEl = document.getElementById("brandingStatus");
@@ -315,14 +417,24 @@
     const tabButtons = [...document.querySelectorAll('.admin-tabs [role="tab"]')];
     const activeTourBar = document.getElementById("activeTourBar");
     function activateTab(name) {
+      let safeName = name;
+      if (!isOrgAdminRole() && (safeName === "branding" || safeName === "publish")) {
+        safeName = "tours";
+      }
       for (const btn of tabButtons) {
-        const on = btn.dataset.tab === name;
+        const on = btn.dataset.tab === safeName;
         btn.setAttribute("aria-selected", on ? "true" : "false");
         const panel = document.getElementById(`panel-${btn.dataset.tab}`);
         if (panel) panel.hidden = !on;
       }
       if (activeTourBar) {
-        activeTourBar.hidden = name === "tours" || tours.length === 0;
+        activeTourBar.hidden =
+          safeName === "tours" ||
+          safeName === "account" ||
+          tours.length === 0;
+      }
+      if (safeName === "metrics") {
+        void loadMetricsAndAudit();
       }
     }
     tabButtons.forEach((btn) => {
@@ -332,13 +444,7 @@
     function syncDeepLinks(tourSlug) {
       const org = activeOrgSlug;
       if (!org || !tourSlug) {
-        for (const id of [
-          "navPublicTour",
-          "navControlWeb",
-          "ctaPublicTour",
-          "ctaControlWeb",
-          "publicViewerLink",
-        ]) {
+        for (const id of ["ctaPublicTour", "ctaControlWeb", "publicViewerLink"]) {
           const el = document.getElementById(id);
           if (el) el.setAttribute("href", "#");
         }
@@ -346,8 +452,6 @@
       }
       const pub = publicTourHref({ tourSlug, orgSlug: org });
       const cw = controlWebHref({ tourSlug, orgSlug: org });
-      document.getElementById("navPublicTour").href = pub;
-      document.getElementById("navControlWeb").href = cw;
       document.getElementById("ctaPublicTour").href = pub;
       document.getElementById("ctaControlWeb").href = cw;
       document.getElementById("publicViewerLink").href = pub;
@@ -431,29 +535,50 @@
       `;
     }
 
-    function renderToursList() {
-      const el = document.getElementById("toursList");
-      const m = getActiveMembership();
-      const isEditorOnly = m?.role === "tourEditor";
-      if (!tours.length) {
-        el.innerHTML = `
-          <div class="empty-state">
-            <strong>Sin tours todavía</strong>
-            ${isEditorOnly
-              ? "Pide al administrador de tu organización que cree el primer tour."
-              : "Crea el primer tour para esta organización en el apartado inferior."}
-          </div>`;
-        activeSelect.innerHTML = "";
-        if (activeTourBar) activeTourBar.hidden = true;
+    function renderTourManageBar() {
+      const bar = document.getElementById("tourManageBar");
+      if (!bar) return;
+      const tour = getActiveTour();
+      if (!isOrgAdminRole() || !tour) {
+        bar.hidden = true;
         return;
       }
-      activeSelect.innerHTML = tours
+      bar.hidden = false;
+      const titleInput = document.getElementById("renameTourInput");
+      const archiveBtn = document.getElementById("archiveTourBtn");
+      if (titleInput) titleInput.value = tour.title || "";
+      if (archiveBtn) archiveBtn.textContent = tour.archived ? "Restaurar" : "Archivar";
+    }
+
+    function renderToursList() {
+      const el = document.getElementById("toursList");
+      const canAdminOrg = isOrgAdminRole();
+      const showArchived = Boolean(document.getElementById("showArchivedToggle")?.checked);
+      const visibleTours = showArchived ? tours : tours.filter((t) => !t.archived);
+      if (!visibleTours.length) {
+        el.innerHTML = `
+          <div class="empty-state">
+            <strong>${tours.length ? "Todos los tours están archivados" : "Sin tours todavía"}</strong>
+            ${tours.length
+              ? "Marca «Mostrar archivados» para restaurar alguno."
+              : canAdminOrg
+                ? "Crea el primer tour para esta organización en el apartado inferior."
+                : "Pide al administrador de tu organización que cree el primer tour."}
+          </div>`;
+        activeSelect.innerHTML = visibleTours
+          .map((t) => `<option value="${escapeHtml(t.id)}">${escapeHtml(t.title)}</option>`)
+          .join("");
+        if (activeTourBar) activeTourBar.hidden = true;
+        renderTourManageBar();
+        return;
+      }
+      activeSelect.innerHTML = visibleTours
         .map(
           (t) =>
             `<option value="${escapeHtml(t.id)}" ${t.id === activeTourId ? "selected" : ""}>${escapeHtml(t.title)}</option>`
         )
         .join("");
-      el.innerHTML = `<div class="tour-grid">${tours
+      el.innerHTML = `<div class="tour-grid">${visibleTours
         .map((t) => {
           const pub = publicTourHref({
             tourSlug: t.slug,
@@ -463,17 +588,20 @@
             tourSlug: t.slug,
             orgSlug: activeOrgSlug,
           });
+          const statusBadge = t.archived
+            ? '<span class="badge badge--no">Archivado</span>'
+            : `<span class="badge ${t.published ? "badge--ok" : "badge--muted"}">${t.published ? "Publicado" : "Borrador"}</span>`;
           return `<article class="tour-card ${t.id === activeTourId ? "is-active" : ""}" data-tour-id="${escapeHtml(t.id)}">
             <div class="tour-card__head">
               <p class="tour-card__title">${escapeHtml(t.title)}</p>
-              <span class="badge ${t.published ? "badge--ok" : "badge--muted"}">${t.published ? "Publicado" : "Borrador"}</span>
+              ${statusBadge}
             </div>
             <p class="tour-card__meta"><code>/${escapeHtml(activeOrgSlug)}/${escapeHtml(t.slug)}/</code></p>
             <div class="tour-card__actions">
               <a class="btn btn--tiny btn--primary" href="${escapeHtml(cw)}" data-stop>Control Web</a>
-              <a class="btn btn--tiny btn--ghost" href="${escapeHtml(pub)}" target="_blank" rel="noopener" data-stop>${t.published ? "Visor" : "Vista previa"}</a>
-              <button type="button" class="btn btn--tiny btn--ghost" data-brand data-stop>Branding</button>
-              <button type="button" class="btn btn--tiny btn--ghost" data-pub data-stop>Publicar</button>
+              ${t.archived ? "" : `<a class="btn btn--tiny btn--ghost" href="${escapeHtml(pub)}" target="_blank" rel="noopener" data-stop>${t.published ? "Visor" : "Vista previa"}</a>`}
+              ${canAdminOrg ? `<button type="button" class="btn btn--tiny btn--ghost" data-brand data-stop>Branding</button>
+              <button type="button" class="btn btn--tiny btn--ghost" data-pub data-stop>Publicar</button>` : ""}
             </div>
           </article>`;
         })
@@ -495,6 +623,7 @@
           setActiveTour(tid);
         });
       });
+      renderTourManageBar();
     }
 
     async function loadTours(selectSlug = null) {
@@ -554,9 +683,10 @@
     }
 
     function updateBrandPreview() {
-      const primary = document.getElementById("primaryColor").value.trim() || "#0a7a45";
+      const primary = document.getElementById("primaryColor").value.trim() || "#4b5563";
       const strong = document.getElementById("primaryStrong").value.trim() || primary;
-      const accent = document.getElementById("accentColor").value.trim() || "#1d9bf0";
+      const accent = document.getElementById("accentColor").value.trim() || "#64748b";
+      const previewInk = contrastInkForHex(primary);
       const name =
         document.getElementById("clientShortName").value.trim() ||
         document.getElementById("clientName").value.trim() ||
@@ -570,6 +700,7 @@
       const preview = document.getElementById("brandPreview");
       preview.style.setProperty("--preview-primary", primary);
       preview.style.setProperty("--preview-strong", strong);
+      preview.style.setProperty("--preview-ink", previewInk);
       document.getElementById("previewName").textContent = name;
       document.getElementById("previewMeta").textContent = meta;
       document.getElementById("previewPowered").hidden = !powered;
@@ -613,16 +744,23 @@
       }
     }
     bindBrandingPreview();
+    updateBrandPreview();
 
     async function applyActiveTour(tour) {
       activeTourId = tour.id;
       syncDeepLinks(tour.slug);
       document.getElementById("publishTourLabel").textContent =
-        `${tour.title} · ${tour.published ? "Publicado" : "Borrador"}`;
+        `${tour.title} · ${tour.archived ? "Archivado" : tour.published ? "Publicado" : "Borrador"}`;
       renderToursList();
-      statusEl.classList.remove("error");
-      await loadBranding();
-      await evaluateChecklist({ quiet: true });
+      const tasks = [];
+      if (isOrgAdminRole()) {
+        statusEl.classList.remove("error");
+        tasks.push(loadBranding(), evaluateChecklist({ quiet: true }));
+      }
+      if (!document.getElementById("panel-metrics")?.hidden) {
+        tasks.push(loadMetricsAndAudit());
+      }
+      await Promise.all(tasks);
     }
 
     function setActiveTour(tourId) {
@@ -652,33 +790,38 @@
     if (!pathOrgSlug) {
       if (orgs.length) {
         location.replace(orgAdminHref(orgs[0].slug));
-      } else {
-        renderOrgs();
+        return;
       }
-    } else {
-      const preferredOrg = orgs.find((o) => o.slug === pathOrgSlug) || null;
-      if (!preferredOrg) {
-        // Wrong org in URL: do not render that org's panels; send user to their home org.
-        if (orgs.length) {
-          location.replace(
-            `${orgAdminHref(orgs[0].slug)}?deniedOrg=${encodeURIComponent(pathOrgSlug)}`
-          );
-        } else {
-          document.getElementById("orgs").hidden = false;
-          document.getElementById("orgs").innerHTML =
-            `<p class="error">No tienes acceso a la organización <code>${escapeHtml(pathOrgSlug)}</code>.</p>`;
-          toursStatus.textContent = "Organización no autorizada para esta sesión.";
-          toursStatus.classList.add("error");
-        }
-      } else {
-        activeOrgId = preferredOrg.id;
-        activeOrgSlug = preferredOrg.slug;
-        refreshWhoami();
-        renderOrgs();
-        await loadTours();
-        updateNewTourPreview();
-      }
+      renderOrgs();
+      return;
     }
+
+    const preferredOrg = orgs.find((o) => o.slug === pathOrgSlug) || null;
+    if (!preferredOrg) {
+      // Wrong org in URL: do not render that org's panels; send user to their home org.
+      if (orgs.length) {
+        location.replace(
+          `${orgAdminHref(orgs[0].slug)}?deniedOrg=${encodeURIComponent(pathOrgSlug)}`
+        );
+        return;
+      }
+      document.getElementById("orgs").hidden = false;
+      document.getElementById("orgs").innerHTML =
+        `<p class="error">No tienes acceso a la organización <code>${escapeHtml(pathOrgSlug)}</code>.</p>`;
+      toursStatus.textContent = "Organización no autorizada para esta sesión.";
+      toursStatus.classList.add("error");
+      return;
+    }
+
+    activeOrgId = preferredOrg.id;
+    activeOrgSlug = preferredOrg.slug;
+    refreshWhoami();
+    renderOrgs();
+    if (!document.getElementById("panel-metrics")?.hidden) {
+      void loadMetricsAndAudit();
+    }
+    await loadTours();
+    updateNewTourPreview();
 
     async function evaluateChecklist(opts = {}) {
       const quiet = Boolean(opts.quiet);
@@ -1016,6 +1159,210 @@
       }
     });
 
+    let lastMetricsPayload = null;
+
+    function safeCsvCell(value) {
+      let s = String(value ?? "");
+      if (/^[=+\-@\t\r]/.test(s)) s = `'${s}`;
+      return `"${s.replaceAll('"', '""')}"`;
+    }
+
+    let metricsLoadSeq = 0;
+    async function loadMetricsAndAudit() {
+      const org = getActiveOrg();
+      const tour = getActiveTour();
+      if (!org) return;
+      const reqSeq = ++metricsLoadSeq;
+      const scopeEl = document.getElementById("metricsScopeLabel");
+      if (scopeEl) {
+        scopeEl.textContent = tour
+          ? `Métricas para "${tour.title}" y bitácora de ${org.name}.`
+          : `Métricas y bitácora de ${org.name}.`;
+      }
+      try {
+        const metrics = await apiQuery("audit:getTourMetrics", {
+          token,
+          organizationId: org.id,
+          ...(tour ? { tourId: tour.id } : {}),
+          now: Date.now(),
+        });
+        if (reqSeq !== metricsLoadSeq) return;
+        lastMetricsPayload = metrics;
+        document.getElementById("metricViews").textContent = String(metrics.views ?? 0);
+        document.getElementById("metricScenes").textContent = String(metrics.sceneChanges ?? 0);
+        document.getElementById("metricHotspots").textContent = String(metrics.hotspotOpens ?? 0);
+        const days = Array.isArray(metrics.days) ? metrics.days : [];
+        document.getElementById("metricsDaysWrap").innerHTML = days.length
+          ? `<table class="table">
+              <thead><tr><th>Fecha (UTC)</th><th>Vistas</th><th>Cambios de escena</th><th>Hotspots</th></tr></thead>
+              <tbody>${days
+                .map(
+                  (d) =>
+                    `<tr><td><code>${escapeHtml(d.dateKey)}</code></td><td>${d.views}</td><td>${d.sceneChanges}</td><td>${d.hotspotOpens}</td></tr>`
+                )
+                .join("")}</tbody>
+            </table>`
+          : '<p class="hint">Aún no hay visitas registradas en el período.</p>';
+      } catch (err) {
+        document.getElementById("metricsDaysWrap").textContent = err?.message || "No se pudieron cargar las métricas.";
+      }
+
+      try {
+        const logs = await apiQuery("audit:listAuditLogs", {
+          token,
+          organizationId: org.id,
+          limit: 40,
+          now: Date.now(),
+        });
+        document.getElementById("orgAuditList").innerHTML = logs?.length
+          ? `<table class="table">
+              <thead><tr><th>Fecha</th><th>Actor</th><th>Acción</th><th>Destino</th><th>Detalle</th></tr></thead>
+              <tbody>${logs
+                .map(
+                  (l) =>
+                    `<tr><td>${escapeHtml(new Date(l.createdAt).toLocaleString("es-CO"))}</td><td>${escapeHtml(l.actorEmail)}</td><td><code>${escapeHtml(l.action)}</code></td><td>${escapeHtml(l.target || "—")}</td><td>${escapeHtml(l.detail || "—")}</td></tr>`
+                )
+                .join("")}</tbody>
+            </table>`
+          : '<p class="hint">Sin eventos registrados todavía.</p>';
+      } catch (err) {
+        document.getElementById("orgAuditList").textContent = err?.message || "No se pudo cargar la bitácora.";
+      }
+    }
+
+    document.getElementById("showArchivedToggle")?.addEventListener("change", () => {
+      renderToursList();
+    });
+
+    document.getElementById("renameTourForm")?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const tour = getActiveTour();
+      const manageStatus = document.getElementById("tourManageStatus");
+      if (!tour || !manageStatus) return;
+      manageStatus.classList.remove("error");
+      manageStatus.textContent = "Renombrando…";
+      try {
+        const nextTitle = document.getElementById("renameTourInput").value.trim();
+        await apiMutation("organizations:updateTourTitle", {
+          token,
+          tourId: tour.id,
+          title: nextTitle,
+        });
+        manageStatus.textContent = "Título actualizado.";
+        await refreshTourFlags();
+      } catch (err) {
+        manageStatus.textContent = err?.message || "No se pudo renombrar.";
+        manageStatus.classList.add("error");
+      }
+    });
+
+    document.getElementById("archiveTourBtn")?.addEventListener("click", async () => {
+      const tour = getActiveTour();
+      const manageStatus = document.getElementById("tourManageStatus");
+      if (!tour || !manageStatus) return;
+      manageStatus.classList.remove("error");
+      const nextArchived = !Boolean(tour.archived);
+      manageStatus.textContent = nextArchived ? "Archivando…" : "Restaurando…";
+      try {
+        await apiMutation("organizations:setTourArchived", {
+          token,
+          tourId: tour.id,
+          archived: nextArchived,
+        });
+        manageStatus.textContent = nextArchived ? "Tour archivado y retirado del visor público." : "Tour restaurado como borrador.";
+        await refreshTourFlags();
+      } catch (err) {
+        manageStatus.textContent = err?.message || "Error al actualizar estado.";
+        manageStatus.classList.add("error");
+      }
+    });
+
+    document.getElementById("refreshMetricsBtn")?.addEventListener("click", () => {
+      void loadMetricsAndAudit();
+    });
+
+    document.getElementById("exportMetricsCsvBtn")?.addEventListener("click", () => {
+      const org = getActiveOrg();
+      const tour = getActiveTour();
+      const days = Array.isArray(lastMetricsPayload?.days) ? lastMetricsPayload.days : [];
+      const rows = [
+        ["organizacion", "tour", "fecha_utc", "vistas", "cambios_escena", "hotspots_abiertos"],
+        ...days.map((d) => [
+          org?.slug || "",
+          tour?.slug || "todos",
+          d.dateKey,
+          d.views,
+          d.sceneChanges,
+          d.hotspotOpens,
+        ]),
+      ];
+      const csv = rows.map((r) => r.map(safeCsvCell).join(",")).join("\r\n");
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `metricas-${org?.slug || "org"}-${tour?.slug || "resumen"}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    document.getElementById("profileForm")?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const ps = document.getElementById("profileStatus");
+      ps.classList.remove("error");
+      ps.textContent = "Guardando perfil…";
+      try {
+        const cleanName = await apiMutation("auth:updateProfile", {
+          token,
+          name: document.getElementById("profileName").value,
+        });
+        me.name = cleanName;
+        refreshWhoami();
+        ps.textContent = "Nombre actualizado.";
+      } catch (err) {
+        ps.textContent = err?.message || "No se pudo actualizar.";
+        ps.classList.add("error");
+      }
+    });
+
+    document.getElementById("passwordForm")?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const ps = document.getElementById("passwordStatus");
+      ps.classList.remove("error");
+      const currentPassword = document.getElementById("currentPassword").value;
+      const newPassword = document.getElementById("newPassword").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
+      if (newPassword !== confirmPassword) {
+        ps.textContent = "La confirmación no coincide con la nueva contraseña.";
+        ps.classList.add("error");
+        return;
+      }
+      ps.textContent = "Actualizando contraseña…";
+      try {
+        await apiMutation("auth:changePassword", {
+          token,
+          currentPassword,
+          newPassword,
+        });
+        e.target.reset();
+        ps.textContent = "Contraseña actualizada. Se mantendrá únicamente tu sesión actual.";
+      } catch (err) {
+        ps.textContent = err?.message || "No se pudo cambiar la contraseña.";
+        ps.classList.add("error");
+      }
+    });
+
+    document.getElementById("revokeSessionsBtn")?.addEventListener("click", async () => {
+      const ps = document.getElementById("passwordStatus");
+      ps.classList.remove("error");
+      ps.textContent = "Cerrando todas tus sesiones…";
+      try {
+        await apiMutation("auth:revokeAllUserSessions", { token });
+      } catch (_e) { /* proceed */ }
+      clearToken();
+      location.replace("/plataforma/login.html");
+    });
+
     document.getElementById("logoutBtn").addEventListener("click", async () => {
       try {
         await apiMutation("auth:logout", { token });
@@ -1023,6 +1370,7 @@
       clearToken();
       location.href = "/plataforma/login.html";
     });
+    })();
   </script>
 </body>
 </html>

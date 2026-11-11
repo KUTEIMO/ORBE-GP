@@ -1,0 +1,21 @@
+{
+  "voice": "es-CO-SalomeNeural",
+  "rate": "-5%",
+  "cues": [
+    {
+      "start": 0.1,
+      "end": 4.062,
+      "text": "Te encuentras en la esquina exterior de la Sede 2 de la"
+    },
+    {
+      "start": 4.062,
+      "end": 8.024,
+      "text": "Universidad Simón Bolívar, con punto de vigilancia en el portón de acceso."
+    },
+    {
+      "start": 7.974,
+      "end": 12.171,
+      "text": "Cruzando la calle hacia el frente se divisa la Sede 3."
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "voice": "es-CO-SalomeNeural",
+  "rate": "-5%",
+  "cues": [
+    {
+      "start": 0.1,
+      "end": 4.598,
+      "text": "Aquí se encuentra el Laboratorio Multidisciplinario de Ciencias de la Salud II,"
+    },
+    {
+      "start": 4.598,
+      "end": 9.097,
+      "text": "ubicado junto al jardín central empedrado del Bloque D y conectado con"
+    },
+    {
+      "start": 9.097,
+      "end": 10.971,
+      "text": "el corredor hacia la cancha."
+    }
+  ]
+}

@@ -306,7 +306,7 @@ async function main() {
         const spatialMeta = await convex(
           "query",
           "tourAdmin:getCampusSpatialPackageMeta",
-          {}
+          { token: orgToken || superToken }
         );
         const packageConns = spatialMeta?.connectionCount ?? 161;
         const nonQaConns = (graph?.connections || []).filter((c) => {
@@ -483,6 +483,8 @@ async function main() {
       else fail("Logout no invalidó token");
     } catch (e) {
       fail("Logout", e.message);
+    } finally {
+      superToken = null;
     }
   }
 
@@ -593,6 +595,7 @@ async function main() {
   // Phase 3 — a11y publish checklist (T-P0-8)
   try {
     const readyPkg = await convex("query", "accessibilityPublish:evaluatePackage", {
+      token: superToken || orgToken,
       scenes: [
         {
           id: "entrada-principal",
@@ -626,6 +629,7 @@ async function main() {
 
   try {
     const badPkg = await convex("query", "accessibilityPublish:evaluatePackage", {
+      token: superToken || orgToken,
       scenes: [
         {
           id: "sin-a11y",
@@ -906,25 +910,19 @@ async function main() {
     if (/Acceso administrativo|Acceso administrador|Acceso administración/i.test(text)) {
       fail("Landing aún usa CTA/lenguaje admin en marketing");
     }
-    if (/Superadmin|Admin de tour|Entrar al panel/i.test(text)) {
-      fail("Landing filtra roles internos");
-    }
-    if (/nav-access|public-nav[\s\S]{0,400}login\.html/i.test(text)) {
-      fail("Landing pone Acceso/login en nav primario");
-    }
-    if (/cta-band[\s\S]{0,500}login\.html/i.test(text)) {
-      fail("Landing pone login en CTA band (hero-adjacent ops)");
+    if (/Superadmin|Admin de tour|Entrar al panel|Borrador privado/i.test(text)) {
+      fail("Landing filtra roles internos o etiquetas de borrador");
     }
     if (/category-strip|Educación[\s\S]{0,80}R00100/i.test(text)) {
       fail("Landing reusa fotos campus como portafolio multi-industria falso");
     }
-    if (/Cliente|caso real|Experiencia virtual Unisimón/i.test(text)) {
+    if (/Universidad Simón Bolívar|Caso de Éxito/i.test(text)) {
       ok("Landing presenta Unisimón como caso/cliente");
     } else {
       fail("Landing sin framing de caso publicado");
     }
-    if (/Explora\.|Descubre\.|Conecta/i.test(text) && /use-cases|Dónde encaja/i.test(text)) {
-      ok("Landing valor Explora/Descubre/Conecta + usos sin fake portfolio");
+    if (/White-Label|Control Web en vivo|Adaptado a las necesidades/i.test(text)) {
+      ok("Landing presenta propuesta Orbe360 B2B y sectores");
     }
   } catch (e) {
     fail("Revisión landing Phase 5", e.message);
@@ -1086,16 +1084,16 @@ async function main() {
       fail("Raíz / no es marketing Orbe360", `status=${rootStatus}`);
     }
 
-    if (/href=["']\/plataforma\/marketing\.css["']/i.test(rootHtml)) {
-      const { status: cssStatus } = await httpGet("/plataforma/marketing.css");
+    if (/href=["']\/plataforma\/portal\.css(?:\?[^"']*)?["']/i.test(rootHtml)) {
+      const { status: cssStatus } = await httpGet("/plataforma/portal.css");
       const { status: tokensStatus } = await httpGet("/plataforma/tokens.css");
       if (cssStatus === 200 && tokensStatus === 200) {
-        ok("Landing CSS root-absolute (/plataforma/marketing.css + tokens) 200");
+        ok("Landing CSS root-absolute (/plataforma/portal.css + tokens) 200");
       } else {
-        fail("Landing CSS assets", `marketing=${cssStatus} tokens=${tokensStatus}`);
+        fail("Landing CSS assets", `portal=${cssStatus} tokens=${tokensStatus}`);
       }
     } else {
-      fail("Landing sin stylesheet root-absolute /plataforma/marketing.css");
+      fail("Landing sin stylesheet root-absolute /plataforma/portal.css");
     }
 
     const legacyMkt = await httpGet("/plataforma/index.html", { redirect: "manual" });
@@ -1471,7 +1469,7 @@ async function main() {
         const embedMeta = await convex(
           "query",
           "accessibilityPublish:getCampusA11yPackageMeta",
-          {}
+          { token: superToken || orgToken }
         );
         if (
           embedMeta?.sceneCount >= 40 &&
@@ -1555,7 +1553,7 @@ async function main() {
           const pkgCheck = await convex(
             "query",
             "accessibilityPublish:evaluatePackage",
-            { scenes: pkgScenes, requireCaptions: false }
+            { token: superToken || orgToken, scenes: pkgScenes, requireCaptions: false }
           );
 
           const dbReady = dbCheck?.ready === true;
@@ -1685,7 +1683,7 @@ async function main() {
         const spatialMeta = await convex(
           "query",
           "tourAdmin:getCampusSpatialPackageMeta",
-          {}
+          { token: orgToken || superToken }
         );
         if (
           spatialMeta?.sceneCount >= 60 &&

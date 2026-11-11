@@ -58,9 +58,40 @@
 .scene-menu__inner > p {
   font-size: 0.8rem;
   color: var(--text-muted, rgba(244, 247, 245, 0.72));
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
   line-height: 1.4;
   overflow-wrap: anywhere;
+}
+
+.scene-menu__search {
+  margin-bottom: 0.75rem;
+}
+
+.scene-search-input {
+  width: 100%;
+  min-width: 0;
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 10px;
+  padding: 0.52rem 0.75rem;
+  font-size: 0.84rem;
+}
+
+.scene-search-input::placeholder {
+  color: rgba(244, 247, 245, 0.62);
+}
+
+.scene-search-input:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 2px;
+  border-color: var(--brand, #4b5563);
+}
+
+.scene-search-empty {
+  font-size: 0.82rem;
+  color: var(--text-muted, rgba(244, 247, 245, 0.72));
+  padding: 0.65rem 0.2rem;
 }
 
 .ui-backdrop {

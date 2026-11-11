@@ -1,6 +1,7 @@
 import { mutation } from "./_generated/server";
 import { v } from "convex/values";
 import { requireSuperadmin } from "./lib/authHelpers";
+import { findTourByOrgAndSlug } from "./lib/tourResolve";
 import type { Id } from "./_generated/dataModel";
 import type { MutationCtx } from "./_generated/server";
 
@@ -39,7 +40,7 @@ async function deleteTourCascade(
 }> {
   const hotspots = await ctx.db
     .query("hotspots")
-    .withIndex("by_tour", (q) => q.eq("tourId", tourId))
+    .withIndex("by_client_key", (q) => q.eq("tourId", tourId))
     .collect();
   for (const h of hotspots) await ctx.db.delete(h._id);
 
@@ -51,9 +52,21 @@ async function deleteTourCascade(
 
   const scenes = await ctx.db
     .query("scenes")
-    .withIndex("by_tour", (q) => q.eq("tourId", tourId))
+    .withIndex("by_tour_and_file", (q) => q.eq("tourId", tourId))
     .collect();
   for (const s of scenes) await ctx.db.delete(s._id);
+
+  const metrics = await ctx.db
+    .query("tourMetrics")
+    .withIndex("by_tour_and_date", (q) => q.eq("tourId", tourId))
+    .collect();
+  for (const m of metrics) await ctx.db.delete(m._id);
+
+  const logs = await ctx.db
+    .query("auditLogs")
+    .withIndex("by_tour_time", (q) => q.eq("tourId", tourId))
+    .collect();
+  for (const l of logs) await ctx.db.delete(l._id);
 
   const assets = await ctx.db
     .query("assets")
@@ -126,19 +139,19 @@ export const cleanupQaArtifacts = mutation({
     }
 
     const pilot =
-      (await ctx.db
-        .query("tours")
-        .withIndex("by_slug", (q) => q.eq("slug", PILOT_TOUR_SLUG))
-        .unique()) ||
-      (await ctx.db
-        .query("tours")
-        .withIndex("by_slug", (q) => q.eq("slug", LEGACY_TOUR_SLUG))
-        .unique());
+      (await findTourByOrgAndSlug(ctx, {
+        orgSlug: PILOT_ORG_SLUG,
+        tourSlug: PILOT_TOUR_SLUG,
+      })) ||
+      (await findTourByOrgAndSlug(ctx, {
+        orgSlug: LEGACY_ORG_SLUG,
+        tourSlug: LEGACY_TOUR_SLUG,
+      }));
 
     if (pilot) {
       const scenes = await ctx.db
         .query("scenes")
-        .withIndex("by_tour", (q) => q.eq("tourId", pilot._id))
+        .withIndex("by_tour_and_file", (q) => q.eq("tourId", pilot._id))
         .collect();
       const qaScenes = scenes.filter((s) => isQaSceneFileKey(s.fileKey));
       const qaSceneIds = new Set(qaScenes.map((s) => s._id));
@@ -181,7 +194,7 @@ export const cleanupQaArtifacts = mutation({
       // Nav hotspots on real scenes that still point at deleted QA file keys
       const remainingHs = await ctx.db
         .query("hotspots")
-        .withIndex("by_tour", (q) => q.eq("tourId", pilot._id))
+        .withIndex("by_client_key", (q) => q.eq("tourId", pilot._id))
         .collect();
       for (const h of remainingHs) {
         if (h.targetFileKey && isQaSceneFileKey(h.targetFileKey)) {
@@ -200,7 +213,7 @@ export const cleanupQaArtifacts = mutation({
 
       const orgTours = await ctx.db
         .query("tours")
-        .withIndex("by_org", (q) => q.eq("organizationId", org._id))
+        .withIndex("by_org_and_slug", (q) => q.eq("organizationId", org._id))
         .collect();
       // Only delete if no non-QA tours remain
       const realTours = orgTours.filter((t) => !isQaTourSlug(t.slug));
@@ -221,14 +234,28 @@ export const cleanupQaArtifacts = mutation({
       orgsDeleted += 1;
     }
 
-    // Strip legacy superadmin org memberships (platform ops should not be tour editors)
+    // Strip legacy superadmin org memberships + disposable @orbe-authz.test / qa-test-* users
     if (!dryRun) {
       const users = await ctx.db.query("platformUsers").collect();
       for (const u of users) {
+        if (/^qa-third-.*@orbe-authz\.test$/i.test(u.email) || /^qa-test-.*@/i.test(u.email)) {
+          const ms = await ctx.db
+            .query("memberships")
+            .withIndex("by_user_and_org", (q) => q.eq("userId", u._id))
+            .collect();
+          for (const m of ms) await ctx.db.delete(m._id);
+          const sess = await ctx.db
+            .query("sessions")
+            .withIndex("by_user", (q) => q.eq("userId", u._id))
+            .collect();
+          for (const s of sess) await ctx.db.delete(s._id);
+          await ctx.db.delete(u._id);
+          continue;
+        }
         if (!u.isSuperadmin) continue;
         const memberships = await ctx.db
           .query("memberships")
-          .withIndex("by_user", (q) => q.eq("userId", u._id))
+          .withIndex("by_user_and_org", (q) => q.eq("userId", u._id))
           .collect();
         for (const m of memberships) await ctx.db.delete(m._id);
       }

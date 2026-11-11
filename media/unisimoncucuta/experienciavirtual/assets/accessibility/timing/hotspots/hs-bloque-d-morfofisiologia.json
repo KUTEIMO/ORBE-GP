@@ -1,0 +1,21 @@
+{
+  "voice": "es-CO-SalomeNeural",
+  "rate": "-5%",
+  "cues": [
+    {
+      "start": 0.1,
+      "end": 3.141,
+      "text": "Laboratorio de Morfofisiología."
+    },
+    {
+      "start": 3.091,
+      "end": 7.399,
+      "text": "Espacio dotado para el estudio de la anatomía y fisiología en los"
+    },
+    {
+      "start": 7.399,
+      "end": 9.553,
+      "text": "programas de Ciencias de la Salud."
+    }
+  ]
+}

@@ -8,6 +8,12 @@
  */
 import { stopActiveMedia } from './mediaSession.js';
 
+let hotspotPanelResetHook = null;
+
+export function registerHotspotPanelReset(fn) {
+  hotspotPanelResetHook = typeof fn === 'function' ? fn : null;
+}
+
 const FOCUSABLE =
   'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
@@ -164,13 +170,17 @@ function closeAccessibilityMenu() {
 }
 
 function closeHotspotPanelDom() {
-  // Unify with hotspotPanel.closePanel: always stop media first.
-  stopActiveMedia();
+  // Unify with hotspotPanel.closePanel: always stop media & reset state/focus.
   const panel = document.getElementById('hotspotPanel');
+  const wasOpen = Boolean(panel && !panel.hasAttribute('hidden'));
+  stopActiveMedia();
   if (!panel) return;
   panel.setAttribute('hidden', 'hidden');
   panel.setAttribute('aria-hidden', 'true');
   panel.classList.remove('hotspot-panel--open');
+  if (wasOpen && hotspotPanelResetHook) {
+    hotspotPanelResetHook({ restoreFocus: true });
+  }
 }
 
 function closeDialog(id) {

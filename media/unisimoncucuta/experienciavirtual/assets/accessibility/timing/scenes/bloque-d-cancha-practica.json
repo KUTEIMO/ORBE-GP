@@ -1,0 +1,21 @@
+{
+  "voice": "es-CO-SalomeNeural",
+  "rate": "-5%",
+  "cues": [
+    {
+      "start": 0.1,
+      "end": 5.009,
+      "text": "Vista interna de la cancha cubierta del Bloque D, utilizada tanto para"
+    },
+    {
+      "start": 5.009,
+      "end": 9.917,
+      "text": "deporte y parqueadero de bicicletas como para prácticas motrices de estudiantes de"
+    },
+    {
+      "start": 9.917,
+      "end": 10.326,
+      "text": "salud."
+    }
+  ]
+}

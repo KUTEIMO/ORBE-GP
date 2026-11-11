@@ -1,0 +1,21 @@
+{
+  "voice": "es-CO-SalomeNeural",
+  "rate": "-5%",
+  "cues": [
+    {
+      "start": 0.1,
+      "end": 4.358,
+      "text": "En este punto del Salón Patrimonial se encuentra el módulo de atención"
+    },
+    {
+      "start": 4.358,
+      "end": 8.617,
+      "text": "y el panel institucional de la Oficina de Egresados de la Universidad"
+    },
+    {
+      "start": 8.617,
+      "end": 9.326,
+      "text": "Simón Bolívar."
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "voice": "es-CO-SalomeNeural",
+  "rate": "-5%",
+  "cues": [
+    {
+      "start": 0.1,
+      "end": 3.874,
+      "text": "Vista general de la antesala patrimonial del Bloque D. A la derecha"
+    },
+    {
+      "start": 3.874,
+      "end": 7.648,
+      "text": "se abre el arco hacia la galería abierta y al frente el"
+    },
+    {
+      "start": 7.648,
+      "end": 9.221,
+      "text": "acceso directo al salón central."
+    }
+  ]
+}

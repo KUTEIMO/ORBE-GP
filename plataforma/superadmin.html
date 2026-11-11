@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Superadmin — Orbe360</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%230284c7'/%3E%3Ccircle cx='16' cy='16' r='6' fill='none' stroke='%23fff' stroke-width='2.5'/%3E%3C/svg%3E">
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/plataforma/admin-shell.css">
 </head>
@@ -45,6 +46,8 @@
       <button type="button" role="tab" id="tab-create" aria-controls="panel-create" aria-selected="true" data-tab="create">Crear</button>
       <button type="button" role="tab" id="tab-tours" aria-controls="panel-tours" aria-selected="false" data-tab="tours">Tours</button>
       <button type="button" role="tab" id="tab-users" aria-controls="panel-users" aria-selected="false" data-tab="users">Usuarios</button>
+      <button type="button" role="tab" id="tab-audit" aria-controls="panel-audit" aria-selected="false" data-tab="audit">Bitácora</button>
+      <button type="button" role="tab" id="tab-account" aria-controls="panel-account" aria-selected="false" data-tab="account">Mi cuenta</button>
     </div>
 
     <div id="panel-create" class="tab-panel" role="tabpanel" aria-labelledby="tab-create">
@@ -142,14 +145,87 @@
     <section class="card tab-panel" id="panel-users" role="tabpanel" aria-labelledby="tab-users" hidden>
       <h2>Usuarios de plataforma</h2>
       <div id="userList">Cargando…</div>
+
+      <div class="card" id="manageUserPanel" style="margin-top:1.25rem;padding:1rem" hidden>
+        <h3 style="margin-top:0">Gestionar cuenta seleccionada</h3>
+        <div class="section-grid">
+          <div class="field">
+            <label for="manageUserSelect">Usuario</label>
+            <select id="manageUserSelect"></select>
+          </div>
+          <div class="field">
+            <label for="manageUserMembershipSelect">Membresía de organización</label>
+            <select id="manageUserMembershipSelect"></select>
+          </div>
+          <div class="field">
+            <label for="manageUserRoleSelect">Rol en organización</label>
+            <select id="manageUserRoleSelect">
+              <option value="orgAdmin">Admin de organización</option>
+              <option value="tourEditor">Editor de tour</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="manageResetPwInput">Nueva contraseña (mín. 10 caracteres)</label>
+            <input id="manageResetPwInput" type="password" minlength="10" autocomplete="new-password" placeholder="Solo si deseas restablecerla">
+          </div>
+        </div>
+        <div class="cta-row">
+          <button type="button" class="btn btn--ghost" id="btnToggleUserActive">Activar / Desactivar</button>
+          <button type="button" class="btn btn--primary" id="btnSaveUserRole">Guardar rol</button>
+          <button type="button" class="btn btn--ghost" id="btnResetUserPw">Restablecer contraseña</button>
+          <button type="button" class="btn btn--ghost" id="btnRevokeUserSessions">Revocar sesiones</button>
+        </div>
+        <p class="status" id="manageUserStatus" role="status"></p>
+      </div>
     </section>
 
-    <details class="card ops-panel" style="margin-top:1rem">
-      <summary>Avanzado — seed / mantenimiento</summary>
-      <p class="hint">Solo bootstrap o migración de slugs. No resetea el grafo del piloto.</p>
-      <button type="button" class="btn btn--ghost" id="seedBtn">Ejecutar seed</button>
-      <p class="status" id="seedStatus" role="status"></p>
-    </details>
+    <section class="card tab-panel" id="panel-audit" role="tabpanel" aria-labelledby="tab-audit" hidden>
+      <div class="page-head" style="margin-bottom:0.75rem">
+        <div>
+          <h2 style="margin:0">Bitácora global de plataforma</h2>
+          <p class="hint" style="margin:0.2rem 0 0">Registro de auditoría de altas, publicaciones, permisos y sesiones.</p>
+        </div>
+        <button type="button" class="btn btn--ghost" id="refreshAuditBtn">Actualizar</button>
+      </div>
+      <div id="auditLogList">Cargando bitácora…</div>
+    </section>
+
+    <section class="card tab-panel" id="panel-account" role="tabpanel" aria-labelledby="tab-account" hidden>
+      <h2>Mi cuenta</h2>
+      <div class="section-grid">
+        <form id="saProfileForm" class="card" style="padding:1rem">
+          <h3 style="margin-top:0">Perfil</h3>
+          <div class="field">
+            <label for="saProfileEmail">Correo</label>
+            <input id="saProfileEmail" readonly disabled>
+          </div>
+          <div class="field">
+            <label for="saProfileName">Nombre visible</label>
+            <input id="saProfileName" required minlength="2" maxlength="100">
+          </div>
+          <button type="submit" class="btn btn--primary">Guardar nombre</button>
+          <p class="status" id="saProfileStatus" role="status"></p>
+        </form>
+
+        <form id="saPasswordForm" class="card" style="padding:1rem">
+          <h3 style="margin-top:0">Cambiar contraseña</h3>
+          <div class="field">
+            <label for="saCurrentPw">Contraseña actual</label>
+            <input id="saCurrentPw" type="password" required autocomplete="current-password">
+          </div>
+          <div class="field">
+            <label for="saNewPw">Nueva contraseña (mín. 10 caracteres)</label>
+            <input id="saNewPw" type="password" required minlength="10" autocomplete="new-password">
+          </div>
+          <div class="field">
+            <label for="saConfirmPw">Confirmar nueva contraseña</label>
+            <input id="saConfirmPw" type="password" required minlength="10" autocomplete="new-password">
+          </div>
+          <button type="submit" class="btn btn--primary">Actualizar contraseña</button>
+          <p class="status" id="saPasswordStatus" role="status"></p>
+        </form>
+      </div>
+    </section>
   </main>
 
   <script src="/plataforma/config.js"></script>
@@ -157,9 +233,13 @@
     import { apiMutation, apiQuery, getToken, clearToken, fetchMe } from "/plataforma/convex-client.js";
     import { publicTourHref, orgAdminHref } from "/src/tourSlug.js";
 
+    (async function bootSuperadmin() {
     const token = getToken();
     const loginBackUrl = `/plataforma/login.html?return=${encodeURIComponent(location.pathname)}`;
-    if (!token) location.href = loginBackUrl;
+    if (!token) {
+      location.replace(loginBackUrl);
+      return;
+    }
 
     const noticeParam = new URLSearchParams(location.search).get("notice");
     const noticeBox = document.getElementById("superRoleNotice");
@@ -174,6 +254,8 @@
     const whoami = document.getElementById("whoami");
     const orgSelect = document.getElementById("userOrg");
     const tourOrgSelect = document.getElementById("tourOrg");
+    let cachedUsers = [];
+    let currentMe = null;
 
     function escapeHtml(s) {
       return String(s)
@@ -181,6 +263,32 @@
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;");
+    }
+
+    async function loadPlatformAudit() {
+      const wrap = document.getElementById("auditLogList");
+      if (!wrap) return;
+      wrap.textContent = "Cargando bitácora…";
+      try {
+        const logs = await apiQuery("audit:listAuditLogs", {
+          token,
+          limit: 80,
+          now: Date.now(),
+        });
+        wrap.innerHTML = logs?.length
+          ? `<table class="table">
+              <thead><tr><th>Fecha</th><th>Actor</th><th>Rol</th><th>Acción</th><th>Destino</th><th>Detalle</th></tr></thead>
+              <tbody>${logs
+                .map(
+                  (l) =>
+                    `<tr><td>${escapeHtml(new Date(l.createdAt).toLocaleString("es-CO"))}</td><td>${escapeHtml(l.actorEmail)}</td><td>${escapeHtml(l.actorRole)}</td><td><code>${escapeHtml(l.action)}</code></td><td>${escapeHtml(l.target || "—")}</td><td>${escapeHtml(l.detail || "—")}</td></tr>`
+                )
+                .join("")}</tbody>
+            </table>`
+          : '<p class="hint">Sin eventos registrados.</p>';
+      } catch (err) {
+        wrap.textContent = err?.message || "No se pudo cargar la bitácora.";
+      }
     }
 
     const tabButtons = [...document.querySelectorAll('.admin-tabs [role="tab"]')];
@@ -191,16 +299,51 @@
         const panel = document.getElementById(`panel-${btn.dataset.tab}`);
         if (panel) panel.hidden = !on;
       }
+      if (name === "audit") {
+        void loadPlatformAudit();
+      }
     }
     tabButtons.forEach((btn) => {
       btn.addEventListener("click", () => activateTab(btn.dataset.tab));
     });
 
+    function syncSelectedUserPanel() {
+      const sel = document.getElementById("manageUserSelect");
+      const mSel = document.getElementById("manageUserMembershipSelect");
+      const rSel = document.getElementById("manageUserRoleSelect");
+      const activeBtn = document.getElementById("btnToggleUserActive");
+      const roleBtn = document.getElementById("btnSaveUserRole");
+      const u = cachedUsers.find((item) => item.id === sel?.value) || null;
+      if (!u) return;
+      if (activeBtn) {
+        activeBtn.textContent = u.active ? "Desactivar cuenta" : "Activar cuenta";
+        activeBtn.disabled = Boolean(currentMe && u.email === currentMe.email && u.active);
+      }
+      const ms = Array.isArray(u.memberships) ? u.memberships : [];
+      if (mSel) {
+        mSel.innerHTML = ms.length
+          ? ms
+              .map(
+                (m) =>
+                  `<option value="${escapeHtml(m.membershipId)}" data-role="${escapeHtml(m.role)}">${escapeHtml(m.orgName)} (${escapeHtml(m.role)})</option>`
+              )
+              .join("")
+          : '<option value="">Sin membresías de organización</option>';
+        mSel.disabled = ms.length === 0;
+      }
+      if (rSel && roleBtn) {
+        const firstRole = ms[0]?.role || "tourEditor";
+        rSel.value = firstRole;
+        rSel.disabled = ms.length === 0 || u.isSuperadmin;
+        roleBtn.disabled = ms.length === 0 || u.isSuperadmin;
+      }
+    }
+
     async function refresh() {
       const me = await fetchMe(token);
       if (!me) {
         clearToken();
-        location.href = loginBackUrl;
+        location.replace(loginBackUrl);
         return;
       }
       if (!me.isSuperadmin) {
@@ -209,33 +352,38 @@
           now: Date.now(),
         }).catch(() => []);
         if (homeOrgs?.[0]?.slug) {
-          location.href = orgAdminHref(homeOrgs[0].slug);
+          location.replace(orgAdminHref(homeOrgs[0].slug));
         } else {
-          location.href = "/plataforma/login.html";
+          location.replace("/plataforma/login.html");
         }
         return;
       }
+      currentMe = me;
       whoami.textContent = `Sesión: ${me.name} (${me.email}) · Operador de plataforma`;
+      const saEmail = document.getElementById("saProfileEmail");
+      const saName = document.getElementById("saProfileName");
+      if (saEmail) saEmail.value = me.email || "";
+      if (saName) saName.value = me.name || "";
 
-      let stats = null;
-      try {
-        stats = await apiQuery("organizations:getPlatformStats", {
+      const [stats, orgs, tours, users] = await Promise.all([
+        apiQuery("organizations:getPlatformStats", {
           token,
           now: Date.now(),
-        });
-      } catch (_e) {
-        stats = null;
-      }
-
-      const orgs = await apiQuery("organizations:listOrganizations", {
-        token,
-        now: Date.now(),
-      });
-      const tours = await apiQuery("organizations:listTours", {
-        token,
-        now: Date.now(),
-      });
-      const users = await apiQuery("auth:listUsers", { token });
+        }).catch(() => null),
+        apiQuery("organizations:listOrganizations", {
+          token,
+          now: Date.now(),
+        }),
+        apiQuery("organizations:listTours", {
+          token,
+          now: Date.now(),
+        }),
+        apiQuery("auth:listUsersDetailed", {
+          token,
+          now: Date.now(),
+        }),
+      ]);
+      cachedUsers = Array.isArray(users) ? users : [];
 
       if (stats) {
         document.getElementById("kpiOrgs").textContent = String(stats.orgCount);
@@ -332,19 +480,52 @@
 
       document.getElementById("userList").innerHTML = `
         <table class="table">
-          <thead><tr><th>Nombre</th><th>Email</th><th>Rol</th></tr></thead>
+          <thead><tr><th>Nombre</th><th>Email</th><th>Estado</th><th>Rol / Membresías</th></tr></thead>
           <tbody>
-            ${users
-              .map(
-                (u) => `<tr>
+            ${cachedUsers
+              .map((u) => {
+                const roleDesc = u.isSuperadmin
+                  ? "Superadmin"
+                  : (u.memberships || []).length
+                    ? u.memberships
+                        .map((m) => `${m.orgName}: ${m.role === "orgAdmin" ? "Admin" : "Editor"}`)
+                        .join(", ")
+                    : "Sin organización";
+                return `<tr data-user-row="${escapeHtml(u.id)}" style="cursor:pointer">
                   <td>${escapeHtml(u.name)}</td>
                   <td>${escapeHtml(u.email)}</td>
-                  <td>${u.isSuperadmin ? "Superadmin" : "Usuario"}</td>
-                </tr>`
-              )
+                  <td><span class="badge ${u.active ? "badge--ok" : "badge--no"}">${u.active ? "Activo" : "Inactivo"}</span></td>
+                  <td>${escapeHtml(roleDesc)}</td>
+                </tr>`;
+              })
               .join("")}
           </tbody>
         </table>`;
+
+      const managePanel = document.getElementById("manageUserPanel");
+      const manageSelect = document.getElementById("manageUserSelect");
+      if (managePanel && manageSelect) {
+        managePanel.hidden = cachedUsers.length === 0;
+        const prev = manageSelect.value;
+        manageSelect.innerHTML = cachedUsers
+          .map(
+            (u) =>
+              `<option value="${escapeHtml(u.id)}">${escapeHtml(u.name)} (${escapeHtml(u.email)})</option>`
+          )
+          .join("");
+        if (prev && cachedUsers.some((u) => u.id === prev)) {
+          manageSelect.value = prev;
+        }
+        syncSelectedUserPanel();
+      }
+      document.querySelectorAll("tr[data-user-row]").forEach((row) => {
+        row.addEventListener("click", () => {
+          if (manageSelect) {
+            manageSelect.value = row.getAttribute("data-user-row");
+            syncSelectedUserPanel();
+          }
+        });
+      });
     }
 
     document.getElementById("logoutBtn").addEventListener("click", async () => {
@@ -421,18 +602,128 @@
       }
     });
 
-    document.getElementById("seedBtn").addEventListener("click", async () => {
-      const status = document.getElementById("seedStatus");
+    document.getElementById("manageUserSelect")?.addEventListener("change", syncSelectedUserPanel);
+    document.getElementById("manageUserMembershipSelect")?.addEventListener("change", (ev) => {
+      const opt = ev.target.selectedOptions?.[0];
+      const roleVal = opt?.getAttribute("data-role");
+      const roleEl = document.getElementById("manageUserRoleSelect");
+      if (roleEl && roleVal) roleEl.value = roleVal;
+    });
+
+    document.getElementById("btnToggleUserActive")?.addEventListener("click", async () => {
+      const ms = document.getElementById("manageUserStatus");
+      const uid = document.getElementById("manageUserSelect")?.value;
+      const u = cachedUsers.find((x) => x.id === uid);
+      if (!u || !ms) return;
+      ms.classList.remove("error");
+      ms.textContent = "Actualizando estado…";
       try {
-        const result = await apiMutation("seed:seedPlatform", { token });
-        status.classList.remove("error");
-        status.textContent = result.alreadySeeded
-          ? "Seed ya existía (Unisimón + usuarios)."
-          : "Seed creado: Unisimón + superadmin + admin Unisimón.";
+        await apiMutation("auth:setUserActive", { token, userId: u.id, active: !u.active });
+        ms.textContent = u.active ? "Cuenta desactivada y sesiones revocadas." : "Cuenta activada.";
         await refresh();
       } catch (err) {
-        status.textContent = err.message;
-        status.classList.add("error");
+        ms.textContent = err?.message || "No se pudo actualizar estado.";
+        ms.classList.add("error");
+      }
+    });
+
+    document.getElementById("btnSaveUserRole")?.addEventListener("click", async () => {
+      const ms = document.getElementById("manageUserStatus");
+      const membershipId = document.getElementById("manageUserMembershipSelect")?.value;
+      const role = document.getElementById("manageUserRoleSelect")?.value;
+      if (!membershipId || !role || !ms) return;
+      ms.classList.remove("error");
+      ms.textContent = "Guardando rol…";
+      try {
+        await apiMutation("auth:setUserRole", { token, membershipId, role });
+        ms.textContent = "Rol actualizado.";
+        await refresh();
+      } catch (err) {
+        ms.textContent = err?.message || "No se pudo actualizar el rol.";
+        ms.classList.add("error");
+      }
+    });
+
+    document.getElementById("btnResetUserPw")?.addEventListener("click", async () => {
+      const ms = document.getElementById("manageUserStatus");
+      const uid = document.getElementById("manageUserSelect")?.value;
+      const pwInput = document.getElementById("manageResetPwInput");
+      const newPassword = pwInput?.value || "";
+      if (!uid || !ms) return;
+      ms.classList.remove("error");
+      if (newPassword.length < 10) {
+        ms.textContent = "Escribe una contraseña de al menos 10 caracteres.";
+        ms.classList.add("error");
+        return;
+      }
+      ms.textContent = "Restableciendo contraseña…";
+      try {
+        await apiMutation("auth:resetUserPassword", { token, userId: uid, newPassword });
+        if (pwInput) pwInput.value = "";
+        ms.textContent = "Contraseña restablecida y sesiones anteriores cerradas.";
+      } catch (err) {
+        ms.textContent = err?.message || "Error al restablecer.";
+        ms.classList.add("error");
+      }
+    });
+
+    document.getElementById("btnRevokeUserSessions")?.addEventListener("click", async () => {
+      const ms = document.getElementById("manageUserStatus");
+      const uid = document.getElementById("manageUserSelect")?.value;
+      if (!uid || !ms) return;
+      ms.classList.remove("error");
+      ms.textContent = "Revocando sesiones…";
+      try {
+        const count = await apiMutation("auth:revokeAllUserSessions", { token, userId: uid });
+        ms.textContent = `Sesiones revocadas: ${count}.`;
+      } catch (err) {
+        ms.textContent = err?.message || "No se pudieron revocar sesiones.";
+        ms.classList.add("error");
+      }
+    });
+
+    document.getElementById("refreshAuditBtn")?.addEventListener("click", () => {
+      void loadPlatformAudit();
+    });
+
+    document.getElementById("saProfileForm")?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const st = document.getElementById("saProfileStatus");
+      st.classList.remove("error");
+      st.textContent = "Guardando perfil…";
+      try {
+        await apiMutation("auth:updateProfile", {
+          token,
+          name: document.getElementById("saProfileName").value,
+        });
+        st.textContent = "Nombre actualizado.";
+        await refresh();
+      } catch (err) {
+        st.textContent = err?.message || "Error al guardar.";
+        st.classList.add("error");
+      }
+    });
+
+    document.getElementById("saPasswordForm")?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const st = document.getElementById("saPasswordStatus");
+      st.classList.remove("error");
+      const currentPassword = document.getElementById("saCurrentPw").value;
+      const newPassword = document.getElementById("saNewPw").value;
+      const confirmPassword = document.getElementById("saConfirmPw").value;
+      if (newPassword !== confirmPassword) {
+        st.textContent = "La confirmación no coincide.";
+        st.classList.add("error");
+        return;
+      }
+      st.textContent = "Actualizando contraseña…";
+      try {
+        await apiMutation("auth:changePassword", { token, currentPassword, newPassword });
+        e.target.reset();
+        st.textContent = "Contraseña actualizada.";
+      } catch (err) {
+        st.textContent = err?.message || "Error al cambiar contraseña.";
+        st.classList.add("error");
       }
     });
 
@@ -440,6 +731,7 @@
       whoami.textContent = err.message;
       whoami.classList.add("error");
     });
+    })();
   </script>
 </body>
 </html>
