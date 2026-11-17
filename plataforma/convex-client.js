@@ -1,4 +1,29 @@
 const STORAGE_TOKEN = "orbe360.session";
+let memoryToken = null;
+
+function safeGetStorage(key) {
+  try {
+    return typeof localStorage !== "undefined" ? localStorage.getItem(key) : null;
+  } catch {
+    return null;
+  }
+}
+
+function safeSetStorage(key, value) {
+  try {
+    if (typeof localStorage !== "undefined") localStorage.setItem(key, value);
+  } catch {
+    /* ignore storage restrictions */
+  }
+}
+
+function safeRemoveStorage(key) {
+  try {
+    if (typeof localStorage !== "undefined") localStorage.removeItem(key);
+  } catch {
+    /* ignore storage restrictions */
+  }
+}
 
 /**
  * Session token lives in localStorage (not HttpOnly cookie).
@@ -12,23 +37,22 @@ export function getConvexUrl() {
   const isLoopback =
     typeof location !== "undefined" &&
     (location.hostname === "127.0.0.1" || location.hostname === "localhost");
-  const fromStorage =
-    isLoopback && typeof localStorage !== "undefined"
-      ? localStorage.getItem("orbe360.convexUrl")
-      : "";
+  const fromStorage = isLoopback ? safeGetStorage("orbe360.convexUrl") || "" : "";
   return (fromWindow || fromStorage || "").replace(/\/$/, "");
 }
 
 export function getToken() {
-  return localStorage.getItem(STORAGE_TOKEN);
+  return safeGetStorage(STORAGE_TOKEN) || memoryToken;
 }
 
 export function setToken(token) {
-  localStorage.setItem(STORAGE_TOKEN, token);
+  memoryToken = token || null;
+  if (token) safeSetStorage(STORAGE_TOKEN, token);
 }
 
 export function clearToken() {
-  localStorage.removeItem(STORAGE_TOKEN);
+  memoryToken = null;
+  safeRemoveStorage(STORAGE_TOKEN);
 }
 
 /** Helper: communicate directly with Convex HTTP API without offline shadows. */

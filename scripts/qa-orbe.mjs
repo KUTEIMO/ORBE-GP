@@ -1823,7 +1823,7 @@ async function main() {
     );
     // NEVER auto syncCampusSpatialGraph here — that wiped admin connections (~53 → 144).
     ok("post-cleanup sin resync espacial (opt-in only)");
-    await convex("mutation", "auth:logout", { token: login.token }).catch(() => {});
+    await convex("mutation", "auth:logout", { token: login.token }).catch(() => { });
   } catch (e) {
     fail("cleanupQaArtifacts", e.message);
   }

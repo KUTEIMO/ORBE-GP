@@ -24,6 +24,7 @@ test-results/
 backups/
 dist/
 _restos_exras_bloqueados/
+CREDENCIALES_PRODUCCION*.md
 # Release ZIP bundles exceed GitHub's 100 MB limit (shared via OneDrive)
 entregables-corte-*/**/*.zip
 entregables-corte-*/*.zip

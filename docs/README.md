@@ -46,6 +46,7 @@ Mapa de la documentación del repo `PROTOTIPO-360-CURSOR-V1`.
 | [producto/66-reglas-diseno-ui-ux-y-flujos-orbe360.md](producto/66-reglas-diseno-ui-ux-y-flujos-orbe360.md) | Reglas permanentes UI/UX, política de contenido, flujos multi-rol y registro de cambios |
 | [producto/67-plan-despliegue-seguro-produccion.md](producto/67-plan-despliegue-seguro-produccion.md) | Plan y checklist de despliegue seguro en producción (último 15%) |
 | [producto/68-desarrollo-final-y-auditoria-validacion.md](producto/68-desarrollo-final-y-auditoria-validacion.md) | Auditoría multi-agente, hardening multi-rol, pruebas y empaquetado final (`dev/proyecto-final-15`) |
+| [producto/69-auditoria-accesibilidad-movil-y-tactil.md](producto/69-auditoria-accesibilidad-movil-y-tactil.md) | Auditoría y hoja de ruta de accesibilidad y usabilidad móvil / táctil (visor 360° y landing) |
 | [producto/33-epicas-historias-usuario.md](producto/33-epicas-historias-usuario.md) | Épicas e historias de usuario |
 | [producto/12-design-system-orbe360.md](producto/12-design-system-orbe360.md) | Design system (base; ver también 61) |
 | [producto/20-fase4-white-label-branding.md](producto/20-fase4-white-label-branding.md) | White-label |
